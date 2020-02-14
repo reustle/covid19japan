@@ -21,3 +21,8 @@ nav li {
 nav li:first-child {
   padding-left: 0px;
 }
+#map-container {
+  width: 100%;
+  height: 500px;
+  background: #cad2d3;
+}
