@@ -35,3 +35,7 @@ h1 {
   height: 500px;
   background: #cad2d3;
 }
+
+#patient-data-table {
+  width: 100%;
+}
