@@ -3,3 +3,12 @@ body {
   padding: 40px;
   font-family: helvetica, sans-serif;
 }
+section {
+  margin-bottom: 40px;
+}
+nav {
+  
+}
+nav ul {
+  list-style: none;
+}
