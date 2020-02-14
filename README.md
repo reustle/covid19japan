@@ -1,1 +1,1 @@
-# covid19-japan
+# covid19japan.com
