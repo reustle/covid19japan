@@ -11,4 +11,10 @@ nav {
 }
 nav ul {
   list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+nav li {
+  display: inline-block;
+  padding: 20px 10px;
 }
