@@ -11,3 +11,9 @@ var map = new mapboxgl.Map({
         lat: 38.52245616545571
     }
 })
+
+// Disable map rotation using right click + drag
+map.dragRotate.disable()
+
+// Disable map rotation using touch rotation gesture
+map.touchZoomRotate.disableRotation()
