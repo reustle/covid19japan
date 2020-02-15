@@ -23,7 +23,7 @@ nav li {
 nav li a {
   padding: 20px 10px;
 }
-nav a:first-child {
+nav li:first-child a {
   padding-left: 0px;
 }
 nav li:first-child {
