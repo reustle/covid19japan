@@ -33,7 +33,7 @@ map.once('style.load', function(e) {
     //maxzoom: 12
   })
   
-  map.addLayer({
+  /*map.addLayer({
     'id': 'prefecture-layer',
     'type': 'fill',
     'source': 'prefectures',
@@ -42,5 +42,5 @@ map.once('style.load', function(e) {
       'fill-color': '#088',
       'fill-opacity': 0.8
     }
-  })
+  })*/
 })
