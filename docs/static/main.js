@@ -17,3 +17,13 @@ map.dragRotate.disable()
 
 // Disable map rotation using touch rotation gesture
 map.touchZoomRotate.disableRotation()
+
+// Load prefecture data
+map.once('style.load', function(e) {
+  map.addSource('prefectures', {
+    type: 'geojson',
+    data: 'static/prefectures.json',
+    buffer: 0,
+    //maxzoom: 12
+  })
+})
