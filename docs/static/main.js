@@ -20,10 +20,27 @@ map.touchZoomRotate.disableRotation()
 
 // Load prefecture data
 map.once('style.load', function(e) {
+  
+  map.addControl(new mapboxgl.NavigationControl({
+    showCompass: false,
+    showZoom: true
+  }))
+  
   map.addSource('prefectures', {
     type: 'geojson',
     data: 'static/prefectures.json',
     buffer: 0,
     //maxzoom: 12
+  })
+  
+  map.addLayer({
+    'id': 'prefecture-layer',
+    'type': 'fill',
+    'source': 'prefectures',
+    'layout': {},
+    'paint': {
+      'fill-color': '#088',
+      'fill-opacity': 0.8
+    }
   })
 })
