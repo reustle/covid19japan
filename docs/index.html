@@ -9,18 +9,12 @@
 <body>
   
   <header>
-    <h1>NOTE: Invalid Data (in development)</h1>
     <h1>CO-VID19 Coronavirus In Japan</h1>
     <em><small>Last Updated: <strong id="last-updated">6 hours ago (TODO w/ JS)</strong></small></em>
-    <nav>
-      <ul>
-        <li><a href="#map">Coverage Map</a></li>
-        <li><a href="#data">Prefecture Data</a></li>
-        <li><a href="#links">Helpful Information</a></li>
-      </ul>
-    </nav>
+    <br/><br/><br/>
+    <strong>31</strong> confirmed, <strong>1</strong> recovered, <strong>1</strong> death
   </header>
-
+  
   <a name="map"></a>
   <div id="map-container"></div>
 
@@ -56,21 +50,26 @@
     <a name="links"></a>
     <strong>Helpful Links</strong>
     <ul>
-      <li><a href="">one</a></li>
-      <li><a href="">two</a></li>
-      <li><a href="">three</a></li>
+      <li>
+        Information from the Tokyo Metropolitan Infectious Disease Surveillance Center<br/>
+        <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/</a><br/><br/>
+      </li>
+      <li>
+        WHO information about the virus<br/>
+        <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">https://www.who.int/emergencies/diseases/novel-coronavirus-2019</a>
+      </li>
     </ul>
   </section>
   
   <footer>
-    Built by <a href="https://twitter.com/reustle">Shane Reustle</a> and <a href="#">Jiahui (Kay) Zou</a><br/><br/>
+    Built by <a href="https://twitter.com/reustle">Shane Reustle</a> and <a href="https://jiahuizhou.design/">Jiahui Zhou</a><br/><br/>
     <a href="https://github.com/reustle/covid19japan">Contribute to this page on GitHub</a>
   </footer>
   
   <!-- JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
-  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-omnivore/v0.2.0/leaflet-omnivore.min.js'></script>
+  <script src="https://unpkg.com/drive-db"></script>
   <script src="static/main.js"></script>
   
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>

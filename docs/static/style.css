@@ -1,6 +1,7 @@
 body {
   margin: 0px;
   font-family: helvetica, sans-serif;
+  line-height: 25px;
 }
 section, header, footer {
   padding: 40px 10px;
