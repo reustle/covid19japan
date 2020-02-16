@@ -1,11 +1,13 @@
 'use strict';
-mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g';
+mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 
 // Init Map
 var map = new mapboxgl.Map({
     container: 'map-container',
     style: 'mapbox://styles/mapbox/light-v10',
     zoom: 4,
+    minZoom: 3.5,
+    maxZoom: 7,
     center: {
         lng: 139.11792973051274,
         lat: 38.52245616545571
@@ -24,6 +26,16 @@ map.scrollZoom.disable()
 // Load prefecture data
 map.once('style.load', function(e) {
   
+  var layers = map.getStyle().layers;
+  // Find the index of the first symbol layer in the map style
+  var firstSymbolId;
+  for (var i = 0; i < layers.length; i++) {
+    if (layers[i].type === 'symbol') {
+      firstSymbolId = layers[i].id;
+      break;
+    }
+  }
+  
   map.addControl(new mapboxgl.NavigationControl({
     showCompass: false,
     showZoom: true
@@ -32,8 +44,6 @@ map.once('style.load', function(e) {
   map.addSource('prefectures', {
     type: 'geojson',
     data: 'static/prefectures.geojson',
-    buffer: 0,
-    //maxzoom: 12
   })
 
   // Start the Mapbox search expression
@@ -78,9 +88,9 @@ map.once('style.load', function(e) {
     })
     
     // Add the final value to use as the default color
-    prefecturePaint.push('#d0d0d0')
-    console.log(prefecturePaint)
+    prefecturePaint.push('rgba(0,0,0,0)')
     
+    // Add the prefecture color layer to the map
     map.addLayer({
       'id': 'prefecture-layer',
       'type': 'fill',
@@ -88,10 +98,10 @@ map.once('style.load', function(e) {
       'layout': {},
       'paint': {
         'fill-color': prefecturePaint,
-        'fill-opacity': 0.75,
-        'fill-outline-color': '#fff',
+        'fill-opacity': 0.8,
+        //'fill-outline-color': '#cbcccb',
       }
-    })
+    }, firstSymbolId)
   }
   loadSheet()
   
