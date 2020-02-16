@@ -18,6 +18,9 @@ map.dragRotate.disable()
 // Disable map rotation using touch rotation gesture
 map.touchZoomRotate.disableRotation()
 
+// Disable scroll zooming
+map.scrollZoom.disable()
+
 // Load prefecture data
 map.once('style.load', function(e) {
   
@@ -39,8 +42,16 @@ map.once('style.load', function(e) {
     'source': 'prefectures',
     'layout': {},
     'paint': {
-      'fill-color': '#660000',
-      'fill-opacity': 0.8,
+      'fill-color': [
+        'match',
+        ['get', 'NAME_1'],
+        'Tokyo', '#ca0000',
+        'Kanagawa', '#db6161',
+        'Aichi', '#db6161',
+        'Saitama', '#db6161',
+        '#d0d0d0'
+      ],
+      'fill-opacity': 0.6,
       'fill-outline-color': '#fff',
     }
   })

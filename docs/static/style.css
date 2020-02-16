@@ -1,10 +1,9 @@
 body {
   margin: 0px;
-  padding: 15px;
   font-family: helvetica, sans-serif;
 }
-section {
-  margin-bottom: 40px;
+section, header, footer {
+  padding: 40px 10px;
 }
 a, a:hover, a:visited {
   color: #ca0000;
@@ -39,9 +38,10 @@ h1 {
   background: #cad2d3;
 }
 
-#patient-data-table {
+#data-table {
   width: 100%;
+  max-width: 700px;
 }
-#patient-data-table th {
+#data-table th {
   text-align: left;
 }

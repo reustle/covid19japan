@@ -9,45 +9,44 @@
 <body>
   
   <header>
+    <h1>NOTE: Invalid Data (in development)</h1>
     <h1>CO-VID19 Coronavirus In Japan</h1>
     <em><small>Last Updated: <strong id="last-updated">6 hours ago (TODO w/ JS)</strong></small></em>
     <nav>
       <ul>
         <li><a href="#map">Coverage Map</a></li>
-        <li><a href="#data">Patient Data</a></li>
+        <li><a href="#data">Prefecture Data</a></li>
         <li><a href="#links">Helpful Information</a></li>
       </ul>
     </nav>
   </header>
 
-  <section>
-    <a name="map"></a>
-    <div id="map-container"></div>
-  </section>
+  <a name="map"></a>
+  <div id="map-container"></div>
 
   <section>
     <a name="data"></a>
-    <table id="patient-data-table">
+    <table id="data-table">
       <thead>
         <tr>
-          <th>Patient ID</th>
-          <th>Location</th>
-          <th>Age</th>
-          <th>Gender</th>
-          <th>Status</th>
-          <th>Details</th>
+          <th>Prefecture</th>
+          <th>Confirmed</th>
+          <th>Recovered</th>
+          <th>Deaths</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
-          <td>Nara</td>
-          <td>70s</td>
+          <td>Tokyo</td>
+          <td>20</td>
+          <td>3</td>
+          <td>0</td>
         </tr>
         <tr>
-          <td>2</td>
-          <td>Tokyo</td>
-          <td>50s</td>
+          <td>Chiba</td>
+          <td>3</td>
+          <td>0</td>
+          <td>0</td>
         </tr>
       </tbody>
     </table>
@@ -55,11 +54,17 @@
   
   <section>
     <a name="links"></a>
-    [A list of helpful links here]
+    <strong>Helpful Links</strong>
+    <ul>
+      <li><a href="">one</a></li>
+      <li><a href="">two</a></li>
+      <li><a href="">three</a></li>
+    </ul>
   </section>
   
   <footer>
-    <p><a href="https://github.com/reustle/covid19japan">Edit this page on GitHub</a></p>
+    Built by <a href="https://twitter.com/reustle">Shane Reustle</a> and <a href="#">Jiahui (Kay) Zou</a><br/><br/>
+    <a href="https://github.com/reustle/covid19japan">Contribute to this page on GitHub</a>
   </footer>
   
   <!-- JS -->
