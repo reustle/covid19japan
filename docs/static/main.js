@@ -152,8 +152,6 @@ function drawDataTable(prefectures){
 
 function drawTrendChart(sheetTrend) {
   
-  console.log(sheetTrend)
-  
   let timeFormat = 'YYYY-MM-DD'
   
   let labelSet = []
@@ -175,9 +173,12 @@ function drawTrendChart(sheetTrend) {
       y: parseInt(trendData.deceased)
     })
   })
-  console.log(labelSet)
   
   var ctx = document.getElementById('trend-chart').getContext('2d')
+  Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
+  Chart.defaults.global.defaultFontSize = 16
+  Chart.defaults.global.defaultFontColor = '#000a12'
+  
   var chart = new Chart(ctx, {
     // The type of chart we want to create
     type: 'line',
