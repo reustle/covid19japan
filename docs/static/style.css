@@ -34,6 +34,7 @@ h1 {
   font-weight: bold;
 }
 
-li {
+#helpful-links li {
   margin-bottom: 20px;
+  word-wrap: break-word;
 }
