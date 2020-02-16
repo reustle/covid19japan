@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <title>COVID-19 Coronavirus in Japan</title>
+  <title>Coronavirus Disease (COVID-19) Japan Tracker</title>
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800&display=swap" rel="stylesheet"> 
   <link rel="stylesheet" href="static/style.css">
 </head>
@@ -11,7 +11,7 @@
   
   <header>
     <h1>Coronavirus Disease (COVID-19) Japan Tracker</h1>
-    <em><small>Last Updated: <strong id="last-updated">16 Feb 2020</strong></small></em>
+    <em><small>Last Updated: <strong id="last-updated">17 Feb 2020</strong></small></em>
   </header>
   
   <section id="kpi">
@@ -38,6 +38,10 @@
     <div><span class="three">▉</span> 26-50 cases</div>
     <div><span class="four">▉</span> 51+ cases</div>
   </section>
+  
+  <section id="trend-chart-container">
+    <canvas id="trend-chart"></canvas>
+  <section>
 
   <section>
     <a name="data"></a>
@@ -88,6 +92,8 @@
   <!-- JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="https://unpkg.com/drive-db"></script>
   <script src="static/main.js"></script>
   

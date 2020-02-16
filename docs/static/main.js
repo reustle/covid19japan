@@ -149,3 +149,111 @@ function drawDataTable(prefectures){
   document.querySelector('#kpi-recovered').innerHTML = totalRecovered
   document.querySelector('#kpi-deceased').innerHTML = totalDeaths
 }
+
+function drawTrendChart(sheetTrend) {
+  
+  console.log(sheetTrend)
+  
+  let timeFormat = 'YYYY-MM-DD'
+  
+  let labelSet = []
+  let confirmedSet = []
+  let recoveredSet = []
+  let deceasedSet = []
+  sheetTrend.forEach(function(trendData){
+    labelSet.push(new Date(trendData.date))
+    confirmedSet.push({
+      x: new Date(trendData.date),
+      y: parseInt(trendData.confirmed)
+    })
+    recoveredSet.push({
+      x: new Date(trendData.date),
+      y: parseInt(trendData.recovered)
+    })
+    deceasedSet.push({
+      x: new Date(trendData.date),
+      y: parseInt(trendData.deceased)
+    })
+  })
+  console.log(labelSet)
+  
+  var ctx = document.getElementById('trend-chart').getContext('2d')
+  var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: labelSet,
+        datasets: [
+          {
+            label: 'Deceased',
+            borderColor: 'rgb(186, 0, 13)',
+            backgroundColor: 'rgb(186, 0, 13)',
+            fill: false,
+            data: deceasedSet
+          },
+          {
+            label: 'Recovered',
+            borderColor: 'rgb(25,118,210)',
+            backgroundColor: 'rgb(25,118,210)',
+            fill: false,
+            data: recoveredSet
+          },
+          {
+            label: 'Confirmed',
+            borderColor: 'rgb(251,155,127)',
+            backgroundColor: 'rgb(251,155,127)',
+            fill: false,
+            data: confirmedSet
+          }
+        ]
+    },
+
+    // Configuration options go here
+    options: {
+      maintainAspectRatio: false,
+      responsive: true,
+      elements: {
+        line: {
+            tension: 0.1
+        }
+      },
+      legend: {
+        position: 'bottom',
+        reverse: true
+      },
+      scales: {
+        xAxes: [{
+          type: 'time',
+          time: {
+            parser: timeFormat,
+            round: 'day',
+            tooltipFormat: 'll'
+          },
+          scaleLabel: {
+            display: true,
+            labelString: 'Date'
+          }
+        }],
+        yAxes: [{
+          scaleLabel: {
+            display: true,
+            labelString: 'Cases'
+          }
+        }]
+      }
+    }
+  });
+}
+async function loadTrendData(){
+  const sheetTrend = await drive({
+    sheet: '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ',
+    tab: '3',
+    cache: 3600,
+    onload: data => data
+  })
+
+  drawTrendChart(sheetTrend)
+}
+loadTrendData()
