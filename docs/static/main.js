@@ -140,7 +140,7 @@ function drawDataTable(prefectures){
     totalRecovered += recovered
     totalDeaths += deaths
 
-    dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td>'+(recovered?recovered:'')+'</td><td>'+(deaths?deaths:'')+'</td></tr>'
+    dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
   })
   
   dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
