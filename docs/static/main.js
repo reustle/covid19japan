@@ -74,17 +74,17 @@ map.once('style.load', function(e) {
       if(cases > 0){
         prefecturePaint.push(prefecture.prefecture)
         
-        if(cases <= 9){
-          // 1-9 cases
+        if(cases <= 10){
+          // 1-10 cases
           prefecturePaint.push('#fdeacb')
-        }else if(cases <= 99){
-          // 10-99 cases
+        }else if(cases <= 25){
+          // 11-25 cases
           prefecturePaint.push('#fb9b7f')
-        }else if(cases <= 499){
-          // 100-499 cases
+        }else if(cases <= 50){
+          // 26-50 cases
           prefecturePaint.push('#f44336')
         }else{
-          // 500+ cases
+          // 51+ cases
           prefecturePaint.push('#ba000d')
         }
       }

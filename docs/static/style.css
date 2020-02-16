@@ -47,6 +47,29 @@ h1 {
   border-radius: 6px;
 }
 
+#map-legend {
+  padding-top: 10px;
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#map-legend > div {
+  display: inline-block;
+}
+#map-legend span.one {
+  color: #fdeacb;
+}
+#map-legend span.two {
+  color: #fb9b7f;
+}
+#map-legend span.three {
+  color: #f44336;
+}
+#map-legend span.four {
+  color: #ba000d;
+}
+
 #data-table {
   width: 100%;
   border-collapse: separate;
