@@ -117,20 +117,31 @@ map.once('style.load', function(e) {
 function drawDataTable(prefectures){
   
   let totalCases = 0
+  let totalRecovered = 0
+  let totalDeaths = 0
   let dataTable = document.querySelector('#data-table tbody')
 
   prefectures.forEach(function(prefecture){
     console.log(prefecture)
     let cases = parseInt(prefecture.cases)
+    let recovered = 0
+    if(prefecture.recovered){
+      recovered = parseInt(prefecture.recovered)
+    }
+    let deaths = 0
+    if(prefecture.deaths){
+      deaths = parseInt(prefecture.deaths)
+    }
     if(cases == 0){
       return
     }
     
     totalCases += cases
-    
+    totalRecovered += recovered
+    totalDeaths += deaths
 
-    dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td>-</td><td>-</td></tr>'
+    dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td>'+(recovered?recovered:'')+'</td><td>'+(deaths?deaths:'')+'</td></tr>'
   })
   
-  dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>0</td><td>0</td></tr>'
+  dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
 }
