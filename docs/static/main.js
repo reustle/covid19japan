@@ -28,19 +28,20 @@ map.once('style.load', function(e) {
   
   map.addSource('prefectures', {
     type: 'geojson',
-    data: 'static/prefectures.json',
+    data: 'static/prefectures.geojson',
     buffer: 0,
     //maxzoom: 12
   })
   
-  /*map.addLayer({
+  map.addLayer({
     'id': 'prefecture-layer',
     'type': 'fill',
     'source': 'prefectures',
     'layout': {},
     'paint': {
-      'fill-color': '#088',
-      'fill-opacity': 0.8
+      'fill-color': '#660000',
+      'fill-opacity': 0.8,
+      'fill-outline-color': '#fff',
     }
-  })*/
+  })
 })
