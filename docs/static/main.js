@@ -74,18 +74,18 @@ map.once('style.load', function(e) {
       if(cases > 0){
         prefecturePaint.push(prefecture.prefecture)
         
-        if(cases == 1){
-          // 1 case
-          prefecturePaint.push('#fceacf')
-        }else if(cases <= 5){
-          // 2-5 cases
-          prefecturePaint.push('#f89a85')
-        }else if(cases <= 10){
-          // 6-10 cases
-          prefecturePaint.push('#e55c4e')
+        if(cases <= 9){
+          // 1-9 cases
+          prefecturePaint.push('#fdeacb')
+        }else if(cases <= 99){
+          // 10-99 cases
+          prefecturePaint.push('#fb9b7f')
+        }else if(cases <= 499){
+          // 100-499 cases
+          prefecturePaint.push('#f44336')
         }else{
-          // 11+ cases
-          prefecturePaint.push('#cb2c38')
+          // 500+ cases
+          prefecturePaint.push('#ba000d')
         }
       }
       
@@ -122,7 +122,6 @@ function drawDataTable(prefectures){
   let dataTable = document.querySelector('#data-table tbody')
 
   prefectures.forEach(function(prefecture){
-    console.log(prefecture)
     let cases = parseInt(prefecture.cases)
     let recovered = 0
     if(prefecture.recovered){
@@ -144,4 +143,9 @@ function drawDataTable(prefectures){
   })
   
   dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
+  
+  // Also update the KPI table
+  document.querySelector('#kpi-confirmed').innerHTML = totalCases
+  document.querySelector('#kpi-recovered').innerHTML = totalRecovered
+  document.querySelector('#kpi-deceased').innerHTML = totalDeaths
 }

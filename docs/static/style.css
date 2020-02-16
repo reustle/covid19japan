@@ -2,6 +2,15 @@ body {
   margin: 0px;
   font-family: 'Open Sans', helvetica, sans-serif;
   line-height: 25px;
+  color: #000a12;
+  font-size: 21px;
+}
+h1 {
+  font-size: 48px;
+  font-weight: 800;
+}
+small {
+  font-size: 16px;
 }
 section, header, footer {
   padding: 40px 10px;
@@ -9,10 +18,24 @@ section, header, footer {
   margin: 0px auto;
 }
 a, a:hover, a:visited {
-  color: #ca0000;
+  color: #000a12;
 }
 h1 {
   font-size: 24px;
+}
+
+#kpi table {
+  text-align: center;
+  width: 100%;
+  border-spacing: 0px 10px;
+}
+#kpi .kpi-metrics {
+  font-size: 28px;
+  font-weight: 800;
+}
+#kpi .kpi-labels {
+  font-size: 18px;
+  font-weight: 700;
 }
 
 #map-container {
@@ -26,9 +49,22 @@ h1 {
 
 #data-table {
   width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px 5px;
+  font-size: 16px;
+}
+#data-table tr:nth-child(even) {
+  background-color: #eaeff1;
 }
 #data-table th {
   text-align: left;
+  font-size: 12px;
+}
+#data-table td {
+  padding: 5px 0px;
+}
+#data-table td:first-child {
+  padding: 5px;
 }
 #data-table .totals {
   font-weight: bold;
@@ -37,4 +73,8 @@ h1 {
 #helpful-links li {
   margin-bottom: 20px;
   word-wrap: break-word;
+}
+
+footer a, footer a:active {
+  color: #1976d2 !important;
 }
