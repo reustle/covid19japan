@@ -21,6 +21,7 @@ h1 {
   background: #cad2d3;
   max-width: 700px;
   margin: 0px auto;
+  border-radius: 6px;
 }
 
 #data-table {
@@ -28,6 +29,9 @@ h1 {
 }
 #data-table th {
   text-align: left;
+}
+#data-table .totals {
+  font-weight: bold;
 }
 
 li {

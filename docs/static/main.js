@@ -11,7 +11,11 @@ var map = new mapboxgl.Map({
     center: {
         lng: 139.11792973051274,
         lat: 38.52245616545571
-    }
+    },
+    maxBounds: [
+      {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
+      {lat: 59.34721256263214, lng: 175.3273570446982} // NE
+    ]
 })
 
 // Disable map rotation using right click + drag
@@ -102,7 +106,31 @@ map.once('style.load', function(e) {
         //'fill-outline-color': '#cbcccb',
       }
     }, firstSymbolId)
+    
+    // Map is finished, now draw the data table
+    drawDataTable(db)
   }
   loadSheet()
   
 })
+
+function drawDataTable(prefectures){
+  
+  let totalCases = 0
+  let dataTable = document.querySelector('#data-table tbody')
+
+  prefectures.forEach(function(prefecture){
+    console.log(prefecture)
+    let cases = parseInt(prefecture.cases)
+    if(cases == 0){
+      return
+    }
+    
+    totalCases += cases
+    
+
+    dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td>0</td><td>0</td></tr>'
+  })
+  
+  dataTable.innerHTML = dataTable.innerHTML + '<tr><td><strong>Total</strong></td><td><strong>'+totalCases+'</strong></td><td>0</td><td>0</td></tr>'
+}
