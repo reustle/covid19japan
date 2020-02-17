@@ -120,6 +120,7 @@ function drawDataTable(prefectures){
   let totalRecovered = 0
   let totalDeaths = 0
   let dataTable = document.querySelector('#data-table tbody')
+  let unspecifiedRow = ''
   
   // Remove the loading cell
   dataTable.removeChild(dataTable.querySelector('.loading'))
@@ -141,9 +142,16 @@ function drawDataTable(prefectures){
     totalCases += cases
     totalRecovered += recovered
     totalDeaths += deaths
-
-    dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+    
+    if(prefecture.prefecture == '*Unspecified'){
+      // Save the "*Unspecified" row for the end of the table
+      unspecifiedRow = '<tr><td><em>'+prefecture.prefecture+'</em></td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+    }else{
+      dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+    }
   })
+  
+  dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
   
   dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
   
@@ -156,6 +164,7 @@ function drawDataTable(prefectures){
 function drawTrendChart(sheetTrend) {
   
   let timeFormat = 'YYYY-MM-DD'
+  let lastUpdated = ''
   
   let labelSet = []
   let confirmedSet = []
@@ -175,7 +184,10 @@ function drawTrendChart(sheetTrend) {
       x: new Date(trendData.date),
       y: parseInt(trendData.deceased)
     })
+    lastUpdated = trendData.date
   })
+  
+  document.getElementById('last-updated').innerHTML = lastUpdated
   
   var ctx = document.getElementById('trend-chart').getContext('2d')
   Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
