@@ -224,8 +224,7 @@ function drawTrendChart(sheetTrend) {
         }
       },
       legend: {
-        position: 'bottom',
-        reverse: true
+        display: false,
       },
       scales: {
         xAxes: [{

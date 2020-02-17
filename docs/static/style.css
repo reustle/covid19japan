@@ -24,6 +24,7 @@ section, header, footer {
 .center-offset {
   max-width: 650px;
   margin: 0px auto;
+  padding: 0px 10px;
 }
 header {
   padding-top: 10px;
@@ -64,7 +65,7 @@ h1 {
 
 #map-container {
   width: 100%;
-  height: 500px;
+  height: 400px;
   background: #cad2d3;
   max-width: 650px;
   margin: 0px auto;
@@ -95,8 +96,27 @@ h1 {
 }
 
 #trend-chart-container {
-  height: 300px;
-  padding: 50px 0px;
+  height: 250px;
+  padding: 50px 10px;
+}
+#chart-legend {
+  padding-top: 30px;
+  font-size: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+#chart-legend > div {
+  display: inline-block;
+}
+#chart-legend span.one {
+  color: rgb(244,67,54);
+}
+#chart-legend span.two {
+  color: rgb(25,118,210);
+}
+#chart-legend span.three {
+  color: rgb(55,71,79);
 }
 
 #data-table {
