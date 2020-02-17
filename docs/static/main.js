@@ -189,8 +189,8 @@ function drawTrendChart(sheetTrend) {
         datasets: [
           {
             label: 'Deceased',
-            borderColor: 'rgb(186, 0, 13)',
-            backgroundColor: 'rgb(186, 0, 13)',
+            borderColor: 'rgb(55,71,79)',
+            backgroundColor: 'rgb(55,71,79)',
             fill: false,
             data: deceasedSet
           },
@@ -203,8 +203,8 @@ function drawTrendChart(sheetTrend) {
           },
           {
             label: 'Confirmed',
-            borderColor: 'rgb(251,155,127)',
-            backgroundColor: 'rgb(251,155,127)',
+            borderColor: 'rgb(244,67,54)',
+            backgroundColor: 'rgb(244,67,54)',
             fill: false,
             data: confirmedSet
           }
