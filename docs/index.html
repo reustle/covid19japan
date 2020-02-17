@@ -1,6 +1,10 @@
 <!DOCTYPE HTML>
 <html lang="en">
 <head>
+
+  <!-- Warning: Ugly code lies ahead -->
+
+
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
   <title>Coronavirus Disease (COVID-19) Japan Tracker</title>
@@ -33,25 +37,27 @@
   <div class="center-offset">
     <h4>Cases By Prefecture</h4>
   </div>
-  <div id="map-container"></div>
-  
   <section id="map-legend">
     <div><span class="one">▉</span> 1-10 cases</div>
     <div><span class="two">▉</span> 11-25 cases</div>
     <div><span class="three">▉</span> 26-50 cases</div>
     <div><span class="four">▉</span> 51+ cases</div>
   </section>
+  <div id="map-container"></div>
   
-  <section id="trend-chart-container">
+  <section id="chart-legend-container">
     <h4>Outbreak Spread Trend</h4>
+    <div id="chart-legend">
+      <div><span class="one">▉</span> Confirmed</div>
+      <div><span class="two">▉</span> Recovered</div>
+      <div><span class="three">▉</span> Deceased</div>
+    </div>
+  </section>
+  <section id="trend-chart-container">
     <canvas id="trend-chart"></canvas>
   </section>
   
-  <section id="chart-legend">
-    <div><span class="one">▉</span> Confirmed</div>
-    <div><span class="two">▉</span> Recovered</div>
-    <div><span class="three">▉</span> Deceased</div>
-  </section>
+
 
   <section>
     <a name="data"></a>
