@@ -52,6 +52,15 @@ h1 {
   font-size: 18px;
   font-weight: 700;
 }
+#kpi-confirmed {
+  color: rgb(244,67,54);
+}
+#kpi-recovered {
+  color: rgb(25,118,210);
+}
+#kpi-deceased {
+  color: rgb(55,71,79);
+}
 
 #map-container {
   width: 100%;
