@@ -1,10 +1,10 @@
-## COVID19Japan.com
+# COVID19Japan.com
 
 A COVID-19 Coronavirus tracker for Japan. Government agencies release detailed data, but in difficult to read formats and usually only in Japaneese.
 
 
 
-### Contributing Data
+## Contributing Data
 
 If you would like to update any missing or incorrect data on the graphs, please leave a comment on this spreadsheet, and/or request edit access.
 
@@ -17,13 +17,13 @@ We often use these data sources:
 
 
 
-### Contributing Code
+## Contributing Code
 
 If you would like to contribute features / refactor / etc, please open an Issue on this repo, and tag @reustle - We can then open a new Pull Request if it is deemed in line with the projects goals.
 
 
 
-### Contributors
+## Contributors
 
 - [Shane Reustle](https://reustle.org): Development
 - [Jiahui Zhou](https://jiahuizhou.design/): Concept & Design
