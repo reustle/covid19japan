@@ -9,12 +9,20 @@ h1 {
   font-size: 48px;
   font-weight: 800;
 }
+h4 {
+  font-size: 21px;
+  margin-bottom: 20px;
+}
 small {
   font-size: 16px;
 }
 section, header, footer {
   padding: 30px 10px;
-  max-width: 600px;
+  max-width: 650px;
+  margin: 0px auto;
+}
+.center-offset {
+  max-width: 650px;
   margin: 0px auto;
 }
 header {
@@ -49,7 +57,7 @@ h1 {
   width: 100%;
   height: 500px;
   background: #cad2d3;
-  max-width: 600px;
+  max-width: 650px;
   margin: 0px auto;
   border-radius: 6px;
 }
@@ -104,6 +112,10 @@ h1 {
 #data-table .totals {
   font-weight: bold;
 }
+#data-table .loading td {
+  text-align: center;
+  padding: 30px 0px;
+}
 
 #helpful-links li {
   margin-bottom: 20px;
@@ -112,4 +124,28 @@ h1 {
 
 footer a, footer a:active {
   color: #1976d2 !important;
+}
+
+.lds-dual-ring {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 4px solid #f44336;
+  border-color: #f44336 transparent #f44336 transparent;
+  animation: lds-dual-ring 1.6s linear infinite;
+}
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

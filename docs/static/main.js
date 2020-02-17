@@ -120,6 +120,9 @@ function drawDataTable(prefectures){
   let totalRecovered = 0
   let totalDeaths = 0
   let dataTable = document.querySelector('#data-table tbody')
+  
+  // Remove the loading cell
+  dataTable.removeChild(dataTable.querySelector('.loading'))
 
   prefectures.forEach(function(prefecture){
     let cases = parseInt(prefecture.cases)

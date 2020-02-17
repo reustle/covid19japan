@@ -17,9 +17,9 @@
   <section id="kpi">
     <table>
       <tr class="kpi-metrics">
-        <td id="kpi-confirmed">-</td>
-        <td id="kpi-recovered">-</td>
-        <td id="kpi-deceased">-</td>
+        <td id="kpi-confirmed"><div class="lds-dual-ring"></div></td>
+        <td id="kpi-recovered"><div class="lds-dual-ring"></div></td>
+        <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
       </tr>
       <tr class="kpi-labels">
         <td>Confirmed</td>
@@ -30,6 +30,9 @@
   </section>
   
   <a name="map"></a>
+  <div class="center-offset">
+    <h4>Cases By Prefecture</h4>
+  </div>
   <div id="map-container"></div>
   
   <section id="map-legend">
@@ -40,11 +43,13 @@
   </section>
   
   <section id="trend-chart-container">
+    <h4>Outbreak Spread Trend</h4>
     <canvas id="trend-chart"></canvas>
   <section>
 
   <section>
     <a name="data"></a>
+    <h4>Prefecture Data</h4>
     <table id="data-table">
       <thead>
         <tr>
@@ -54,13 +59,15 @@
           <th>Deceased</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody>
+        <tr class="loading"><td colspan="4"><div class="lds-dual-ring"></div></td></tr>
+      </tbody>
     </table>
   </section>
   
   <section id="helpful-links">
     <a name="links"></a>
-    <strong>Helpful Links</strong>
+    <h4>Helpful Links</h4>
     <ul>
       <li>
         Information from the Tokyo Metropolitan Infectious Disease Surveillance Center<br/>
@@ -77,7 +84,7 @@
     </ul>
     
     <br/>
-    <strong>Primary Data Sources</strong>
+    <h4>Primary Data Sources</h4>
     <ul>
       <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
       <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
