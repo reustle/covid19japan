@@ -10,10 +10,18 @@ If you would like to update any missing or incorrect data on the graphs, please 
 
 https://docs.google.com/spreadsheets/d/1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ/edit
 
-We often use these data sources:
 
-- https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html
+
+## Data Sources
+
+**Countrywide Data**
+- [Ministry of Health, Labour and Welfare](https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html)
 - http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html
+
+**Prefecture-specific Data**
+- ???
+
+**We need your help!** Please submit any information sources via the "Issues" tab above. Thank you! ありがとう！
 
 
 
