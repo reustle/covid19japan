@@ -8,16 +8,45 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
   <title>Coronavirus Disease (COVID-19) Japan Tracker</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800&display=swap" rel="stylesheet"> 
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/style.css">
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://covid19japan.com/static/favicon.png"
+  />
+  <meta
+    name="description"
+    content="Follow daily updates of the Coronavirus COVID-19 through Japan"
+  />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://covid19japan.com/" />
+  <meta name="twitter:title" content="Coronavirus Japan Tracker" />
+
+  <meta
+    name="twitter:description"
+    content="Follow daily updates of the Coronavirus COVID-19 through Japan"
+  />
+  <meta property="og:title" content="Coronavirus Japan Tracker" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://covid19japan.com/" />
+  <meta
+    property="og:image"
+    content="https://covid19japan.com/static/map.jpg"
+  />
+  <meta
+    property="og:description"
+    content="Follow daily updates of the Coronavirus COVID-19 through Japan"
+  />
 </head>
 <body>
-  
+
   <header>
     <h1>Coronavirus Disease (COVID-19) Japan Tracker</h1>
     <em><small>Last Updated: <strong id="last-updated">-</strong></small></em>
   </header>
-  
+
   <section id="kpi">
     <table>
       <tr class="kpi-metrics">
@@ -32,7 +61,7 @@
       </tr>
     </table>
   </section>
-  
+
   <a name="map"></a>
   <div class="center-offset">
     <h4>Cases By Prefecture</h4>
@@ -44,7 +73,7 @@
     <div><span class="four">▉</span> 51+ cases</div>
   </section>
   <div id="map-container"></div>
-  
+
   <section id="chart-legend-container">
     <h4>Outbreak Spread Trend</h4>
     <div id="chart-legend">
@@ -56,7 +85,7 @@
   <section id="trend-chart-container">
     <canvas id="trend-chart"></canvas>
   </section>
-  
+
 
 
   <section>
@@ -76,7 +105,7 @@
       </tbody>
     </table>
   </section>
-  
+
   <section id="helpful-links">
     <a name="links"></a>
     <h4>Helpful Links</h4>
@@ -102,7 +131,7 @@
         <a href="https://twitter.com/i/lists/1069503606880006144">https://twitter.com/i/lists/1069503606880006144</a>
       </li>
     </ul>
-    
+
     <br/>
     <h4>Primary Data Sources</h4>
     <ul>
@@ -110,12 +139,12 @@
       <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
     </ul>
   </section>
-  
+
   <footer>
     Built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a><br/><br/>
     <a href="https://github.com/reustle/covid19japan">Contribute to this page on GitHub</a>
   </footer>
-  
+
   <!-- JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
@@ -123,7 +152,7 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="https://unpkg.com/drive-db"></script>
   <script src="static/main.js"></script>
-  
+
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
