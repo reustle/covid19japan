@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<html lang="ja">
+<head>
+
+    <!-- Warning: Ugly code lies ahead -->
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+    <title>日本国内の新型コロナウイルス (COVID-19) 感染状況追跡</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="static/style.css">
+
+    <link
+            rel="icon"
+            type="image/png"
+            href="https://covid19japan.com/static/favicon.png"
+    />
+    <meta
+            name="description"
+            content="Follow daily updates of the Coronavirus COVID-19 through Japan"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content="https://covid19japan.com/" />
+    <meta name="twitter:title" content="Coronavirus Japan Tracker" />
+
+    <meta
+            name="twitter:description"
+            content="Follow daily updates of the Coronavirus COVID-19 through Japan"
+    />
+    <meta property="og:title" content="Coronavirus Japan Tracker" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://covid19japan.com/" />
+    <meta
+            property="og:image"
+            content="https://covid19japan.com/static/map.jpg"
+    />
+    <meta
+            property="og:description"
+            content="Follow daily updates of the Coronavirus COVID-19 through Japan"
+    />
+</head>
+<body>
+
+<header>
+    <h1>日本国内の新型コロナウイルス (COVID-19) 感染状況追跡</h1>
+    <em><small>最終更新: <strong id="last-updated">-</strong></small></em>
+</header>
+
+<section id="kpi">
+    <table>
+        <tr class="kpi-metrics">
+            <td id="kpi-confirmed"><div class="lds-dual-ring"></div></td>
+            <td id="kpi-recovered"><div class="lds-dual-ring"></div></td>
+            <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
+        </tr>
+        <tr class="kpi-labels">
+            <td>感染者数</td>
+            <td>回復者数</td>
+            <td>死亡者数</td>
+        </tr>
+    </table>
+</section>
+
+<a name="map"></a>
+<div class="center-offset">
+    <h4>都道府県ごとの件数</h4>
+</div>
+<section id="map-legend">
+    <div><span class="one">▉</span> 1-10 件</div>
+    <div><span class="two">▉</span> 11-25 件</div>
+    <div><span class="three">▉</span> 26-50 件</div>
+    <div><span class="four">▉</span> 51 件以上</div>
+</section>
+<div id="map-container"></div>
+
+<section id="chart-legend-container">
+    <h4>ウイルス感染の拡散傾向</h4>
+    <div id="chart-legend">
+        <div><span class="one">▉</span> 感染者数</div>
+        <div><span class="two">▉</span> 回復者数</div>
+        <div><span class="three">▉</span> 死亡者数</div>
+    </div>
+</section>
+<section id="trend-chart-container">
+    <canvas id="trend-chart"></canvas>
+</section>
+
+
+
+<section>
+    <a name="data"></a>
+    <h4>都道府県ごとのデータ</h4>
+    <table id="data-table">
+        <thead>
+        <tr>
+            <th>都道府県</th>
+            <th>感染者数</th>
+            <th>回復者数</th>
+            <th>死亡者数</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="loading"><td colspan="4"><div class="lds-dual-ring"></div></td></tr>
+        </tbody>
+    </table>
+</section>
+
+<section id="helpful-links">
+    <a name="links"></a>
+    <h4>有益な情報源</h4>
+    <ul>
+        <li>
+            東京都感染症情報センター - 新型コロナウイルス感染症（COVID-19)に関する情報<br/>
+            <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/</a>
+        </li>
+        <li>
+            もし新型コロナウイルスに感染しているかもしれないと感じたら<br/>
+            <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html">https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html</a>
+        </li>
+        <li>
+            新型コロナウイルスに関する WHO の情報<br/>
+            <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">https://www.who.int/emergencies/diseases/novel-coronavirus-2019</a>
+        </li>
+        <li>
+            もし具合が悪くなったら<br/>
+            <a href="https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf">https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf</a>
+        </li>
+        <li>
+            関連する Twitter アカウント<br/>
+            <a href="https://twitter.com/i/lists/1069503606880006144">https://twitter.com/i/lists/1069503606880006144</a>
+        </li>
+    </ul>
+
+    <br/>
+    <h4>一次情報源</h4>
+    <ul>
+        <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
+        <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
+    </ul>
+</section>
+
+<footer>
+    Built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a><br/><br/>
+    <a href="https://github.com/reustle/covid19japan">Contribute to this page on GitHub</a>
+</footer>
+
+<!-- JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://unpkg.com/drive-db"></script>
+<script src="static/main.js"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-2580539-41');
+</script>
+
+</body>
+</html>
