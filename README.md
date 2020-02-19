@@ -34,7 +34,7 @@ If you would like to contribute features / refactor / etc, please open an Issue 
 ## Contributors
 
 - [Shane Reustle](https://reustle.org): Development
-- [Jiahui Zhou](https://jiahuizhou.design/): Concept & Design
+- [Jiahui Zhou](https://jiahuizhou.design/): Concept, Design, and Data
 
 
 
