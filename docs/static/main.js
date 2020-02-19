@@ -60,9 +60,10 @@ map.once('style.load', function(e) {
   async function loadSheet() {
     
     // Init the load with drive-db
+    // Patient Data Sheet
     const db = await drive({
       sheet: '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ',
-      tab: '2',
+      tab: '1', // Patient Data Sheet
       cache: 3600,
       onload: data => data
     })
@@ -264,7 +265,7 @@ function drawTrendChart(sheetTrend) {
 async function loadTrendData(){
   const sheetTrend = await drive({
     sheet: '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ',
-    tab: '3',
+    tab: '4', // Sum By Day
     cache: 3600,
     onload: data => data
   })
