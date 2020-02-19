@@ -35,3 +35,12 @@ If you would like to contribute features / refactor / etc, please open an Issue 
 
 - [Shane Reustle](https://reustle.org): Development
 - [Jiahui Zhou](https://jiahuizhou.design/): Concept & Design
+
+
+
+## Other Resources
+- https://jagjapan.maps.arcgis.com/apps/opsdashboard/index.html#/259ce3e3e2bf4c77876d4ecde6ea2564
+- https://coromap.web.app/
+- https://twitter.com/covid19japan
+- https://twitter.com/konotarogomame
+- https://newsdigest.jp/pages/coronavirus/
