@@ -265,7 +265,7 @@ function drawTrendChart(sheetTrend) {
 async function loadTrendData(){
   const sheetTrend = await drive({
     sheet: '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ',
-    tab: '4', // Sum By Day
+    tab: '6', // Sum By Day
     cache: 3600,
     onload: data => data
   })
