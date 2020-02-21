@@ -25,7 +25,7 @@ function drawTrendChart(sheetTrend) {
   let recoveredSet = []
   let deceasedSet = []
   
-  sheetTrend.forEach(function(trendData){
+  sheetTrend.map(function(trendData){
     labelSet.push(new Date(trendData.date))
     confirmedSet.push({
       x: new Date(trendData.date),
@@ -131,7 +131,11 @@ function drawPrefectureTable(prefectures) {
   // Remove the loading cell
   dataTable.removeChild(dataTable.querySelector('.loading'))
 
-  prefectures.forEach(function(prefecture){
+  
+  prefectures.map(function(pref){
+    pref.cases = parseInt(pref.cases)
+  })
+  _.orderBy(prefectures, 'cases', 'desc').map(function(prefecture){
     let cases = parseInt(prefecture.cases)
     let recovered = 0
     if(prefecture.recovered){
@@ -151,15 +155,15 @@ function drawPrefectureTable(prefectures) {
     
     if(prefecture.prefecture == '*Unspecified'){
       // Save the "*Unspecified" row for the end of the table
-      unspecifiedRow = '<tr><td><em>'+prefecture.prefecture+'</em></td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+      unspecifiedRow = `<tr><td><em>${prefecture.prefecture}</em></td><td>${prefecture.cases}</td><td></td><td></td></tr>`
     }else{
-      dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefecture.prefecture}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
     }
   })
   
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
   
-  dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
+  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>Total</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
   
   drawKpis(totalCases, totalRecovered, totalDeaths)
   setPageTitleCount(totalCases)
@@ -251,7 +255,7 @@ map.once('style.load', function(e) {
     })
     
     // Go through all prefectures looking for cases
-    db.forEach(function(prefecture){
+    db.map(function(prefecture){
       
       let cases = parseInt(prefecture.cases)
       if(cases > 0){
