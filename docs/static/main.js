@@ -1,5 +1,78 @@
 'use strict';
+
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
+const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
+const SHEET_ID = '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ'
+const SHEET_PATIENTS_TAB = 1
+const SHEET_DAILY_SUM_TAB = 3
+const TIME_FORMAT = 'YYYY-MM-DD'
+const COLOR_CONFIRMED = 'rgb(244,67,54)'
+const COLOR_RECOVERED = 'rgb(25,118,210)'
+const COLOR_DECEASED = 'rgb(55,71,79)'
+
+
+function drawPrefectureMap() {
+  //
+}
+
+function drawTrendChart() {
+  //
+}
+
+function drawPrefectureTable(prefectures) {
+  // Draw the Cases By Prefecture table
+  
+  let totalCases = 0
+  let totalRecovered = 0
+  let totalDeaths = 0
+  let dataTable = document.querySelector('#data-table tbody')
+  let unspecifiedRow = ''
+  
+  // Remove the loading cell
+  dataTable.removeChild(dataTable.querySelector('.loading'))
+
+  prefectures.forEach(function(prefecture){
+    let cases = parseInt(prefecture.cases)
+    let recovered = 0
+    if(prefecture.recovered){
+      recovered = parseInt(prefecture.recovered)
+    }
+    let deaths = 0
+    if(prefecture.deaths){
+      deaths = parseInt(prefecture.deaths)
+    }
+    if(cases == 0){
+      return
+    }
+    
+    totalCases += cases
+    totalRecovered += recovered
+    totalDeaths += deaths
+    
+    if(prefecture.prefecture == '*Unspecified'){
+      // Save the "*Unspecified" row for the end of the table
+      unspecifiedRow = '<tr><td><em>'+prefecture.prefecture+'</em></td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+    }else{
+      dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
+    }
+  })
+  
+  dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
+  
+  dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
+  
+  // Also update the KPI table
+  drawKpis(totalCases, totalRecovered, totalDeaths)
+}
+
+function drawKpis(confirmed, recovered, deaths) {
+  // Draw the KPI values
+
+  document.querySelector('#kpi-confirmed').innerHTML = confirmed
+  document.querySelector('#kpi-recovered').innerHTML = recovered
+  document.querySelector('#kpi-deceased').innerHTML = deaths
+
+}
 
 // Init Map
 var map = new mapboxgl.Map({
@@ -47,7 +120,7 @@ map.once('style.load', function(e) {
   
   map.addSource('prefectures', {
     type: 'geojson',
-    data: 'static/prefectures.geojson',
+    data: PREFECTURE_JSON_PATH,
   })
 
   // Start the Mapbox search expression
@@ -60,10 +133,9 @@ map.once('style.load', function(e) {
   async function loadSheet() {
     
     // Init the load with drive-db
-    // Patient Data Sheet
     const db = await drive({
-      sheet: '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ',
-      tab: '1', // Patient Data Sheet
+      sheet: SHEET_ID,
+      tab: SHEET_PATIENTS_TAB,
       cache: 3600,
       onload: data => data
     })
@@ -77,16 +149,16 @@ map.once('style.load', function(e) {
         
         if(cases <= 10){
           // 1-10 cases
-          prefecturePaint.push('#fdeacb')
+          prefecturePaint.push('rgb(253,234,203)')
         }else if(cases <= 25){
           // 11-25 cases
-          prefecturePaint.push('#fb9b7f')
+          prefecturePaint.push('rgb(251,155,127)')
         }else if(cases <= 50){
           // 26-50 cases
-          prefecturePaint.push('#f44336')
+          prefecturePaint.push('rgb(244,67,54)')
         }else{
           // 51+ cases
-          prefecturePaint.push('#ba000d')
+          prefecturePaint.push('rgb(186,0,13)')
         }
       }
       
@@ -104,67 +176,18 @@ map.once('style.load', function(e) {
       'paint': {
         'fill-color': prefecturePaint,
         'fill-opacity': 0.8,
-        //'fill-outline-color': '#cbcccb',
       }
     }, firstSymbolId)
     
     // Map is finished, now draw the data table
-    drawDataTable(db)
+    drawPrefectureTable(db)
   }
   loadSheet()
   
 })
 
-function drawDataTable(prefectures){
-  
-  let totalCases = 0
-  let totalRecovered = 0
-  let totalDeaths = 0
-  let dataTable = document.querySelector('#data-table tbody')
-  let unspecifiedRow = ''
-  
-  // Remove the loading cell
-  dataTable.removeChild(dataTable.querySelector('.loading'))
-
-  prefectures.forEach(function(prefecture){
-    let cases = parseInt(prefecture.cases)
-    let recovered = 0
-    if(prefecture.recovered){
-      recovered = parseInt(prefecture.recovered)
-    }
-    let deaths = 0
-    if(prefecture.deaths){
-      deaths = parseInt(prefecture.deaths)
-    }
-    if(cases == 0){
-      return
-    }
-    
-    totalCases += cases
-    totalRecovered += recovered
-    totalDeaths += deaths
-    
-    if(prefecture.prefecture == '*Unspecified'){
-      // Save the "*Unspecified" row for the end of the table
-      unspecifiedRow = '<tr><td><em>'+prefecture.prefecture+'</em></td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
-    }else{
-      dataTable.innerHTML = dataTable.innerHTML + '<tr><td>'+prefecture.prefecture+'</td><td>'+prefecture.cases+'</td><td></td><td>'+(deaths?deaths:'')+'</td></tr>'
-    }
-  })
-  
-  dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
-  
-  dataTable.innerHTML = dataTable.innerHTML + '<tr class="totals"><td>Total</td><td>'+totalCases+'</td><td>'+totalRecovered+'</td><td>'+totalDeaths+'</td></tr>'
-  
-  // Also update the KPI table
-  document.querySelector('#kpi-confirmed').innerHTML = totalCases
-  document.querySelector('#kpi-recovered').innerHTML = totalRecovered
-  document.querySelector('#kpi-deceased').innerHTML = totalDeaths
-}
-
 function drawTrendChart(sheetTrend) {
   
-  let timeFormat = 'YYYY-MM-DD'
   let lastUpdated = ''
   
   let labelSet = []
@@ -193,7 +216,7 @@ function drawTrendChart(sheetTrend) {
   var ctx = document.getElementById('trend-chart').getContext('2d')
   Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
   Chart.defaults.global.defaultFontSize = 16
-  Chart.defaults.global.defaultFontColor = '#000a12'
+  Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
   
   var chart = new Chart(ctx, {
     // The type of chart we want to create
@@ -205,22 +228,22 @@ function drawTrendChart(sheetTrend) {
         datasets: [
           {
             label: 'Deceased',
-            borderColor: 'rgb(55,71,79)',
-            backgroundColor: 'rgb(55,71,79)',
+            borderColor: COLOR_DECEASED,
+            backgroundColor: COLOR_DECEASED,
             fill: false,
             data: deceasedSet
           },
           {
             label: 'Recovered',
-            borderColor: 'rgb(25,118,210)',
-            backgroundColor: 'rgb(25,118,210)',
+            borderColor: COLOR_RECOVERED,
+            backgroundColor: COLOR_RECOVERED,
             fill: false,
             data: recoveredSet
           },
           {
             label: 'Confirmed',
-            borderColor: 'rgb(244,67,54)',
-            backgroundColor: 'rgb(244,67,54)',
+            borderColor: COLOR_CONFIRMED,
+            backgroundColor: COLOR_CONFIRMED,
             fill: false,
             data: confirmedSet
           }
@@ -243,7 +266,7 @@ function drawTrendChart(sheetTrend) {
         xAxes: [{
           type: 'time',
           time: {
-            parser: timeFormat,
+            parser: TIME_FORMAT,
             round: 'day',
             tooltipFormat: 'll'
           },
@@ -264,8 +287,8 @@ function drawTrendChart(sheetTrend) {
 }
 async function loadTrendData(){
   const sheetTrend = await drive({
-    sheet: '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ',
-    tab: '3', // Sum By Day
+    sheet: SHEET_ID,
+    tab: SHEET_DAILY_SUM_TAB,
     cache: 3600,
     onload: data => data
   })
