@@ -145,7 +145,7 @@ function drawPrefectureTable(prefectures) {
     if(prefecture.deaths){
       deaths = parseInt(prefecture.deaths)
     }
-    if(cases == 0){
+    if(!cases && !recovered && !deaths){
       return
     }
     
@@ -153,12 +153,14 @@ function drawPrefectureTable(prefectures) {
     totalRecovered += recovered
     totalDeaths += deaths
     
-    if(prefecture.prefecture == '*Unspecified'){
-      // Save the "*Unspecified" row for the end of the table
-      unspecifiedRow = `<tr><td><em>${prefecture.prefecture}</em></td><td>${prefecture.cases}</td><td></td><td></td></tr>`
+    if(prefecture.prefecture == 'Unspecified'){
+      // Save the "Unspecified" row for the end of the table
+      
+      unspecifiedRow = `<tr><td><em>${prefecture.prefecture}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
     }else{
       dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefecture.prefecture}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
     }
+    return true
   })
   
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
