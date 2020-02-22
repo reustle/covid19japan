@@ -42,28 +42,34 @@ h1 {
 
 #kpi {
   padding-top: 20px;
-}
-#kpi table {
-  text-align: center;
-  width: 100%;
-  border-spacing: 0px 10px;
-}
-#kpi .kpi-metrics {
-  font-size: 28px;
-  font-weight: 800;
-}
-#kpi .kpi-labels {
-  font-size: 18px;
-  font-weight: 700;
-}
-#kpi-confirmed {
-  color: rgb(244,67,54);
-}
-#kpi-recovered {
-  color: rgb(25,118,210);
-}
-#kpi-deceased {
-  color: rgb(55,71,79);
+  
+  table {
+    text-align: center;
+    width: 100%;
+    border-spacing: 0px 10px;
+  }
+
+  .kpi-metrics {
+    font-size: 28px;
+   font-weight: 800;
+  }
+
+  #kpi .kpi-labels {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  #kpi-confirmed {
+    color: rgb(244,67,54);
+  }
+
+  #kpi-recovered {
+    color: rgb(25,118,210);
+  }
+
+  #kpi-deceased {
+    color: rgb(55,71,79);
+  }
 }
 
 #map-container {
@@ -82,21 +88,26 @@ h1 {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-}
-#map-legend > div {
-  display: inline-block;
-}
-#map-legend span.one {
-  color: #fdeacb;
-}
-#map-legend span.two {
-  color: #fb9b7f;
-}
-#map-legend span.three {
-  color: #f44336;
-}
-#map-legend span.four {
-  color: #ba000d;
+
+  > div {
+    display: inline-block;
+  }
+  
+  span.one {
+    color: #fdeacb;
+  }
+  
+  span.two {
+    color: #fb9b7f;
+  }
+
+  span.three {
+    color: #f44336;
+  }
+
+  span.four {
+    color: #ba000d;
+  }
 }
 
 #trend-chart-container {
@@ -105,25 +116,26 @@ h1 {
 }
 #chart-legend-container {
   padding-bottom: 10px;
-}
-#chart-legend {
-  padding: 0px;
-  font-size: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-#chart-legend > div {
-  display: inline-block;
-}
-#chart-legend span.one {
-  color: rgb(244,67,54);
-}
-#chart-legend span.two {
-  color: rgb(25,118,210);
-}
-#chart-legend span.three {
-  color: rgb(55,71,79);
+  
+  #chart-legend {
+    padding: 0px;
+    font-size: 16px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+  > div {
+    display: inline-block;
+  }
+  span.one {
+    color: rgb(244,67,54);
+  }
+  span.two {
+    color: rgb(25,118,210);
+  }
+  span.three {
+    color: rgb(55,71,79);
+  }
 }
 
 #data-table {
@@ -131,37 +143,41 @@ h1 {
   border-collapse: separate;
   border-spacing: 0px 5px;
   font-size: 16px;
-}
-#data-table tr:nth-child(even) {
-  background-color: #eaeff1;
-}
-#data-table th {
-  text-align: left;
-  font-size: 12px;
-}
-#data-table td {
-  padding: 5px 0px;
-}
-#data-table td:first-child {
-  padding: 5px;
-}
-#data-table .totals {
-  font-weight: bold;
-}
-#data-table .loading td {
-  text-align: center;
-  padding: 30px 0px;
+
+  tr:nth-child(even) {
+    background-color: #eaeff1;
+  }
+  th {
+    text-align: left;
+    font-size: 12px;
+  }
+  td {
+    padding: 5px 0px;
+  }
+  td:first-child {
+    padding: 5px;
+  }
+  .totals {
+    font-weight: bold;
+  }
+  .loading td {
+    text-align: center;
+    padding: 30px 0px;
+  }
 }
 
-#helpful-links li {
-  margin-bottom: 20px;
-  word-wrap: break-word;
+#helpful-links {
+  li {
+    margin-bottom: 20px;
+    word-wrap: break-word;
+  }
 }
 
 footer a, footer a:active {
   color: #1976d2 !important;
 }
 
+// Loading Icon
 .lds-dual-ring {
   display: inline-block;
   width: 24px;
