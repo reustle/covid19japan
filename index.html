@@ -43,8 +43,11 @@
 <body>
 
   <header>
-    <h1>Coronavirus Disease (COVID-19) Japan Tracker</h1>
-    <em><small>Last Updated: <strong id="last-updated">-</strong></small></em>
+    <h1 data-ja="日本国内の新型コロナウイルス (COVID-19) 感染状況追跡">Coronavirus Disease (COVID-19) Japan Tracker</h1>
+    <em><small><span data-ja="最終更新:">Last Updated:</span> <strong id="last-updated">-</strong></small></em>
+    <br/><br/>
+    <button data-lang-picker="en">English</button>
+    <button data-lang-picker="ja">Japanese</button>
   </header>
 
   <section id="kpi">
@@ -55,31 +58,31 @@
         <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
       </tr>
       <tr class="kpi-labels">
-        <td>Confirmed</td>
-        <td>Recovered</td>
-        <td>Deceased</td>
+        <td data-ja="感染者数">Confirmed</td>
+        <td data-ja="回復者数">Recovered</td>
+        <td data-ja="死亡者数">Deceased</td>
       </tr>
     </table>
   </section>
 
   <a name="map"></a>
   <div class="center-offset">
-    <h4>Cases By Prefecture</h4>
+    <h4 data-ja="都道府県ごとの件数">Cases By Prefecture</h4>
   </div>
   <section id="map-legend">
-    <div><span class="one">▉</span> 1-10 cases</div>
-    <div><span class="two">▉</span> 11-25 cases</div>
-    <div><span class="three">▉</span> 26-50 cases</div>
-    <div><span class="four">▉</span> 51+ cases</div>
+    <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
+    <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
+    <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
+    <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
   </section>
   <div id="map-container"></div>
 
   <section id="chart-legend-container">
-    <h4>Outbreak Spread Trend</h4>
+    <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
     <div id="chart-legend">
-      <div><span class="one">▉</span> Confirmed</div>
-      <div><span class="two">▉</span> Recovered</div>
-      <div><span class="three">▉</span> Deceased</div>
+      <div><span class="one">▉</span> <span data-ja="感染者数">Confirmed</span></div>
+      <div><span class="two">▉</span> <span data-ja="回復者数">Recovered</span></div>
+      <div><span class="three">▉</span> <span data-ja="死亡者数">Deceased</span></div>
     </div>
   </section>
   <section id="trend-chart-container">
@@ -90,14 +93,14 @@
 
   <section>
     <a name="data"></a>
-    <h4>Prefecture Data</h4>
+    <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
     <table id="data-table">
       <thead>
         <tr>
-          <th>Prefecture</th>
-          <th>Confirmed</th>
-          <th>Recovered</th>
-          <th>Deceased</th>
+          <th data-ja="都道府県">Prefecture</th>
+          <th data-ja="感染者数">Confirmed</th>
+          <th data-ja="回復者数">Recovered</th>
+          <th data-ja="死亡者数">Deceased</th>
         </tr>
       </thead>
       <tbody>
@@ -108,7 +111,7 @@
 
   <section id="helpful-links">
     <a name="links"></a>
-    <h4>Helpful Links</h4>
+    <h4 data-ja="有益な情報源">Helpful Links</h4>
     <ul>
       <li>
         Information from the Tokyo Metropolitan Infectious Disease Surveillance Center<br/>
@@ -133,7 +136,7 @@
     </ul>
 
     <br/>
-    <h4>Primary Data Sources</h4>
+    <h4 data-ja="一次情報源">Primary Data Sources</h4>
     <ul>
       <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
       <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
@@ -148,10 +151,10 @@
   <!-- JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-  <script src="https://unpkg.com/drive-db"></script>
+  <script src="https://cdn.jsdelivr.net/npm/drive-db@5.0.3/index.min.js"></script>
   <script src="static/main.js"></script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>

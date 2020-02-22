@@ -196,6 +196,29 @@ function setPageTitleCount(confirmed) {
 }
 
 
+function initDataTranslate() {
+  
+  // Make sure to include all the non-english languages in the page
+  const selector = '[data-ja]'
+  const parseNode = cb => document.querySelectorAll(selector).forEach(cb)
+
+  // Default website is in English. Extract it as the attr data-en="..."
+  parseNode(el => {
+    el.dataset['en'] = el.textContent
+  })
+
+  // For the language selector
+  document.querySelectorAll('[data-lang-picker]').forEach(pick => {
+    pick.addEventListener('click', e => {
+    	const lang = e.target.dataset.langPicker
+      parseNode(el => {
+        if (!el.dataset[lang]) return;
+        el.textContent = el.dataset[lang]
+      })
+    })
+  })
+}
+
 // Initialize Map
 var map = new mapboxgl.Map({
     container: 'map-container',
@@ -315,3 +338,5 @@ async function loadTrendData(){
   drawTrendChart(sheetTrend)
 }
 loadTrendData()
+
+initDataTranslate()
