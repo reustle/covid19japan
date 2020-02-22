@@ -184,7 +184,8 @@ function drawKpis(confirmed, recovered, deaths) {
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
   
-  document.getElementById('last-updated').innerHTML = lastUpdated
+  let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY')
+  document.getElementById('last-updated').innerHTML = prettyUpdatedTime
 }
 
 
