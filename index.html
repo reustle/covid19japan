@@ -158,6 +158,24 @@
   <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/drive-db@5.0.3/index.min.js"></script>
   <script src="static/main.js"></script>
+  <script>
+    (function(){
+      initDataTranslate()
+      drawMap()
+
+      // TODO This should load the data in parallel
+      map.once('style.load', function(e) {
+        loadPrefectureData(function(){
+          drawMapPrefectures(ddb.prefectures)
+          drawPrefectureTable(ddb.prefectures)
+        })
+      })
+
+      loadTrendData(function() {
+        drawTrendChart(ddb.trendData)
+      })
+    })()
+  </script>
 
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
   <script>

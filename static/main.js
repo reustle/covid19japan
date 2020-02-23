@@ -150,21 +150,21 @@ function drawTrendChart(sheetTrend) {
         labels: labelSet,
         datasets: [
           {
-            label: (LANG=='en'?'Deceased':'死亡者数'),
+            label: 'Deceased',
             borderColor: COLOR_DECEASED,
             backgroundColor: COLOR_DECEASED,
             fill: false,
             data: deceasedSet
           },
           {
-            label: (LANG=='en'?'Recovered':'回復者数'),
+            label: 'Recovered',
             borderColor: COLOR_RECOVERED,
             backgroundColor: COLOR_RECOVERED,
             fill: false,
             data: recoveredSet
           },
           {
-            label: (LANG=='en'?'Confirmed':'感染者数'),
+            label: 'Confirmed',
             borderColor: COLOR_CONFIRMED,
             backgroundColor: COLOR_CONFIRMED,
             fill: false,
@@ -189,17 +189,17 @@ function drawTrendChart(sheetTrend) {
           time: {
             parser: TIME_FORMAT,
             round: 'day',
-            tooltipFormat: 'll' // TODO ja switch
+            tooltipFormat: 'll'
           },
           scaleLabel: {
             display: true,
-            labelString: (LANG=='en'?'Date':'日付')
+            labelString: 'Date'
           }
         }],
         yAxes: [{
           scaleLabel: {
             display: true,
-            labelString: (LANG=='en'?'Cases':'件')
+            labelString: 'Cases'
           }
         }]
       }
@@ -372,6 +372,7 @@ function initDataTranslate() {
   // Language selector event handler
   document.querySelectorAll('[data-lang-picker]').forEach(pick => {
     pick.addEventListener('click', e => {
+      e.preventDefault()
       LANG = e.target.dataset.langPicker
       
       // Toggle the html lang tags
@@ -389,7 +390,6 @@ function initDataTranslate() {
   
       // Redraw the prefectures table and trend chart
       drawPrefectureTable(ddb.prefectures)
-      drawTrendChart(ddb.trendData)
       
       // Toggle the lang picker
       document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
@@ -400,22 +400,3 @@ function initDataTranslate() {
     })
   })
 }
-
-
-function init() {
-  
-  initDataTranslate()
-  drawMap()
-
-  map.once('style.load', function(e) {
-    loadPrefectureData(function(){
-      drawMapPrefectures(ddb.prefectures)
-      drawPrefectureTable(ddb.prefectures)
-    })
-  })
-
-  loadTrendData(function() {
-    drawTrendChart(ddb.trendData)
-  })
-}
-init()
