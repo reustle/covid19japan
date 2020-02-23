@@ -261,7 +261,12 @@ function drawPrefectureTable(prefectures) {
   
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
   
-  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>Total</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
+  let totalStr = 'Total'
+  if(LANG == 'ja'){
+    totalStr = '計'
+  }
+  
+  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
   
   drawKpis(totalCases, totalRecovered, totalDeaths)
   setPageTitleCount(totalCases)
