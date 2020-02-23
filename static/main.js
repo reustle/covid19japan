@@ -10,6 +10,7 @@ const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
+let LANG = 'en'
 
 // Global vars
 let ddb = {
@@ -217,8 +218,7 @@ function drawPrefectureTable(prefectures) {
   let unspecifiedRow = ''
   
   // Remove the loading cell
-  dataTable.removeChild(dataTable.querySelector('.loading'))
-
+  dataTable.innerHTML = ''
   
   prefectures.map(function(pref){
     pref.cases = parseInt(pref.cases)
@@ -241,18 +241,32 @@ function drawPrefectureTable(prefectures) {
     totalRecovered += recovered
     totalDeaths += deaths
     
+    let prefectureStr
+    if(LANG == 'en'){
+        prefectureStr = prefecture.prefecture
+    }else{
+      prefectureStr = prefecture.prefectureja
+    }
+    
+    // TODO this is ugly
+    
     if(prefecture.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = `<tr><td><em>${prefecture.prefecture}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
+      unspecifiedRow = `<tr><td><em>${prefectureStr}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
     }else{
-      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefecture.prefecture}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
+      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefectureStr}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
     }
     return true
   })
   
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
   
-  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>Total</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
+  let totalStr = 'Total'
+  if(LANG == 'ja'){
+    totalStr = '計'
+  }
+  
+  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
   
   drawKpis(totalCases, totalRecovered, totalDeaths)
   setPageTitleCount(totalCases)
@@ -348,18 +362,46 @@ function drawMapPrefectures() {
   
 }
 
-function init() {
-  drawMap()
 
-  map.once('style.load', function(e) {
-    loadPrefectureData(function(){
-      drawMapPrefectures(ddb.prefectures)
+function initDataTranslate() {
+  // Handle language switching
+  
+  const selector = '[data-ja]'
+  const parseNode = cb => document.querySelectorAll(selector).forEach(cb)
+
+  // Default website is in English. Extract it as the attr data-en="..."
+  parseNode(el => {
+    el.dataset['en'] = el.textContent
+  })
+
+  // Language selector event handler
+  document.querySelectorAll('[data-lang-picker]').forEach(pick => {
+    pick.addEventListener('click', e => {
+      e.preventDefault()
+      LANG = e.target.dataset.langPicker
+      
+      // Toggle the html lang tags
+      parseNode(el => {
+        if (!el.dataset[LANG]) return;
+        el.textContent = el.dataset[LANG]
+      })
+      
+      // Update the map
+      map.getStyle().layers.forEach(function(thisLayer){
+        if(thisLayer.type == 'symbol'){
+          map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
+        }
+      })
+  
+      // Redraw the prefectures table and trend chart
       drawPrefectureTable(ddb.prefectures)
+      
+      // Toggle the lang picker
+      document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
+        el.style.display = 'inline'
+      })
+      document.querySelector('a[data-lang-picker='+LANG+']').style.display = 'none'
+      
     })
   })
-
-  loadTrendData(function() {
-    drawTrendChart(ddb.trendData)
-  })
 }
-init()
