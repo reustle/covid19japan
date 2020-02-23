@@ -3,7 +3,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const SHEET_ID = '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ'
-const SHEET_PREFECTURES_TAB = 1
+const SHEET_PREFECTURES_TAB = 2
 const SHEET_DAILY_SUM_TAB = 3
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
