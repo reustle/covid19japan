@@ -3,7 +3,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const SHEET_ID = '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ'
-const SHEET_PATIENTS_TAB = 1
+const SHEET_PREFECTURES_TAB = 1
 const SHEET_DAILY_SUM_TAB = 3
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
@@ -11,9 +11,102 @@ const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 
+// Global vars
+let ddb = {
+  prefectures: undefined,
+  byDay: undefined,
+}
+let map = undefined
 
-function drawPrefectureMap() {
-  //
+
+function loadPrefectureData(callback) {
+  // Load the prefectures tab of the
+  // spreadsheet using drive-db
+  
+  function validate(data) {
+    // Make sure we've loaded the correct sheet
+
+    if(data.length && data[0] && data[0].prefecture && data[0].prefecture.length > 0){
+      return true
+    }
+    return false
+  }
+  
+  drive({
+    sheet: SHEET_ID,
+    tab: SHEET_PREFECTURES_TAB,
+  })
+  .then((data) => {
+    if(!validate(data)){
+      console.error('Error validating prefectures sheet')
+      return
+    }
+    
+    ddb.prefectures = data
+    if(callback){ callback() }
+  })
+  .catch((error) => {
+    console.error('Error Loading Sheet: ', error);
+  })
+  
+}
+
+
+function loadTrendData(callback){
+  
+  function validate(data) {
+    if(data.length && data[0] && data[0].date && data[0].confirmed){
+      return true
+    }
+    return false
+  }
+
+  drive({
+    sheet: SHEET_ID,
+    tab: SHEET_DAILY_SUM_TAB,
+  })
+  .then((data) => {
+    if(!validate(data)){
+      console.error('Error validating daily sum sheet')
+      return
+    }
+
+    ddb.trendData = data
+    if(callback){ callback() }
+  })
+  .catch((error) => {
+    console.error('Error Loading Sheet: ', error);
+  })
+
+}
+
+
+function drawMap() {
+  // Initialize Map
+
+  map = new mapboxgl.Map({
+    container: 'map-container',
+    style: 'mapbox://styles/mapbox/light-v10',
+    zoom: 4,
+    minZoom: 3.5,
+    maxZoom: 7,
+    center: {
+        lng: 139.11792973051274,
+        lat: 38.52245616545571
+    },
+    maxBounds: [
+      {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
+      {lat: 59.34721256263214, lng: 175.3273570446982} // NE
+    ]
+  })
+
+  map.dragRotate.disable()
+  map.touchZoomRotate.disableRotation()
+  map.scrollZoom.disable()
+  map.addControl(new mapboxgl.NavigationControl({
+    showCompass: false,
+    showZoom: true
+  }))
 }
 
 
@@ -171,6 +264,7 @@ function drawPrefectureTable(prefectures) {
   setPageTitleCount(totalCases)
 }
 
+
 function drawKpis(confirmed, recovered, deaths) {
   // Draw the KPI values
 
@@ -196,33 +290,7 @@ function setPageTitleCount(confirmed) {
 }
 
 
-// Initialize Map
-var map = new mapboxgl.Map({
-    container: 'map-container',
-    style: 'mapbox://styles/mapbox/light-v10',
-    zoom: 4,
-    minZoom: 3.5,
-    maxZoom: 7,
-    center: {
-        lng: 139.11792973051274,
-        lat: 38.52245616545571
-    },
-    maxBounds: [
-      {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
-      {lat: 59.34721256263214, lng: 175.3273570446982} // NE
-    ]
-})
-
-map.dragRotate.disable()
-map.touchZoomRotate.disableRotation()
-map.scrollZoom.disable()
-map.addControl(new mapboxgl.NavigationControl({
-  showCompass: false,
-  showZoom: true
-}))
-
-map.once('style.load', function(e) {
-  
+function drawMapPrefectures() {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
@@ -246,72 +314,61 @@ map.once('style.load', function(e) {
     ['get', 'NAME_1'],
   ]
   
-  // Load the google spreadsheet
-  async function loadSheet() {
-    
-    // Init the load with drive-db
-    const db = await drive({
-      sheet: SHEET_ID,
-      tab: SHEET_PATIENTS_TAB,
-      cache: 3600,
-      onload: data => data
-    })
-    
-    // Go through all prefectures looking for cases
-    db.map(function(prefecture){
-      
-      let cases = parseInt(prefecture.cases)
-      if(cases > 0){
-        prefecturePaint.push(prefecture.prefecture)
-        
-        if(cases <= 10){
-          // 1-10 cases
-          prefecturePaint.push('rgb(253,234,203)')
-        }else if(cases <= 25){
-          // 11-25 cases
-          prefecturePaint.push('rgb(251,155,127)')
-        }else if(cases <= 50){
-          // 26-50 cases
-          prefecturePaint.push('rgb(244,67,54)')
-        }else{
-          // 51+ cases
-          prefecturePaint.push('rgb(186,0,13)')
-        }
-      }
-      
-    })
-    
-    // Add the final value to use as the default color
-    prefecturePaint.push('rgba(0,0,0,0)')
-    
-    // Add the prefecture color layer to the map
-    map.addLayer({
-      'id': 'prefecture-layer',
-      'type': 'fill',
-      'source': 'prefectures',
-      'layout': {},
-      'paint': {
-        'fill-color': prefecturePaint,
-        'fill-opacity': 0.8,
-      }
-    }, firstSymbolId)
-    
-    // Map is finished, now draw the data table
-    drawPrefectureTable(db)
-    
-  }
-  loadSheet()
+  // data = ddb.prefectures
   
-})
+  // Go through all prefectures looking for cases
+  ddb.prefectures.map(function(prefecture){
+    
+    let cases = parseInt(prefecture.cases)
+    if(cases > 0){
+      prefecturePaint.push(prefecture.prefecture)
+      
+      if(cases <= 10){
+        // 1-10 cases
+        prefecturePaint.push('rgb(253,234,203)')
+      }else if(cases <= 25){
+        // 11-25 cases
+        prefecturePaint.push('rgb(251,155,127)')
+      }else if(cases <= 50){
+        // 26-50 cases
+        prefecturePaint.push('rgb(244,67,54)')
+      }else{
+        // 51+ cases
+        prefecturePaint.push('rgb(186,0,13)')
+      }
+    }
+    
+  })
+  
+  // Add the final value to use as the default color
+  prefecturePaint.push('rgba(0,0,0,0)')
+  
+  // Add the prefecture color layer to the map
+  map.addLayer({
+    'id': 'prefecture-layer',
+    'type': 'fill',
+    'source': 'prefectures',
+    'layout': {},
+    'paint': {
+      'fill-color': prefecturePaint,
+      'fill-opacity': 0.8,
+    }
+  }, firstSymbolId)
+  
+}
 
-async function loadTrendData(){
-  const sheetTrend = await drive({
-    sheet: SHEET_ID,
-    tab: SHEET_DAILY_SUM_TAB,
-    cache: 3600,
-    onload: data => data
+function init() {
+  drawMap()
+
+  map.once('style.load', function(e) {
+    loadPrefectureData(function(){
+      drawMapPrefectures(ddb.prefectures)
+      drawPrefectureTable(ddb.prefectures)
+    })
   })
 
-  drawTrendChart(sheetTrend)
+  loadTrendData(function() {
+    drawTrendChart(ddb.trendData)
+  })
 }
-loadTrendData()
+init()
