@@ -144,10 +144,7 @@ function drawTrendChart(sheetTrend) {
   Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
   
   var chart = new Chart(ctx, {
-    // The type of chart we want to create
     type: 'line',
-
-    // The data for our dataset
     data: {
         labels: labelSet,
         datasets: [
@@ -174,8 +171,6 @@ function drawTrendChart(sheetTrend) {
           }
         ]
     },
-
-    // Configuration options go here
     options: {
       maintainAspectRatio: false,
       responsive: true,
@@ -248,7 +243,6 @@ function drawPrefectureTable(prefectures) {
     
     if(prefecture.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      
       unspecifiedRow = `<tr><td><em>${prefecture.prefecture}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
     }else{
       dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefecture.prefecture}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
@@ -271,7 +265,6 @@ function drawKpis(confirmed, recovered, deaths) {
   document.querySelector('#kpi-confirmed').innerHTML = confirmed
   document.querySelector('#kpi-recovered').innerHTML = recovered
   document.querySelector('#kpi-deceased').innerHTML = deaths
-
 }
 
 
@@ -314,8 +307,6 @@ function drawMapPrefectures() {
     ['get', 'NAME_1'],
   ]
   
-  // data = ddb.prefectures
-  
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
     
@@ -340,7 +331,7 @@ function drawMapPrefectures() {
     
   })
   
-  // Add the final value to use as the default color
+  // Add a final value to the list for the default color
   prefecturePaint.push('rgba(0,0,0,0)')
   
   // Add the prefecture color layer to the map
