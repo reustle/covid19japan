@@ -95,9 +95,11 @@ function calculateTotals(prefectures) {
   }
   
   prefectures.map(function(pref){
-    totals.confirmed += parseInt(pref.cases)
+    // TODO change to confirmed
+    totals.confirmed += (pref.cases?parseInt(pref.cases):0)
     totals.recovered += (pref.recovered?parseInt(pref.recovered):0)
-    totals.deceased += (pref.deceased?parseInt(pref.deceased):0)
+    // TODO changed to deceased
+    totals.deceased += (pref.deaths?parseInt(pref.deaths):0)
     
   })
   
@@ -232,53 +234,44 @@ function drawTrendChart(sheetTrend) {
 }
 
 
-function drawPrefectureTable(prefectures) {
+function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
   
-  let totalCases = 0
-  let totalRecovered = 0
-  let totalDeaths = 0
   let dataTable = document.querySelector('#data-table tbody')
   let unspecifiedRow = ''
   
   // Remove the loading cell
   dataTable.innerHTML = ''
   
-  prefectures.map(function(pref){
-    pref.cases = parseInt(pref.cases)
+  // Parse values so we can sort
+  _.map(prefectures, function(pref){
+    // TODO change to confirmed
+    pref.confirmed = (pref.cases?parseInt(pref.cases):0)
+    pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
+    // TODO change to deceased
+    pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
   })
-  _.orderBy(prefectures, 'cases', 'desc').map(function(prefecture){
-    let cases = parseInt(prefecture.cases)
-    let recovered = 0
-    if(prefecture.recovered){
-      recovered = parseInt(prefecture.recovered)
-    }
-    let deaths = 0
-    if(prefecture.deaths){
-      deaths = parseInt(prefecture.deaths)
-    }
-    if(!cases && !recovered && !deaths){
+  
+  // Iterate through and render table rows
+  _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
+    if(!pref.confirmed && !pref.recovered && !pref.deceased){
       return
     }
     
-    totalCases += cases
-    totalRecovered += recovered
-    totalDeaths += deaths
-    
-    let prefectureStr
+    let prefStr
     if(LANG == 'en'){
-        prefectureStr = prefecture.prefecture
+        prefStr = pref.prefecture
     }else{
-      prefectureStr = prefecture.prefectureja
+      prefStr = pref.prefectureja
     }
     
-    // TODO this is ugly
+    // TODO Make this pretty
     
-    if(prefecture.prefecture == 'Unspecified'){
+    if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = `<tr><td><em>${prefectureStr}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
+      unspecifiedRow = `<tr><td><em>${prefStr}</em></td><td>${pref.confirmed}</td><td>${pref.recovered}</td><td>${pref.deaths}</td></tr>`
     }else{
-      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefectureStr}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
+      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefStr}</td><td>${pref.confirmed}</td><td></td><td>${(pref.deceased?pref.deceased:'')}</td></tr>`
     }
     return true
   })
@@ -290,7 +283,7 @@ function drawPrefectureTable(prefectures) {
     totalStr = '計'
   }
   
-  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
+  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totals.confirmed}</td><td>${totals.recovered}</td><td>${totals.deceased}</td></tr>`
 }
 
 
@@ -311,7 +304,7 @@ function drawLastUpdated(lastUpdated) {
 }
 
 
-function setPageTitleCount(confirmed) {
+function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
   
   document.title = `(${confirmed}) ${PAGE_TITLE}`
