@@ -407,7 +407,7 @@ function initDataTranslate() {
         }
       })
   
-      // Redraw the prefectures table and trend chart
+      // Redraw the prefectures table
       if(document.getElementById('prefectures-table')){
         drawPrefectureTable(ddb.prefectures, ddb.totals)
       }
