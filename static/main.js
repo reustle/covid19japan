@@ -237,7 +237,7 @@ function drawTrendChart(sheetTrend) {
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
   
-  let dataTable = document.querySelector('#data-table tbody')
+  let dataTable = document.querySelector('#prefectures-table tbody')
   let unspecifiedRow = ''
   
   // Remove the loading cell
@@ -408,7 +408,9 @@ function initDataTranslate() {
       })
   
       // Redraw the prefectures table and trend chart
-      drawPrefectureTable(ddb.prefectures)
+      if(document.getElementById('prefectures-table')){
+        drawPrefectureTable(ddb.prefectures, ddb.totals)
+      }
       
       // Toggle the lang picker
       document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
