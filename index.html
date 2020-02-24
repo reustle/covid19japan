@@ -165,14 +165,22 @@
 
       // TODO This should load the data in parallel
       map.once('style.load', function(e) {
-        loadPrefectureData(function(){
+        loadPrefectureData(function(prefData){
+          ddb.prefectures = prefData
+          
+          ddb.totals = calculateTotals(prefData)
+
+          drawKpis(ddb.totals)
+          setPageTitleCount(ddb.totals.confirmed)
           drawMapPrefectures(ddb.prefectures)
-          drawPrefectureTable(ddb.prefectures)
+          drawPrefectureTable(ddb.prefectures, ddb.totals)
         })
       })
 
-      loadTrendData(function() {
-        drawTrendChart(ddb.trendData)
+      loadTrendData(function(trendData) {
+        ddb.trend = trendData
+        
+        drawTrendChart(ddb.trend)
       })
     })()
   </script>

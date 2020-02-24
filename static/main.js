@@ -15,7 +15,12 @@ let LANG = 'en'
 // Global vars
 let ddb = {
   prefectures: undefined,
-  byDay: undefined,
+  trend: undefined,
+  totals: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+  }
 }
 let map = undefined
 
@@ -43,8 +48,7 @@ function loadPrefectureData(callback) {
       return
     }
     
-    ddb.prefectures = data
-    if(callback){ callback() }
+    if(callback){ callback(data) }
   })
   .catch((error) => {
     console.error('Error Loading Sheet: ', error);
@@ -72,13 +76,32 @@ function loadTrendData(callback){
       return
     }
 
-    ddb.trendData = data
-    if(callback){ callback() }
+    if(callback){ callback(data) }
   })
   .catch((error) => {
     console.error('Error Loading Sheet: ', error);
   })
 
+}
+
+
+function calculateTotals(prefectures) {
+  // Calculate the totals
+  
+  let totals = {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+  }
+  
+  prefectures.map(function(pref){
+    totals.confirmed += parseInt(pref.cases)
+    totals.recovered += (pref.recovered?parseInt(pref.recovered):0)
+    totals.deceased += (pref.deceased?parseInt(pref.deceased):0)
+    
+  })
+  
+  return totals
 }
 
 
@@ -137,6 +160,7 @@ function drawTrendChart(sheetTrend) {
     lastUpdated = trendData.date
   })
   
+  // TODO Move this out of this function
   drawLastUpdated(lastUpdated)
   
   var ctx = document.getElementById('trend-chart').getContext('2d')
@@ -267,18 +291,15 @@ function drawPrefectureTable(prefectures) {
   }
   
   dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
-  
-  drawKpis(totalCases, totalRecovered, totalDeaths)
-  setPageTitleCount(totalCases)
 }
 
 
-function drawKpis(confirmed, recovered, deaths) {
+function drawKpis(totals) {
   // Draw the KPI values
 
-  document.querySelector('#kpi-confirmed').innerHTML = confirmed
-  document.querySelector('#kpi-recovered').innerHTML = recovered
-  document.querySelector('#kpi-deceased').innerHTML = deaths
+  document.querySelector('#kpi-confirmed').innerHTML = totals.confirmed
+  document.querySelector('#kpi-recovered').innerHTML = totals.recovered
+  document.querySelector('#kpi-deceased').innerHTML = totals.deceased
 }
 
 
