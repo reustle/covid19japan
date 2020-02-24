@@ -15,7 +15,12 @@ let LANG = 'en'
 // Global vars
 let ddb = {
   prefectures: undefined,
-  byDay: undefined,
+  trend: undefined,
+  totals: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+  }
 }
 let map = undefined
 
@@ -43,8 +48,7 @@ function loadPrefectureData(callback) {
       return
     }
     
-    ddb.prefectures = data
-    if(callback){ callback() }
+    if(callback){ callback(data) }
   })
   .catch((error) => {
     console.error('Error Loading Sheet: ', error);
@@ -72,13 +76,34 @@ function loadTrendData(callback){
       return
     }
 
-    ddb.trendData = data
-    if(callback){ callback() }
+    if(callback){ callback(data) }
   })
   .catch((error) => {
     console.error('Error Loading Sheet: ', error);
   })
 
+}
+
+
+function calculateTotals(prefectures) {
+  // Calculate the totals
+  
+  let totals = {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+  }
+  
+  prefectures.map(function(pref){
+    // TODO change to confirmed
+    totals.confirmed += (pref.cases?parseInt(pref.cases):0)
+    totals.recovered += (pref.recovered?parseInt(pref.recovered):0)
+    // TODO changed to deceased
+    totals.deceased += (pref.deaths?parseInt(pref.deaths):0)
+    
+  })
+  
+  return totals
 }
 
 
@@ -137,6 +162,7 @@ function drawTrendChart(sheetTrend) {
     lastUpdated = trendData.date
   })
   
+  // TODO Move this out of this function
   drawLastUpdated(lastUpdated)
   
   var ctx = document.getElementById('trend-chart').getContext('2d')
@@ -208,53 +234,44 @@ function drawTrendChart(sheetTrend) {
 }
 
 
-function drawPrefectureTable(prefectures) {
+function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
   
-  let totalCases = 0
-  let totalRecovered = 0
-  let totalDeaths = 0
-  let dataTable = document.querySelector('#data-table tbody')
+  let dataTable = document.querySelector('#prefectures-table tbody')
   let unspecifiedRow = ''
   
   // Remove the loading cell
   dataTable.innerHTML = ''
   
-  prefectures.map(function(pref){
-    pref.cases = parseInt(pref.cases)
+  // Parse values so we can sort
+  _.map(prefectures, function(pref){
+    // TODO change to confirmed
+    pref.confirmed = (pref.cases?parseInt(pref.cases):0)
+    pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
+    // TODO change to deceased
+    pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
   })
-  _.orderBy(prefectures, 'cases', 'desc').map(function(prefecture){
-    let cases = parseInt(prefecture.cases)
-    let recovered = 0
-    if(prefecture.recovered){
-      recovered = parseInt(prefecture.recovered)
-    }
-    let deaths = 0
-    if(prefecture.deaths){
-      deaths = parseInt(prefecture.deaths)
-    }
-    if(!cases && !recovered && !deaths){
+  
+  // Iterate through and render table rows
+  _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
+    if(!pref.confirmed && !pref.recovered && !pref.deceased){
       return
     }
     
-    totalCases += cases
-    totalRecovered += recovered
-    totalDeaths += deaths
-    
-    let prefectureStr
+    let prefStr
     if(LANG == 'en'){
-        prefectureStr = prefecture.prefecture
+        prefStr = pref.prefecture
     }else{
-      prefectureStr = prefecture.prefectureja
+      prefStr = pref.prefectureja
     }
     
-    // TODO this is ugly
+    // TODO Make this pretty
     
-    if(prefecture.prefecture == 'Unspecified'){
+    if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = `<tr><td><em>${prefectureStr}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
+      unspecifiedRow = `<tr><td><em>${prefStr}</em></td><td>${pref.confirmed}</td><td>${pref.recovered}</td><td>${pref.deaths}</td></tr>`
     }else{
-      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefectureStr}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
+      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefStr}</td><td>${pref.confirmed}</td><td></td><td>${(pref.deceased?pref.deceased:'')}</td></tr>`
     }
     return true
   })
@@ -266,19 +283,16 @@ function drawPrefectureTable(prefectures) {
     totalStr = '計'
   }
   
-  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
-  
-  drawKpis(totalCases, totalRecovered, totalDeaths)
-  setPageTitleCount(totalCases)
+  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totals.confirmed}</td><td>${totals.recovered}</td><td>${totals.deceased}</td></tr>`
 }
 
 
-function drawKpis(confirmed, recovered, deaths) {
+function drawKpis(totals) {
   // Draw the KPI values
 
-  document.querySelector('#kpi-confirmed').innerHTML = confirmed
-  document.querySelector('#kpi-recovered').innerHTML = recovered
-  document.querySelector('#kpi-deceased').innerHTML = deaths
+  document.querySelector('#kpi-confirmed').innerHTML = totals.confirmed
+  document.querySelector('#kpi-recovered').innerHTML = totals.recovered
+  document.querySelector('#kpi-deceased').innerHTML = totals.deceased
 }
 
 
@@ -290,7 +304,7 @@ function drawLastUpdated(lastUpdated) {
 }
 
 
-function setPageTitleCount(confirmed) {
+function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
   
   document.title = `(${confirmed}) ${PAGE_TITLE}`
@@ -393,8 +407,10 @@ function initDataTranslate() {
         }
       })
   
-      // Redraw the prefectures table and trend chart
-      drawPrefectureTable(ddb.prefectures)
+      // Redraw the prefectures table
+      if(document.getElementById('prefectures-table')){
+        drawPrefectureTable(ddb.prefectures, ddb.totals)
+      }
       
       // Toggle the lang picker
       document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
