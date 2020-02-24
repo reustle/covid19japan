@@ -15,6 +15,15 @@ h1 {
 h4 {
   font-size: 21px;
   margin-bottom: 20px;
+}  
+h5 {
+  font-weight: 400;
+  font-size: 15px;
+  padding-left: 5px;
+  font-style: italic;
+  text-align: right;
+  margin: 5px auto 0px auto;
+  max-width: 650px;
 }
 small {
   font-size: 16px;
@@ -181,8 +190,17 @@ h1 {
   }
 }
 
-footer a, footer a:active {
-  color: #1976d2 !important;
+footer {
+  line-height: 34px;
+  a, a:active {
+    color: #1976d2 !important;
+  }
+}
+
+.embed-mode {
+  footer {
+    font-size: 16px;
+  }
 }
 
 // Loading Icon
