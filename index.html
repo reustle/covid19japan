@@ -1,198 +1,144 @@
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
+---
+layout: base
+---
 
-  <!-- Warning: Ugly code lies ahead -->
-
-
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
-  <title>Coronavirus Disease (COVID-19) Japan Tracker</title>
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="static/css/styles.css">
-
-  <link
-    rel="icon"
-    type="image/png"
-    href="https://covid19japan.com/static/favicon.png"
-  />
-  <meta
-    name="description"
-    content="Follow daily updates of the Coronavirus COVID-19 through Japan"
-  />
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:url" content="https://covid19japan.com/" />
-  <meta name="twitter:title" content="Coronavirus Japan Tracker" />
-
-  <meta
-    name="twitter:description"
-    content="Follow daily updates of the Coronavirus COVID-19 through Japan"
-  />
-  <meta property="og:title" content="Coronavirus Japan Tracker" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://covid19japan.com/" />
-  <meta
-    property="og:image"
-    content="https://covid19japan.com/static/map.jpg"
-  />
-  <meta
-    property="og:description"
-    content="Follow daily updates of the Coronavirus COVID-19 through Japan"
-  />
-</head>
-<body>
-
-  <header>
-    <div class="lang-picker">
-      <a href="#" data-lang-picker='ja'>🇯🇵 日本語</a>
-      <a href="#" data-lang-picker='en' style="display:none">🇺🇸 English</a>
-    </div>
-    
-    <h1 data-ja="日本国内の新型コロナウイルス (COVID-19) 感染状況追跡">Coronavirus Disease (COVID-19) Japan Tracker</h1>
-    <em><small><span data-ja="最終更新:">Last Updated:</span> <strong id="last-updated">-</strong></small></em>
-  </header>
-
-  <section id="kpi">
-    <table>
-      <tr class="kpi-metrics">
-        <td id="kpi-confirmed"><div class="lds-dual-ring"></div></td>
-        <td id="kpi-recovered"><div class="lds-dual-ring"></div></td>
-        <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
-      </tr>
-      <tr class="kpi-labels">
-        <td data-ja="感染者数">Confirmed</td>
-        <td data-ja="回復者数">Recovered</td>
-        <td data-ja="死亡者数">Deceased</td>
-      </tr>
-    </table>
-  </section>
-
-  <a name="map"></a>
-  <div class="center-offset">
-    <h4 data-ja="ウイルス感染マップ">Outbreak Map</h4>
+<header>
+  <div class="lang-picker">
+    <a href="#" data-lang-picker='ja'>🇯🇵 日本語</a>
+    <a href="#" data-lang-picker='en' style="display:none">🇺🇸 English</a>
   </div>
-  <section id="map-legend">
-    <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
-    <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
-    <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
-    <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
-  </section>
-  <div id="map-container"></div>
+  
+  <h1 data-ja="日本国内の新型コロナウイルス (COVID-19) 感染状況追跡">Coronavirus Disease (COVID-19) Japan Tracker</h1>
+  <em><small><span data-ja="最終更新:">Last Updated:</span> <strong id="last-updated">-</strong></small></em>
+</header>
 
-  <section id="chart-legend-container">
-    <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
-    <div id="chart-legend">
-      <div><span class="one">▉</span> <span data-ja="感染者数">Confirmed</span></div>
-      <div><span class="two">▉</span> <span data-ja="回復者数">Recovered</span></div>
-      <div><span class="three">▉</span> <span data-ja="死亡者数">Deceased</span></div>
-    </div>
-  </section>
-  <section id="trend-chart-container">
-    <canvas id="trend-chart"></canvas>
-  </section>
+<section id="kpi">
+  <table>
+    <tr class="kpi-metrics">
+      <td id="kpi-confirmed"><div class="lds-dual-ring"></div></td>
+      <td id="kpi-recovered"><div class="lds-dual-ring"></div></td>
+      <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
+    </tr>
+    <tr class="kpi-labels">
+      <td data-ja="感染者数">Cases</td>
+      <td data-ja="回復者数">Recovered</td>
+      <td data-ja="死亡者数">Deaths</td>
+    </tr>
+  </table>
+</section>
 
+<a name="map"></a>
+<div class="center-offset">
+  <h4 data-ja="ウイルス感染マップ">Outbreak Map</h4>
+</div>
+<section id="map-legend">
+  <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
+  <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
+  <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
+  <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
+</section>
+<div id="map-container"></div>
 
+<section id="chart-legend-container">
+  <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
+  <div id="chart-legend">
+    <div><span class="one">▉</span> <span data-ja="感染者数">Cases</span></div>
+    <div><span class="two">▉</span> <span data-ja="回復者数">Recovered</span></div>
+    <div><span class="three">▉</span> <span data-ja="死亡者数">Deaths</span></div>
+  </div>
+</section>
+<section id="trend-chart-container">
+  <canvas id="trend-chart"></canvas>
+</section>
 
-  <section>
-    <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
-    <table id="prefectures-table">
-      <thead>
-        <tr>
-          <th data-ja="都道府県">Prefecture</th>
-          <th data-ja="感染者数">Confirmed</th>
-          <th data-ja="回復者数">Recovered</th>
-          <th data-ja="死亡者数">Deceased</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="loading"><td colspan="4"><div class="lds-dual-ring"></div></td></tr>
-      </tbody>
-    </table>
-  </section>
+<section>
+  <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
+  <table id="prefectures-table">
+    <thead>
+      <tr>
+        <th data-ja="都道府県">Prefecture</th>
+        <th data-ja="感染者数">Cases</th>
+        <th data-ja="回復者数">Recovered</th>
+        <th data-ja="死亡者数">Deaths</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="loading"><td colspan="4"><div class="lds-dual-ring"></div></td></tr>
+    </tbody>
+  </table>
+</section>
 
-  <section id="helpful-links">
-    <a name="links"></a>
-    <h4 data-ja="有益な情報源">Helpful Links</h4>
-    <ul>
-      <li>
-        Information from the Tokyo Metropolitan Infectious Disease Surveillance Center<br/>
-        <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/</a>
-      </li>
-      <li>
-        If you think you might have the virus<br/>
-        <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html">https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html</a>
-      </li>
-      <li>
-        WHO information about the virus<br/>
-        <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">https://www.who.int/emergencies/diseases/novel-coronavirus-2019</a>
-      </li>
-      <li>
-        Monitoring your symptoms if you feel ill<br/>
-        <a href="https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf">https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf</a>
-      </li>
-      <li>
-        Active relevant Twitter accounts<br/>
-        <a href="https://twitter.com/i/lists/1069503606880006144">https://twitter.com/i/lists/1069503606880006144</a>
-      </li>
-    </ul>
+<section id="helpful-links">
+  <a name="links"></a>
+  <h4 data-ja="有益な情報源">Helpful Links</h4>
+  <ul>
+    <li>
+      Information from the Tokyo Metropolitan Infectious Disease Surveillance Center<br/>
+      <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/</a>
+    </li>
+    <li>
+      If you think you might have the virus<br/>
+      <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html">https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html</a>
+    </li>
+    <li>
+      WHO information about the virus<br/>
+      <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">https://www.who.int/emergencies/diseases/novel-coronavirus-2019</a>
+    </li>
+    <li>
+      Monitoring your symptoms if you feel ill<br/>
+      <a href="https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf">https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf</a>
+    </li>
+    <li>
+      Active relevant Twitter accounts<br/>
+      <a href="https://twitter.com/i/lists/1069503606880006144">https://twitter.com/i/lists/1069503606880006144</a>
+    </li>
+  </ul>
 
-    <br/>
-    <h4 data-ja="一次情報源">Primary Data Sources</h4>
-    <ul>
-      <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
-      <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
-    </ul>
-  </section>
+  <br/>
+  <h4 data-ja="一次情報源">Primary Data Sources</h4>
+  <ul>
+    <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
+    <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
+  </ul>
+</section>
 
-  <footer>
-    Built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and the team at <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, concept and design by <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a>. Contribute to this project <a href="https://github.com/reustle/covid19japan" target="_blank">on GitHub</a>.
-  </footer>
+<footer>
+  Built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and the team at <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, concept and design by <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a>. Contribute to this project <a href="https://github.com/reustle/covid19japan" target="_blank">on GitHub</a>.
+</footer>
 
-  <!-- JS -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/drive-db@5.0.3/index.min.js"></script>
-  <script src="static/main.js"></script>
-  <script>
-    (function(){
-      initDataTranslate()
-      drawMap()
+<!-- JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/drive-db@5.0.3/index.min.js"></script>
+<script src="static/main.js"></script>
+<script>
+  (function(){
+    initDataTranslate()
+    drawMap()
 
-      // TODO This should load the data in parallel
-      map.once('style.load', function(e) {
-        loadPrefectureData(function(prefData){
-          ddb.prefectures = prefData
-          
-          ddb.totals = calculateTotals(prefData)
-
-          drawKpis(ddb.totals)
-          drawPageTitleCount(ddb.totals.confirmed)
-          drawMapPrefectures(ddb.prefectures)
-          drawPrefectureTable(ddb.prefectures, ddb.totals)
-        })
-      })
-
-      loadTrendData(function(trendData) {
-        ddb.trend = trendData
+    // TODO This should load the data in parallel
+    map.once('style.load', function(e) {
+      loadPrefectureData(function(prefData){
+        ddb.prefectures = prefData
         
-        drawTrendChart(ddb.trend)
+        ddb.totals = calculateTotals(prefData)
+
+        drawKpis(ddb.totals)
+        drawPageTitleCount(ddb.totals.confirmed)
+        drawMapPrefectures(ddb.prefectures)
+        drawPrefectureTable(ddb.prefectures, ddb.totals)
       })
+    })
+
+    loadTrendData(function(trendData) {
+      ddb.trend = trendData
       
-      loadLastUpdatedTime(drawLastUpdated)
-    })()
-  </script>
-
-  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-
-    gtag('config', 'UA-2580539-41');
-  </script>
-
-</body>
-</html>
+      drawTrendChart(ddb.trend)
+    })
+    
+    loadLastUpdatedTime(drawLastUpdated)
+  })()
+</script>
