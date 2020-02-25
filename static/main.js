@@ -5,6 +5,7 @@ const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const SHEET_ID = '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ'
 const SHEET_PREFECTURES_TAB = 2
 const SHEET_DAILY_SUM_TAB = 3
+const SHEET_LAST_UPDATED_TAB = 4
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
@@ -57,7 +58,7 @@ function loadPrefectureData(callback) {
 }
 
 
-function loadTrendData(callback){
+function loadTrendData(callback) {
   
   function validate(data) {
     if(data.length && data[0] && data[0].date && data[0].confirmed){
@@ -82,6 +83,24 @@ function loadTrendData(callback){
     console.error('Error Loading Sheet: ', error);
   })
 
+}
+
+
+function loadLastUpdatedTime(callback) {
+  drive({
+    sheet: SHEET_ID,
+    tab: SHEET_LAST_UPDATED_TAB,
+  })
+  .then((data) => {
+    if(data.length){
+      callback(data[0].lastupdated)
+      return
+    }
+    return false
+  })
+  .catch((error) => {
+    console.error('Error Loading Sheet: ', error);
+  })
 }
 
 
@@ -161,9 +180,6 @@ function drawTrendChart(sheetTrend) {
     
     lastUpdated = trendData.date
   })
-  
-  // TODO Move this out of this function
-  drawLastUpdated(lastUpdated)
   
   var ctx = document.getElementById('trend-chart').getContext('2d')
   Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
@@ -299,8 +315,10 @@ function drawKpis(totals) {
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
   
-  let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
-  document.getElementById('last-updated').innerHTML = prettyUpdatedTime
+  // TODO we should be parsing the date, but I
+  // don't trust the user input on the sheet
+  //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
+  document.getElementById('last-updated').innerHTML = lastUpdated
 }
 
 
