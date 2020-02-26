@@ -1,0 +1,14 @@
+on:
+  schedule:
+  - cron: '*/5 * * * *'
+name: Get Latest Data
+jobs:
+  getLatestData:
+    name: Get latest data
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - name: Fetch data
+      uses: ./actions/get-data
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
