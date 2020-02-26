@@ -1,0 +1,11 @@
+version: "3.7"
+
+services:
+  app:
+    build:
+      context: ../
+      dockerfile: ./cache-spreadsheet-data-prod/Dockerfile
+    env_file:
+      - ./.env
+    restart: always
+    command: node cache-sheet.js
