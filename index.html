@@ -117,29 +117,45 @@ layout: base
 <script src="static/main.js"></script>
 <script>
   (function(){
+    if(typeof drawMap === 'undefined'){
+      return
+    }
+    
     initDataTranslate()
     drawMap()
-
-    // TODO This should load the data in parallel
-    map.once('style.load', function(e) {
-      loadPrefectureData(function(prefData){
-        ddb.prefectures = prefData
-        
-        ddb.totals = calculateTotals(prefData)
-
-        drawKpis(ddb.totals)
-        drawPageTitleCount(ddb.totals.confirmed)
-        drawMapPrefectures(ddb.prefectures)
-        drawPrefectureTable(ddb.prefectures, ddb.totals)
-      })
-    })
-
-    loadTrendData(function(trendData) {
-      ddb.trend = trendData
+    
+    var styleLoaded = false
+    var jsonData = undefined
+    
+    function whenMapAndDataReady(){
+      if(!styleLoaded || !jsonData){
+        return
+      }
       
-      drawTrendChart(ddb.trend)
+      drawMapPrefectures(ddb.prefectures)
+    }
+    
+    map.once('style.load', function(e) {
+      styleLoaded = true
+      whenMapAndDataReady()
     })
     
-    loadLastUpdatedTime(drawLastUpdated)
+    loadData(function(data){
+      jsonData = data
+      
+      ddb.prefectures = jsonData.prefectures
+      ddb.totals = calculateTotals(jsonData.prefectures)
+      ddb.trend = jsonData.daily
+      ddb.lastUpdated = jsonData.updated[0].lastupdated
+      
+      drawLastUpdated(ddb.lastUpdated)
+      drawKpis(ddb.totals)
+      drawPageTitleCount(ddb.totals.confirmed)
+      drawPrefectureTable(ddb.prefectures, ddb.totals)
+      drawTrendChart(ddb.trend)
+      
+      whenMapAndDataReady()
+    })
+
   })()
 </script>
