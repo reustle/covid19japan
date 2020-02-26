@@ -22,38 +22,41 @@ let ddb = {
   }
 }
 let map = undefined
+const prefectureCaseLookup = {}
 
 
 function loadData(callback) {
   // Load the json data file
-  
+
   fetch(JSON_PATH).then(function(res){
     return res.json()
   })
   .then(function(data){
     callback(data)
-  })
+    })
 }
 
 
 function calculateTotals(prefectures) {
   // Calculate the totals
-  
-  let totals = {
+
+  const totals = {
     confirmed: 0,
     recovered: 0,
     deceased: 0,
   }
-  
-  prefectures.map(function(pref){
+
+  for (let i = 0; i < prefectures.length; i++) {
+    const pref = prefectures[i];
+    prefectureCaseLookup[pref.prefecture] = pref.cases && pref.cases > 0 ? pref.cases : 0;
+
     // TODO change to confirmed
-    totals.confirmed += (pref.cases?parseInt(pref.cases):0)
-    totals.recovered += (pref.recovered?parseInt(pref.recovered):0)
+    totals.confirmed += (pref.cases ? parseInt(pref.cases) : 0)
+    totals.recovered += (pref.recovered ? parseInt(pref.recovered) : 0)
     // TODO changed to deceased
-    totals.deceased += (pref.deaths?parseInt(pref.deaths):0)
-    
-  })
-  
+    totals.deceased += (pref.deaths ? parseInt(pref.deaths) : 0)
+  }
+
   return totals
 }
 
@@ -68,8 +71,8 @@ function drawMap() {
     minZoom: 3.5,
     maxZoom: 7,
     center: {
-        lng: 139.11792973051274,
-        lat: 38.52245616545571
+      lng: 139.11792973051274,
+      lat: 38.52245616545571
     },
     maxBounds: [
       {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
@@ -88,7 +91,7 @@ function drawMap() {
 
 
 function drawTrendChart(sheetTrend) {
-  
+
   let lastUpdated = ''
   let labelSet = []
   let confirmedSet = []
@@ -115,57 +118,57 @@ function drawTrendChart(sheetTrend) {
       x: new Date(trendData.date),
       y: prevConfirmed === -1 ? 0 : parseInt(trendData.confirmed) - prevConfirmed
     })
-    
+
     prevConfirmed = parseInt(trendData.confirmed)
     lastUpdated = trendData.date
   })
-  
+
   var ctx = document.getElementById('trend-chart').getContext('2d')
   Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
   Chart.defaults.global.defaultFontSize = 16
   Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
-  
+
   var chart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: labelSet,
-        datasets: [
-          {
-            label: 'Deceased',
-            borderColor: COLOR_DECEASED,
-            backgroundColor: COLOR_DECEASED,
-            fill: false,
-            data: deceasedSet
-          },
-          {
-            label: 'Recovered',
-            borderColor: COLOR_RECOVERED,
-            backgroundColor: COLOR_RECOVERED,
-            fill: false,
-            data: recoveredSet
-          },
-          {
-            label: 'Confirmed',
-            borderColor: COLOR_CONFIRMED,
-            backgroundColor: COLOR_CONFIRMED,
-            fill: false,
-            data: confirmedSet
-          },
-          {
-            label: 'Daily Increase',
-            borderColor: COLOR_INCREASE,
-            backgroundColor: COLOR_INCREASE,
-            fill: false,
-            data: dailyIncreaseSet
-          }
-        ]
+      labels: labelSet,
+      datasets: [
+        {
+          label: 'Deceased',
+          borderColor: COLOR_DECEASED,
+          backgroundColor: COLOR_DECEASED,
+          fill: false,
+          data: deceasedSet
+        },
+        {
+          label: 'Recovered',
+          borderColor: COLOR_RECOVERED,
+          backgroundColor: COLOR_RECOVERED,
+          fill: false,
+          data: recoveredSet
+        },
+        {
+          label: 'Confirmed',
+          borderColor: COLOR_CONFIRMED,
+          backgroundColor: COLOR_CONFIRMED,
+          fill: false,
+          data: confirmedSet
+        },
+        {
+          label: 'Daily Increase',
+          borderColor: COLOR_INCREASE,
+          backgroundColor: COLOR_INCREASE,
+          fill: false,
+          data: dailyIncreaseSet
+        }
+      ]
     },
     options: {
       maintainAspectRatio: false,
       responsive: true,
       elements: {
         line: {
-            tension: 0.1
+          tension: 0.1
         }
       },
       legend: {
@@ -198,13 +201,13 @@ function drawTrendChart(sheetTrend) {
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
-  
+
   let dataTable = document.querySelector('#prefectures-table tbody')
   let unspecifiedRow = ''
-  
+
   // Remove the loading cell
   dataTable.innerHTML = ''
-  
+
   // Parse values so we can sort
   _.map(prefectures, function(pref){
     // TODO change to confirmed
@@ -219,14 +222,14 @@ function drawPrefectureTable(prefectures, totals) {
     if(!pref.confirmed && !pref.recovered && !pref.deceased){
       return
     }
-    
+
     let prefStr
     if(LANG == 'en'){
         prefStr = pref.prefecture
     }else{
       prefStr = pref.prefectureja
     }
-    
+
     // TODO Make this pretty
     
     if(pref.prefecture == 'Unspecified'){
@@ -237,9 +240,9 @@ function drawPrefectureTable(prefectures, totals) {
     }
     return true
   })
-  
+
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
-  
+
   let totalStr = 'Total'
   if(LANG == 'ja'){
     totalStr = '計'
@@ -260,7 +263,7 @@ function drawKpis(totals) {
 
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
-  
+
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
   //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
@@ -287,7 +290,7 @@ function drawMapPrefectures() {
       break;
     }
   }
-  
+
   map.addSource('prefectures', {
     type: 'geojson',
     data: PREFECTURE_JSON_PATH,
@@ -298,34 +301,44 @@ function drawMapPrefectures() {
     'match',
     ['get', 'NAME_1'],
   ]
-  
+
   // Go through all prefectures looking for cases
-  ddb.prefectures.map(function(prefecture){
-    
-    let cases = parseInt(prefecture.cases)
-    if(cases > 0){
+  for (let i = 0; i < ddb.prefectures.length; i++) {
+    const prefecture = ddb.prefectures[i]
+
+    const cases = parseInt(prefecture.cases)
+    if (cases > 0) {
       prefecturePaint.push(prefecture.prefecture)
-      
-      if(cases <= 10){
-        // 1-10 cases
-        prefecturePaint.push('rgb(253,234,203)')
-      }else if(cases <= 25){
-        // 11-25 cases
-        prefecturePaint.push('rgb(251,155,127)')
-      }else if(cases <= 50){
-        // 26-50 cases
-        prefecturePaint.push('rgb(244,67,54)')
-      }else{
-        // 51+ cases
-        prefecturePaint.push('rgb(186,0,13)')
+      let color = '';
+
+      const CASE_COLORS = {
+        UNTIL_10: 'rgb(253,234,203)',
+        UNTIL_25: 'rgb(251,155,127)',
+        UNTIL_50: 'rgb(244,67,54)',
+        PLUS_51: 'rgb(186,0,13)'
       }
+
+      if (cases <= 10) {
+        // 1-10 cases
+        color = CASE_COLORS.UNTIL_10
+      } else if (cases <= 25) {
+        // 11-25 cases
+        color = CASE_COLORS.UNTIL_25
+      } else if (cases <= 50) {
+        // 26-50 cases
+        color = CASE_COLORS.UNTIL_50
+      } else {
+        // 51+ cases
+        color = CASE_COLORS.PLUS_51
+      }
+
+      prefecturePaint.push(color)
     }
-    
-  })
-  
+  }
+
   // Add a final value to the list for the default color
   prefecturePaint.push('rgba(0,0,0,0)')
-  
+
   // Add the prefecture color layer to the map
   map.addLayer({
     'id': 'prefecture-layer',
@@ -337,13 +350,36 @@ function drawMapPrefectures() {
       'fill-opacity': 0.8,
     }
   }, firstSymbolId)
-  
+
+  // Create a popup
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false
+  });
+
+  map.on('mouseenter', 'prefecture-layer', function (e) {
+    const coordinates = e.features[0].geometry.coordinates.slice();
+    const hoveredPrefecture = e.features[0].properties.NAME_1
+
+    // Some cities around Nagasaki are undefined
+    const cases = prefectureCaseLookup[hoveredPrefecture] || "?";
+
+    popup
+      .setLngLat({ lat: e.lngLat.lat, lng: e.lngLat.lng })
+      .setHTML(cases)
+      .addTo(map);
+  });
+
+  map.on('mouseleave', 'prefecture-layer', function () {
+    map.getCanvas().style.cursor = '';
+    popup.remove();
+  });
 }
 
 
 function initDataTranslate() {
   // Handle language switching
-  
+
   const selector = '[data-ja]'
   const parseNode = function(cb) {
     document.querySelectorAll(selector).forEach(cb)
@@ -359,20 +395,20 @@ function initDataTranslate() {
     pick.addEventListener('click', function(e){
       e.preventDefault()
       LANG = e.target.dataset.langPicker
-      
+
       // Toggle the html lang tags
       parseNode(function(el) {
         if (!el.dataset[LANG]) return;
         el.textContent = el.dataset[LANG]
       })
-      
+
       // Update the map
       map.getStyle().layers.forEach(function(thisLayer){
         if(thisLayer.type == 'symbol'){
           map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
         }
       })
-  
+
       // Redraw the prefectures table
       if(document.getElementById('prefectures-table')){
         drawPrefectureTable(ddb.prefectures, ddb.totals)
