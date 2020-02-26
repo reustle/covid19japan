@@ -231,9 +231,9 @@ function drawPrefectureTable(prefectures, totals) {
     
     if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = `<tr><td><em>${prefStr}</em></td><td>${pref.confirmed}</td><td>${pref.recovered}</td><td>${pref.deaths}</td></tr>`
+      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + pref.recovered + "</td><td>" + pref.deaths + "</td></tr>"
     }else{
-      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefStr}</td><td>${pref.confirmed}</td><td></td><td>${(pref.deceased?pref.deceased:'')}</td></tr>`
+      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td></td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
     }
     return true
   })
@@ -245,7 +245,7 @@ function drawPrefectureTable(prefectures, totals) {
     totalStr = '計'
   }
   
-  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totals.confirmed}</td><td>${totals.recovered}</td><td>${totals.deceased}</td></tr>`
+  dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
 
@@ -271,7 +271,7 @@ function drawLastUpdated(lastUpdated) {
 function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
   
-  document.title = `(${confirmed}) ${PAGE_TITLE}`
+  document.title = "(" + confirmed + ") " + PAGE_TITLE
 }
 
 
