@@ -10,6 +10,7 @@ const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
+const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
 
@@ -162,7 +163,9 @@ function drawTrendChart(sheetTrend) {
   let confirmedSet = []
   let recoveredSet = []
   let deceasedSet = []
-  
+  let dailyIncreaseSet = []
+
+  let prevConfirmed = -1
   sheetTrend.map(function(trendData){
     labelSet.push(new Date(trendData.date))
     confirmedSet.push({
@@ -177,7 +180,12 @@ function drawTrendChart(sheetTrend) {
       x: new Date(trendData.date),
       y: parseInt(trendData.deceased)
     })
+    dailyIncreaseSet.push({
+      x: new Date(trendData.date),
+      y: prevConfirmed === -1 ? 0 : parseInt(trendData.confirmed) - prevConfirmed
+    })
     
+    prevConfirmed = parseInt(trendData.confirmed)
     lastUpdated = trendData.date
   })
   
@@ -211,6 +219,13 @@ function drawTrendChart(sheetTrend) {
             backgroundColor: COLOR_CONFIRMED,
             fill: false,
             data: confirmedSet
+          },
+          {
+            label: 'Daily Increase',
+            borderColor: COLOR_INCREASE,
+            backgroundColor: COLOR_INCREASE,
+            fill: false,
+            data: dailyIncreaseSet
           }
         ]
     },
