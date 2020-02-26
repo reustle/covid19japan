@@ -41,6 +41,10 @@
   />
 </head>
 <body>
+  <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
+  <script>
+    Sentry.init({ dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034' })
+  </script>
   
   {{ content }}
   
