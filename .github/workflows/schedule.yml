@@ -10,5 +10,3 @@ jobs:
     - uses: actions/checkout@master
     - name: Fetch data
       uses: ./actions/get-data
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
