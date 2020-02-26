@@ -46,20 +46,41 @@ layout: base
   (function(){
     document.body.classList.add('embed-mode')
     
+    if(typeof drawMap === 'undefined'){
+      return
+    }
+    
     drawMap()
-
-    // TODO This should load the data in parallel
+    
+    var styleLoaded = false
+    var jsonData = undefined
+    
+    function whenMapAndDataReady(){
+      if(!styleLoaded || !jsonData){
+        return
+      }
+      
+      drawMapPrefectures(ddb.prefectures)
+    }
+    
     map.once('style.load', function(e) {
-      loadPrefectureData(function(prefData){
-        ddb.prefectures = prefData
-        
-        ddb.totals = calculateTotals(prefData)
-
-        drawKpis(ddb.totals)
-        drawPageTitleCount(ddb.totals.confirmed)
-        drawMapPrefectures(ddb.prefectures)
-      })
+      styleLoaded = true
+      whenMapAndDataReady()
     })
+    
+    loadData(function(data){
+      jsonData = data
+      
+      ddb.prefectures = jsonData.prefectures
+      ddb.totals = calculateTotals(jsonData.prefectures)
+      ddb.trend = jsonData.daily
+      ddb.lastUpdated = jsonData.updated[0].lastupdated
+      
+      drawKpis(ddb.totals)
+      
+      whenMapAndDataReady()
+    })
+
   })()
 </script>
 

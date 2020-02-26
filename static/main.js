@@ -2,10 +2,7 @@
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
-const SHEET_ID = '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ'
-const SHEET_PREFECTURES_TAB = 2
-const SHEET_DAILY_SUM_TAB = 3
-const SHEET_LAST_UPDATED_TAB = 4
+const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
@@ -27,80 +24,14 @@ let ddb = {
 let map = undefined
 
 
-function loadPrefectureData(callback) {
-  // Load the prefectures tab of the
-  // spreadsheet using drive-db
+function loadData(callback) {
+  // Load the json data file
   
-  function validate(data) {
-    // Make sure we've loaded the correct sheet
-
-    if(data.length && data[0] && data[0].prefecture && data[0].prefecture.length > 0){
-      return true
-    }
-    return false
-  }
-  
-  drive({
-    sheet: SHEET_ID,
-    tab: SHEET_PREFECTURES_TAB,
+  fetch(JSON_PATH).then(function(res){
+    return res.json()
   })
-  .then((data) => {
-    if(!validate(data)){
-      console.error('Error validating prefectures sheet')
-      return
-    }
-    
-    if(callback){ callback(data) }
-  })
-  .catch((error) => {
-    console.error('Error Loading Sheet: ', error);
-  })
-  
-}
-
-
-function loadTrendData(callback) {
-  
-  function validate(data) {
-    if(data.length && data[0] && data[0].date && data[0].confirmed){
-      return true
-    }
-    return false
-  }
-
-  drive({
-    sheet: SHEET_ID,
-    tab: SHEET_DAILY_SUM_TAB,
-  })
-  .then((data) => {
-    if(!validate(data)){
-      console.error('Error validating daily sum sheet')
-      return
-    }
-
-    if(callback){ callback(data) }
-  })
-  .catch((error) => {
-    console.error('Error Loading Sheet: ', error);
-  })
-
-}
-
-
-function loadLastUpdatedTime(callback) {
-  drive({
-    sheet: SHEET_ID,
-    tab: SHEET_LAST_UPDATED_TAB,
-  })
-  .then((data) => {
-    if(data.length){
-      callback(data[0].lastupdated)
-      return
-    }
-    return false
-  })
-  .catch((error) => {
-    console.error('Error Loading Sheet: ', error);
+  .then(function(data){
+    callback(data)
   })
 }
 
