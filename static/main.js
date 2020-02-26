@@ -5,17 +5,24 @@ const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const SHEET_ID = '1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ'
 const SHEET_PREFECTURES_TAB = 2
 const SHEET_DAILY_SUM_TAB = 3
+const SHEET_LAST_UPDATED_TAB = 4
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
 const COLOR_INCREASE = 'rgb(123,71,19)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
+let LANG = 'en'
 
 // Global vars
 let ddb = {
   prefectures: undefined,
-  byDay: undefined,
+  trend: undefined,
+  totals: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+  }
 }
 let map = undefined
 
@@ -43,8 +50,7 @@ function loadPrefectureData(callback) {
       return
     }
     
-    ddb.prefectures = data
-    if(callback){ callback() }
+    if(callback){ callback(data) }
   })
   .catch((error) => {
     console.error('Error Loading Sheet: ', error);
@@ -53,7 +59,7 @@ function loadPrefectureData(callback) {
 }
 
 
-function loadTrendData(callback){
+function loadTrendData(callback) {
   
   function validate(data) {
     if(data.length && data[0] && data[0].date && data[0].confirmed){
@@ -72,13 +78,52 @@ function loadTrendData(callback){
       return
     }
 
-    ddb.trendData = data
-    if(callback){ callback() }
+    if(callback){ callback(data) }
   })
   .catch((error) => {
     console.error('Error Loading Sheet: ', error);
   })
 
+}
+
+
+function loadLastUpdatedTime(callback) {
+  drive({
+    sheet: SHEET_ID,
+    tab: SHEET_LAST_UPDATED_TAB,
+  })
+  .then((data) => {
+    if(data.length){
+      callback(data[0].lastupdated)
+      return
+    }
+    return false
+  })
+  .catch((error) => {
+    console.error('Error Loading Sheet: ', error);
+  })
+}
+
+
+function calculateTotals(prefectures) {
+  // Calculate the totals
+  
+  let totals = {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+  }
+  
+  prefectures.map(function(pref){
+    // TODO change to confirmed
+    totals.confirmed += (pref.cases?parseInt(pref.cases):0)
+    totals.recovered += (pref.recovered?parseInt(pref.recovered):0)
+    // TODO changed to deceased
+    totals.deceased += (pref.deaths?parseInt(pref.deaths):0)
+    
+  })
+  
+  return totals
 }
 
 
@@ -144,18 +189,13 @@ function drawTrendChart(sheetTrend) {
     lastUpdated = trendData.date
   })
   
-  drawLastUpdated(lastUpdated)
-  
   var ctx = document.getElementById('trend-chart').getContext('2d')
   Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
   Chart.defaults.global.defaultFontSize = 16
   Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
   
   var chart = new Chart(ctx, {
-    // The type of chart we want to create
     type: 'line',
-
-    // The data for our dataset
     data: {
         labels: labelSet,
         datasets: [
@@ -189,8 +229,6 @@ function drawTrendChart(sheetTrend) {
           }
         ]
     },
-
-    // Configuration options go here
     options: {
       maintainAspectRatio: false,
       responsive: true,
@@ -227,78 +265,79 @@ function drawTrendChart(sheetTrend) {
 }
 
 
-function drawPrefectureTable(prefectures) {
+function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
   
-  let totalCases = 0
-  let totalRecovered = 0
-  let totalDeaths = 0
-  let dataTable = document.querySelector('#data-table tbody')
+  let dataTable = document.querySelector('#prefectures-table tbody')
   let unspecifiedRow = ''
   
   // Remove the loading cell
-  dataTable.removeChild(dataTable.querySelector('.loading'))
-
+  dataTable.innerHTML = ''
   
-  prefectures.map(function(pref){
-    pref.cases = parseInt(pref.cases)
+  // Parse values so we can sort
+  _.map(prefectures, function(pref){
+    // TODO change to confirmed
+    pref.confirmed = (pref.cases?parseInt(pref.cases):0)
+    pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
+    // TODO change to deceased
+    pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
   })
-  _.orderBy(prefectures, 'cases', 'desc').map(function(prefecture){
-    let cases = parseInt(prefecture.cases)
-    let recovered = 0
-    if(prefecture.recovered){
-      recovered = parseInt(prefecture.recovered)
-    }
-    let deaths = 0
-    if(prefecture.deaths){
-      deaths = parseInt(prefecture.deaths)
-    }
-    if(!cases && !recovered && !deaths){
+  
+  // Iterate through and render table rows
+  _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
+    if(!pref.confirmed && !pref.recovered && !pref.deceased){
       return
     }
     
-    totalCases += cases
-    totalRecovered += recovered
-    totalDeaths += deaths
-    
-    if(prefecture.prefecture == 'Unspecified'){
-      // Save the "Unspecified" row for the end of the table
-      
-      unspecifiedRow = `<tr><td><em>${prefecture.prefecture}</em></td><td>${prefecture.cases}</td><td>${prefecture.recovered}</td><td>${prefecture.deaths}</td></tr>`
+    let prefStr
+    if(LANG == 'en'){
+        prefStr = pref.prefecture
     }else{
-      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefecture.prefecture}</td><td>${prefecture.cases}</td><td></td><td>${(deaths?deaths:'')}</td></tr>`
+      prefStr = pref.prefectureja
+    }
+    
+    // TODO Make this pretty
+    
+    if(pref.prefecture == 'Unspecified'){
+      // Save the "Unspecified" row for the end of the table
+      unspecifiedRow = `<tr><td><em>${prefStr}</em></td><td>${pref.confirmed}</td><td>${pref.recovered}</td><td>${pref.deaths}</td></tr>`
+    }else{
+      dataTable.innerHTML = `${dataTable.innerHTML}<tr><td>${prefStr}</td><td>${pref.confirmed}</td><td></td><td>${(pref.deceased?pref.deceased:'')}</td></tr>`
     }
     return true
   })
   
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
   
-  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>Total</td><td>${totalCases}</td><td>${totalRecovered}</td><td>${totalDeaths}</td></tr>`
+  let totalStr = 'Total'
+  if(LANG == 'ja'){
+    totalStr = '計'
+  }
   
-  drawKpis(totalCases, totalRecovered, totalDeaths)
-  setPageTitleCount(totalCases)
+  dataTable.innerHTML = `${dataTable.innerHTML}<tr class="totals"><td>${totalStr}</td><td>${totals.confirmed}</td><td>${totals.recovered}</td><td>${totals.deceased}</td></tr>`
 }
 
 
-function drawKpis(confirmed, recovered, deaths) {
+function drawKpis(totals) {
   // Draw the KPI values
 
-  document.querySelector('#kpi-confirmed').innerHTML = confirmed
-  document.querySelector('#kpi-recovered').innerHTML = recovered
-  document.querySelector('#kpi-deceased').innerHTML = deaths
-
+  document.querySelector('#kpi-confirmed').innerHTML = totals.confirmed
+  document.querySelector('#kpi-recovered').innerHTML = totals.recovered
+  document.querySelector('#kpi-deceased').innerHTML = totals.deceased
 }
 
 
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
   
-  let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
-  document.getElementById('last-updated').innerHTML = prettyUpdatedTime
+  // TODO we should be parsing the date, but I
+  // don't trust the user input on the sheet
+  //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
+  document.getElementById('last-updated').innerHTML = lastUpdated
 }
 
 
-function setPageTitleCount(confirmed) {
+function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
   
   document.title = `(${confirmed}) ${PAGE_TITLE}`
@@ -329,8 +368,6 @@ function drawMapPrefectures() {
     ['get', 'NAME_1'],
   ]
   
-  // data = ddb.prefectures
-  
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
     
@@ -355,7 +392,7 @@ function drawMapPrefectures() {
     
   })
   
-  // Add the final value to use as the default color
+  // Add a final value to the list for the default color
   prefecturePaint.push('rgba(0,0,0,0)')
   
   // Add the prefecture color layer to the map
@@ -372,18 +409,48 @@ function drawMapPrefectures() {
   
 }
 
-function init() {
-  drawMap()
 
-  map.once('style.load', function(e) {
-    loadPrefectureData(function(){
-      drawMapPrefectures(ddb.prefectures)
-      drawPrefectureTable(ddb.prefectures)
+function initDataTranslate() {
+  // Handle language switching
+  
+  const selector = '[data-ja]'
+  const parseNode = cb => document.querySelectorAll(selector).forEach(cb)
+
+  // Default website is in English. Extract it as the attr data-en="..."
+  parseNode(el => {
+    el.dataset['en'] = el.textContent
+  })
+
+  // Language selector event handler
+  document.querySelectorAll('[data-lang-picker]').forEach(pick => {
+    pick.addEventListener('click', e => {
+      e.preventDefault()
+      LANG = e.target.dataset.langPicker
+      
+      // Toggle the html lang tags
+      parseNode(el => {
+        if (!el.dataset[LANG]) return;
+        el.textContent = el.dataset[LANG]
+      })
+      
+      // Update the map
+      map.getStyle().layers.forEach(function(thisLayer){
+        if(thisLayer.type == 'symbol'){
+          map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
+        }
+      })
+  
+      // Redraw the prefectures table
+      if(document.getElementById('prefectures-table')){
+        drawPrefectureTable(ddb.prefectures, ddb.totals)
+      }
+      
+      // Toggle the lang picker
+      document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
+        el.style.display = 'inline'
+      })
+      document.querySelector('a[data-lang-picker='+LANG+']').style.display = 'none'
+      
     })
   })
-
-  loadTrendData(function() {
-    drawTrendChart(ddb.trendData)
-  })
 }
-init()

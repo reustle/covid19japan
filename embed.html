@@ -1,0 +1,76 @@
+---
+layout: base
+---
+
+<section id="kpi">
+  <table>
+    <tr class="kpi-metrics">
+      <td id="kpi-confirmed"><div class="lds-dual-ring"></div></td>
+      <td id="kpi-recovered"><div class="lds-dual-ring"></div></td>
+      <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
+    </tr>
+    <tr class="kpi-labels">
+      <td>Confirmed</td>
+      <td>Recovered</td>
+      <td>Deceased</td>
+    </tr>
+  </table>
+</section>
+
+<a name="map"></a>
+<div class="center-offset">
+  <h4>COVID-19 Outbreak Map</h4>
+</div>
+<section id="map-legend">
+  <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
+  <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
+  <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
+  <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
+</section>
+<div id="map-container"></div>
+<h5>powered by <a href="https://covid19japan.com" target=")blank">COVID19Japan.com</a></h5>
+
+<footer>
+  Map built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and the team at <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, concept and design by <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a>. Contribute to this project <a href="https://github.com/reustle/covid19japan" target="_blank">on GitHub</a>.
+</footer>
+
+<!-- JS -->
+<script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/drive-db@5.0.3/index.min.js"></script>
+<script src="static/main.js"></script>
+<script>
+  (function(){
+    document.body.classList.add('embed-mode')
+    
+    drawMap()
+
+    // TODO This should load the data in parallel
+    map.once('style.load', function(e) {
+      loadPrefectureData(function(prefData){
+        ddb.prefectures = prefData
+        
+        ddb.totals = calculateTotals(prefData)
+
+        drawKpis(ddb.totals)
+        drawPageTitleCount(ddb.totals.confirmed)
+        drawMapPrefectures(ddb.prefectures)
+      })
+    })
+  })()
+</script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-2580539-41');
+</script>
+
+</body>
+</html>

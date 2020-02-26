@@ -75,18 +75,22 @@ https://docs.google.com/spreadsheets/d/1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9Mc
 
 If you would like to contribute features / refactor / etc, please open an Issue on this repo, and tag @reustle - We can then open a new Pull Request if it is deemed in line with the projects goals.
 
+To run the site locally, enter the root directory and run `jekyll serve`. Jekyll is the only dependency.
+
 
 
 ## Contributors
 
 - [Shane Reustle](https://reustle.org): Development
 - [Jiahui Zhou](https://jiahuizhou.design/): Concept, Design, and Data
+- [Francisco Presencia](https://github.com/franciscop/)
 
 
 
 ## Other Resources
 - https://jagjapan.maps.arcgis.com/apps/opsdashboard/index.html#/259ce3e3e2bf4c77876d4ecde6ea2564
-- https://coromap.web.app/
+- https://github.com/CSSEGISandData/COVID-19
 - https://twitter.com/covid19japan
 - https://twitter.com/konotarogomame
+- https://coromap.web.app/
 - https://newsdigest.jp/pages/coronavirus/
