@@ -345,21 +345,23 @@ function initDataTranslate() {
   // Handle language switching
   
   const selector = '[data-ja]'
-  const parseNode = cb => document.querySelectorAll(selector).forEach(cb)
+  const parseNode = function(cb) {
+    document.querySelectorAll(selector).forEach(cb)
+  }
 
   // Default website is in English. Extract it as the attr data-en="..."
-  parseNode(el => {
+  parseNode(function(el) {
     el.dataset['en'] = el.textContent
   })
 
   // Language selector event handler
-  document.querySelectorAll('[data-lang-picker]').forEach(pick => {
-    pick.addEventListener('click', e => {
+  document.querySelectorAll('[data-lang-picker]').forEach(function(pick) {
+    pick.addEventListener('click', function(e){
       e.preventDefault()
       LANG = e.target.dataset.langPicker
       
       // Toggle the html lang tags
-      parseNode(el => {
+      parseNode(function(el) {
         if (!el.dataset[LANG]) return;
         el.textContent = el.dataset[LANG]
       })
