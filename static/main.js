@@ -1,6 +1,5 @@
 'use strict';
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
@@ -21,7 +20,6 @@ let ddb = {
     deceased: 0,
   }
 }
-let map = undefined
 
 
 function loadData(callback) {
@@ -56,36 +54,6 @@ function calculateTotals(prefectures) {
   
   return totals
 }
-
-
-function drawMap() {
-  // Initialize Map
-
-  map = new mapboxgl.Map({
-    container: 'map-container',
-    style: 'mapbox://styles/mapbox/light-v10',
-    zoom: 4,
-    minZoom: 3.5,
-    maxZoom: 7,
-    center: {
-        lng: 139.11792973051274,
-        lat: 38.52245616545571
-    },
-    maxBounds: [
-      {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
-      {lat: 59.34721256263214, lng: 175.3273570446982} // NE
-    ]
-  })
-
-  map.dragRotate.disable()
-  map.touchZoomRotate.disableRotation()
-  map.scrollZoom.disable()
-  map.addControl(new mapboxgl.NavigationControl({
-    showCompass: false,
-    showZoom: true
-  }))
-}
-
 
 function drawTrendChart(sheetTrend) {
   
@@ -276,67 +244,37 @@ function drawPageTitleCount(confirmed) {
 
 
 function drawMapPrefectures() {
-  // Find the index of the first symbol layer
-  // in the map style so we can draw the
-  // prefecture colors behind it
-  var firstSymbolId;
-  var layers = map.getStyle().layers;
-  for(var i = 0; i < layers.length; i++) {
-    if(layers[i].type === 'symbol') {
-      firstSymbolId = layers[i].id;
-      break;
-    }
-  }
-  
-  map.addSource('prefectures', {
-    type: 'geojson',
-    data: PREFECTURE_JSON_PATH,
-  })
 
-  // Start the Mapbox search expression
-  let prefecturePaint = [
-    'match',
-    ['get', 'NAME_1'],
-  ]
-  
   // Go through all prefectures looking for cases
+  let japanMapSvg = document.querySelector(`#map-japan-svg`).contentDocument
+
   ddb.prefectures.map(function(prefecture){
-    
+    let uppercasePrefectureName = prefecture.prefecture.toUpperCase()
+    let prefecturePath = japanMapSvg.querySelector(`#${uppercasePrefectureName}`)
+    if (prefecturePath == null) {
+      console.log('Prefecture not found', uppercasePrefectureName)
+      return
+    } else {
+      console.log('Prefecture found', prefecturePath)
+    }
+
     let cases = parseInt(prefecture.cases)
-    if(cases > 0){
-      prefecturePaint.push(prefecture.prefecture)
-      
+    if(cases > 0){      
       if(cases <= 10){
         // 1-10 cases
-        prefecturePaint.push('rgb(253,234,203)')
+        prefecturePath.setAttribute('fill', 'rgb(253,234,203)')
       }else if(cases <= 25){
         // 11-25 cases
-        prefecturePaint.push('rgb(251,155,127)')
+        prefecturePath.setAttribute('fill', 'rgb(251,155,127)')
       }else if(cases <= 50){
         // 26-50 cases
-        prefecturePaint.push('rgb(244,67,54)')
+        prefecturePath.setAttribute('fill', 'rgb(244,67,54)')
       }else{
         // 51+ cases
-        prefecturePaint.push('rgb(186,0,13)')
+        prefecturePath.setAttribute('fill', 'rgb(186,0,13)')
       }
-    }
-    
+    }    
   })
-  
-  // Add a final value to the list for the default color
-  prefecturePaint.push('rgba(0,0,0,0)')
-  
-  // Add the prefecture color layer to the map
-  map.addLayer({
-    'id': 'prefecture-layer',
-    'type': 'fill',
-    'source': 'prefectures',
-    'layout': {},
-    'paint': {
-      'fill-color': prefecturePaint,
-      'fill-opacity': 0.8,
-    }
-  }, firstSymbolId)
   
 }
 
@@ -366,13 +304,6 @@ function initDataTranslate() {
         el.textContent = el.dataset[LANG]
       })
       
-      // Update the map
-      map.getStyle().layers.forEach(function(thisLayer){
-        if(thisLayer.type == 'symbol'){
-          map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
-        }
-      })
-  
       // Redraw the prefectures table
       if(document.getElementById('prefectures-table')){
         drawPrefectureTable(ddb.prefectures, ddb.totals)

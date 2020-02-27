@@ -37,7 +37,10 @@ layout: base
   <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
   <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
 </section>
-<div id="map-container"></div>
+<div id="map-japan">
+  <object type="image/svg+xml" data="/static/japan.svg" id="map-japan-svg" width="500"></object>
+  <div class="caption">Map from <a href="https://www.kabipan.com/geography/whitemap/">カビパン男と私のブログ</a></div>
+</div>
 
 <section id="chart-legend-container">
   <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
@@ -108,8 +111,6 @@ layout: base
 </footer>
 
 <!-- JS -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/moment@2.24.0/moment.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.15/lodash.min.js"></script>
@@ -117,28 +118,23 @@ layout: base
 <script src="static/main.js"></script>
 <script>
   (function(){
-    if(typeof drawMap === 'undefined'){
-      return
-    }
     
     initDataTranslate()
-    drawMap()
     
-    var styleLoaded = false
+    var mapLoaded = false
     var jsonData = undefined
     
     function whenMapAndDataReady(){
-      if(!styleLoaded || !jsonData){
+      if(!mapLoaded || !jsonData){
         return
       }
-      
-      drawMapPrefectures(ddb.prefectures)
+      drawMapPrefectures(ddb.prefectures)      
     }
-    
-    map.once('style.load', function(e) {
-      styleLoaded = true
+
+    document.querySelector('#map-japan-svg').onload = function() {
+      mapLoaded = true
       whenMapAndDataReady()
-    })
+    }
     
     loadData(function(data){
       jsonData = data

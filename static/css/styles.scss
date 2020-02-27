@@ -98,6 +98,26 @@ h1 {
   border-radius: 6px;
 }
 
+#map-japan {
+  width: 100%;
+  background: #cad2d3;
+  max-width: 650px;
+  margin: 0px auto;
+  border-radius: 6px;
+}
+
+.caption {
+  font-size: 9px;
+  margin: 8px;
+  color: rgba(128, 128, 128, 1);
+  text-align: right;
+}
+
+.caption a {
+  color: rgba(128, 128, 128, 1);
+
+}
+
 #map-legend {
   padding-top: 0px;
   padding-bottom: 10px;
