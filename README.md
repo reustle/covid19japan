@@ -95,3 +95,4 @@ To run the site locally, enter the root directory and run `jekyll serve`. Jekyll
 - https://twitter.com/konotarogomame
 - https://coromap.web.app/
 - https://newsdigest.jp/pages/coronavirus/
+- https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/
