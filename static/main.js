@@ -11,6 +11,18 @@ const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
 
+// IE11 forEach Polyfill
+if ('NodeList' in window && !NodeList.prototype.forEach) {
+  console.info('polyfill for IE11');
+  NodeList.prototype.forEach = function (callback, thisArg) {
+    thisArg = thisArg || window;
+    for (var i = 0; i < this.length; i++) {
+      callback.call(thisArg, this[i], i, this);
+    }
+  };
+}
+
+
 // Global vars
 let ddb = {
   prefectures: undefined,
