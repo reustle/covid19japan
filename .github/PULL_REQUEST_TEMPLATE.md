@@ -1,1 +1,1 @@
-// Please assign @reustle to your newly created PR
+// Please tag @reustle in your newly created PR
