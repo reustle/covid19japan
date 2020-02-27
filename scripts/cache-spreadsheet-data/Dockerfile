@@ -5,13 +5,10 @@ LABEL "com.github.actions.description"="Get latest data"
 LABEL "com.github.actions.icon"="arrow-up-right"
 LABEL "com.github.actions.color"="blue"
 
-# Copy the package.json and package-lock.json
-COPY package*.json /
+WORKDIR /src/
+COPY ./package*.json /src/
+RUN npm ci --no-progress
 
-RUN npm ci
+COPY ./ /src/
 
-# Copy the rest of your action's code
-COPY * /
-
-# Run `node /index.js`
-ENTRYPOINT ["node", "/index.js"]
+ENTRYPOINT ["node", "/src/run-once.js"]
