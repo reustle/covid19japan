@@ -12,7 +12,7 @@ jobs:
       AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
       AWS_S3_BUCKET_LOCATION: ${{ secrets.AWS_S3_BUCKET_LOCATION }}
       AWS_S3_BUCKET_ALLOWED_ORIGINS: ${{ secrets.AWS_S3_BUCKET_ALLOWED_ORIGINS }}
-      S3_FILENAME: ${{ secrets.S3_FILENAME }}
+      S3_FILENAME: data.json
     steps:
     - uses: actions/checkout@master
     - name: Fetch data
