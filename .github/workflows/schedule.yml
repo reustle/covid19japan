@@ -6,6 +6,7 @@ jobs:
   getLatestData:
     name: Get latest data
     runs-on: ubuntu-latest
+    if: github.repository == 'reustle/covid19japan'
     env:
       AWS_S3_ID: ${{ secrets.AWS_S3_ID }}
       AWS_S3_SECRET: ${{ secrets.AWS_S3_SECRET }}
