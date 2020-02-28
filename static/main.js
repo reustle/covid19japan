@@ -258,11 +258,11 @@ function drawPageTitleCount(confirmed) {
 function drawMapPrefectures() {
 
   // Go through all prefectures looking for cases
-  let japanMapSvg = document.querySelector(`#map-japan-svg`).contentDocument
+  let japanMapSvg = document.querySelector('#map-japan-svg').contentDocument
 
   ddb.prefectures.map(function(prefecture){
     let uppercasePrefectureName = prefecture.prefecture.toUpperCase()
-    let prefecturePath = japanMapSvg.querySelector(`#${uppercasePrefectureName}`)
+    let prefecturePath = japanMapSvg.querySelector('#' + uppercasePrefectureName)
     if (prefecturePath == null) {
       return
     }
