@@ -89,21 +89,16 @@ h1 {
   }
 }
 
-#map-container {
-  width: 100%;
-  height: 400px;
+#map-japan {
+  width: 95vw;
   background: #cad2d3;
   max-width: 650px;
   margin: 0px auto;
   border-radius: 6px;
 }
 
-#map-japan {
+#map-japan-svg {
   width: 100%;
-  background: #cad2d3;
-  max-width: 650px;
-  margin: 0px auto;
-  border-radius: 6px;
 }
 
 .caption {

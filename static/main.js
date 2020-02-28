@@ -252,10 +252,7 @@ function drawMapPrefectures() {
     let uppercasePrefectureName = prefecture.prefecture.toUpperCase()
     let prefecturePath = japanMapSvg.querySelector(`#${uppercasePrefectureName}`)
     if (prefecturePath == null) {
-      console.log('Prefecture not found', uppercasePrefectureName)
       return
-    } else {
-      console.log('Prefecture found', prefecturePath)
     }
 
     let cases = parseInt(prefecture.cases)
