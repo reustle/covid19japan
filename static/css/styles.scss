@@ -1,12 +1,14 @@
 ---
 ---
 
+$primary-black: #000a12;
+
 body {
   margin: 0px;
   font-family: 'Open Sans', helvetica, sans-serif;
   line-height: 25px;
-  color: #000a12;
-  font-size: 21px;
+  color: $primary-black;
+  font-size: 16px;
 }
 h1 {
   font-size: 48px;
@@ -24,9 +26,6 @@ h5 {
   text-align: right;
   margin: 5px auto 0px auto;
   max-width: 650px;
-}
-small {
-  font-size: 16px;
 }
 section, header, footer {
   padding: 30px 10px;
@@ -57,8 +56,55 @@ h1 {
   font-size: 24px;
 }
 
+#lastUpdatedContainer {
+  margin-top: 10px;
+}
+
 #kpi {
   padding-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: center;
+  
+  >div {
+    width: 30%;
+    margin-bottom: 35px;
+    
+    .diff {
+      margin-bottom: 8px;
+      font-weight: 700;
+    }
+    .value {
+      font-size: 32px;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+    .label {
+      color: $primary-black;
+      font-weight: 700;
+    }
+  }
+  
+  #kpi-confirmed {
+    color: rgb(244,67,52);
+  }
+  #kpi-recovered {
+    color: rgb(24,118,211);
+  }
+  #kpi-deceased {
+    color: rgb(54,72,79);
+  }
+  #kpi-critical {
+    color:  rgb(114,4,5);
+  }
+  #kpi-tested {
+    color: rgb(164,173,192);
+  }
+  #kpi-active {
+    color: rgb(223,14,31);
+  }
+  
   
   table {
     text-align: center;
@@ -75,18 +121,8 @@ h1 {
     font-size: 18px;
     font-weight: 700;
   }
+  
 
-  #kpi-confirmed {
-    color: rgb(244,67,54);
-  }
-
-  #kpi-recovered {
-    color: rgb(25,118,210);
-  }
-
-  #kpi-deceased {
-    color: rgb(55,71,79);
-  }
 }
 
 #map-container {
@@ -161,11 +197,11 @@ h1 {
 #prefectures-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0px 5px;
-  font-size: 16px;
+  border-spacing: 0px;
+  font-size: 14px;
 
   tr:nth-child(even) {
-    background-color: #eaeff1;
+    background-color: rgb(244,247,248);
   }
   th {
     text-align: left;
@@ -197,12 +233,6 @@ footer {
   line-height: 34px;
   a, a:active {
     color: #1976d2 !important;
-  }
-}
-
-.embed-mode {
-  footer {
-    font-size: 16px;
   }
 }
 
