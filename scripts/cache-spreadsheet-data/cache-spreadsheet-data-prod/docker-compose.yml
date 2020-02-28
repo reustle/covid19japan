@@ -4,8 +4,10 @@ services:
   app:
     build:
       context: ../
-      dockerfile: ./cache-spreadsheet-data-prod/Dockerfile
+      dockerfile: ./Dockerfile
     env_file:
       - ./.env
     restart: always
-    command: node cache-sheet.js
+    entrypoint:
+      - node
+      - /src/run-task.js

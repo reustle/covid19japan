@@ -1,0 +1,20 @@
+on:
+  schedule:
+  - cron: '*/5 * * * *'
+name: Get Latest Data
+jobs:
+  getLatestData:
+    name: Get latest data
+    runs-on: ubuntu-latest
+    if: github.repository == 'reustle/covid19japan'
+    env:
+      AWS_S3_ID: ${{ secrets.AWS_S3_ID }}
+      AWS_S3_SECRET: ${{ secrets.AWS_S3_SECRET }}
+      AWS_S3_BUCKET_NAME: ${{ secrets.AWS_S3_BUCKET_NAME }}
+      AWS_S3_BUCKET_LOCATION: ${{ secrets.AWS_S3_BUCKET_LOCATION }}
+      AWS_S3_BUCKET_ALLOWED_ORIGINS: ${{ secrets.AWS_S3_BUCKET_ALLOWED_ORIGINS }}
+      S3_FILENAME: data.json
+    steps:
+    - uses: actions/checkout@master
+    - name: Fetch data
+      uses: ./scripts/cache-spreadsheet-data

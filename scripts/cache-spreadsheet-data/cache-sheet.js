@@ -11,8 +11,6 @@ function getEnv(name) {
   return value;
 }
 
-const UPLOAD_INTERVAL_SEC = 60 * 5;
-
 /// AWS https://covid19japan.s3-ap-northeast-1.amazonaws.com/data.json
 
 const ID = getEnv("AWS_S3_ID");
@@ -138,15 +136,11 @@ async function task() {
   console.log("Ok!");
 }
 
-async function main() {
+
+async function setup() {
   console.log("Creating bucket...");
   await createBucket();
-
-  console.log("Running task on start...");
-  await task();
-
-  console.log("Creating task...");
-  setInterval(task, UPLOAD_INTERVAL_SEC * 1000.0);
 }
 
-main();
+exports.setup = setup;
+exports.task = task;
