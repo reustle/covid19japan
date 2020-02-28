@@ -3,19 +3,38 @@ layout: base
 ---
 
 <section id="kpi">
-  <table>
-    <tr class="kpi-metrics">
-      <td id="kpi-confirmed"><div class="lds-dual-ring"></div></td>
-      <td id="kpi-recovered"><div class="lds-dual-ring"></div></td>
-      <td id="kpi-deceased"><div class="lds-dual-ring"></div></td>
-    </tr>
-    <tr class="kpi-labels">
-      <td>Confirmed</td>
-      <td>Recovered</td>
-      <td>Deceased</td>
-    </tr>
-  </table>
+  <div id="kpi-active" data-tippy-content="Tooltip">
+    <div class="diff">( +0 )</div>
+    <div class="value"><div class="lds-dual-ring"></div></div>
+    <div class="label" data-ja="既存感染者数">Active</div>
+  </div>
+  <div id="kpi-critical">
+    <div class="diff">( +0 )</div>
+    <div class="value"><div class="lds-dual-ring"></div></div>
+    <div class="label" data-ja="重症者数">Critical</div>
+  </div>
+  <div id="kpi-deceased">
+    <div class="diff">( +0 )</div>
+    <div class="value"><div class="lds-dual-ring"></div></div>
+    <div class="label" data-ja="死亡者数">Deaths</div>
+  </div>
+  <div id="kpi-tested">
+    <div class="diff">( +0 )</div>
+    <div class="value"><div class="lds-dual-ring"></div></div>
+    <div class="label" data-ja="検査実施人数">Tested</div>
+  </div>
+  <div id="kpi-confirmed">
+    <div class="diff">( +0 )</div>
+    <div class="value"><div class="lds-dual-ring"></div></div>
+    <div class="label" data-ja="感染者数">Confirmed</div>
+  </div>
+  <div id="kpi-recovered">
+    <div class="diff">( +0 )</div>
+    <div class="value"><div class="lds-dual-ring"></div></div>
+    <div class="label" data-ja="回復者数">Recovered</div>
+  </div>
 </section>
+
 
 <a name="map"></a>
 <div class="center-offset">
@@ -69,11 +88,13 @@ layout: base
       jsonData = data
       
       ddb.prefectures = jsonData.prefectures
-      ddb.totals = calculateTotals(jsonData.prefectures)
+      let newTotals = calculateTotals(jsonData.daily)
+      ddb.totals = newTotals[0]
+      ddb.totalsDiff = newTotals[1]
       ddb.trend = jsonData.daily
       ddb.lastUpdated = jsonData.updated[0].lastupdated
       
-      drawKpis(ddb.totals)
+      drawKpis(ddb.totals, ddb.totalsDiff)
       
       whenMapAndDataReady()
     })
