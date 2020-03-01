@@ -32,7 +32,7 @@ https://docs.google.com/spreadsheets/d/1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9Mc
 |Mie    |[新型コロナウイルス感染症に関連した肺炎患者の発生について](https://www.pref.mie.lg.jp/YAKUMUS/HP/m0068000066.htm)|
 |Nara    |[新型コロナウイルス感染症の患者の発生について](http://www.pref.nara.jp/1652.htm#moduleid17426)|
 |Okinawa    ||
-|Osaka    ||
+|Osaka    | [新型コロナウイルス感染症について](http://www.pref.osaka.lg.jp/iryo/osakakansensho/corona.html)|
 |Akita    ||
 |Aomori    ||
 |Ehime    ||
