@@ -22,7 +22,7 @@ let ddb = {
     tested: 0,
     critical: 0
   },
-   totalsDiff: {
+  totalsDiff: {
     confirmed: 0,
     recovered: 0,
     deceased: 0,
@@ -60,7 +60,7 @@ function loadData(callback) {
 
 function calculateTotals(daily) {
   // Calculate the totals
-  
+
   let totals = {
     confirmed: 0,
     recovered: 0,
@@ -75,7 +75,7 @@ function calculateTotals(daily) {
     critical: 1,
     tested: 1
   }
-  
+
   // If there is an empty cell, fall back to the previous row
   function pullLatestSumAndDiff(key) {
     if(daily[daily.length-1][key].length){
@@ -86,7 +86,7 @@ function calculateTotals(daily) {
       totalsDiff[key] = totals[key] - parseInt(daily[daily.length-3][key])
     }
   }
-  
+
   pullLatestSumAndDiff('tested')
   pullLatestSumAndDiff('critical')
   pullLatestSumAndDiff('confirmed')
@@ -107,8 +107,8 @@ function drawMap() {
     minZoom: 3.5,
     maxZoom: 7,
     center: {
-        lng: 139.11792973051274,
-        lat: 38.52245616545571
+      lng: 139.11792973051274,
+      lat: 38.52245616545571
     },
     maxBounds: [
       {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
@@ -127,7 +127,7 @@ function drawMap() {
 
 
 function drawTrendChart(sheetTrend) {
-  
+
   let lastUpdated = ''
   let labelSet = []
   let confirmedSet = []
@@ -154,57 +154,57 @@ function drawTrendChart(sheetTrend) {
       x: new Date(trendData.date),
       y: prevConfirmed === -1 ? 0 : parseInt(trendData.confirmed) - prevConfirmed
     })
-    
+
     prevConfirmed = parseInt(trendData.confirmed)
     lastUpdated = trendData.date
   })
-  
+
   var ctx = document.getElementById('trend-chart').getContext('2d')
   Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
   Chart.defaults.global.defaultFontSize = 16
   Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
-  
+
   var chart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: labelSet,
-        datasets: [
-          {
-            label: 'Deceased',
-            borderColor: COLOR_DECEASED,
-            backgroundColor: COLOR_DECEASED,
-            fill: false,
-            data: deceasedSet
-          },
-          {
-            label: 'Recovered',
-            borderColor: COLOR_RECOVERED,
-            backgroundColor: COLOR_RECOVERED,
-            fill: false,
-            data: recoveredSet
-          },
-          {
-            label: 'Confirmed',
-            borderColor: COLOR_CONFIRMED,
-            backgroundColor: COLOR_CONFIRMED,
-            fill: false,
-            data: confirmedSet
-          },
-          {
-            label: 'Daily Increase',
-            borderColor: COLOR_INCREASE,
-            backgroundColor: COLOR_INCREASE,
-            fill: false,
-            data: dailyIncreaseSet
-          }
-        ]
+      labels: labelSet,
+      datasets: [
+        {
+          label: 'Deceased',
+          borderColor: COLOR_DECEASED,
+          backgroundColor: COLOR_DECEASED,
+          fill: false,
+          data: deceasedSet
+        },
+        {
+          label: 'Recovered',
+          borderColor: COLOR_RECOVERED,
+          backgroundColor: COLOR_RECOVERED,
+          fill: false,
+          data: recoveredSet
+        },
+        {
+          label: 'Confirmed',
+          borderColor: COLOR_CONFIRMED,
+          backgroundColor: COLOR_CONFIRMED,
+          fill: false,
+          data: confirmedSet
+        },
+        {
+          label: 'Daily Increase',
+          borderColor: COLOR_INCREASE,
+          backgroundColor: COLOR_INCREASE,
+          fill: false,
+          data: dailyIncreaseSet
+        }
+      ]
     },
     options: {
       maintainAspectRatio: false,
       responsive: true,
       elements: {
         line: {
-            tension: 0.1
+          tension: 0.1
         }
       },
       legend: {
@@ -237,13 +237,13 @@ function drawTrendChart(sheetTrend) {
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
-  
+
   let dataTable = document.querySelector('#prefectures-table tbody')
   let unspecifiedRow = ''
-  
+
   // Remove the loading cell
   dataTable.innerHTML = ''
-  
+
   // Parse values so we can sort
   _.map(prefectures, function(pref){
     // TODO change to confirmed
@@ -252,7 +252,7 @@ function drawPrefectureTable(prefectures, totals) {
     // TODO change to deceased
     pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
   })
-  
+
   // Iterate through and render table rows
   _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
     if(!pref.confirmed && !pref.recovered && !pref.deceased){
@@ -278,21 +278,33 @@ function drawPrefectureTable(prefectures, totals) {
     }
     return true
   })
-  
+
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
-  
+
   let totalStr = 'Total'
   if(LANG == 'ja'){
     totalStr = '計'
   }
-  
+
   dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
+function unDrawKpis() {
+  var keys = ['confirmed', 'recovered', 'deceased', 'critical', 'tested', 'active'];
+  var defaultValue = 0
+  var loading = '<div class="lds-dual-ring"></div>'
+
+  for (let i = 0; i < keys.length; i++) {
+    const k = keys[i];
+    
+    document.querySelector('#kpi-' + k + ' .value').innerHTML = loading
+    document.querySelector('#kpi-' + k + ' .diff').innerHTML = '( ' + defaultValue + ' )'
+  }
+}
 
 function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
-  
+
   function setKpi(key, value) {
     document.querySelector('#kpi-' + key + ' .value').innerHTML = value
   }
@@ -319,7 +331,7 @@ function drawKpis(totals, totalsDiff) {
 
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
-  
+
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
   //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
@@ -329,12 +341,15 @@ function drawLastUpdated(lastUpdated) {
 
 function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
-  
+
   document.title = "(" + confirmed + ") " + PAGE_TITLE
 }
 
-
-function drawMapPrefectures() {
+/**
+ * drawMapPrefectures
+ * @param {*} pageDraws - number of redraws to screen
+ */
+function drawMapPrefectures(pageDraws) {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
@@ -346,18 +361,35 @@ function drawMapPrefectures() {
       break;
     }
   }
+
+  if (pageDraws === 0) {
+    map.addSource('prefectures', {
+      type: 'geojson',
+      data: PREFECTURE_JSON_PATH,
+    })
   
-  map.addSource('prefectures', {
-    type: 'geojson',
-    data: PREFECTURE_JSON_PATH,
-  })
+    // Add another layer as line to provide
+    // a styled prefecture border
+
+    let prefBorderLayer = map.addLayer({
+      'id': 'prefecture-outline-layer',
+      'type': 'line',
+      'source': 'prefectures',
+      'layout': {},
+      'paint': {
+        'line-width': 0.5,
+        'line-color': '#c0c0c0',
+        'line-opacity': 0.5
+      }
+    }, firstSymbolId)
+  }
 
   // Start the Mapbox search expression
   let prefecturePaint = [
     'match',
     ['get', 'NAME_1'],
   ]
-  
+
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
     
@@ -381,12 +413,17 @@ function drawMapPrefectures() {
     }
     
   })
-  
+
   // Add a final value to the list for the default color
   prefecturePaint.push('rgba(0,0,0,0)')
-  
+
+  // Remove layer if already drawn
+  if (pageDraws > 0) {
+    map.removeLayer('prefecture-layer')
+  }
+
   // Add the prefecture color layer to the map
-  let prefLayer = map.addLayer({
+  map.addLayer({
     'id': 'prefecture-layer',
     'type': 'fill',
     'source': 'prefectures',
@@ -396,27 +433,12 @@ function drawMapPrefectures() {
       'fill-opacity': 0.8
     }
   }, firstSymbolId)
-  
-  // Add another layer as line to provide
-  // a styled prefecture border
-  let prefBorderLayer = map.addLayer({
-    'id': 'prefecture-outline-layer',
-    'type': 'line',
-    'source': 'prefectures',
-    'layout': {},
-    'paint': {
-      'line-width': 0.5,
-      'line-color': '#c0c0c0',
-      'line-opacity': 0.5
-    }
-  }, firstSymbolId)
-  
 }
 
 
 function initDataTranslate() {
   // Handle language switching
-  
+
   const selector = '[data-ja]'
   const parseNode = function(cb) {
     document.querySelectorAll(selector).forEach(cb)
