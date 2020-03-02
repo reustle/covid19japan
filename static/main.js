@@ -10,6 +10,27 @@ const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
 
+// Global vars
+let ddb = {
+  prefectures: undefined,
+  trend: undefined,
+  totals: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+    tested: 0,
+    critical: 0
+  },
+   totalsDiff: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+    tested: 0,
+    critical: 0
+  }
+}
+
+
 // IE11 forEach Polyfill
 if ('NodeList' in window && !NodeList.prototype.forEach) {
   console.info('polyfill for IE11');
@@ -21,17 +42,6 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
   };
 }
 
-
-// Global vars
-let ddb = {
-  prefectures: undefined,
-  trend: undefined,
-  totals: {
-    confirmed: 0,
-    recovered: 0,
-    deceased: 0,
-  }
-}
 
 
 function loadData(callback) {
@@ -46,25 +56,42 @@ function loadData(callback) {
 }
 
 
-function calculateTotals(prefectures) {
+function calculateTotals(daily) {
   // Calculate the totals
   
   let totals = {
     confirmed: 0,
     recovered: 0,
     deceased: 0,
+    critical: 0,
+    tested: 0
+  }
+  let totalsDiff = {
+    confirmed: 1,
+    recovered: 1,
+    deceased: 1,
+    critical: 1,
+    tested: 1
   }
   
-  prefectures.map(function(pref){
-    // TODO change to confirmed
-    totals.confirmed += (pref.cases?parseInt(pref.cases):0)
-    totals.recovered += (pref.recovered?parseInt(pref.recovered):0)
-    // TODO changed to deceased
-    totals.deceased += (pref.deaths?parseInt(pref.deaths):0)
-    
-  })
+  // If there is an empty cell, fall back to the previous row
+  function pullLatestSumAndDiff(key) {
+    if(daily[daily.length-1][key].length){
+      totals[key] = parseInt(daily[daily.length-1][key])
+      totalsDiff[key] = totals[key] - parseInt(daily[daily.length-2][key])
+    }else{
+      totals[key] = parseInt(daily[daily.length-2][key])
+      totalsDiff[key] = totals[key] - parseInt(daily[daily.length-3][key])
+    }
+  }
   
-  return totals
+  pullLatestSumAndDiff('tested')
+  pullLatestSumAndDiff('critical')
+  pullLatestSumAndDiff('confirmed')
+  pullLatestSumAndDiff('recovered')
+  pullLatestSumAndDiff('deceased')
+
+  return [totals, totalsDiff]
 }
 
 function drawTrendChart(sheetTrend) {
@@ -212,6 +239,8 @@ function drawPrefectureTable(prefectures, totals) {
     if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + pref.recovered + "</td><td>" + pref.deaths + "</td></tr>"
+    }else if (pref.prefecture == 'Total'){
+      // Skip
     }else{
       dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td></td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
     }
@@ -229,12 +258,30 @@ function drawPrefectureTable(prefectures, totals) {
 }
 
 
-function drawKpis(totals) {
+function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
+  
+  function setKpi(key, value) {
+    document.querySelector('#kpi-' + key + ' .value').innerHTML = value
+  }
+  function setKpiDiff(key, value) {
+    let diffDir = (value >= 0?'+':'')
+    document.querySelector('#kpi-' + key + ' .diff').innerHTML = '( ' + diffDir + value + ' )'
+  }
 
-  document.querySelector('#kpi-confirmed').innerHTML = totals.confirmed
-  document.querySelector('#kpi-recovered').innerHTML = totals.recovered
-  document.querySelector('#kpi-deceased').innerHTML = totals.deceased
+  setKpi('confirmed', totals.confirmed)
+  setKpiDiff('confirmed', totalsDiff.confirmed)
+  setKpi('recovered', totals.recovered)
+  setKpiDiff('recovered', totalsDiff.recovered)
+  setKpi('deceased', totals.deceased)
+  setKpiDiff('deceased', totalsDiff.deceased)
+  setKpi('critical', totals.critical)
+  setKpiDiff('critical', totalsDiff.critical)
+  setKpi('tested', totals.tested)
+  setKpiDiff('tested', totalsDiff.tested)
+  setKpi('active', (totals.confirmed - totals.recovered) - totals.deceased)
+  setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
+  
 }
 
 

@@ -32,7 +32,7 @@ https://docs.google.com/spreadsheets/d/1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9Mc
 |Mie    |[新型コロナウイルス感染症に関連した肺炎患者の発生について](https://www.pref.mie.lg.jp/YAKUMUS/HP/m0068000066.htm)|
 |Nara    |[新型コロナウイルス感染症の患者の発生について](http://www.pref.nara.jp/1652.htm#moduleid17426)|
 |Okinawa    ||
-|Osaka    ||
+|Osaka    | [新型コロナウイルス感染症について](http://www.pref.osaka.lg.jp/iryo/osakakansensho/corona.html)|
 |Akita    ||
 |Aomori    ||
 |Ehime    ||
@@ -92,6 +92,7 @@ To run the site locally, enter the root directory and run `jekyll serve`. Jekyll
 
 ## Other Resources
 - https://jagjapan.maps.arcgis.com/apps/opsdashboard/index.html#/259ce3e3e2bf4c77876d4ecde6ea2564
+- https://www.google.com/maps/d/u/0/viewer?mid=1a04iBi41DznkMaQRnICO40ktROfnMfMx&ll=37.45239782566561%2C137.6798301595186&z=6
 - https://github.com/CSSEGISandData/COVID-19
 - https://twitter.com/covid19japan
 - https://twitter.com/konotarogomame
@@ -99,3 +100,4 @@ To run the site locally, enter the root directory and run `jekyll serve`. Jekyll
 - https://newsdigest.jp/pages/coronavirus/
 - https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/
 - https://japan-cov-19.now.sh/
+- https://toyokeizai.net/sp/visual/tko/covid19/
