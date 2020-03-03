@@ -85,8 +85,7 @@ To run the site locally, enter the root directory and run `jekyll serve`. Jekyll
 
 - [Shane Reustle](https://reustle.org): Development
 - [Jiahui Zhou](https://jiahuizhou.design/): Concept, Design, and Data
-- [Francisco Presencia](https://github.com/franciscop/)
-- [python273](https://github.com/python273)
+- and [these developers](https://github.com/reustle/covid19japan/graphs/contributors)
 
 
 
