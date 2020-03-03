@@ -417,11 +417,8 @@ function drawMapPrefectures(pageDraws) {
   // Add a final value to the list for the default color
   prefecturePaint.push('rgba(0,0,0,0)')
 
-  // Remove layer if already drawn
-  if (pageDraws > 0) {
-    map.removeLayer('prefecture-layer')
-  }
 
+  if (pageDraws === 0) {
   // Add the prefecture color layer to the map
   map.addLayer({
     'id': 'prefecture-layer',
@@ -433,8 +430,11 @@ function drawMapPrefectures(pageDraws) {
       'fill-opacity': 0.8
     }
   }, firstSymbolId)
+  } else {
+    // update map
+    map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint);
+  }
 }
-
 
 function initDataTranslate() {
   // Handle language switching
