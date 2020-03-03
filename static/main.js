@@ -419,17 +419,17 @@ function drawMapPrefectures(pageDraws) {
 
 
   if (pageDraws === 0) {
-  // Add the prefecture color layer to the map
-  map.addLayer({
-    'id': 'prefecture-layer',
-    'type': 'fill',
-    'source': 'prefectures',
-    'layout': {},
-    'paint': {
-      'fill-color': prefecturePaint,
-      'fill-opacity': 0.8
-    }
-  }, firstSymbolId)
+    // Add the prefecture color layer to the map
+    map.addLayer({
+      'id': 'prefecture-layer',
+      'type': 'fill',
+      'source': 'prefectures',
+      'layout': {},
+      'paint': {
+        'fill-color': prefecturePaint,
+        'fill-opacity': 0.8
+      }
+    }, firstSymbolId)
   } else {
     // update map
     map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint);
