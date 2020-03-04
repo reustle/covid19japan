@@ -52,13 +52,13 @@ NHK Daily Aggregates
 |Hokkaido    |[新型コロナウイルス感染症の道内の発生状況](http://www.pref.hokkaido.lg.jp/hf/kth/kak/hasseijoukyou.htm)|
 |Hyogo    | [新型コロナウイルス感染症の県内検査状況について](https://web.pref.hyogo.lg.jp/kf16/singatakoronakensa.html) |
 |Ibaraki    ||
-|Ishikawa    | [](https://www.pref.ishikawa.lg.jp/kansen/corona.html) |
+|Ishikawa    | [新型コロナウイルス感染症について](https://www.pref.ishikawa.lg.jp/kansen/corona.html) |
 |Iwate    ||
 |Kagawa    ||
 |Kanagawa    |[新型コロナウイルスに感染した患者の発生状況](https://www.pref.kanagawa.jp/docs/ga4/bukanshi/occurrence.html)|
 |Kagoshima    ||
 |Kochi    ||
-|Kumamoto    | [](https://www.pref.kumamoto.jp/hpkiji/pub/List.aspx?c_id=3&class_set_id=1&class_id=7049) |
+|Kumamoto    | [新型コロナウイルス感染症](https://www.pref.kumamoto.jp/hpkiji/pub/List.aspx?c_id=3&class_set_id=1&class_id=7049) |
 |Kyoto    |[新型コロナウイルス感染症の患者の発生について](https://www.pref.kyoto.jp/kentai/news/novelcoronavirus.html#F)|
 |Mie    |[新型コロナウイルス感染症に関連した肺炎患者の発生について](https://www.pref.mie.lg.jp/YAKUMUS/HP/m0068000066.htm)|
 |Miyagi    ||
