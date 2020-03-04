@@ -117,3 +117,4 @@ To run the site locally, enter the root directory and run `jekyll serve`. Jekyll
 - https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/
 - https://japan-cov-19.now.sh/
 - https://toyokeizai.net/sp/visual/tko/covid19/
+- https://en.wikipedia.org/wiki/2020_coronavirus_outbreak_in_Japan
