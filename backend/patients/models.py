@@ -8,7 +8,7 @@ class PatientOrigin(models.Model):
     label_ja = models.CharField(max_length=30)
     
     def __str__(self):
-        return f"{self.label} ({self.label_ja})"
+        return self.label
 
 
 class Prefecture(models.Model):
@@ -18,7 +18,7 @@ class Prefecture(models.Model):
     label_ja = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"{self.label} ({self.label_ja})"
+        return self.label
 
 
 class PatientLocation(models.Model):
@@ -41,7 +41,8 @@ class PatientStatus(models.Model):
     label_ja = models.CharField(max_length=30)
 
     def __str__(self):
-        return f"{self.label} ({self.label_ja})"
+        return self.label
+
 
 
 class Patient(models.Model):
@@ -67,14 +68,29 @@ class Patient(models.Model):
         return f"Patient {self.id}"
 
 
+
+class DataSource(models.Model):
+    """ Patient information sources """
+    
+    label = models.CharField(max_length=100)
+    label_ja = models.CharField(max_length=100, null=True, blank=True)
+    url = models.URLField(null=True, blank=True)
+
+    def __str__(self):
+        return self.label
+
+
 class PatientSource(models.Model):
     """ Information sources per patient """
     
-    label = models.CharField(max_length=100)
-    label_ja = models.CharField(max_length=100)
+    data_source = models.ForeignKey(DataSource, on_delete=models.SET_NULL, null=True, blank=True)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     source_id = models.IntegerField()
     url = models.URLField()
     
     def __str__(self):
-        return f"{self.label} ({self.label_ja})"
+        if self.data_source:
+            return self.data_source.label
+        else:
+            return self.url
+

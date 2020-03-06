@@ -5,8 +5,13 @@ from .models import *
 admin.site.register(PatientSource)
 admin.site.register(PatientLocation)
 
+
+class PatientSourceInline(admin.TabularInline):
+    model = PatientSource
+
 @admin.register(Patient)
 class PatientAdmin(admin.ModelAdmin):
+    inlines = [PatientSourceInline,]
     list_fields = ('id', 'gender', 'age_bracket', 'occupation', 'notes')
     list_display = list_fields
     list_display_links = list_fields
@@ -56,9 +61,7 @@ class PatientStatusAdmin(admin.ModelAdmin):
 
 @admin.register(PatientOrigin)
 class PatientOriginAdmin(admin.ModelAdmin):
-    list_fields = (
-        'label', 'label_ja',
-    )
+    list_fields = ('label', 'label_ja',)
     list_display = list_fields
     list_display_links = list_fields
     readonly_fields = list_fields
@@ -68,3 +71,9 @@ class PatientOriginAdmin(admin.ModelAdmin):
     
     def has_delete_permission(self, request, obj=None):
         return False
+
+@admin.register(DataSource)
+class DataSourceAdmin(admin.ModelAdmin):
+    list_fields = ('label', 'label_ja',)
+    list_display = list_fields
+    list_display_links = list_fields
