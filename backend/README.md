@@ -21,4 +21,5 @@ pipenv run python manage.py migrate
 
 # Todo
 - patient change logs
-- locations - shouldnt be tied to patients?
+- public viewable table, sum by day?
+- drf json endpoint(s)
