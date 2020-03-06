@@ -1,0 +1,369 @@
+[
+    {
+        "model": "patients.patientStatus",
+        "pk": 1,
+        "fields": {
+            "label": "Confirmed",
+            "label_ja": "感染者数"
+        }
+    },{
+        "model": "patients.patientStatus",
+        "pk": 2,
+        "fields": {
+            "label": "Recovered",
+            "label_ja": "回復者数"
+        }
+    },{
+        "model": "patients.patientStatus",
+        "pk": 3,
+        "fields": {
+            "label": "Critical",
+            "label_ja": "重症者数"
+        }
+    },{
+        "model": "patients.patientStatus",
+        "pk": 4,
+        "fields": {
+            "label": "Deceased",
+            "label_ja": "死亡者数"
+        }
+    },{
+        "model": "patients.patientStatus",
+        "pk": 5,
+        "fields": {
+            "label": "Discharged",
+            "label_ja": "退院"
+        }
+    },
+
+    {
+        "model": "patients.prefecture",
+        "pk": 1,
+        "fields": {
+            "label": "Aichi",
+            "label_ja": "愛知県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 2,
+        "fields": {
+            "label": "Akita",
+            "label_ja": "秋田県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 3,
+        "fields": {
+            "label": "Aomori",
+            "label_ja": "青森県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 4,
+        "fields": {
+            "label": "Chiba",
+            "label_ja": "千葉県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 5,
+        "fields": {
+            "label": "Ehime",
+            "label_ja": "愛媛県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 6,
+        "fields": {
+            "label": "Fukui",
+            "label_ja": "福井県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 7,
+        "fields": {
+            "label": "Fukuoka",
+            "label_ja": "福岡県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 8,
+        "fields": {
+            "label": "Fukushima",
+            "label_ja": "福島県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 9,
+        "fields": {
+            "label": "Gifu",
+            "label_ja": "岐阜県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 10,
+        "fields": {
+            "label": "Gunma",
+            "label_ja": "群馬県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 11,
+        "fields": {
+            "label": "Hiroshima",
+            "label_ja": "広島県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 12,
+        "fields": {
+            "label": "Hokkaido",
+            "label_ja": "北海道"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 13,
+        "fields": {
+            "label": "Hyogo",
+            "label_ja": "兵庫県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 14,
+        "fields": {
+            "label": "Ibaraki",
+            "label_ja": "茨城県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 15,
+        "fields": {
+            "label": "Ishikawa",
+            "label_ja": "石川県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 16,
+        "fields": {
+            "label": "Iwate",
+            "label_ja": "岩手県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 17,
+        "fields": {
+            "label": "Kagawa",
+            "label_ja": "香川県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 18,
+        "fields": {
+            "label": "Kagoshima",
+            "label_ja": "鹿児島県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 19,
+        "fields": {
+            "label": "Kanagawa",
+            "label_ja": "神奈川県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 20,
+        "fields": {
+            "label": "Kochi",
+            "label_ja": "高知県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 21,
+        "fields": {
+            "label": "Kumamoto",
+            "label_ja": "熊本県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 22,
+        "fields": {
+            "label": "Kyoto",
+            "label_ja": "京都府"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 23,
+        "fields": {
+            "label": "Mie",
+            "label_ja": "三重県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 24,
+        "fields": {
+            "label": "Miyagi",
+            "label_ja": "宮城県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 25,
+        "fields": {
+            "label": "Miyazaki",
+            "label_ja": "宮崎県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 26,
+        "fields": {
+            "label": "Nagano",
+            "label_ja": "長野県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 27,
+        "fields": {
+            "label": "Nagasaki",
+            "label_ja": "長崎県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 28,
+        "fields": {
+            "label": "Nara",
+            "label_ja": "奈良県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 29,
+        "fields": {
+            "label": "Niigata",
+            "label_ja": "新潟県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 30,
+        "fields": {
+            "label": "Oita",
+            "label_ja": "大分県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 31,
+        "fields": {
+            "label": "Okayama",
+            "label_ja": "岡山県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 32,
+        "fields": {
+            "label": "Okinawa",
+            "label_ja": "沖縄県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 33,
+        "fields": {
+            "label": "Osaka",
+            "label_ja": "大阪府"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 34,
+        "fields": {
+            "label": "Saga",
+            "label_ja": "佐賀県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 35,
+        "fields": {
+            "label": "Saitama",
+            "label_ja": "埼玉県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 36,
+        "fields": {
+            "label": "Shiga",
+            "label_ja": "滋賀県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 37,
+        "fields": {
+            "label": "Shimane",
+            "label_ja": "島根県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 38,
+        "fields": {
+            "label": "Shizuoka",
+            "label_ja": "静岡県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 39,
+        "fields": {
+            "label": "Tochigi",
+            "label_ja": "栃木県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 40,
+        "fields": {
+            "label": "Tokushima",
+            "label_ja": "徳島県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 41,
+        "fields": {
+            "label": "Tokyo",
+            "label_ja": "東京都"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 42,
+        "fields": {
+            "label": "Tottori",
+            "label_ja": "鳥取県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 43,
+        "fields": {
+            "label": "Toyama",
+            "label_ja": "富山県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 44,
+        "fields": {
+            "label": "Wakayama",
+            "label_ja": "和歌山県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 45,
+        "fields": {
+            "label": "Yamagata",
+            "label_ja": "山形県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 46,
+        "fields": {
+            "label": "Yamaguchi",
+            "label_ja": "山口県"
+        }
+    },{
+        "model": "patients.prefecture",
+        "pk": 47,
+        "fields": {
+            "label": "Yamanashi",
+            "label_ja": "山梨県"
+        }
+    }
+]

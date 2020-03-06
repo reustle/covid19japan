@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     # Local
     'users',
     'pages',
+    'patients.apps.PatientsConfig',
 ]
 
 MIDDLEWARE = [
