@@ -14,3 +14,8 @@ if settings.DEBUG:
     urlpatterns = [
         path('__debug__/', include(debug_toolbar.urls)),
 ] + urlpatterns
+
+
+admin.site.site_header = "COVID19Japan Admin"
+admin.site.site_title = "COVID19Japan Admin"
+admin.site.index_title = "Welcome to the COVID19Japan Admin"
