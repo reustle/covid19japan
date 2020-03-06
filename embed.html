@@ -55,18 +55,22 @@ layout: base
 {% include scripts.html %}
 <script>
   (function(){
+    // Tell CSS that this is the
+    // embedded version of the page
     document.body.classList.add('embed-mode')
     
+    // TODO Why would drawMap be undefined?
+    // Some JS error in the previous file?
     if(typeof drawMap === 'undefined'){
       return
     }
     
     drawMap()
     
+    var pageDraws = 0
     var styleLoaded = false
     var jsonData = undefined
     const FIVE_MINUTES_IN_MS = 300000
-    var pageDraws = 0
 
     function whenMapAndDataReady(){
       if(!styleLoaded || !jsonData){
@@ -82,7 +86,7 @@ layout: base
     })
 
     function loadDataOnPage() {
-      loadData(function (data) {
+      loadData(function(data) {
         jsonData = data
 
         ddb.prefectures = jsonData.prefectures
@@ -100,16 +104,11 @@ layout: base
 
     loadDataOnPage()
 
-    // Reload data every five minutes
+    // Reload data every INTERVAL
     setInterval(function () {
-      unDrawKpis()
-      pageDraws++;
-      jsonData = undefined;
-      initDataTranslate()
-      setTimeout(function () {
-        loadDataOnPage()
-      }, 1000)
-    }, 300000)
+      pageDraws++
+      loadDataOnPage()
+    }, FIVE_MINUTES_IN_MS)
 
   })()
 </script>
