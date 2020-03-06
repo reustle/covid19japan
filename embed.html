@@ -49,15 +49,10 @@ layout: base
 <div id="map-container"></div>
 <h5>powered by <a href="https://covid19japan.com" target=")blank">COVID19Japan.com</a></h5>
 
-<footer>
-  Built and maintained by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> (<a href="https://reustle.co" target="_blank">Reustle K.K.</a>) and <a href="https://github.com/reustle/covid19japan/graphs/contributors" target="_blank">these contributors</a>. Concept and design by <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a>. Contribute to this project <a href="https://github.com/reustle/covid19japan" target="_blank">on GitHub</a>.
-</footer>
+{% include footer.html %}
 
 <!-- JS -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
-<link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0/moment.min.js,npm/chart.js@2.8.0,npm/lodash@4.17.15/lodash.min.js,npm/fetch-polyfill@0.8.2/fetch.min.js"></script>
-<script src="static/main.js"></script>
+{% include scripts.html %}
 <script>
   (function(){
     document.body.classList.add('embed-mode')
@@ -118,15 +113,3 @@ layout: base
 
   })()
 </script>
-
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-2580539-41');
-</script>
-
-</body>
-</html>
