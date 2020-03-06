@@ -1,3 +1,4 @@
+### Running Locally
 
 This is a very early draft of a backend
 
@@ -19,7 +20,12 @@ pipenv run python manage.py migrate
 ```
 
 
-# Todo
-- patient change logs
-- public viewable table, sum by day?
-- drf json endpoint(s)
+### Todo
+- Patient change logs (full change history per patient)
+- Create publicly viewable table, sum by day?
+- Set up Django Rest Framework json endpoint(s)
+- How do we handle unspecified deaths? critical? etc?
+- New MODEL for # of tests performed
+- Codify user auth group for data entry folks
+- Account creation request
+- Public comments? (suggest a change)
