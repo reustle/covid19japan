@@ -137,19 +137,24 @@ layout: base
 {% include scripts.html %}
 <script>
   (function(){
+    
+    // TODO Why would drawMap be undefined?
     if(typeof drawMap === 'undefined'){
       return
     }
-
+    
     initDataTranslate()
     drawMap()
 
-    var pageDraws = 0;
+    var pageDraws = 0
     var styleLoaded = false
     var jsonData = undefined
     const FIVE_MINUTES_IN_MS = 300000
 
     function whenMapAndDataReady(){
+      // This runs drawMapPref only when
+      // both style and json data are ready
+
       if(!styleLoaded || !jsonData){
         return
       }
@@ -163,7 +168,7 @@ layout: base
     })
 
     function loadDataOnPage() {
-      loadData(function (data) {
+      loadData(function(data) {
         jsonData = data
 
         ddb.prefectures = jsonData.prefectures
@@ -185,15 +190,11 @@ layout: base
 
     loadDataOnPage()
 
-    // Reload data every five minutes
-    setInterval(function () {
-      unDrawKpis()
-      pageDraws++;
-      jsonData = undefined;
-      initDataTranslate()
-      setTimeout(function () {
-        loadDataOnPage()
-      }, 1000)
+    // Reload data every INTERVAL
+    setInterval(function() {
+      pageDraws++
+      loadDataOnPage()
     }, FIVE_MINUTES_IN_MS)
+
   })()
 </script>

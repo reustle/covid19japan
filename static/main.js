@@ -1,5 +1,3 @@
-'use strict';
-
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
@@ -49,7 +47,8 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
 function loadData(callback) {
   // Load the json data file
   
-  fetch(JSON_PATH).then(function(res){
+  fetch(JSON_PATH)
+  .then(function(res){
     return res.json()
   })
   .then(function(data){
@@ -289,18 +288,6 @@ function drawPrefectureTable(prefectures, totals) {
   dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
-function unDrawKpis() {
-  var keys = ['confirmed', 'recovered', 'deceased', 'critical', 'tested', 'active'];
-  var defaultValue = 0
-  var loading = '<div class="lds-dual-ring"></div>'
-
-  for (let i = 0; i < keys.length; i++) {
-    const k = keys[i];
-    
-    document.querySelector('#kpi-' + k + ' .value').innerHTML = loading
-    document.querySelector('#kpi-' + k + ' .diff').innerHTML = '( ' + defaultValue + ' )'
-  }
-}
 
 function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
@@ -353,35 +340,14 @@ function drawMapPrefectures(pageDraws) {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
-  var firstSymbolId;
-  var layers = map.getStyle().layers;
+  
+  var firstSymbolId
+  var layers = map.getStyle().layers
   for(var i = 0; i < layers.length; i++) {
     if(layers[i].type === 'symbol') {
-      firstSymbolId = layers[i].id;
+      firstSymbolId = layers[i].id
       break;
     }
-  }
-
-  if (pageDraws === 0) {
-    map.addSource('prefectures', {
-      type: 'geojson',
-      data: PREFECTURE_JSON_PATH,
-    })
-  
-    // Add another layer as line to provide
-    // a styled prefecture border
-
-    let prefBorderLayer = map.addLayer({
-      'id': 'prefecture-outline-layer',
-      'type': 'line',
-      'source': 'prefectures',
-      'layout': {},
-      'paint': {
-        'line-width': 0.5,
-        'line-color': '#c0c0c0',
-        'line-opacity': 0.5
-      }
-    }, firstSymbolId)
   }
 
   // Start the Mapbox search expression
@@ -419,6 +385,13 @@ function drawMapPrefectures(pageDraws) {
 
 
   if (pageDraws === 0) {
+    // If it is the first time drawing the map
+
+    map.addSource('prefectures', {
+      type: 'geojson',
+      data: PREFECTURE_JSON_PATH,
+    })
+
     // Add the prefecture color layer to the map
     map.addLayer({
       'id': 'prefecture-layer',
@@ -430,14 +403,31 @@ function drawMapPrefectures(pageDraws) {
         'fill-opacity': 0.8
       }
     }, firstSymbolId)
+    
+    // Add another layer with type "line"
+    // to provide a styled prefecture border
+    let prefBorderLayer = map.addLayer({
+      'id': 'prefecture-outline-layer',
+      'type': 'line',
+      'source': 'prefectures',
+      'layout': {},
+      'paint': {
+        'line-width': 0.5,
+        'line-color': '#c0c0c0',
+        'line-opacity': 0.5
+      }
+    }, firstSymbolId)
+    
   } else {
-    // update map
-    map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint);
+    // Update prefecture paint properties
+    
+    map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint)
+    
   }
 }
 
 function initDataTranslate() {
-  // Handle language switching
+  // Handle language switching using data params
 
   const selector = '[data-ja]'
   const parseNode = function(cb) {
