@@ -103,7 +103,7 @@ To run the site locally, enter the root directory and run `jekyll serve`. Jekyll
 - and [these developers](https://github.com/reustle/covid19japan/graphs/contributors)
 
 ## Other Resources
-- [都道府県別新型コロナウイルス感染者数マッ　（Arcgis)](https://jagjapan.maps.arcgis.com/apps/opsdashboard/index.html#/259ce3e3e2bf4c77876d4ecde6ea2564)
+- [都道府県別新型コロナウイルス感染者数マッ (Arcgis)](https://jagjapan.maps.arcgis.com/apps/opsdashboard/index.html#/259ce3e3e2bf4c77876d4ecde6ea2564)
 - [Data source from John Hopkins CSSE](https://github.com/CSSEGISandData/COVID-19)
 - [News Digest Tracker](https://newsdigest.jp/pages/coronavirus/) (Unclear where the data is coming from)
 - [BNO News Global Tracker](https://bnonews.com/index.php/2020/02/the-latest-coronavirus-cases/) ([Google My Maps View](https://www.google.com/maps/d/u/0/viewer?mid=1a04iBi41DznkMaQRnICO40ktROfnMfMx&ll=37.45239782566561%2C137.6798301595186&z=6))
