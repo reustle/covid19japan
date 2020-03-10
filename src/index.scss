@@ -6,6 +6,10 @@ body {
   line-height: 25px;
   color: $primary-black;
   font-size: 16px;
+
+  .embed-on {
+    display: none;
+  }
 }
 h1 {
   font-size: 48px;
@@ -252,4 +256,12 @@ footer {
   100% {
     transform: rotate(360deg);
   }
+}
+
+body.embed {
+  header { display: none; }
+  .embed-off { display: none; }
+  .embed-on { display: block; }
+  span.embed-on { display: inline; }
+  h5.embed-on { display: block; }
 }

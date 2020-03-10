@@ -38,7 +38,7 @@
     content="Live updates of the Coronavirus COVID-19 outbreak in Japan"
   />
 </head>
-<body>
+<body class="<%= htmlWebpackPlugin.options.bodyClass %>">
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
   <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
   <script>
@@ -108,7 +108,7 @@
   
   <a name="map"></a>
   <div class="center-offset">
-    <h4 data-ja="ウイルス感染マップ">Outbreak Map</h4>
+    <h4 data-ja="ウイルス感染マップ"><span class="embed-on">COVID-19 </span>Outbreak Map</h4>
   </div>
   <section id="map-legend">
     <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
@@ -117,8 +117,9 @@
     <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
   </section>
   <div id="map-container"></div>
-  
-  <section id="chart-legend-container">
+  <h5 class="embed-on">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></h5>
+
+  <section id="chart-legend-container" class="embed-off">
     <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
     <div id="chart-legend">
       <div><span class="one">▉</span> <span data-ja="感染者数">Cases</span></div>
@@ -127,11 +128,12 @@
       <div><span class="four">▉</span> <span data-ja="毎日の増加">Daily Increase</span></div>
     </div>
   </section>
-  <section id="trend-chart-container">
+
+  <section id="trend-chart-container" class="embed-off">
     <canvas id="trend-chart"></canvas>
   </section>
   
-  <section>
+  <section class="embed-off">
     <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
     <table id="prefectures-table">
       <thead>
@@ -148,7 +150,7 @@
     </table>
   </section>
   
-  <section id="helpful-links">
+  <section id="helpful-links" class="embed-off">
     <a name="links"></a>
     <h4 data-ja="有益な情報源">Helpful Links</h4>
     <ul>
@@ -197,10 +199,6 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0/moment.min.js,npm/chart.js@2.8.0,npm/lodash@4.17.15/lodash.min.js,npm/fetch-polyfill@0.8.2/fetch.min.js"></script>
-  <script>
-   
-  </script>
-    
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
   <script>
     window.dataLayer = window.dataLayer || [];

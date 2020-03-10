@@ -23,15 +23,14 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
-      title: '',
       filename: 'index.html',
       template: 'src/index.html',
       chunks: ['index']
     }),
     new HtmlWebpackPlugin({
-      title: '',
+      bodyClass: 'embed',
       filename: 'embed.html',
-      template: 'src/embed.html',
+      template: 'src/index.html',
       chunks: ['index']
     }),
     new CopyPlugin([
