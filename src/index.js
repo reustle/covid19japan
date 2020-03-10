@@ -1,7 +1,6 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
-//const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
-const JSON_PATH = 'static/data.json'
+const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
