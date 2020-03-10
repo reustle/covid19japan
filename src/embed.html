@@ -38,7 +38,7 @@
     content="Live updates of the Coronavirus COVID-19 outbreak in Japan"
   />
 </head>
-<body>
+<body class="embed-mode">
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
   <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
   <script>
@@ -117,66 +117,6 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0/moment.min.js,npm/chart.js@2.8.0,npm/lodash@4.17.15/lodash.min.js,npm/fetch-polyfill@0.8.2/fetch.min.js"></script>
-  <script>
-    (function(){
-      // Tell CSS that this is the
-      // embedded version of the page
-      document.body.classList.add('embed-mode')
-      
-      // TODO Why would drawMap be undefined?
-      // Some JS error in the previous file?
-      if(typeof drawMap === 'undefined'){
-        return
-      }
-      
-      drawMap()
-      
-      var pageDraws = 0
-      var styleLoaded = false
-      var jsonData = undefined
-      const FIVE_MINUTES_IN_MS = 300000
-  
-      function whenMapAndDataReady(){
-        if(!styleLoaded || !jsonData){
-          return
-        }
-        
-        drawMapPrefectures(pageDraws)
-      }
-  
-      map.once('style.load', function(e) {
-        styleLoaded = true
-        whenMapAndDataReady()
-      })
-  
-      function loadDataOnPage() {
-        loadData(function(data) {
-          jsonData = data
-  
-          ddb.prefectures = jsonData.prefectures
-          let newTotals = calculateTotals(jsonData.daily)
-          ddb.totals = newTotals[0]
-          ddb.totalsDiff = newTotals[1]
-          ddb.trend = jsonData.daily
-          ddb.lastUpdated = jsonData.updated[0].lastupdated
-  
-          drawKpis(ddb.totals, ddb.totalsDiff)
-  
-          whenMapAndDataReady()
-        })
-      }
-  
-      loadDataOnPage()
-  
-      // Reload data every INTERVAL
-      setInterval(function () {
-        pageDraws++
-        loadDataOnPage()
-      }, FIVE_MINUTES_IN_MS)
-  
-    })()
-  </script>
-    
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
   <script>
     window.dataLayer = window.dataLayer || [];

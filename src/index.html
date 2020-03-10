@@ -198,67 +198,7 @@
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0/moment.min.js,npm/chart.js@2.8.0,npm/lodash@4.17.15/lodash.min.js,npm/fetch-polyfill@0.8.2/fetch.min.js"></script>
   <script>
-    (function(){
-      
-      // TODO Why would drawMap be undefined?
-      if(typeof drawMap === 'undefined'){
-        return
-      }
-      
-      initDataTranslate()
-      drawMap()
-  
-      var pageDraws = 0
-      var styleLoaded = false
-      var jsonData = undefined
-      const FIVE_MINUTES_IN_MS = 300000
-  
-      function whenMapAndDataReady(){
-        // This runs drawMapPref only when
-        // both style and json data are ready
-  
-        if(!styleLoaded || !jsonData){
-          return
-        }
-  
-        drawMapPrefectures(pageDraws)
-      }
-  
-      map.once('style.load', function(e) {
-        styleLoaded = true
-        whenMapAndDataReady()
-      })
-  
-      function loadDataOnPage() {
-        loadData(function(data) {
-          jsonData = data
-  
-          ddb.prefectures = jsonData.prefectures
-          let newTotals = calculateTotals(jsonData.daily)
-          ddb.totals = newTotals[0]
-          ddb.totalsDiff = newTotals[1]
-          ddb.trend = jsonData.daily
-          ddb.lastUpdated = jsonData.updated[0].lastupdated
-  
-          drawLastUpdated(ddb.lastUpdated)
-          drawKpis(ddb.totals, ddb.totalsDiff)
-          drawPageTitleCount(ddb.totals.confirmed)
-          drawPrefectureTable(ddb.prefectures, ddb.totals)
-          drawTrendChart(ddb.trend)
-  
-          whenMapAndDataReady()
-        })
-      }
-  
-      loadDataOnPage()
-  
-      // Reload data every INTERVAL
-      setInterval(function() {
-        pageDraws++
-        loadDataOnPage()
-      }, FIVE_MINUTES_IN_MS)
-  
-    })()
+   
   </script>
     
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
@@ -266,7 +206,6 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', 'UA-2580539-41');
   </script>
 

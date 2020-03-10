@@ -1,6 +1,7 @@
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
-const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
+//const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
+const JSON_PATH = 'static/data.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
@@ -471,4 +472,62 @@ function initDataTranslate() {
       
     })
   })
+}
+
+window.onload = function(){
+  
+  initDataTranslate()
+  drawMap()
+
+  var pageDraws = 0
+  var styleLoaded = false
+  var jsonData = undefined
+  const FIVE_MINUTES_IN_MS = 300000
+
+  function whenMapAndDataReady(){
+    // This runs drawMapPref only when
+    // both style and json data are ready
+
+    if(!styleLoaded || !jsonData){
+      return
+    }
+
+    drawMapPrefectures(pageDraws)
+  }
+
+  map.once('style.load', function(e) {
+    styleLoaded = true
+    whenMapAndDataReady()
+  })
+
+  function loadDataOnPage() {
+    loadData(function(data) {
+      jsonData = data
+
+      ddb.prefectures = jsonData.prefectures
+      let newTotals = calculateTotals(jsonData.daily)
+      ddb.totals = newTotals[0]
+      ddb.totalsDiff = newTotals[1]
+      ddb.trend = jsonData.daily
+      ddb.lastUpdated = jsonData.updated[0].lastupdated
+
+      drawKpis(ddb.totals, ddb.totalsDiff)
+      if (!document.body.classList.contains('embed-mode')) {
+        drawLastUpdated(ddb.lastUpdated)
+        drawPageTitleCount(ddb.totals.confirmed)
+        drawPrefectureTable(ddb.prefectures, ddb.totals)
+        drawTrendChart(ddb.trend)
+      }
+
+      whenMapAndDataReady()
+    })
+  }
+
+  loadDataOnPage()
+
+  // Reload data every INTERVAL
+  setInterval(function() {
+    pageDraws++
+    loadDataOnPage()
+  }, FIVE_MINUTES_IN_MS)
 }
