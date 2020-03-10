@@ -4,7 +4,7 @@ const express = require('express')
 const app = express()
 app.use(express.static('_site'))
 
-let port = process.env.PORT || 4999
+let port = process.env.PORT || 4000
 
 var listener = app.listen(port, function () {
   console.log('listening on port ' + listener.address().port);
