@@ -6,15 +6,13 @@ const config = require('./webpack.dev.js')
 const app = express();
 const compiler = webpack(config);
 
-app.use('/data', express.static('data'));
-
 app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
-app.use(express.static('public'));
+app.use(express.static('_site'));
 
-var listener = app.listen(4999, function () {
+var listener = app.listen(4000, function () {
   console.log("****************************************");
   console.log('**** http://localhost:' + listener.address().port + "/");
   console.log("****************************************");
