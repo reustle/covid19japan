@@ -7,7 +7,7 @@ body {
   color: $primary-black;
   font-size: 16px;
 
-  .embed-on {
+  .embed-show {
     display: none;
   }
 }
@@ -259,9 +259,7 @@ footer {
 }
 
 body.embed {
-  header { display: none; }
-  .embed-off { display: none; }
-  .embed-on { display: block; }
-  span.embed-on { display: inline; }
-  h5.embed-on { display: block; }
+  .embed-hide { display: none; }
+  .embed-show { display: block; }
+  span.embed-show { display: inline; }
 }
