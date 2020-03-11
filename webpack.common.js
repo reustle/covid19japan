@@ -11,13 +11,13 @@ module.exports = {
     index: ['./src/index.js', './src/index.scss']
   },
   output: {
-    path: path.resolve(__dirname, '_site'),
+    path: path.resolve(__dirname, 'docs'),
     filename: '[name].js',
     publicPath: '/'
   },
 
   devServer: {
-    contentBase: './_site'
+    contentBase: './docs'
   },
 
   plugins: [

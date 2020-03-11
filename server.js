@@ -2,7 +2,7 @@
 const express = require('express')
 
 const app = express()
-app.use(express.static('_site'))
+app.use(express.static('docs'))
 
 let port = process.env.PORT || 4000
 

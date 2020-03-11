@@ -10,7 +10,7 @@ app.use(webpackDevMiddleware(compiler, {
   publicPath: config.output.publicPath
 }));
 
-app.use(express.static('_site'));
+app.use(express.static('docs'));
 
 var listener = app.listen(4000, function () {
   console.log("****************************************");
