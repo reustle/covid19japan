@@ -1,0 +1,211 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+
+  <!-- Warning: Ugly code lies ahead -->
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui">
+  <title>Japan COVID-19 Coronavirus Tracker</title>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i,800&display=swap" rel="stylesheet">
+
+  <link
+    rel="icon"
+    type="image/png"
+    href="https://covid19japan.com/static/favicon.png"
+  />
+  <meta
+    name="description"
+    content="Live updates of the Coronavirus COVID-19 outbreak in Japan"
+  />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:url" content="https://covid19japan.com/" />
+  <meta name="twitter:title" content="Japan COVID-19 Coronavirus Tracker" />
+
+  <meta
+    name="twitter:description"
+    content="Live updates of the Coronavirus COVID-19 outbreak in Japan"
+  />
+  <meta property="og:title" content="Japan COVID-19 Coronavirus Tracker" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://covid19japan.com/" />
+  <meta
+    property="og:image"
+    content="https://covid19japan.com/static/map.jpg"
+  />
+  <meta
+    property="og:description"
+    content="Live updates of the Coronavirus COVID-19 outbreak in Japan"
+  />
+<link href="/index.css" rel="stylesheet"></head>
+<body class="embed">
+  <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
+  <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
+  <script>
+    Sentry.init({
+      dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
+      debug: false,
+      integrations: [
+        new Sentry.Integrations.CaptureConsole({
+          levels: ['error']
+        })
+      ]
+    })
+  </script>
+  
+  <header class="embed-hide">
+    <div class="lang-picker">
+      <a href="#" data-lang-picker='ja'>🇯🇵 日本語</a>
+      <a href="#" data-lang-picker='en' style="display:none">🇺🇸 English</a>
+    </div>
+    
+    <h1 data-ja="日本国内の新型コロナウイルス (COVID-19) 感染状況追跡">Japan COVID-19 Coronavirus Tracker</h1>
+    <div>
+      <em>
+        View our <a href="https://docs.google.com/spreadsheets/d/1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ/edit" target="_blank">live patient database</a>
+      </em>
+    </div>
+    <div>
+      <em>
+        <span data-ja="最終更新:">Last Updated:</span> <strong id="last-updated">-</strong>
+      </em>
+    </div>
+  </header>
+  
+  <section id="kpi">
+    <div id="kpi-active" data-tippy-content="Tooltip">
+      <div class="diff">( +0 )</div>
+      <div class="value"><div class="lds-dual-ring"></div></div>
+      <div class="label" data-ja="既存感染者数">Active</div>
+    </div>
+    <div id="kpi-critical">
+      <div class="diff">( +0 )</div>
+      <div class="value"><div class="lds-dual-ring"></div></div>
+      <div class="label" data-ja="重症者数">Critical</div>
+    </div>
+    <div id="kpi-deceased">
+      <div class="diff">( +0 )</div>
+      <div class="value"><div class="lds-dual-ring"></div></div>
+      <div class="label" data-ja="死亡者数">Deaths</div>
+    </div>
+    <div id="kpi-tested">
+      <div class="diff">( +0 )</div>
+      <div class="value"><div class="lds-dual-ring"></div></div>
+      <div class="label" data-ja="検査実施人数">Tested</div>
+    </div>
+    <div id="kpi-confirmed">
+      <div class="diff">( +0 )</div>
+      <div class="value"><div class="lds-dual-ring"></div></div>
+      <div class="label" data-ja="感染者数">Confirmed</div>
+    </div>
+    <div id="kpi-recovered">
+      <div class="diff">( +0 )</div>
+      <div class="value"><div class="lds-dual-ring"></div></div>
+      <div class="label" data-ja="回復者数">Recovered</div>
+    </div>
+  </section>
+  
+  
+  <a name="map"></a>
+  <div class="center-offset">
+    <h4 data-ja="ウイルス感染マップ"><span class="embed-show">COVID-19 </span>Outbreak Map</h4>
+  </div>
+  <section id="map-legend">
+    <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
+    <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
+    <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
+    <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
+  </section>
+  <div id="map-container"></div>
+  <h5 class="embed-show">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></h5>
+
+  <section id="chart-legend-container" class="embed-hide">
+    <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
+    <div id="chart-legend">
+      <div><span class="one">▉</span> <span data-ja="感染者数">Cases</span></div>
+      <div><span class="two">▉</span> <span data-ja="回復者数">Recovered</span></div>
+      <div><span class="three">▉</span> <span data-ja="死亡者数">Deaths</span></div>
+      <div><span class="four">▉</span> <span data-ja="毎日の増加">Daily Increase</span></div>
+    </div>
+  </section>
+
+  <section id="trend-chart-container" class="embed-hide">
+    <canvas id="trend-chart"></canvas>
+  </section>
+  
+  <section class="embed-hide">
+    <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
+    <table id="prefectures-table">
+      <thead>
+        <tr>
+          <th data-ja="都道府県">Prefecture</th>
+          <th data-ja="感染者数">Cases</th>
+          <th data-ja="回復者数">Recovered</th>
+          <th data-ja="死亡者数">Deaths</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="loading"><td colspan="4"><div class="lds-dual-ring"></div></td></tr>
+      </tbody>
+    </table>
+  </section>
+  
+  <section id="helpful-links" class="embed-hide">
+    <a name="links"></a>
+    <h4 data-ja="有益な情報源">Helpful Links</h4>
+    <ul>
+      <li>
+        Information from the Tokyo Metropolitan Infectious Disease Surveillance Center<br/>
+        <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/</a>
+      </li>
+      <li>
+        If you think you might have the virus<br/>
+        <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html">https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html</a>
+      </li>
+      <li>
+        WHO information about the virus<br/>
+        <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">https://www.who.int/emergencies/diseases/novel-coronavirus-2019</a>
+      </li>
+      <li>
+        Monitoring your symptoms if you feel ill<br/>
+        <a href="https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf">https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf</a>
+      </li>
+      <li>
+        Active relevant Twitter accounts<br/>
+        <a href="https://twitter.com/i/lists/1069503606880006144">https://twitter.com/i/lists/1069503606880006144</a>
+      </li>
+    </ul>
+  
+    <br/>
+    <h4 data-ja="一次情報源">Primary Data Sources</h4>
+    <ul>
+      <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
+      <li><a href="http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html">http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html</a></li>
+    </ul>
+  </section>
+  
+  <footer>
+    <p>
+      Built and maintained by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> (<a href="https://reustle.co" target="_blank">Reustle K.K.</a>) and <a href="https://github.com/reustle/covid19japan/graphs/contributors" target="_blank">these contributors</a>.
+      Concept and design by <a href="https://jiahuizhou.design/" target="_blank">Jiahui Zhou</a>.
+      Contribute to this project <a href="https://github.com/reustle/covid19japan" target="_blank">on GitHub</a>.
+    </p>
+    <p>
+      A warm thank you to <a href="https://mapbox.com/community/" target="_blank">Mapbox Community</a> and <a href="https://sentry.io" target="_blank">Sentry.io</a> for supporting this project with their services.
+    </p>
+  </footer>
+    
+  <!-- JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0/moment.min.js,npm/chart.js@2.8.0,npm/lodash@4.17.15/lodash.min.js,npm/fetch-polyfill@0.8.2/fetch.min.js"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'UA-2580539-41');
+  </script>
+
+<script type="text/javascript" src="/index.js"></script></body>
+</html>

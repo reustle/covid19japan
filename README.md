@@ -93,8 +93,39 @@ NHK Daily Aggregates
 
 If you would like to contribute features / refactor / etc, please open an Issue on this repo, and tag @reustle - We can then open a new Pull Request if it is deemed in line with the projects goals.
 
-To run the site locally, enter the root directory and run `jekyll serve`. Jekyll is the only dependency.
+### Requirements
 
+ * NodeJS
+
+### Build Instructions
+
+Set up environment
+```
+npm install
+```
+
+Build once:
+```
+npm run build
+```
+
+Build continuously:
+```
+npm run watch
+```
+
+Start Server:
+```
+npm run start
+
+# or run continuous build + server
+npm run start-webpack
+```
+
+Build for production (minified):
+```
+npm run build-prod
+```
 
 ## Contributors
 

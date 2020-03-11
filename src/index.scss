@@ -1,6 +1,3 @@
----
----
-
 $primary-black: #000a12;
 
 body {
@@ -9,6 +6,10 @@ body {
   line-height: 25px;
   color: $primary-black;
   font-size: 16px;
+
+  .embed-show {
+    display: none;
+  }
 }
 h1 {
   font-size: 48px;
@@ -255,4 +256,10 @@ footer {
   100% {
     transform: rotate(360deg);
   }
+}
+
+body.embed {
+  .embed-hide { display: none; }
+  .embed-show { display: block; }
+  span.embed-show { display: inline; }
 }
