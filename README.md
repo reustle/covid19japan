@@ -127,6 +127,9 @@ Build for production (minified):
 npm run build-prod
 ```
 
+You will now be able to access the site at http://localhost:4000/
+
+
 ## Contributors
 
 - [Shane Reustle](https://reustle.org): Development
