@@ -475,6 +475,9 @@ function initDataTranslate() {
 
 window.onload = function(){
   
+  // Enable tooltips
+  tippy('[data-tippy-content]')
+
   initDataTranslate()
   drawMap()
 
