@@ -77,7 +77,7 @@ function calculateTotals(daily) {
 
   // If there is an empty cell, fall back to the previous row
   function pullLatestSumAndDiff(key) {
-    if(daily[daily.length-1][key].length || daily[daily.length-1][key] !== '0' ){
+    if(daily[daily.length-1][key].length){
       totals[key] = parseInt(daily[daily.length-1][key])
       totalsDiff[key] = totals[key] - parseInt(daily[daily.length-2][key])
     }else{
