@@ -236,22 +236,24 @@ function drawTrendChart(sheetTrend) {
 function drawTrendChart2(sheetTrend) {
   console.log(sheetTrend)
   
-  var colDate = ['Date']
-  var colConfirmed = ['Confirmed']
-  var colCritical = ['Critical']
-  var colDeceased = ['Deceased']
-  var colRecovered = ['Recovered']
-  var colTested = ['Tested']
+  var cols = {
+    Date: ['Date'],
+    Confirmed: ['Confirmed'],
+    Critical: ['Critical'],
+    Deceased: ['Deceased'],
+    Recovered: ['Recovered'],
+    Tested: ['Tested']
+  }
   
   for(var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
     
-    colDate.push(row.date)
-    colConfirmed.push(parseInt(row.confirmed))
-    colCritical.push(parseInt(row.critical))
-    colDeceased.push(parseInt(row.deceased))
-    colRecovered.push(parseInt(row.recovered))
-    //colTested.push(parseInt(row.tested))
+    cols.Date.push(row.date)
+    cols.Confirmed.push(parseInt(row.confirmed))
+    cols.Critical.push(parseInt(row.critical))
+    cols.Deceased.push(parseInt(row.deceased))
+    cols.Recovered.push(parseInt(row.recovered))
+    //cols.Tested.push(parseInt(row.tested))
 
   }
   
@@ -260,22 +262,45 @@ function drawTrendChart2(sheetTrend) {
     data: {
         x: 'Date',
         columns: [
-          colDate,
-          colConfirmed,
-          colRecovered,
-          colDeceased,
-          colTested
+          cols.Date,
+          cols.Confirmed,
+          cols.Recovered,
+          cols.Deceased,
+          //cols.Tested
         ]
+    },
+    color: {
+      pattern: [COLOR_CONFIRMED, COLOR_RECOVERED, COLOR_DECEASED]
     },
     axis: {
         x: {
             type: 'timeseries',
             tick: {
-                format: '%Y-%m-%d'
+                format: '%b %d'
             }
         }
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id, index) {
+          console.log('--')
+          console.log(ratio)
+          console.log(id)
+          console.log(index)
+          return value + '  (+' + (parseInt(value) - cols[id][index]) + ')'
+          //return ratio;
+        }
+      }
+    },
+    grid: {
+      x: {
+        show: true
+      },
+      y: {
+        show: true
+      }
     }
-  });
+  })
   
 }
 
