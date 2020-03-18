@@ -131,6 +131,10 @@
     <canvas id="trend-chart"></canvas>
   </section>
   
+  <section id="trend2-chart-container">
+    <div id="trend2-chart"></div>
+  </section>
+  
   <section class="embed-hide">
     <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
     <table id="prefectures-table">
@@ -209,6 +213,14 @@
   <!-- TODO tried to add to bundle but requires babel (Shane R) -->
   <script src="https://unpkg.com/@popperjs/core@2"></script>
   <script src="https://unpkg.com/tippy.js@6"></script>
+
+  <!-- Load c3.css -->
+  <link href="https://cdn.jsdelivr.net/npm/c3@0.7.15/c3.min.css" rel="stylesheet">
+
+  <!-- Load d3.js and c3.js -->
+  <script src="https://cdn.jsdelivr.net/npm/d3@5.15.0/dist/d3.min.js" charset="utf-8"></script>
+  <script src="https://cdn.jsdelivr.net/npm/c3@0.7.15/c3.min.js"></script>
+
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}

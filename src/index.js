@@ -233,6 +233,52 @@ function drawTrendChart(sheetTrend) {
   });
 }
 
+function drawTrendChart2(sheetTrend) {
+  console.log(sheetTrend)
+  
+  var colDate = ['Date']
+  var colConfirmed = ['Confirmed']
+  var colCritical = ['Critical']
+  var colDeceased = ['Deceased']
+  var colRecovered = ['Recovered']
+  var colTested = ['Tested']
+  
+  for(var i = 0; i < sheetTrend.length; i++) {
+    var row = sheetTrend[i]
+    
+    colDate.push(row.date)
+    colConfirmed.push(parseInt(row.confirmed))
+    colCritical.push(parseInt(row.critical))
+    colDeceased.push(parseInt(row.deceased))
+    colRecovered.push(parseInt(row.recovered))
+    //colTested.push(parseInt(row.tested))
+
+  }
+  
+  var chart = c3.generate({
+    bindto: '#trend2-chart',
+    data: {
+        x: 'Date',
+        columns: [
+          colDate,
+          colConfirmed,
+          colRecovered,
+          colDeceased,
+          colTested
+        ]
+    },
+    axis: {
+        x: {
+            type: 'timeseries',
+            tick: {
+                format: '%Y-%m-%d'
+            }
+        }
+    }
+  });
+  
+}
+
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
@@ -519,6 +565,7 @@ window.onload = function(){
         drawPageTitleCount(ddb.totals.confirmed)
         drawPrefectureTable(ddb.prefectures, ddb.totals)
         drawTrendChart(ddb.trend)
+        drawTrendChart2(ddb.trend)
       }
 
       whenMapAndDataReady()
