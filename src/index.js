@@ -234,7 +234,6 @@ function drawTrendChart(sheetTrend) {
 }
 
 function drawTrendChart2(sheetTrend) {
-  console.log(sheetTrend)
   
   var cols = {
     Date: ['Date'],
@@ -283,12 +282,11 @@ function drawTrendChart2(sheetTrend) {
     tooltip: {
       format: {
         value: function (value, ratio, id, index) {
-          console.log('--')
-          console.log(ratio)
-          console.log(id)
-          console.log(index)
-          return value + '  (+' + (parseInt(value) - cols[id][index]) + ')'
-          //return ratio;
+          if(index){
+            return value + ' (+' + (parseInt(value) - cols[id][index]) + ')'
+          }else{
+            return value
+          }
         }
       }
     },
