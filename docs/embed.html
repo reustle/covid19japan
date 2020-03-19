@@ -69,7 +69,14 @@
       </em>
     </div>
   </header>
-  
+
+  <div id="error-retry">
+    <div id="error-block">
+      <div id="error-message"></div>
+      <a href="#" onclick="fetchAgain(); return false;" id="retry-button">Retry</a>
+    </div>
+  </div>
+
   <section id="kpi">
     <div id="kpi-active" data-tippy-content="Confirmed cases minus recovered minus deceased" data-tippy-placement="bottom">
       <div class="diff">&nbsp;</div>
