@@ -161,33 +161,14 @@ h1 {
 }
 
 #trend-chart-container {
-  height: 250px;
-  padding: 0px 10px;
-}
-#chart-legend-container {
-  padding-bottom: 10px;
+  //padding: 0px 10px;
   
-  #chart-legend {
-    padding: 0px;
-    font-size: 16px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
+  path.c3-line {
+    stroke-width: 2px;
   }
-  > div {
-    display: inline-block;
-  }
-  span.one {
-    color: rgb(244,67,54);
-  }
-  span.two {
-    color: rgb(25,118,210);
-  }
-  span.three {
-    color: rgb(55,71,79);
-  }
-  span.four {
-    color: rgb(163,172,191);
+  line.c3-xgrid, line.c3-ygrid {
+    stroke-dasharray: 0 0;
+    stroke: #f0f0f0 !important;
   }
 }
 

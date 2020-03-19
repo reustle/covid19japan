@@ -2,6 +2,7 @@ mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFma
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
+const COLOR_ACTIVE = 'rgb(223,14,31)'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
@@ -126,164 +127,74 @@ function drawMap() {
 
 
 function drawTrendChart(sheetTrend) {
-
-  let lastUpdated = ''
-  let labelSet = []
-  let confirmedSet = []
-  let recoveredSet = []
-  let deceasedSet = []
-  let dailyIncreaseSet = []
-
-  let prevConfirmed = -1
-  sheetTrend.map(function(trendData){
-    labelSet.push(new Date(trendData.date))
-    confirmedSet.push({
-      x: new Date(trendData.date),
-      y: parseInt(trendData.confirmed)
-    })
-    recoveredSet.push({
-      x: new Date(trendData.date),
-      y: parseInt(trendData.recovered)
-    })
-    deceasedSet.push({
-      x: new Date(trendData.date),
-      y: parseInt(trendData.deceased)
-    })
-    dailyIncreaseSet.push({
-      x: new Date(trendData.date),
-      y: prevConfirmed === -1 ? 0 : parseInt(trendData.confirmed) - prevConfirmed
-    })
-
-    prevConfirmed = parseInt(trendData.confirmed)
-    lastUpdated = trendData.date
-  })
-
-  var ctx = document.getElementById('trend-chart').getContext('2d')
-  Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
-  Chart.defaults.global.defaultFontSize = 16
-  Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
-
-  var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labelSet,
-      datasets: [
-        {
-          label: 'Deceased',
-          borderColor: COLOR_DECEASED,
-          backgroundColor: COLOR_DECEASED,
-          fill: false,
-          data: deceasedSet
-        },
-        {
-          label: 'Recovered',
-          borderColor: COLOR_RECOVERED,
-          backgroundColor: COLOR_RECOVERED,
-          fill: false,
-          data: recoveredSet
-        },
-        {
-          label: 'Confirmed',
-          borderColor: COLOR_CONFIRMED,
-          backgroundColor: COLOR_CONFIRMED,
-          fill: false,
-          data: confirmedSet
-        },
-        {
-          label: 'Daily Increase',
-          borderColor: COLOR_INCREASE,
-          backgroundColor: COLOR_INCREASE,
-          fill: false,
-          data: dailyIncreaseSet
-        }
-      ]
-    },
-    options: {
-      maintainAspectRatio: false,
-      responsive: true,
-      elements: {
-        line: {
-          tension: 0.1
-        }
-      },
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            parser: TIME_FORMAT,
-            round: 'day',
-            tooltipFormat: 'll'
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Date'
-          }
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Cases'
-          }
-        }]
-      }
-    }
-  });
-}
-
-function drawTrendChart2(sheetTrend) {
   
   var cols = {
     Date: ['Date'],
     Confirmed: ['Confirmed'],
+    Active: ['Active'],
     Critical: ['Critical'],
     Deceased: ['Deceased'],
     Recovered: ['Recovered'],
-    Tested: ['Tested']
+    Tested: ['Tested'],
   }
   
   for(var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
+    
+    if(i === 0){
+      // Skip early feb data point
+      continue
+    }
     
     cols.Date.push(row.date)
     cols.Confirmed.push(parseInt(row.confirmed))
     cols.Critical.push(parseInt(row.critical))
     cols.Deceased.push(parseInt(row.deceased))
     cols.Recovered.push(parseInt(row.recovered))
+    cols.Active.push(parseInt(row.confirmed) - parseInt(row.deceased) - parseInt(row.recovered))
     //cols.Tested.push(parseInt(row.tested))
 
   }
   
   var chart = c3.generate({
-    bindto: '#trend2-chart',
+    bindto: '#trend-chart',
     data: {
         x: 'Date',
         columns: [
           cols.Date,
           cols.Confirmed,
+          cols.Active,
           cols.Recovered,
           cols.Deceased,
           //cols.Tested
         ]
     },
     color: {
-      pattern: [COLOR_CONFIRMED, COLOR_RECOVERED, COLOR_DECEASED]
+      pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED]
+    },
+    point: {
+      r: 3,
     },
     axis: {
         x: {
             type: 'timeseries',
             tick: {
-                format: '%b %d'
+                format: '%b %d',
+                count: 6
             }
+        },
+        y: {
+          tick: {
+            values: [0, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
+          }
         }
     },
     tooltip: {
       format: {
         value: function (value, ratio, id, index) {
-          if(index){
-            return value + ' (+' + (parseInt(value) - cols[id][index]) + ')'
+          if(index && cols[id][index]){
+            var diff = parseInt(value) - cols[id][index]
+            return value + ' (' + (diff>=0?'+':'') + diff + ')'
           }else{
             return value
           }
@@ -588,7 +499,6 @@ window.onload = function(){
         drawPageTitleCount(ddb.totals.confirmed)
         drawPrefectureTable(ddb.prefectures, ddb.totals)
         drawTrendChart(ddb.trend)
-        drawTrendChart2(ddb.trend)
       }
 
       whenMapAndDataReady()
