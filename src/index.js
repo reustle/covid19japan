@@ -9,6 +9,23 @@ const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
 
+const EMPTY_DATA = {
+  totals: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+    tested: 0,
+    critical: 0
+  },
+  totalsDiff: {
+    confirmed: 0,
+    recovered: 0,
+    deceased: 0,
+    tested: 0,
+    critical: 0
+  }
+}
+
 // Global vars
 let ddb = {
   prefectures: undefined,
@@ -29,6 +46,7 @@ let ddb = {
   }
 }
 let map = undefined
+
 
 
 // IE11 forEach Polyfill
@@ -52,7 +70,12 @@ function loadData(callback) {
     return res.json()
   })
   .then(function(data){
+    hideFetchErrorState()
     callback(data)
+  })
+  .catch(function(err) {
+    drawFetchErrorState(err)
+    drawKpis(EMPTY_DATA.totals, EMPTY_DATA.totalsDiff)
   })
 }
 
@@ -288,6 +311,27 @@ function drawPrefectureTable(prefectures, totals) {
   dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
+function drawFetchErrorState(error) {
+  let errorMessage = document.querySelector('#error-message')
+  if (errorMessage) {
+    errorMessage.innerHTML = 'Unable to get data.'
+  }
+
+  let retry = document.querySelector('#retry-button')
+  if (retry) {
+    retry.onclick = loadDataOnPage
+  }
+
+  let kpi = document.querySelector('#error-retry')
+  if (kpi) {
+    kpi.classList.add('error')
+  }
+}
+
+function hideFetchErrorState() {
+  let kpi = document.querySelector('#error-retry')
+  kpi.classList.remove('error')
+}
 
 function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
@@ -473,6 +517,45 @@ function initDataTranslate() {
   })
 }
 
+
+function loadDataOnPage() {
+  loadData(function(data) {
+    jsonData = data
+
+    ddb.prefectures = jsonData.prefectures
+    let newTotals = calculateTotals(jsonData.daily)
+    ddb.totals = newTotals[0]
+    ddb.totalsDiff = newTotals[1]
+    ddb.trend = jsonData.daily
+    ddb.lastUpdated = jsonData.updated[0].lastupdated
+
+    drawKpis(ddb.totals, ddb.totalsDiff)
+    if (!document.body.classList.contains('embed-mode')) {
+      drawLastUpdated(ddb.lastUpdated)
+      drawPageTitleCount(ddb.totals.confirmed)
+      drawPrefectureTable(ddb.prefectures, ddb.totals)
+      drawTrendChart(ddb.trend)
+    }
+
+    whenMapAndDataReady()
+  })
+}
+
+var pageDraws = 0
+var styleLoaded = false
+var jsonData = undefined
+function whenMapAndDataReady(){
+  // This runs drawMapPref only when
+  // both style and json data are ready
+
+  if(!styleLoaded || !jsonData){
+    return
+  }
+
+  drawMapPrefectures(pageDraws)
+}
+
+
 window.onload = function(){
   
   // Enable tooltips
@@ -480,54 +563,17 @@ window.onload = function(){
 
   initDataTranslate()
   drawMap()
-
-  var pageDraws = 0
-  var styleLoaded = false
-  var jsonData = undefined
-  const FIVE_MINUTES_IN_MS = 300000
-
-  function whenMapAndDataReady(){
-    // This runs drawMapPref only when
-    // both style and json data are ready
-
-    if(!styleLoaded || !jsonData){
-      return
-    }
-
-    drawMapPrefectures(pageDraws)
-  }
-
+ 
   map.once('style.load', function(e) {
     styleLoaded = true
     whenMapAndDataReady()
   })
 
-  function loadDataOnPage() {
-    loadData(function(data) {
-      jsonData = data
-
-      ddb.prefectures = jsonData.prefectures
-      let newTotals = calculateTotals(jsonData.daily)
-      ddb.totals = newTotals[0]
-      ddb.totalsDiff = newTotals[1]
-      ddb.trend = jsonData.daily
-      ddb.lastUpdated = jsonData.updated[0].lastupdated
-
-      drawKpis(ddb.totals, ddb.totalsDiff)
-      if (!document.body.classList.contains('embed-mode')) {
-        drawLastUpdated(ddb.lastUpdated)
-        drawPageTitleCount(ddb.totals.confirmed)
-        drawPrefectureTable(ddb.prefectures, ddb.totals)
-        drawTrendChart(ddb.trend)
-      }
-
-      whenMapAndDataReady()
-    })
-  }
 
   loadDataOnPage()
 
   // Reload data every INTERVAL
+  const FIVE_MINUTES_IN_MS = 300000
   setInterval(function() {
     pageDraws++
     loadDataOnPage()

@@ -57,13 +57,50 @@ h1 {
   font-size: 24px;
 }
 
+#error-retry {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(255, 255, 255, 0.9);
+
+  #error-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;  
+  }
+
+  #error-message {
+    margin: 8px;
+  }
+
+  a#retry-button {
+    text-decoration: none;
+    background: rgb(24,118,211);
+    color: white;
+    padding: 4px 32px;
+    border-radius: 16px;    
+  }
+
+}
+
+#error-retry.error {
+  display: flex;
+  align-items: center;
+  justify-content: center;  
+}
+
 #kpi {
   padding-top: 20px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   text-align: center;
-  
+
+ 
   >div {
     width: 30%;
     margin-bottom: 35px;
@@ -118,8 +155,6 @@ h1 {
     font-size: 18px;
     font-weight: 700;
   }
-  
-
 }
 
 #map-container {
