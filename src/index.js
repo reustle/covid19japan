@@ -312,6 +312,8 @@ function drawPrefectureTable(prefectures, totals) {
 }
 
 function drawFetchErrorState(error) {
+  document.body.classList.add('error');
+
   let errorMessage = document.querySelector('#error-message')
   if (errorMessage) {
     errorMessage.innerHTML = 'Unable to get data.'
@@ -331,6 +333,8 @@ function drawFetchErrorState(error) {
 function hideFetchErrorState() {
   let kpi = document.querySelector('#error-retry')
   kpi.classList.remove('error')
+  document.body.classList.remove('error');
+
 }
 
 function drawKpis(totals, totalsDiff) {
