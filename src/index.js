@@ -332,7 +332,9 @@ function drawFetchErrorState(error) {
 
 function hideFetchErrorState() {
   let kpi = document.querySelector('#error-retry')
-  kpi.classList.remove('error')
+  if (kpi) {
+    kpi.classList.remove('error')
+  }
   document.body.classList.remove('error');
 
 }
