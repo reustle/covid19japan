@@ -9,22 +9,6 @@ const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
 
-const EMPTY_DATA = {
-  totals: {
-    confirmed: 0,
-    recovered: 0,
-    deceased: 0,
-    tested: 0,
-    critical: 0
-  },
-  totalsDiff: {
-    confirmed: 0,
-    recovered: 0,
-    deceased: 0,
-    tested: 0,
-    critical: 0
-  }
-}
 
 // Global vars
 let ddb = {
@@ -61,22 +45,32 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
 }
 
 
-
+// Fetches data from the JSON_PATH but applies an exponential
+// backoff if there is an error.
 function loadData(callback) {
-  // Load the json data file
-  
-  fetch(JSON_PATH)
-  .then(function(res){
-    return res.json()
-  })
-  .then(function(data){
-    hideFetchErrorState()
-    callback(data)
-  })
-  .catch(function(err) {
-    drawFetchErrorState(err)
-    drawKpis(EMPTY_DATA.totals, EMPTY_DATA.totalsDiff)
-  })
+  let delay = 2 * 1000 // 2 seconds
+
+  const tryFetch = function(retryFn) {
+    // Load the json data file
+    fetch(JSON_PATH)
+    .then(function(res){
+      return res.json()
+    })
+    .then(function(data){
+      callback(data)
+    })
+    .catch(function(err) {
+      retryFn(delay, err)
+      delay *= 2  // exponential backoff.
+    })
+  }
+
+  const retryFetchWithDelay = function(delay, err) {
+    console.log(err + ': retrying after ' + delay + 'ms.')
+    setTimeout(function() { tryFetch(retryFetchWithDelay) }, delay)
+  }
+
+  tryFetch(retryFetchWithDelay)
 }
 
 
@@ -309,34 +303,6 @@ function drawPrefectureTable(prefectures, totals) {
   }
 
   dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
-}
-
-function drawFetchErrorState(error) {
-  document.body.classList.add('error');
-
-  let errorMessage = document.querySelector('#error-message')
-  if (errorMessage) {
-    errorMessage.innerHTML = 'Unable to get data.'
-  }
-
-  let retry = document.querySelector('#retry-button')
-  if (retry) {
-    retry.onclick = loadDataOnPage
-  }
-
-  let kpi = document.querySelector('#error-retry')
-  if (kpi) {
-    kpi.classList.add('error')
-  }
-}
-
-function hideFetchErrorState() {
-  let kpi = document.querySelector('#error-retry')
-  if (kpi) {
-    kpi.classList.remove('error')
-  }
-  document.body.classList.remove('error');
-
 }
 
 function drawKpis(totals, totalsDiff) {
