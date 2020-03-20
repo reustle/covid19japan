@@ -34,10 +34,10 @@ module.exports = {
       chunks: ['index']
     }),
     new CopyPlugin([
-      { from: 'static/**', to: '.', flatten: false }
+      { from: 'CNAME', to: '.', flatten: false }
     ]),
     new CopyPlugin([
-      { from: 'CNAME', to: '.', flatten: false }
+      { from: 'static/**', to: '.', flatten: false }
     ]),
     new MiniCssExtractPlugin({
       filename: '[name].css'
