@@ -491,13 +491,6 @@ function initDataTranslate() {
   })
 }
 
-window.onload = function(){
-  
-  // Enable tooltips
-  if (tippy) {
-    tippy('[data-tippy-content]')
-  }
-
 function loadDataOnPage() {
   loadData(function(data) {
     jsonData = data
