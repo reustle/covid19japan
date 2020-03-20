@@ -1,4 +1,10 @@
-const tippy = require('tippy.js').default;
+const _ = require('lodash')
+const Chart = require('chart.js')
+const tippy = require('tippy.js').default
+
+// fetch polyfill only needs an import.
+import 'whatwg-fetch'
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
