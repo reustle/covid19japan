@@ -1,3 +1,5 @@
+const tippy = require('tippy.js').default;
+
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
@@ -489,6 +491,12 @@ function initDataTranslate() {
   })
 }
 
+window.onload = function(){
+  
+  // Enable tooltips
+  if (tippy) {
+    tippy('[data-tippy-content]')
+  }
 
 function loadDataOnPage() {
   loadData(function(data) {

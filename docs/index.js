@@ -1,1 +1,125 @@
-!function(e){var t={};function r(n){if(t[n])return t[n].exports;var o=t[n]={i:n,l:!1,exports:{}};return e[n].call(o.exports,o,o.exports,r),o.l=!0,o.exports}r.m=e,r.c=t,r.d=function(e,t,n){r.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:n})},r.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},r.t=function(e,t){if(1&t&&(e=r(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var n=Object.create(null);if(r.r(n),Object.defineProperty(n,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)r.d(n,o,function(t){return e[t]}.bind(null,o));return n},r.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return r.d(t,"a",t),t},r.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},r.p="/",r(r.s=0)}([function(e,t,r){r(1),e.exports=r(2)},function(e,t){mapboxgl.accessToken="pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";let r="en",n={prefectures:void 0,trend:void 0,totals:{confirmed:0,recovered:0,deceased:0,tested:0,critical:0},totalsDiff:{confirmed:0,recovered:0,deceased:0,tested:0,critical:0}},o=void 0;function a(e,t){let n=document.querySelector("#prefectures-table tbody"),o="";n.innerHTML="",_.map(e,(function(e){e.confirmed=e.cases?parseInt(e.cases):0,e.recovered=e.recovered?parseInt(e.recovered):0,e.deceased=e.deaths?parseInt(e.deaths):0})),_.orderBy(e,"confirmed","desc").map((function(e){if(!e.confirmed&&!e.recovered&&!e.deceased)return;let t;return t="en"==r?e.prefecture:e.prefectureja,"Unspecified"==e.prefecture?o="<tr><td><em>"+t+"</em></td><td>"+e.confirmed+"</td><td>"+e.recovered+"</td><td>"+e.deaths+"</td></tr>":"Total"==e.prefecture||(n.innerHTML=n.innerHTML+"<tr><td>"+t+"</td><td>"+e.confirmed+"</td><td></td><td>"+(e.deceased?e.deceased:"")+"</td></tr>"),!0})),n.innerHTML=n.innerHTML+o;let a="Total";"ja"==r&&(a="計"),n.innerHTML=n.innerHTML+"<tr class='totals'><td>"+a+"</td><td>"+t.confirmed+"</td><td>"+t.recovered+"</td><td>"+t.deceased+"</td></tr>"}function d(){!function(e){let t=2e3;const r=function(r){fetch("https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json").then((function(e){return e.json()})).then((function(t){e(t)})).catch((function(e){r(t,e),t*=2}))},n=function(e,t){console.log(t+": retrying after "+e+"ms."),setTimeout((function(){r(n)}),e)};r(n)}((function(e){l=e,n.prefectures=l.prefectures;let t=function(e){let t={confirmed:0,recovered:0,deceased:0,critical:0,tested:0},r={confirmed:1,recovered:1,deceased:1,critical:1,tested:1};function n(n){e[e.length-1][n].length?(t[n]=parseInt(e[e.length-1][n]),r[n]=t[n]-parseInt(e[e.length-2][n])):(t[n]=parseInt(e[e.length-2][n]),r[n]=t[n]-parseInt(e[e.length-3][n]))}return n("tested"),n("critical"),n("confirmed"),n("recovered"),n("deceased"),[t,r]}(l.daily);var r,o;n.totals=t[0],n.totalsDiff=t[1],n.trend=l.daily,n.lastUpdated=l.updated[0].lastupdated,function(e,t){function r(e,t){document.querySelector("#kpi-"+e+" .value").innerHTML=t}function n(e,t){let r=t>=0?"+":"";document.querySelector("#kpi-"+e+" .diff").innerHTML="( "+r+t+" )"}r("confirmed",e.confirmed),n("confirmed",t.confirmed),r("recovered",e.recovered),n("recovered",t.recovered),r("deceased",e.deceased),n("deceased",t.deceased),r("critical",e.critical),n("critical",t.critical),r("tested",e.tested),n("tested",t.tested),r("active",e.confirmed-e.recovered-e.deceased),n("active",t.confirmed-t.recovered-t.deceased)}(n.totals,n.totalsDiff),document.body.classList.contains("embed-mode")||(o=n.lastUpdated,document.getElementById("last-updated").innerHTML=o,r=n.totals.confirmed,document.title="("+r+") Coronavirus Disease (COVID-19) Japan Tracker",a(n.prefectures,n.totals),function(e){let t="",r=[],n=[],o=[],a=[],d=[],c=-1;e.map((function(e){r.push(new Date(e.date)),n.push({x:new Date(e.date),y:parseInt(e.confirmed)}),o.push({x:new Date(e.date),y:parseInt(e.recovered)}),a.push({x:new Date(e.date),y:parseInt(e.deceased)}),d.push({x:new Date(e.date),y:-1===c?0:parseInt(e.confirmed)-c}),c=parseInt(e.confirmed),t=e.date}));var i=document.getElementById("trend-chart").getContext("2d");Chart.defaults.global.defaultFontFamily="'Open Sans', helvetica, sans-serif",Chart.defaults.global.defaultFontSize=16,Chart.defaults.global.defaultFontColor="rgb(0,10,18)",new Chart(i,{type:"line",data:{labels:r,datasets:[{label:"Deceased",borderColor:"rgb(55,71,79)",backgroundColor:"rgb(55,71,79)",fill:!1,data:a},{label:"Recovered",borderColor:"rgb(25,118,210)",backgroundColor:"rgb(25,118,210)",fill:!1,data:o},{label:"Confirmed",borderColor:"rgb(244,67,54)",backgroundColor:"rgb(244,67,54)",fill:!1,data:n},{label:"Daily Increase",borderColor:"rgb(163,172,191)",backgroundColor:"rgb(163,172,191)",fill:!1,data:d}]},options:{maintainAspectRatio:!1,responsive:!0,elements:{line:{tension:.1}},legend:{display:!1},scales:{xAxes:[{type:"time",time:{parser:"YYYY-MM-DD",round:"day",tooltipFormat:"ll"},scaleLabel:{display:!0,labelString:"Date"}}],yAxes:[{scaleLabel:{display:!0,labelString:"Cases"}}]}}})}(n.trend)),s()}))}"NodeList"in window&&!NodeList.prototype.forEach&&(console.info("polyfill for IE11"),NodeList.prototype.forEach=function(e,t){t=t||window;for(var r=0;r<this.length;r++)e.call(t,this[r],r,this)});var c=0,i=!1,l=void 0;function s(){i&&l&&function(e){for(var t,r=o.getStyle().layers,a=0;a<r.length;a++)if("symbol"===r[a].type){t=r[a].id;break}let d=["match",["get","NAME_1"]];if(n.prefectures.map((function(e){let t=parseInt(e.cases);t>0&&(d.push(e.prefecture),t<=10?d.push("rgb(253,234,203)"):t<=25?d.push("rgb(251,155,127)"):t<=50?d.push("rgb(244,67,54)"):d.push("rgb(186,0,13)"))})),d.push("rgba(0,0,0,0)"),0===e){o.addSource("prefectures",{type:"geojson",data:"static/prefectures.geojson"}),o.addLayer({id:"prefecture-layer",type:"fill",source:"prefectures",layout:{},paint:{"fill-color":d,"fill-opacity":.8}},t);o.addLayer({id:"prefecture-outline-layer",type:"line",source:"prefectures",layout:{},paint:{"line-width":.5,"line-color":"#c0c0c0","line-opacity":.5}},t)}else o.setPaintProperty("prefecture-layer","fill-color",d)}(c)}window.onload=function(){tippy("[data-tippy-content]"),function(){const e=function(e){document.querySelectorAll("[data-ja]").forEach(e)};e((function(e){e.dataset.en=e.textContent})),document.querySelectorAll("[data-lang-picker]").forEach((function(t){t.addEventListener("click",(function(t){t.preventDefault(),r=t.target.dataset.langPicker,e((function(e){e.dataset[r]&&(e.textContent=e.dataset[r])})),o.getStyle().layers.forEach((function(e){"symbol"==e.type&&o.setLayoutProperty(e.id,"text-field",["get","name_"+r])})),document.getElementById("prefectures-table")&&a(n.prefectures,n.totals),document.querySelectorAll("a[data-lang-picker]").forEach((function(e){e.style.display="inline"})),document.querySelector("a[data-lang-picker="+r+"]").style.display="none"}))}))}(),o=new mapboxgl.Map({container:"map-container",style:"mapbox://styles/mapbox/light-v10",zoom:4,minZoom:3.5,maxZoom:7,center:{lng:139.11792973051274,lat:38.52245616545571},maxBounds:[{lat:12.118318014416644,lng:100.01240618330542},{lat:59.34721256263214,lng:175.3273570446982}]}),o.dragRotate.disable(),o.touchZoomRotate.disableRotation(),o.scrollZoom.disable(),o.addControl(new mapboxgl.NavigationControl({showCompass:!1,showZoom:!0})),o.once("style.load",(function(e){i=!0,s()})),d();setInterval((function(){c++,d()}),3e5)}},function(e,t,r){}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "/";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+throw new Error("Module parse failed: Unexpected token (494:0)\nYou may need an appropriate loader to handle this file type, currently no loaders are configured to process this file. See https://webpack.js.org/concepts#loaders\n| }\n| \n> <<<<<<< HEAD\n| =======\n| window.onload = function(){");
+
+/***/ }),
+
+/***/ "./src/index.scss":
+/*!************************!*\
+  !*** ./src/index.scss ***!
+  \************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
+/***/ 0:
+/*!*********************************************!*\
+  !*** multi ./src/index.js ./src/index.scss ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(/*! ./src/index.js */"./src/index.js");
+module.exports = __webpack_require__(/*! ./src/index.scss */"./src/index.scss");
+
+
+/***/ })
+
+/******/ });
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8vd2VicGFjay9ib290c3RyYXAiLCJ3ZWJwYWNrOi8vLy4vc3JjL2luZGV4LnNjc3M/ZDYzZCJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiO1FBQUE7UUFDQTs7UUFFQTtRQUNBOztRQUVBO1FBQ0E7UUFDQTtRQUNBO1FBQ0E7UUFDQTtRQUNBO1FBQ0E7UUFDQTtRQUNBOztRQUVBO1FBQ0E7O1FBRUE7UUFDQTs7UUFFQTtRQUNBO1FBQ0E7OztRQUdBO1FBQ0E7O1FBRUE7UUFDQTs7UUFFQTtRQUNBO1FBQ0E7UUFDQSwwQ0FBMEMsZ0NBQWdDO1FBQzFFO1FBQ0E7O1FBRUE7UUFDQTtRQUNBO1FBQ0Esd0RBQXdELGtCQUFrQjtRQUMxRTtRQUNBLGlEQUFpRCxjQUFjO1FBQy9EOztRQUVBO1FBQ0E7UUFDQTtRQUNBO1FBQ0E7UUFDQTtRQUNBO1FBQ0E7UUFDQTtRQUNBO1FBQ0E7UUFDQSx5Q0FBeUMsaUNBQWlDO1FBQzFFLGdIQUFnSCxtQkFBbUIsRUFBRTtRQUNySTtRQUNBOztRQUVBO1FBQ0E7UUFDQTtRQUNBLDJCQUEyQiwwQkFBMEIsRUFBRTtRQUN2RCxpQ0FBaUMsZUFBZTtRQUNoRDtRQUNBO1FBQ0E7O1FBRUE7UUFDQSxzREFBc0QsK0RBQStEOztRQUVySDtRQUNBOzs7UUFHQTtRQUNBOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7OztBQ2xGQSx1QyIsImZpbGUiOiJpbmRleC5qcyIsInNvdXJjZXNDb250ZW50IjpbIiBcdC8vIFRoZSBtb2R1bGUgY2FjaGVcbiBcdHZhciBpbnN0YWxsZWRNb2R1bGVzID0ge307XG5cbiBcdC8vIFRoZSByZXF1aXJlIGZ1bmN0aW9uXG4gXHRmdW5jdGlvbiBfX3dlYnBhY2tfcmVxdWlyZV9fKG1vZHVsZUlkKSB7XG5cbiBcdFx0Ly8gQ2hlY2sgaWYgbW9kdWxlIGlzIGluIGNhY2hlXG4gXHRcdGlmKGluc3RhbGxlZE1vZHVsZXNbbW9kdWxlSWRdKSB7XG4gXHRcdFx0cmV0dXJuIGluc3RhbGxlZE1vZHVsZXNbbW9kdWxlSWRdLmV4cG9ydHM7XG4gXHRcdH1cbiBcdFx0Ly8gQ3JlYXRlIGEgbmV3IG1vZHVsZSAoYW5kIHB1dCBpdCBpbnRvIHRoZSBjYWNoZSlcbiBcdFx0dmFyIG1vZHVsZSA9IGluc3RhbGxlZE1vZHVsZXNbbW9kdWxlSWRdID0ge1xuIFx0XHRcdGk6IG1vZHVsZUlkLFxuIFx0XHRcdGw6IGZhbHNlLFxuIFx0XHRcdGV4cG9ydHM6IHt9XG4gXHRcdH07XG5cbiBcdFx0Ly8gRXhlY3V0ZSB0aGUgbW9kdWxlIGZ1bmN0aW9uXG4gXHRcdG1vZHVsZXNbbW9kdWxlSWRdLmNhbGwobW9kdWxlLmV4cG9ydHMsIG1vZHVsZSwgbW9kdWxlLmV4cG9ydHMsIF9fd2VicGFja19yZXF1aXJlX18pO1xuXG4gXHRcdC8vIEZsYWcgdGhlIG1vZHVsZSBhcyBsb2FkZWRcbiBcdFx0bW9kdWxlLmwgPSB0cnVlO1xuXG4gXHRcdC8vIFJldHVybiB0aGUgZXhwb3J0cyBvZiB0aGUgbW9kdWxlXG4gXHRcdHJldHVybiBtb2R1bGUuZXhwb3J0cztcbiBcdH1cblxuXG4gXHQvLyBleHBvc2UgdGhlIG1vZHVsZXMgb2JqZWN0IChfX3dlYnBhY2tfbW9kdWxlc19fKVxuIFx0X193ZWJwYWNrX3JlcXVpcmVfXy5tID0gbW9kdWxlcztcblxuIFx0Ly8gZXhwb3NlIHRoZSBtb2R1bGUgY2FjaGVcbiBcdF9fd2VicGFja19yZXF1aXJlX18uYyA9IGluc3RhbGxlZE1vZHVsZXM7XG5cbiBcdC8vIGRlZmluZSBnZXR0ZXIgZnVuY3Rpb24gZm9yIGhhcm1vbnkgZXhwb3J0c1xuIFx0X193ZWJwYWNrX3JlcXVpcmVfXy5kID0gZnVuY3Rpb24oZXhwb3J0cywgbmFtZSwgZ2V0dGVyKSB7XG4gXHRcdGlmKCFfX3dlYnBhY2tfcmVxdWlyZV9fLm8oZXhwb3J0cywgbmFtZSkpIHtcbiBcdFx0XHRPYmplY3QuZGVmaW5lUHJvcGVydHkoZXhwb3J0cywgbmFtZSwgeyBlbnVtZXJhYmxlOiB0cnVlLCBnZXQ6IGdldHRlciB9KTtcbiBcdFx0fVxuIFx0fTtcblxuIFx0Ly8gZGVmaW5lIF9fZXNNb2R1bGUgb24gZXhwb3J0c1xuIFx0X193ZWJwYWNrX3JlcXVpcmVfXy5yID0gZnVuY3Rpb24oZXhwb3J0cykge1xuIFx0XHRpZih0eXBlb2YgU3ltYm9sICE9PSAndW5kZWZpbmVkJyAmJiBTeW1ib2wudG9TdHJpbmdUYWcpIHtcbiBcdFx0XHRPYmplY3QuZGVmaW5lUHJvcGVydHkoZXhwb3J0cywgU3ltYm9sLnRvU3RyaW5nVGFnLCB7IHZhbHVlOiAnTW9kdWxlJyB9KTtcbiBcdFx0fVxuIFx0XHRPYmplY3QuZGVmaW5lUHJvcGVydHkoZXhwb3J0cywgJ19fZXNNb2R1bGUnLCB7IHZhbHVlOiB0cnVlIH0pO1xuIFx0fTtcblxuIFx0Ly8gY3JlYXRlIGEgZmFrZSBuYW1lc3BhY2Ugb2JqZWN0XG4gXHQvLyBtb2RlICYgMTogdmFsdWUgaXMgYSBtb2R1bGUgaWQsIHJlcXVpcmUgaXRcbiBcdC8vIG1vZGUgJiAyOiBtZXJnZSBhbGwgcHJvcGVydGllcyBvZiB2YWx1ZSBpbnRvIHRoZSBuc1xuIFx0Ly8gbW9kZSAmIDQ6IHJldHVybiB2YWx1ZSB3aGVuIGFscmVhZHkgbnMgb2JqZWN0XG4gXHQvLyBtb2RlICYgOHwxOiBiZWhhdmUgbGlrZSByZXF1aXJlXG4gXHRfX3dlYnBhY2tfcmVxdWlyZV9fLnQgPSBmdW5jdGlvbih2YWx1ZSwgbW9kZSkge1xuIFx0XHRpZihtb2RlICYgMSkgdmFsdWUgPSBfX3dlYnBhY2tfcmVxdWlyZV9fKHZhbHVlKTtcbiBcdFx0aWYobW9kZSAmIDgpIHJldHVybiB2YWx1ZTtcbiBcdFx0aWYoKG1vZGUgJiA0KSAmJiB0eXBlb2YgdmFsdWUgPT09ICdvYmplY3QnICYmIHZhbHVlICYmIHZhbHVlLl9fZXNNb2R1bGUpIHJldHVybiB2YWx1ZTtcbiBcdFx0dmFyIG5zID0gT2JqZWN0LmNyZWF0ZShudWxsKTtcbiBcdFx0X193ZWJwYWNrX3JlcXVpcmVfXy5yKG5zKTtcbiBcdFx0T2JqZWN0LmRlZmluZVByb3BlcnR5KG5zLCAnZGVmYXVsdCcsIHsgZW51bWVyYWJsZTogdHJ1ZSwgdmFsdWU6IHZhbHVlIH0pO1xuIFx0XHRpZihtb2RlICYgMiAmJiB0eXBlb2YgdmFsdWUgIT0gJ3N0cmluZycpIGZvcih2YXIga2V5IGluIHZhbHVlKSBfX3dlYnBhY2tfcmVxdWlyZV9fLmQobnMsIGtleSwgZnVuY3Rpb24oa2V5KSB7IHJldHVybiB2YWx1ZVtrZXldOyB9LmJpbmQobnVsbCwga2V5KSk7XG4gXHRcdHJldHVybiBucztcbiBcdH07XG5cbiBcdC8vIGdldERlZmF1bHRFeHBvcnQgZnVuY3Rpb24gZm9yIGNvbXBhdGliaWxpdHkgd2l0aCBub24taGFybW9ueSBtb2R1bGVzXG4gXHRfX3dlYnBhY2tfcmVxdWlyZV9fLm4gPSBmdW5jdGlvbihtb2R1bGUpIHtcbiBcdFx0dmFyIGdldHRlciA9IG1vZHVsZSAmJiBtb2R1bGUuX19lc01vZHVsZSA/XG4gXHRcdFx0ZnVuY3Rpb24gZ2V0RGVmYXVsdCgpIHsgcmV0dXJuIG1vZHVsZVsnZGVmYXVsdCddOyB9IDpcbiBcdFx0XHRmdW5jdGlvbiBnZXRNb2R1bGVFeHBvcnRzKCkgeyByZXR1cm4gbW9kdWxlOyB9O1xuIFx0XHRfX3dlYnBhY2tfcmVxdWlyZV9fLmQoZ2V0dGVyLCAnYScsIGdldHRlcik7XG4gXHRcdHJldHVybiBnZXR0ZXI7XG4gXHR9O1xuXG4gXHQvLyBPYmplY3QucHJvdG90eXBlLmhhc093blByb3BlcnR5LmNhbGxcbiBcdF9fd2VicGFja19yZXF1aXJlX18ubyA9IGZ1bmN0aW9uKG9iamVjdCwgcHJvcGVydHkpIHsgcmV0dXJuIE9iamVjdC5wcm90b3R5cGUuaGFzT3duUHJvcGVydHkuY2FsbChvYmplY3QsIHByb3BlcnR5KTsgfTtcblxuIFx0Ly8gX193ZWJwYWNrX3B1YmxpY19wYXRoX19cbiBcdF9fd2VicGFja19yZXF1aXJlX18ucCA9IFwiL1wiO1xuXG5cbiBcdC8vIExvYWQgZW50cnkgbW9kdWxlIGFuZCByZXR1cm4gZXhwb3J0c1xuIFx0cmV0dXJuIF9fd2VicGFja19yZXF1aXJlX18oX193ZWJwYWNrX3JlcXVpcmVfXy5zID0gMCk7XG4iLCIvLyBleHRyYWN0ZWQgYnkgbWluaS1jc3MtZXh0cmFjdC1wbHVnaW4iXSwic291cmNlUm9vdCI6IiJ9

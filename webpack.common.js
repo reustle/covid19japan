@@ -34,6 +34,9 @@ module.exports = {
       chunks: ['index']
     }),
     new CopyPlugin([
+      { from: 'CNAME', to: '.', flatten: false }
+    ]),
+    new CopyPlugin([
       { from: 'static/**', to: '.', flatten: false }
     ]),
     new CopyPlugin([
