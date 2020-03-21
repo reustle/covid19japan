@@ -56,7 +56,8 @@ module.exports = {
         use: {
             loader: 'babel-loader',
             options: {
-                presets: ['@babel/preset-env']
+              plugins: [ 'lodash' ],
+              presets: ['@babel/preset-env']
             }
         }
       },
