@@ -1,9 +1,12 @@
-const _ = require('lodash')
-const Chart = require('chart.js')
-const tippy = require('tippy.js').default
 
-// fetch polyfill only needs an import.
+// Injects required polyfills for IE11
+import 'core-js/stable'
 import 'whatwg-fetch'
+
+// Add all non-polyfill deps below.
+import _ from 'lodash'
+import Chart from 'chart.js'
+import tippy from 'tippy.js'
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
