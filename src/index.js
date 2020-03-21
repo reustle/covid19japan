@@ -1,4 +1,10 @@
-const tippy = require('tippy.js').default;
+const _ = require('lodash')
+const Chart = require('chart.js')
+const tippy = require('tippy.js').default
+
+// fetch polyfill only needs an import.
+import 'whatwg-fetch'
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
@@ -10,6 +16,7 @@ const COLOR_DECEASED = 'rgb(55,71,79)'
 const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
+
 
 // Global vars
 let ddb = {
@@ -33,6 +40,7 @@ let ddb = {
 let map = undefined
 
 
+
 // IE11 forEach Polyfill
 if ('NodeList' in window && !NodeList.prototype.forEach) {
   console.info('polyfill for IE11');
@@ -45,17 +53,32 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
 }
 
 
-
+// Fetches data from the JSON_PATH but applies an exponential
+// backoff if there is an error.
 function loadData(callback) {
-  // Load the json data file
-  
-  fetch(JSON_PATH)
-  .then(function(res){
-    return res.json()
-  })
-  .then(function(data){
-    callback(data)
-  })
+  let delay = 2 * 1000 // 2 seconds
+
+  const tryFetch = function(retryFn) {
+    // Load the json data file
+    fetch(JSON_PATH)
+    .then(function(res){
+      return res.json()
+    })
+    .then(function(data){
+      callback(data)
+    })
+    .catch(function(err) {
+      retryFn(delay, err)
+      delay *= 2  // exponential backoff.
+    })
+  }
+
+  const retryFetchWithDelay = function(delay, err) {
+    console.log(err + ': retrying after ' + delay + 'ms.')
+    setTimeout(function() { tryFetch(retryFetchWithDelay) }, delay)
+  }
+
+  tryFetch(retryFetchWithDelay)
 }
 
 
@@ -290,7 +313,6 @@ function drawPrefectureTable(prefectures, totals) {
   dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
-
 function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
 
@@ -475,63 +497,62 @@ function initDataTranslate() {
   })
 }
 
+function loadDataOnPage() {
+  loadData(function(data) {
+    jsonData = data
+
+    ddb.prefectures = jsonData.prefectures
+    let newTotals = calculateTotals(jsonData.daily)
+    ddb.totals = newTotals[0]
+    ddb.totalsDiff = newTotals[1]
+    ddb.trend = jsonData.daily
+    ddb.lastUpdated = jsonData.updated[0].lastupdated
+
+    drawKpis(ddb.totals, ddb.totalsDiff)
+    if (!document.body.classList.contains('embed-mode')) {
+      drawLastUpdated(ddb.lastUpdated)
+      drawPageTitleCount(ddb.totals.confirmed)
+      drawPrefectureTable(ddb.prefectures, ddb.totals)
+      drawTrendChart(ddb.trend)
+    }
+
+    whenMapAndDataReady()
+  })
+}
+
+var pageDraws = 0
+var styleLoaded = false
+var jsonData = undefined
+function whenMapAndDataReady(){
+  // This runs drawMapPref only when
+  // both style and json data are ready
+
+  if(!styleLoaded || !jsonData){
+    return
+  }
+
+  drawMapPrefectures(pageDraws)
+}
+
+
 window.onload = function(){
   
   // Enable tooltips
-  if (tippy) {
-    tippy('[data-tippy-content]')
-  }
+  tippy('[data-tippy-content]')
 
   initDataTranslate()
   drawMap()
-
-  var pageDraws = 0
-  var styleLoaded = false
-  var jsonData = undefined
-  const FIVE_MINUTES_IN_MS = 300000
-
-  function whenMapAndDataReady(){
-    // This runs drawMapPref only when
-    // both style and json data are ready
-
-    if(!styleLoaded || !jsonData){
-      return
-    }
-
-    drawMapPrefectures(pageDraws)
-  }
-
+ 
   map.once('style.load', function(e) {
     styleLoaded = true
     whenMapAndDataReady()
   })
 
-  function loadDataOnPage() {
-    loadData(function(data) {
-      jsonData = data
-
-      ddb.prefectures = jsonData.prefectures
-      let newTotals = calculateTotals(jsonData.daily)
-      ddb.totals = newTotals[0]
-      ddb.totalsDiff = newTotals[1]
-      ddb.trend = jsonData.daily
-      ddb.lastUpdated = jsonData.updated[0].lastupdated
-
-      drawKpis(ddb.totals, ddb.totalsDiff)
-      if (!document.body.classList.contains('embed-mode')) {
-        drawLastUpdated(ddb.lastUpdated)
-        drawPageTitleCount(ddb.totals.confirmed)
-        drawPrefectureTable(ddb.prefectures, ddb.totals)
-        drawTrendChart(ddb.trend)
-      }
-
-      whenMapAndDataReady()
-    })
-  }
 
   loadDataOnPage()
 
   // Reload data every INTERVAL
+  const FIVE_MINUTES_IN_MS = 300000
   setInterval(function() {
     pageDraws++
     loadDataOnPage()

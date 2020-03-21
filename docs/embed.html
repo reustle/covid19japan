@@ -40,15 +40,18 @@
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
   <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
   <script>
-    Sentry.init({
-      dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
-      debug: false,
-      integrations: [
-        new Sentry.Integrations.CaptureConsole({
-          levels: ['error']
-        })
-      ]
-    })
+    console.log(window.location.hostname)
+    if (window.location.hostname == 'covid19japan.com') {
+      Sentry.init({
+        dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
+        debug: false,
+        integrations: [
+          new Sentry.Integrations.CaptureConsole({
+            levels: ['error']
+          })
+        ]
+      })
+    }
   </script>
   
   <header class="embed-hide">
@@ -69,7 +72,7 @@
       </em>
     </div>
   </header>
-  
+
   <section id="kpi">
     <div id="kpi-active" data-tippy-content="Confirmed cases minus recovered minus deceased" data-tippy-placement="bottom">
       <div class="diff">&nbsp;</div>
@@ -202,9 +205,6 @@
   <!-- JS -->
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/combine/npm/moment@2.24.0/moment.min.js,npm/chart.js@2.8.0,npm/lodash@4.17.15/lodash.min.js,npm/fetch-polyfill@0.8.2/fetch.min.js"></script>
-  
-  
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
