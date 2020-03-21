@@ -11,6 +11,7 @@
           "chrome": "67",
           "safari": "11.1"
         },
+        "modules": false,
         "useBuiltIns": "usage"
       }
     ]

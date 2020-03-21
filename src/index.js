@@ -1,7 +1,7 @@
-const Chart = require('chart.js')
-const tippy = require('tippy.js').default
 
 import _ from 'lodash'
+import Chart from 'chart.js'
+import tippy from 'tippy.js'
 
 // fetch polyfill only needs an import.
 import 'whatwg-fetch'
