@@ -38,6 +38,22 @@ let ddb = {
     deceased: 0,
     tested: 0,
     critical: 0
+  },
+  travelRestrictions: { // TODO: link this to external data source
+    countries: [
+      {
+        name: 'USA',
+        nameJa: '米国',
+        noEntry: false,
+        details: 'https://www.dhs.gov/'
+      },
+      {
+        name: 'Canada',
+        nameJa: 'カナダ',
+        noEntry: true,
+        details: 'https://travel.gc.ca/travelling/advisories'
+      }
+    ],
   }
 }
 let map = undefined
@@ -285,16 +301,16 @@ function drawPrefectureTable(prefectures, totals) {
     if(!pref.confirmed && !pref.recovered && !pref.deceased){
       return
     }
-    
+
     let prefStr
     if(LANG == 'en'){
         prefStr = pref.prefecture
     }else{
       prefStr = pref.prefectureja
     }
-    
+
     // TODO Make this pretty
-    
+
     if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + pref.recovered + "</td><td>" + pref.deaths + "</td></tr>"
@@ -314,6 +330,21 @@ function drawPrefectureTable(prefectures, totals) {
   }
 
   dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+}
+
+function drawForeignBordersTable(countries) {
+  let dataTable = document.querySelector('#foreign-borders-table tbody')
+
+  // Remove the loading cell
+  dataTable.innerHTML = ''
+
+  // Iterate through and render table rows
+  _.orderBy(countries, 'name', 'desc').map(function(country){
+    let name = (LANG == 'en') ? country.name : country.nameJa
+
+    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "X" : "") + "</td><td>" + country.details + "</td></tr>"
+    return true
+  })
 }
 
 function drawKpis(totals, totalsDiff) {
@@ -339,7 +370,7 @@ function drawKpis(totals, totalsDiff) {
   setKpiDiff('tested', totalsDiff.tested)
   setKpi('active', (totals.confirmed - totals.recovered) - totals.deceased)
   setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
-  
+
 }
 
 
@@ -367,7 +398,7 @@ function drawMapPrefectures(pageDraws) {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
-  
+
   var firstSymbolId
   var layers = map.getStyle().layers
   for(var i = 0; i < layers.length; i++) {
@@ -385,11 +416,11 @@ function drawMapPrefectures(pageDraws) {
 
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
-    
+
     let cases = parseInt(prefecture.cases)
     if(cases > 0){
       prefecturePaint.push(prefecture.prefecture)
-      
+
       if(cases <= 10){
         // 1-10 cases
         prefecturePaint.push('rgb(253,234,203)')
@@ -404,7 +435,7 @@ function drawMapPrefectures(pageDraws) {
         prefecturePaint.push('rgb(186,0,13)')
       }
     }
-    
+
   })
 
   // Add a final value to the list for the default color
@@ -430,7 +461,7 @@ function drawMapPrefectures(pageDraws) {
         'fill-opacity': 0.8
       }
     }, firstSymbolId)
-    
+
     // Add another layer with type "line"
     // to provide a styled prefecture border
     let prefBorderLayer = map.addLayer({
@@ -444,12 +475,12 @@ function drawMapPrefectures(pageDraws) {
         'line-opacity': 0.5
       }
     }, firstSymbolId)
-    
+
   } else {
     // Update prefecture paint properties
-    
+
     map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint)
-    
+
   }
 }
 
@@ -471,31 +502,36 @@ function initDataTranslate() {
     pick.addEventListener('click', function(e){
       e.preventDefault()
       LANG = e.target.dataset.langPicker
-      
+
       // Toggle the html lang tags
       parseNode(function(el) {
         if (!el.dataset[LANG]) return;
         el.textContent = el.dataset[LANG]
       })
-      
+
       // Update the map
       map.getStyle().layers.forEach(function(thisLayer){
         if(thisLayer.type == 'symbol'){
           map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
         }
       })
-  
+
       // Redraw the prefectures table
       if(document.getElementById('prefectures-table')){
         drawPrefectureTable(ddb.prefectures, ddb.totals)
       }
-      
+
+      // Redraw the foreign borders restriction table
+      if(document.getElementById('foreign-borders-table')){
+        drawForeignBordersTable(ddb.travelRestrictions.countries)
+      }
+
       // Toggle the lang picker
       document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
         el.style.display = 'inline'
       })
       document.querySelector('a[data-lang-picker='+LANG+']').style.display = 'none'
-      
+
     })
   })
 }
@@ -516,6 +552,7 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
+      drawForeignBordersTable(ddb.travelRestrictions.countries)
       drawTrendChart(ddb.trend)
     }
 
@@ -539,13 +576,13 @@ function whenMapAndDataReady(){
 
 
 window.onload = function(){
-  
+
   // Enable tooltips
   tippy('[data-tippy-content]')
 
   initDataTranslate()
   drawMap()
- 
+
   map.once('style.load', function(e) {
     styleLoaded = true
     whenMapAndDataReady()
