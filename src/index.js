@@ -390,17 +390,17 @@ function drawMapPrefectures(pageDraws) {
     if(cases > 0){
       prefecturePaint.push(prefecture.prefecture)
       
-      if(cases <= 10){
-        // 1-10 cases
+      if(cases <= 50){
+        // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
-      }else if(cases <= 25){
-        // 11-25 cases
+      }else if(cases <= 100){
+        // 51-100 cases
         prefecturePaint.push('rgb(251,155,127)')
-      }else if(cases <= 50){
-        // 26-50 cases
+      }else if(cases <= 200){
+        // 101-200 cases
         prefecturePaint.push('rgb(244,67,54)')
       }else{
-        // 51+ cases
+        // 201+ cases
         prefecturePaint.push('rgb(186,0,13)')
       }
     }
