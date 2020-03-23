@@ -67,7 +67,7 @@ NHK Daily Aggregates
 |Nara    |[新型コロナウイルス感染症の患者の発生について](http://www.pref.nara.jp/module/1356.htm#moduleid1356)|
 |Nagasaki    ||
 |Niigata    ||
-|Oita    ||
+|Oita    |[新型コロナウイルスに関するお知らせ](http://www.pref.oita.jp/site/bosaianzen/shingatacorona.html)|
 |Okayama    ||
 |Okinawa    | [患者の発生について](https://www.pref.okinawa.jp/site/hoken/chiikihoken/kekkaku/2019-ncov.html)|
 |Osaka    | [新型コロナウイルス感染症について](http://www.pref.osaka.lg.jp/iryo/osakakansensho/corona.html)|
