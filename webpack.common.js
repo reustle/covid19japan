@@ -34,6 +34,9 @@ module.exports = {
       chunks: ['index']
     }),
     new CopyPlugin([
+      { from: 'CNAME', to: '.', flatten: false }
+    ]),
+    new CopyPlugin([
       { from: 'static/**', to: '.', flatten: false }
     ]),
     new MiniCssExtractPlugin({
@@ -47,6 +50,16 @@ module.exports = {
         use: [
           'file-loader'
         ]
+      },
+      {
+        test: /\.m?js$/, 
+        exclude: /node_modules/,
+        use: {
+            loader: 'babel-loader',
+            options: {
+              presets: ['@babel/preset-env']
+            }
+        }
       },
       {
         test: /\.scss$/,
