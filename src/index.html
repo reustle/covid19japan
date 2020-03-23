@@ -40,7 +40,6 @@
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
   <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
   <script>
-    console.log(window.location.hostname)
     if (window.location.hostname == 'covid19japan.com') {
       Sentry.init({
         dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
@@ -112,10 +111,10 @@
     <h4 data-ja="ウイルス感染マップ"><span class="embed-show">COVID-19 </span>Outbreak Map</h4>
   </div>
   <section id="map-legend">
-    <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
-    <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
-    <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
-    <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
+    <div><span class="one">▉</span> <span data-ja="1-50 件">1-50 cases</span></div>
+    <div><span class="two">▉</span> <span data-ja="51-100 件">51-100 cases</span></div>
+    <div><span class="three">▉</span> <span data-ja="101-200 件">101-200 cases</span></div>
+    <div><span class="four">▉</span> <span data-ja="201+ 件">201+ cases</span></div>
   </section>
   <div id="map-container"></div>
   <h5 class="embed-show">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></h5>
