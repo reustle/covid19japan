@@ -39,15 +39,15 @@ NHK Daily Aggregates
 |City    |Source    |
 |--------|----------|
 |Aichi    |[新型コロナウイルス感染症患者の発生について](https://www.pref.aichi.jp//soshiki/kenkotaisaku/novel-coronavirus.html)|
-|Akita    ||
-|Aomori    ||
+|Akita    |[新型コロナウイルス感染症について](https://www.pref.akita.lg.jp/pages/archive/16317)|
+|Aomori    |[新型コロナウイルス感染症についての情報](http://www.pref.aomori.lg.jp/koho/coronavirus_index.html)|
 |Chiba    |[新型コロナウイルスに関連した患者の発生について](https://www.pref.chiba.lg.jp/shippei/kansenshou/keihatu-index.html#an1)|
 |Ehime    ||
 |Fukui    ||
-|Fukuoka    | [](http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html) |
-|Fukushima    ||
+|Fukuoka    | [新型コロナウイルス感染症の発生状況についてお知らせします](http://www.pref.fukuoka.lg.jp/contents/corona-kokunai.html) |
+|Fukushima    |[福島県内の新型コロナウイルス発生状況](https://www.pref.fukushima.lg.jp/sec/21045c/fukushima-hasseijyoukyou.html)|
 |Gifu    ||
-|Gunma    ||
+|Gunma    |[新型コロナウイルス感染症について](https://www.pref.gunma.jp/02/d29g_00243.html)|
 |Hiroshima    ||
 |Hokkaido    |[新型コロナウイルス感染症の道内の発生状況](http://www.pref.hokkaido.lg.jp/hf/kth/kak/hasseijoukyou.htm)|
 |Hyogo    | [新型コロナウイルス感染症の県内検査状況について](https://web.pref.hyogo.lg.jp/kf16/singatakoronakensa.html) |
@@ -62,7 +62,7 @@ NHK Daily Aggregates
 |Kyoto    |[新型コロナウイルス感染症の患者の発生について](https://www.pref.kyoto.jp/kentai/news/novelcoronavirus.html#F)|
 |Mie    |[新型コロナウイルス感染症に関連した肺炎患者の発生について](https://www.pref.mie.lg.jp/YAKUMUS/HP/m0068000066.htm)|
 |Miyagi    ||
-|Miyazaki    ||
+|Miyazaki    |[新型コロナウイルス感染症に関する情報](https://www.pref.miyazaki.lg.jp/kenko/hoken/kansensho/covid19/index.html)|
 |Nagano    | [新型コロナウイルス感染症に係る検査状況について](https://www.pref.nagano.lg.jp/hoken-shippei/kenko/kenko/kansensho/joho/bukan-haien.html#kennsajoukyou)|
 |Nara    |[新型コロナウイルス感染症の患者の発生について](http://www.pref.nara.jp/module/1356.htm#moduleid1356)|
 |Nagasaki    ||
@@ -74,16 +74,16 @@ NHK Daily Aggregates
 |Saga    ||
 |Saitama    |[記者発表資料](https://www.pref.saitama.lg.jp/a0701/shingatacoronavirus.html)|
 |Shiga    ||
-|Shimane    ||
-|Shizuoka    ||
+|Shimane    |[新型コロナウイルス感染症に関する情報](https://www.pref.shimane.lg.jp/bousai_info/bousai/kikikanri/shingata_taisaku/new_coronavirus_portal.html)|
+|Shizuoka    |[新型コロナウイルス感染症(COVID-19)関連情報](https://www.pref.shizuoka.jp/kinkyu/covid-19-1.html)|
 |Tochigi    | [新型コロナウイルス感染症について](http://www.pref.tochigi.lg.jp/e04/welfare/hoken-eisei/kansen/hp/shingatakoronavirus.html) |
 |Tokushima    ||
 |Tokyo    |[新型コロナウイルスに関連した患者の発生](https://www.metro.tokyo.lg.jp/tosei/hodohappyo/press/2020/02/index.html)|
 |Tottori    ||
 |Toyama    ||
 |Yamagata    ||
-|Yamaguchi    ||
-|Yamanashi    ||
+|Yamaguchi    |[新型コロナウイルス感染症の山口県内での発生について](https://www.pref.yamaguchi.lg.jp/cms/a15200/kansensyou/koronahassei.html)|
+|Yamanashi    |[新型コロナウイルス感染症に関する総合情報](https://www.pref.yamanashi.jp/koucho/coronavirus/info_coronavirus.html)|
 |Wakayama    |[新型コロナウイルス感染症に関連する情報について](https://www.pref.wakayama.lg.jp/prefg/000200/covid19.html)|
 
 **We need your help!** Please submit any information sources via the "Issues" tab above. Thank you! ありがとう！
