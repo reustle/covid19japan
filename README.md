@@ -51,7 +51,7 @@ NHK Daily Aggregates
 |Hiroshima    ||
 |Hokkaido    |[新型コロナウイルス感染症の道内の発生状況](http://www.pref.hokkaido.lg.jp/hf/kth/kak/hasseijoukyou.htm)|
 |Hyogo    | [新型コロナウイルス感染症の県内検査状況について](https://web.pref.hyogo.lg.jp/kf16/singatakoronakensa.html) |
-|Ibaraki    ||
+|Ibaraki    | [新型コロナウイルス感染症患者の県内の発生状況について](https://www.pref.ibaraki.jp/hokenfukushi/yobo/kiki/yobo/kansen/idwr/press/20200318-corona.html) |
 |Ishikawa    | [新型コロナウイルス感染症について](https://www.pref.ishikawa.lg.jp/kansen/corona.html) |
 |Iwate    ||
 |Kagawa    ||
