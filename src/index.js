@@ -8,6 +8,7 @@ import _ from 'lodash'
 import Chart from 'chart.js'
 import tippy from 'tippy.js'
 import * as d3 from 'd3'
+import * as c3 from 'c3'
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
@@ -550,9 +551,6 @@ window.onload = function(){
     styleLoaded = true
     whenMapAndDataReady()
   })
-
-  // test d3
-  d3.select('body')
 
   loadDataOnPage()
 
