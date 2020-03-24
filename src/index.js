@@ -241,6 +241,9 @@ function drawTrendChart(sheetTrend) {
       y: {
         show: true
       }
+    },
+    padding: {
+      right: 24
     }
   })
 }
