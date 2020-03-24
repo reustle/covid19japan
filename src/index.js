@@ -282,12 +282,10 @@ function drawDailyIncreaseChart(sheetTrend) {
       x: {
         tick: {
           format: function (x) {
-            if(x === 0){
-              return ''
-            }
-
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            var xDate = new Date(cols.Date[x])
+            
+            // x+1 because the list is prefixed with the label
+            var xDate = new Date(cols.Date[x+1])
             return months[xDate.getMonth()] + ' ' + xDate.getDate()
           }
         }
