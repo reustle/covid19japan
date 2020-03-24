@@ -7,6 +7,8 @@ import 'whatwg-fetch'
 import _ from 'lodash'
 import Chart from 'chart.js'
 import tippy from 'tippy.js'
+import * as d3 from 'd3'
+import * as c3 from 'c3'
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
@@ -319,7 +321,6 @@ function drawKpis(totals, totalsDiff) {
   setKpiDiff('tested', totalsDiff.tested)
   setKpi('active', (totals.confirmed - totals.recovered) - totals.deceased)
   setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
-  
 }
 
 
@@ -370,17 +371,17 @@ function drawMapPrefectures(pageDraws) {
     if(cases > 0){
       prefecturePaint.push(prefecture.prefecture)
       
-      if(cases <= 10){
-        // 1-10 cases
+      if(cases <= 50){
+        // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
-      }else if(cases <= 25){
-        // 11-25 cases
+      }else if(cases <= 100){
+        // 51-100 cases
         prefecturePaint.push('rgb(251,155,127)')
-      }else if(cases <= 50){
-        // 26-50 cases
+      }else if(cases <= 200){
+        // 101-200 cases
         prefecturePaint.push('rgb(244,67,54)')
       }else{
-        // 51+ cases
+        // 201+ cases
         prefecturePaint.push('rgb(186,0,13)')
       }
     }
@@ -530,7 +531,6 @@ window.onload = function(){
     styleLoaded = true
     whenMapAndDataReady()
   })
-
 
   loadDataOnPage()
 
