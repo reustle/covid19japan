@@ -291,6 +291,11 @@ function drawDailyIncreaseChart(sheetTrend) {
             return months[xDate.getMonth()] + ' ' + xDate.getDate()
           }
         }
+      },
+      y: {
+        tick: {
+          values: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+        }
       }
     },
     grid: {
@@ -306,7 +311,6 @@ function drawDailyIncreaseChart(sheetTrend) {
     }
   })
 }
-
 
 
 function drawPrefectureTable(prefectures, totals) {
