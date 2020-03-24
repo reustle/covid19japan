@@ -313,8 +313,9 @@ function drawDailyIncreaseChart(sheetTrend) {
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
-
+  console.log(prefectures)
   let dataTable = document.querySelector('#prefectures-table tbody')
+  let dataTableFoot = document.querySelector('#prefectures-table tfoot')
   let unspecifiedRow = ''
 
   // Remove the loading cell
@@ -328,6 +329,7 @@ function drawPrefectureTable(prefectures, totals) {
     // TODO change to deceased
     pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
   })
+  console.log(prefectures)
 
   // Iterate through and render table rows
   _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
@@ -337,7 +339,7 @@ function drawPrefectureTable(prefectures, totals) {
     
     let prefStr
     if(LANG == 'en'){
-        prefStr = pref.prefecture
+      prefStr = pref.prefecture
     }else{
       prefStr = pref.prefectureja
     }
@@ -346,11 +348,11 @@ function drawPrefectureTable(prefectures, totals) {
     
     if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + pref.recovered + "</td><td>" + pref.deaths + "</td></tr>"
+      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
     }else if (pref.prefecture == 'Total'){
       // Skip
     }else{
-      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td></td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
+      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
     }
     return true
   })
@@ -362,7 +364,7 @@ function drawPrefectureTable(prefectures, totals) {
     totalStr = '計'
   }
 
-  dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+  dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
 function drawKpis(totals, totalsDiff) {
