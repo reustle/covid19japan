@@ -153,4 +153,3 @@ You will now be able to access the site at http://localhost:4000/
 - [Toyo Keizai Situation Report](https://toyokeizai.net/sp/visual/tko/covid19/) (Data from MHLW)
 - [Patient connections and clusters map in Japan 新型コロナウイルスの事例マップ](https://www.coromap.info/)
 - Wikipedia on 2020 Coronavirus Outbreak in Japan [English](https://en.wikipedia.org/wiki/2020_coronavirus_outbreak_in_Japan) and [Japanese](https://ja.wikipedia.org/wiki/%E6%97%A5%E6%9C%AC%E3%81%AB%E3%81%8A%E3%81%91%E3%82%8B2019%E5%B9%B4%E3%82%B3%E3%83%AD%E3%83%8A%E3%82%A6%E3%82%A4%E3%83%AB%E3%82%B9%E6%84%9F%E6%9F%93%E7%97%87%E3%81%AE%E6%B5%81%E8%A1%8C%E7%8A%B6%E6%B3%81) - Sources
-- [@covid19japan on Twitter (Suspended)](https://twitter.com/covid19japan)
