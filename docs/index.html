@@ -121,7 +121,9 @@
 
   <section id="trend-chart-container" class="embed-hide">
     <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
-    <div id="trend-chart"></div>
+    <div id="trend-chart">
+        <div class="text-center"><div class="lds-dual-ring"></div></div>
+    </div>
   </section>
   
   <section class="embed-hide">
@@ -196,14 +198,6 @@
   <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
-  <!-- TODO tried to add to bundle but requires babel (Shane R) -->
-  <!-- Load c3.css -->
-  <link href="https://cdn.jsdelivr.net/npm/c3@0.7.15/c3.min.css" rel="stylesheet">
-
-  <!-- Load d3.js and c3.js -->
-  <script src="https://cdn.jsdelivr.net/npm/d3@5.15.0/dist/d3.min.js" charset="utf-8"></script>
-  <script src="https://cdn.jsdelivr.net/npm/c3@0.7.15/c3.min.js"></script>
-
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
