@@ -19,6 +19,7 @@ const COLOR_ACTIVE = 'rgb(223,14,31)'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
+const COLOR_TESTED = 'rgb(164,173,192)'
 const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
@@ -182,7 +183,7 @@ function drawTrendChart(sheetTrend) {
     cols.Deceased.push(parseInt(row.deceased))
     cols.Recovered.push(parseInt(row.recovered))
     cols.Active.push(parseInt(row.confirmed) - parseInt(row.deceased) - parseInt(row.recovered))
-    //cols.Tested.push(parseInt(row.tested))
+    cols.Tested.push(parseInt(row.tested))
 
   }
   
@@ -240,7 +241,73 @@ function drawTrendChart(sheetTrend) {
       }
     }
   })
+}
+
+
+function drawDailyIncreaseChart(sheetTrend) {
   
+  var cols = {
+    Date: ['Date'],
+    Confirmed: ['New Cases'],
+  }
+  
+  for(var i = 0; i < sheetTrend.length; i++) {
+    var row = sheetTrend[i]
+    
+    if(i === 0){
+      // Skip early feb data point
+      continue
+    }
+    
+    cols.Date.push(row.date)
+    cols.Confirmed.push(parseInt(row.confirmed) - parseInt(sheetTrend[i-1].confirmed))
+
+  }
+  
+  var chart = c3.generate({
+    bindto: '#daily-increase-chart',
+    data: {
+        color: function(color, d){ return COLOR_TESTED },
+        columns: [
+          cols.Confirmed
+        ],
+        type: 'bar'
+    },
+    bar: {
+        width: {
+            ratio: 0.8
+        }
+    },
+    axis: {
+      x: {
+        tick: {
+          format: function (x) {
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            
+            // x+1 because the list is prefixed with the label
+            var xDate = new Date(cols.Date[x+1])
+            return months[xDate.getMonth()] + ' ' + xDate.getDate()
+          }
+        }
+      },
+      y: {
+        tick: {
+          values: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+        }
+      }
+    },
+    grid: {
+      x: {
+        show: true
+      },
+      y: {
+        show: true
+      }
+    },
+    legend: {
+      hide: true
+    }
+  })
 }
 
 
@@ -498,6 +565,7 @@ function loadDataOnPage() {
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
       drawTrendChart(ddb.trend)
+      drawDailyIncreaseChart(ddb.trend)
     }
 
     whenMapAndDataReady()
