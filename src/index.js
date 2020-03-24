@@ -50,7 +50,6 @@ let map = undefined
 
 // IE11 forEach Polyfill
 if ('NodeList' in window && !NodeList.prototype.forEach) {
-  console.info('polyfill for IE11');
   NodeList.prototype.forEach = function (callback, thisArg) {
     thisArg = thisArg || window;
     for (var i = 0; i < this.length; i++) {
@@ -313,7 +312,6 @@ function drawDailyIncreaseChart(sheetTrend) {
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
-  console.log(prefectures)
   let dataTable = document.querySelector('#prefectures-table tbody')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
   let unspecifiedRow = ''
@@ -329,7 +327,6 @@ function drawPrefectureTable(prefectures, totals) {
     // TODO change to deceased
     pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
   })
-  console.log(prefectures)
 
   // Iterate through and render table rows
   _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
