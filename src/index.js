@@ -7,6 +7,8 @@ import 'whatwg-fetch'
 import _ from 'lodash'
 import Chart from 'chart.js'
 import tippy from 'tippy.js'
+import * as d3 from 'd3'
+import * as c3 from 'c3'
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
@@ -339,7 +341,6 @@ function drawKpis(totals, totalsDiff) {
   setKpiDiff('tested', totalsDiff.tested)
   setKpi('active', (totals.confirmed - totals.recovered) - totals.deceased)
   setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
-  
 }
 
 
@@ -550,7 +551,6 @@ window.onload = function(){
     styleLoaded = true
     whenMapAndDataReady()
   })
-
 
   loadDataOnPage()
 
