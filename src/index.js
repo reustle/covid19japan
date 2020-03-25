@@ -311,6 +311,9 @@ function drawDailyIncreaseChart(sheetTrend) {
     },
     legend: {
       hide: true
+    },
+    padding: {
+      right: 24
     }
   })
 }
