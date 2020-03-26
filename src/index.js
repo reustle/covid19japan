@@ -43,20 +43,62 @@ let ddb = {
     tested: 0,
     critical: 0
   },
-  travelRestrictions: { // TODO: link this to external data source
-    countries: [
+  travelRestrictions: {
+    japan: [
+      {
+        name: 'China',
+        nameJa: '',
+        regions: 'Hubei Province, Zhejiang Province',
+      },
+      {
+        name: 'Iceland',
+        nameJa: '',
+        regions: 'the whole country',
+      },
+      {
+        name: 'Iran',
+        nameJa: '',
+        regions: 'Gilan Province , Qom Province, Tehran Province, Alborz Province, Isfahan Province, Qazvin Province, Golestan Province, Semnan Province, Manzandaran Province, Markazi Province, Lorestan Province',
+      },
+      {
+        name: 'Italy',
+        nameJa: '',
+        regions: 'Veneto Region, Emilia-Romagna Region, Piedmont Region, Marche Region, Lombardy Region, Aosta Valley Region, Trentino-South Tyrol Region, Friuli-Venezia Giulia Region, Liguria Region',
+      },
+      {
+        name: 'Korea',
+        nameJa: '大韓民国',
+        regions: 'Daegu-guangyeok-si, or Cheondo-gun, Gyeongsan-si, Andong-si, Yeongcheon-si, Chilgok-gun, Uiseong-gun, Seongju-gun, Gunwigun in Gyeongsangbuk-do',
+      },
+      {
+        name: 'San Marino',
+        nameJa: '',
+        regions: 'the whole country',
+      },
+      {
+        name: 'Spain',
+        nameJa: '',
+        regions: 'Chartered Community of Navarre, Basque Autonomous Community, Community of Madrid, La Rioja',
+      },
+      {
+        name: 'Switzerland',
+        nameJa: '',
+        regions: 'Canton of Ticino, Canton of Basel-Stadt',
+      },
+    ],
+    foreignBorders: [
+      {
+        name: 'Canada',
+        nameJa: 'カナダ',
+        noEntry: true,
+        details: 'https://travel.gc.ca/travelling/advisories'
+      },
       {
         name: 'USA',
         nameJa: '米国',
         noEntry: false,
         details: 'https://www.dhs.gov/'
       },
-      {
-        name: 'Canada',
-        nameJa: 'カナダ',
-        noEntry: true,
-        details: 'https://travel.gc.ca/travelling/advisories'
-      }
     ],
   }
 }
@@ -389,6 +431,21 @@ function drawPrefectureTable(prefectures, totals) {
   dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
+function drawJapaneseBorderTable(countries) {
+  let dataTable = document.querySelector('#japan-border-table tbody')
+
+  // Remove the loading cell
+  dataTable.innerHTML = ''
+
+  // Iterate through and render table rows
+  _.orderBy(countries, 'name', 'desc').map(function(country){
+    let name = (LANG == 'en') ? country.name : country.nameJa
+
+    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + country.regions + "</td></tr>"
+    return true
+  })
+}
+
 function drawForeignBordersTable(countries) {
   let dataTable = document.querySelector('#foreign-borders-table tbody')
 
@@ -579,7 +636,12 @@ function initDataTranslate() {
 
       // Redraw the foreign borders restriction table
       if(document.getElementById('foreign-borders-table')){
-        drawForeignBordersTable(ddb.travelRestrictions.countries)
+        drawForeignBordersTable(ddb.travelRestrictions.foreignBorders)
+      }
+
+      // Redraw the japan borders restriction table
+      if(document.getElementById('japan-borders-table')){
+        drawJapaneseBorderTable(ddb.travelRestrictions.japan)
       }
 
       // Toggle the lang picker
@@ -608,7 +670,8 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
-      drawForeignBordersTable(ddb.travelRestrictions.countries)
+      drawJapaneseBorderTable(ddb.travelRestrictions.japan)
+      drawForeignBordersTable(ddb.travelRestrictions.foreignBorders)
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
     }
