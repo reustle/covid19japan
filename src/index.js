@@ -399,7 +399,7 @@ function drawForeignBordersTable(countries) {
   _.orderBy(countries, 'name', 'desc').map(function(country){
     let name = (LANG == 'en') ? country.name : country.nameJa
 
-    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "X" : "") + "</td><td>" + country.details + "</td></tr>"
+    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "✓" : "") + "</td><td>" + country.details + "</td></tr>"
     return true
   })
 }
