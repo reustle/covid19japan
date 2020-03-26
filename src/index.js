@@ -534,9 +534,8 @@ function drawMapPrefectures(pageDraws) {
     let cases = parseInt(prefecture.cases)
     if(cases > 0){
       prefecturePaint.push(prefecture.prefecture)
-
-      if(cases <= 10){
-        // 1-10 cases
+      if(cases <= 50){
+        // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
       }else if(cases <= 100){
         // 51-100 cases
