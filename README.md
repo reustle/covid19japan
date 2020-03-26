@@ -88,7 +88,7 @@ data that we use to cross check and verify.
 |Tokushima    | [新型コロナウイルス感染症について](https://www.pref.tokushima.lg.jp/ippannokata/kenko/kansensho/5034012#25)|
 |Tokyo    |[Latest updates on COVID-19 in Tokyo](https://stopcovid19.metro.tokyo.lg.jp/en) / Primary sources: [東京都新型コロナウイルス感染症対策本部報](https://www.bousai.metro.tokyo.lg.jp/taisaku/saigai/1007261/index.html)|
 |Tottori    |[新型コロナウイルス感染症(COVID-19)特設サイト](https://www.pref.tottori.lg.jp/corona-virus/)|
-|Toyama    |[新型コロナウイルス感染症に関する情報](http://www.pref.toyama.jp/sections/1118/virus/index.html)|
+|Toyama    |[新型コロナウイルス感染症について](http://www.pref.toyama.jp/cms_sec/1205/kj00021629.html)|
 |Wakayama    |[新型コロナウイルス感染症に関連する情報について](https://www.pref.wakayama.lg.jp/prefg/041200/d00203387.html)|
 |Yamagata    |[新型コロナウイルス感染症に関連するポータルサイト](http://www.pref.yamagata.jp/ou/bosai/020072/kochibou/coronavirus/coronavirus.html)|
 |Yamaguchi    |[新型コロナウイルス感染症の山口県内での発生について](https://www.pref.yamaguchi.lg.jp/cms/a15200/kansensyou/koronahassei.html)|
