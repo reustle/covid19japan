@@ -73,10 +73,10 @@ function loadData(callback) {
     .then(function(data){
       callback(data)
     })
-    // .catch(function(err) {
-    //   retryFn(delay, err)
-    //   delay *= 2  // exponential backoff.
-    // })
+    .catch(function(err) {
+      retryFn(delay, err)
+      delay *= 2  // exponential backoff.
+    })
   }
 
   const retryFetchWithDelay = function(delay, err) {
