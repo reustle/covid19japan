@@ -91,13 +91,13 @@ let ddb = {
         name: 'Canada',
         nameJa: 'カナダ',
         noEntry: true,
-        details: 'https://travel.gc.ca/travelling/advisories'
+        link: 'https://travel.gc.ca/travelling/advisories'
       },
       {
         name: 'USA',
         nameJa: '米国',
         noEntry: false,
-        details: 'https://www.dhs.gov/'
+        link: 'https://www.dhs.gov/'
       },
     ],
   }
@@ -456,7 +456,8 @@ function drawForeignBordersTable(countries) {
   _.orderBy(countries, 'name', 'desc').map(function(country){
     let name = (LANG == 'en') ? country.name : country.nameJa
 
-    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "✓" : "") + "</td><td>" + country.details + "</td></tr>"
+    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "✓" : "") +
+    `</td><td><a href="${country.link}">` + country.link + "</a></td></tr>"
     return true
   })
 }
