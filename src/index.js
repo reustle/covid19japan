@@ -7,15 +7,19 @@ import 'whatwg-fetch'
 import _ from 'lodash'
 import Chart from 'chart.js'
 import tippy from 'tippy.js'
+import * as d3 from 'd3'
+import * as c3 from 'c3'
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
+const COLOR_ACTIVE = 'rgb(223,14,31)'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
+const COLOR_TESTED = 'rgb(164,173,192)'
 const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
@@ -62,7 +66,6 @@ let map = undefined
 
 // IE11 forEach Polyfill
 if ('NodeList' in window && !NodeList.prototype.forEach) {
-  console.info('polyfill for IE11');
   NodeList.prototype.forEach = function (callback, thisArg) {
     thisArg = thisArg || window;
     for (var i = 0; i < this.length; i++) {
@@ -171,117 +174,171 @@ function drawMap() {
 
 function drawTrendChart(sheetTrend) {
 
-  let lastUpdated = ''
-  let labelSet = []
-  let confirmedSet = []
-  let recoveredSet = []
-  let deceasedSet = []
-  let dailyIncreaseSet = []
+  var cols = {
+    Date: ['Date'],
+    Confirmed: ['Confirmed'],
+    Active: ['Active'],
+    Critical: ['Critical'],
+    Deceased: ['Deceased'],
+    Recovered: ['Recovered'],
+    Tested: ['Tested'],
+  }
 
-  let prevConfirmed = -1
-  sheetTrend.map(function(trendData){
-    labelSet.push(new Date(trendData.date))
-    confirmedSet.push({
-      x: new Date(trendData.date),
-      y: parseInt(trendData.confirmed)
-    })
-    recoveredSet.push({
-      x: new Date(trendData.date),
-      y: parseInt(trendData.recovered)
-    })
-    deceasedSet.push({
-      x: new Date(trendData.date),
-      y: parseInt(trendData.deceased)
-    })
-    dailyIncreaseSet.push({
-      x: new Date(trendData.date),
-      y: prevConfirmed === -1 ? 0 : parseInt(trendData.confirmed) - prevConfirmed
-    })
+  for(var i = 0; i < sheetTrend.length; i++) {
+    var row = sheetTrend[i]
 
-    prevConfirmed = parseInt(trendData.confirmed)
-    lastUpdated = trendData.date
-  })
-
-  var ctx = document.getElementById('trend-chart').getContext('2d')
-  Chart.defaults.global.defaultFontFamily = "'Open Sans', helvetica, sans-serif"
-  Chart.defaults.global.defaultFontSize = 16
-  Chart.defaults.global.defaultFontColor = 'rgb(0,10,18)'
-
-  var chart = new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: labelSet,
-      datasets: [
-        {
-          label: 'Deceased',
-          borderColor: COLOR_DECEASED,
-          backgroundColor: COLOR_DECEASED,
-          fill: false,
-          data: deceasedSet
-        },
-        {
-          label: 'Recovered',
-          borderColor: COLOR_RECOVERED,
-          backgroundColor: COLOR_RECOVERED,
-          fill: false,
-          data: recoveredSet
-        },
-        {
-          label: 'Confirmed',
-          borderColor: COLOR_CONFIRMED,
-          backgroundColor: COLOR_CONFIRMED,
-          fill: false,
-          data: confirmedSet
-        },
-        {
-          label: 'Daily Increase',
-          borderColor: COLOR_INCREASE,
-          backgroundColor: COLOR_INCREASE,
-          fill: false,
-          data: dailyIncreaseSet
-        }
-      ]
-    },
-    options: {
-      maintainAspectRatio: false,
-      responsive: true,
-      elements: {
-        line: {
-          tension: 0.1
-        }
-      },
-      legend: {
-        display: false,
-      },
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            parser: TIME_FORMAT,
-            round: 'day',
-            tooltipFormat: 'll'
-          },
-          scaleLabel: {
-            display: true,
-            labelString: 'Date'
-          }
-        }],
-        yAxes: [{
-          scaleLabel: {
-            display: true,
-            labelString: 'Cases'
-          }
-        }]
-      }
+    if(i === 0){
+      // Skip early feb data point
+      continue
     }
-  });
+
+    cols.Date.push(row.date)
+    cols.Confirmed.push(parseInt(row.confirmed))
+    cols.Critical.push(parseInt(row.critical))
+    cols.Deceased.push(parseInt(row.deceased))
+    cols.Recovered.push(parseInt(row.recovered))
+    cols.Active.push(parseInt(row.confirmed) - parseInt(row.deceased) - parseInt(row.recovered))
+    cols.Tested.push(parseInt(row.tested))
+
+  }
+
+  var chart = c3.generate({
+    bindto: '#trend-chart',
+    data: {
+        x: 'Date',
+        columns: [
+          cols.Date,
+          cols.Confirmed,
+          cols.Active,
+          cols.Recovered,
+          cols.Deceased,
+          //cols.Tested
+        ]
+    },
+    color: {
+      pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED]
+    },
+    point: {
+      r: 3,
+    },
+    axis: {
+        x: {
+            type: 'timeseries',
+            tick: {
+                format: '%b %d',
+                count: 6
+            }
+        },
+        y: {
+          padding: {
+            bottom: 0
+          },
+          tick: {
+            values: [0, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
+          }
+        }
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id, index) {
+          if(index && cols[id][index]){
+            var diff = parseInt(value) - cols[id][index]
+            return value + ' (' + (diff>=0?'+':'') + diff + ')'
+          }else{
+            return value
+          }
+        }
+      }
+    },
+    grid: {
+      x: {
+        show: true
+      },
+      y: {
+        show: true
+      }
+    },
+    padding: {
+      right: 24
+    }
+  })
+}
+
+
+function drawDailyIncreaseChart(sheetTrend) {
+
+  var cols = {
+    Date: ['Date'],
+    Confirmed: ['New Cases'],
+  }
+
+  for(var i = 0; i < sheetTrend.length; i++) {
+    var row = sheetTrend[i]
+
+    if(i === 0){
+      // Skip early feb data point
+      continue
+    }
+
+    cols.Date.push(row.date)
+    cols.Confirmed.push(parseInt(row.confirmed) - parseInt(sheetTrend[i-1].confirmed))
+
+  }
+
+  var chart = c3.generate({
+    bindto: '#daily-increase-chart',
+    data: {
+        color: function(color, d){ return COLOR_TESTED },
+        columns: [
+          cols.Confirmed
+        ],
+        type: 'bar'
+    },
+    bar: {
+        width: {
+            ratio: 0.8
+        }
+    },
+    axis: {
+      x: {
+        tick: {
+          format: function (x) {
+            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+            // x+1 because the list is prefixed with the label
+            var xDate = new Date(cols.Date[x+1])
+            return months[xDate.getMonth()] + ' ' + xDate.getDate()
+          }
+        }
+      },
+      y: {
+        tick: {
+          values: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+        }
+      }
+    },
+    grid: {
+      x: {
+        show: true
+      },
+      y: {
+        show: true
+      }
+    },
+    legend: {
+      hide: true
+    },
+    padding: {
+      right: 24
+    }
+  })
 }
 
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
-
   let dataTable = document.querySelector('#prefectures-table tbody')
+  let dataTableFoot = document.querySelector('#prefectures-table tfoot')
   let unspecifiedRow = ''
 
   // Remove the loading cell
@@ -304,7 +361,7 @@ function drawPrefectureTable(prefectures, totals) {
 
     let prefStr
     if(LANG == 'en'){
-        prefStr = pref.prefecture
+      prefStr = pref.prefecture
     }else{
       prefStr = pref.prefectureja
     }
@@ -313,11 +370,11 @@ function drawPrefectureTable(prefectures, totals) {
 
     if(pref.prefecture == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + pref.recovered + "</td><td>" + pref.deaths + "</td></tr>"
+      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
     }else if (pref.prefecture == 'Total'){
       // Skip
     }else{
-      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td></td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
+      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
     }
     return true
   })
@@ -329,7 +386,7 @@ function drawPrefectureTable(prefectures, totals) {
     totalStr = '計'
   }
 
-  dataTable.innerHTML = dataTable.innerHTML + "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+  dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
 function drawForeignBordersTable(countries) {
@@ -370,7 +427,6 @@ function drawKpis(totals, totalsDiff) {
   setKpiDiff('tested', totalsDiff.tested)
   setKpi('active', (totals.confirmed - totals.recovered) - totals.deceased)
   setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
-
 }
 
 
@@ -421,17 +477,17 @@ function drawMapPrefectures(pageDraws) {
     if(cases > 0){
       prefecturePaint.push(prefecture.prefecture)
 
-      if(cases <= 10){
-        // 1-10 cases
+      if(cases <= 50){
+        // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
-      }else if(cases <= 25){
-        // 11-25 cases
+      }else if(cases <= 100){
+        // 51-100 cases
         prefecturePaint.push('rgb(251,155,127)')
-      }else if(cases <= 50){
-        // 26-50 cases
+      }else if(cases <= 200){
+        // 101-200 cases
         prefecturePaint.push('rgb(244,67,54)')
       }else{
-        // 51+ cases
+        // 201+ cases
         prefecturePaint.push('rgb(186,0,13)')
       }
     }
@@ -554,6 +610,7 @@ function loadDataOnPage() {
       drawPrefectureTable(ddb.prefectures, ddb.totals)
       drawForeignBordersTable(ddb.travelRestrictions.countries)
       drawTrendChart(ddb.trend)
+      drawDailyIncreaseChart(ddb.trend)
     }
 
     whenMapAndDataReady()
@@ -587,7 +644,6 @@ window.onload = function(){
     styleLoaded = true
     whenMapAndDataReady()
   })
-
 
   loadDataOnPage()
 

@@ -40,7 +40,6 @@
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
   <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
   <script>
-    console.log(window.location.hostname)
     if (window.location.hostname == 'covid19japan.com') {
       Sentry.init({
         dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
@@ -111,26 +110,26 @@
     <h4 data-ja="ウイルス感染マップ"><span class="embed-show">COVID-19 </span>Outbreak Map</h4>
   </div>
   <section id="map-legend">
-    <div><span class="one">▉</span> <span data-ja="1-10 件">1-10 cases</span></div>
-    <div><span class="two">▉</span> <span data-ja="11-25 件">11-25 cases</span></div>
-    <div><span class="three">▉</span> <span data-ja="26-50 件">26-50 cases</span></div>
-    <div><span class="four">▉</span> <span data-ja="51+ 件">51+ cases</span></div>
+    <div><span class="one">▉</span> <span data-ja="1-50 件">1-50 cases</span></div>
+    <div><span class="two">▉</span> <span data-ja="51-100 件">51-100 cases</span></div>
+    <div><span class="three">▉</span> <span data-ja="101-200 件">101-200 cases</span></div>
+    <div><span class="four">▉</span> <span data-ja="201+ 件">201+ cases</span></div>
   </section>
   <div id="map-container"></div>
   <span class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></span>
 
-  <section id="chart-legend-container" class="embed-hide">
+  <section id="trend-chart-container" class="embed-hide">
     <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
-    <div id="chart-legend">
-      <div><span class="one">▉</span> <span data-ja="感染者数">Cases</span></div>
-      <div><span class="two">▉</span> <span data-ja="回復者数">Recovered</span></div>
-      <div><span class="three">▉</span> <span data-ja="死亡者数">Deaths</span></div>
-      <div><span class="four">▉</span> <span data-ja="毎日の増加">Daily Increase</span></div>
+    <div id="trend-chart">
+        <div class="text-center"><div class="lds-dual-ring"></div></div>
     </div>
   </section>
-
-  <section id="trend-chart-container" class="embed-hide">
-    <canvas id="trend-chart"></canvas>
+  
+  <section id="daily-increase-container" class="embed-hide">
+    <h4 data-ja="陽性者数 (日別)">New Cases By Day</h4>
+    <div id="daily-increase-chart">
+        <div class="text-center"><div class="lds-dual-ring"></div></div>
+    </div>
   </section>
 
   <section class="embed-hide">
@@ -147,6 +146,7 @@
       <tbody>
         <tr class="loading"><td colspan="4"><div class="lds-dual-ring"></div></td></tr>
       </tbody>
+      <tfoot></tfoot>
     </table>
   </section>
 
