@@ -126,7 +126,7 @@ function calculateTotals(daily) {
       totalsDiff[totalKey] = latest[rowKey] - dayBefore[rowKey]
     }
 
-    if (totalsDiff[totalKey] == 0 && twoDaysBefore && twoDaysBefore[rowKey]) {
+    if (totalsDiff[totalKey] <= 0 && twoDaysBefore && twoDaysBefore[rowKey]) {
       totalsDiff[totalKey] = latest[rowKey] - twoDaysBefore[rowKey]
     }
   }
@@ -337,6 +337,7 @@ function drawDailyIncreaseChart(sheetTrend) {
 
 
 function drawPrefectureTable(prefectures, totals) {
+
   // Draw the Cases By Prefecture table
   let dataTable = document.querySelector('#prefectures-table tbody')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
@@ -582,9 +583,7 @@ function loadDataOnPage() {
     ddb.totals = newTotals[0]
     ddb.totalsDiff = newTotals[1]
     ddb.trend = jsonData.daily
-    if (jsonData.updated && jsonData.updated.length > 0) {
-      ddb.lastUpdated = jsonData.updated[0].lastupdated
-    }
+    ddb.lastUpdated = jsonData.updated
 
     drawKpis(ddb.totals, ddb.totalsDiff)
     if (!document.body.classList.contains('embed-mode')) {
