@@ -345,8 +345,7 @@ function drawPrefectureTable(prefectures, totals) {
 
   // Parse values so we can sort
   _.map(prefectures, function(pref){
-    // TODO change to confirmed
-    pref.confirmed = (pref.cases?parseInt(pref.cases):0)
+    pref.confirmed = (pref.confirmed?parseInt(pref.confirmed):0)
     pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
     // TODO change to deceased
     pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
@@ -457,7 +456,7 @@ function drawMapPrefectures(pageDraws) {
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
     
-    let cases = parseInt(prefecture.cases)
+    let cases = parseInt(prefecture.confirmed)
     if(cases > 0){
       prefecturePaint.push(prefecture.name)
       
