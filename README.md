@@ -86,7 +86,7 @@ data that we use to cross check and verify.
 | Tochigi    | [新型コロナウイルス感染症について](http://www.pref.tochigi.lg.jp/e04/welfare/hoken-eisei/kansen/hp/coronakensahasseijyoukyou.html) |
 | Tochigi - Utsunomiya City | [宇都宮市における新型コロナウイルス感染症の発生状況](https://www.city.utsunomiya.tochigi.jp/kurashi/kenko/kansensho/etc/1023128.html)
 |Tokushima    | [新型コロナウイルス感染症について](https://www.pref.tokushima.lg.jp/ippannokata/kenko/kansensho/5034012#25)|
-|Tokyo    |[都内の最新感染動向](https://stopcovid19.metro.tokyo.lg.jp/)|
+|Tokyo    |[Latest updates on COVID-19 in Tokyo](https://stopcovid19.metro.tokyo.lg.jp/en)|
 |Tottori    ||
 |Toyama    ||
 |Wakayama    |[新型コロナウイルス感染症に関連する情報について](https://www.pref.wakayama.lg.jp/prefg/041200/d00203387.html)|
