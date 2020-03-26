@@ -5,11 +5,10 @@ import 'whatwg-fetch'
 
 // Add all non-polyfill deps below.
 import _ from 'lodash'
-import Chart from 'chart.js'
 import tippy from 'tippy.js'
 import * as d3 from 'd3'
 import * as c3 from 'c3'
-
+import ApexCharts from 'apexcharts'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
@@ -74,6 +73,7 @@ function loadData(callback) {
       callback(data)
     })
     .catch(function(err) {
+      throw err
       retryFn(delay, err)
       delay *= 2  // exponential backoff.
     })
@@ -364,15 +364,50 @@ function drawPrefectureTable(prefectures, totals) {
       prefStr = pref.name_ja
     }
     
-    // TODO Make this pretty
-    
-    if(pref.name == 'Unspecified'){
+    if (pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
-    }else if (pref.name == 'Total'){
+      unspecifiedRow = `<td>${prefStr}</td>` +
+      `<td class="count">${pref.confirmed}</td>` +
+      `<td></td>` +
+      `<td class="count">${pref.recovered ? pref.recovered : 0}</td>` +
+      `<td class="count">${pref.deceased ? pref.deceased : 0}</td>` +
+      `</tr>`
+    } else if (pref.name == 'Total'){
       // Skip
-    }else{
-      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
+    } else {
+      dataTable.innerHTML += `<tr>` +
+        `<td>${prefStr}</td>` +
+        `<td class="sparkline"><div id="${pref.name}-sparkline"></div></td>` +
+        `<td class="count">${pref.confirmed}</td>` +
+        `<td class="count">${pref.recovered ? pref.recovered : ''}</td>` +
+        `<td class="count">${pref.deceased ? pref.deceased : ''}</td>` +
+        `</tr>`
+
+      // Draw the sparkline
+      console.log(pref.dailyConfirmedCount)
+      var options = {
+        series: [ { data: pref.dailyConfirmedCount }],
+        chart: {
+          type: 'bar',
+          width: 300,
+          height: 30,
+          sparkline: { enabled: true },
+          animations: { enabled: false },
+        },
+        plotOptions: { bar: { columnWidth: '95%' } },
+        xaxis: { crosshairs: { width: 1 } },
+        yaxis: { max: 50 },
+        tooltip: { 
+          fixed: { enabled: false },
+          x: { show: false },
+          y: { title: { formatter: function (seriesName) { return '' } } },
+          marker: { show: false }
+        }
+      };
+      setTimeout( function() { 
+        var chart = new ApexCharts(document.querySelector(`#${pref.name}-sparkline`), options);
+        chart.render();
+      }, 1000);
     }
     return true
   })
@@ -384,7 +419,16 @@ function drawPrefectureTable(prefectures, totals) {
     totalStr = '計'
   }
 
-  dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+  dataTableFoot.innerHTML = `<tr class='totals'>` +
+        `<td>${totalStr}</td>` +
+        `<td class="sparkline"></td>` +
+        `<td class="count">${totals.confirmed}</td>` +
+        `<td class="count">${totals.recovered}</td>` +
+        `<td class="count">${totals.deceased}</td>` +
+        `</tr>`
+
+  // draw sparklines.
+
 }
 
 function drawKpis(totals, totalsDiff) {

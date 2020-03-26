@@ -204,6 +204,14 @@ h1 {
     text-align: center;
     padding: 30px 0px;
   }
+  th.sparkline, td.sparkline {
+    width: 10em;
+    padding: 0 8px;
+  }
+
+  th.count, td.count {
+    width: 7em;
+  }
 }
 
 #helpful-links {
