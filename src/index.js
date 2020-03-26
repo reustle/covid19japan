@@ -404,6 +404,21 @@ function drawForeignBordersTable(countries) {
   })
 }
 
+function drawForeignBordersTable(countries) {
+  let dataTable = document.querySelector('#foreign-borders-table tbody')
+
+  // Remove the loading cell
+  dataTable.innerHTML = ''
+
+  // Iterate through and render table rows
+  _.orderBy(countries, 'name', 'desc').map(function(country){
+    let name = (LANG == 'en') ? country.name : country.nameJa
+
+    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "X" : "") + "</td><td>" + country.details + "</td></tr>"
+    return true
+  })
+}
+
 function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
 
@@ -477,8 +492,8 @@ function drawMapPrefectures(pageDraws) {
     if(cases > 0){
       prefecturePaint.push(prefecture.prefecture)
 
-      if(cases <= 50){
-        // 1-50 cases
+      if(cases <= 10){
+        // 1-10 cases
         prefecturePaint.push('rgb(253,234,203)')
       }else if(cases <= 100){
         // 51-100 cases
