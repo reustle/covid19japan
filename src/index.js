@@ -47,22 +47,22 @@ let ddb = {
     japan: [
       {
         name: 'China',
-        nameJa: '',
+        nameJa: '中国',
         regions: 'Hubei Province, Zhejiang Province',
       },
       {
         name: 'Iceland',
-        nameJa: '',
+        nameJa: 'アイスランド',
         regions: 'the whole country',
       },
       {
         name: 'Iran',
-        nameJa: '',
+        nameJa: 'イラン',
         regions: 'Gilan Province , Qom Province, Tehran Province, Alborz Province, Isfahan Province, Qazvin Province, Golestan Province, Semnan Province, Manzandaran Province, Markazi Province, Lorestan Province',
       },
       {
         name: 'Italy',
-        nameJa: '',
+        nameJa: '伊井',
         regions: 'Veneto Region, Emilia-Romagna Region, Piedmont Region, Marche Region, Lombardy Region, Aosta Valley Region, Trentino-South Tyrol Region, Friuli-Venezia Giulia Region, Liguria Region',
       },
       {
@@ -72,17 +72,17 @@ let ddb = {
       },
       {
         name: 'San Marino',
-        nameJa: '',
+        nameJa: 'サンマリノ',
         regions: 'the whole country',
       },
       {
         name: 'Spain',
-        nameJa: '',
+        nameJa: 'スペイン',
         regions: 'Chartered Community of Navarre, Basque Autonomous Community, Community of Madrid, La Rioja',
       },
       {
         name: 'Switzerland',
-        nameJa: '',
+        nameJa: 'スイス',
         regions: 'Canton of Ticino, Canton of Basel-Stadt',
       },
     ],
