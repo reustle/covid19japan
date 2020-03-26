@@ -200,9 +200,6 @@ function drawTrendChart(sheetTrend) {
 
   }
 
-  console.log(sheetTrend)  
-  console.log(cols)
-
   var chart = c3.generate({
     bindto: '#trend-chart',
     data: {
@@ -373,7 +370,7 @@ function drawPrefectureTable(prefectures, totals) {
     if(pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
-    }else if (pref.prefecture == 'Total'){
+    }else if (pref.name == 'Total'){
       // Skip
     }else{
       dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
@@ -462,7 +459,7 @@ function drawMapPrefectures(pageDraws) {
     
     let cases = parseInt(prefecture.cases)
     if(cases > 0){
-      prefecturePaint.push(prefecture.prefecture)
+      prefecturePaint.push(prefecture.name)
       
       if(cases <= 50){
         // 1-50 cases
