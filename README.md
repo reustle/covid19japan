@@ -45,7 +45,7 @@ data that we use to cross check and verify.
 |Aomori    |[新型コロナウイルス感染症についての情報](http://www.pref.aomori.lg.jp/koho/coronavirus_index.html)|
 |Chiba    |[患者の発生について｜新型コロナウイルス感染症](https://www.pref.chiba.lg.jp/shippei/press/2019/ncov-index.html)|
 |Ehime    | [ 感染者の発生状況等について](https://www.pref.ehime.jp/h25500/kansen/covid19.html)|
-|Fukui    ||
+|Fukui    |[新型コロナウイルス感染症について](https://www.pref.fukui.lg.jp/doc/kenkou/kansensyo-yobousessyu/corona.html)|
 |Fukuoka    | [福岡県内での発生状況](https://www.pref.fukuoka.lg.jp/contents/bukan.html) |
 |Fukushima    |[福島県内の新型コロナウイルス発生状況](https://www.pref.fukushima.lg.jp/sec/21045c/fukushima-hasseijyoukyou.html)|
 |Gifu    | [新型コロナウイルス感染症の患者の発生について](https://www.pref.gifu.lg.jp/kinkyu-juyo-joho/shingata_corona.html)|
@@ -56,11 +56,11 @@ data that we use to cross check and verify.
 |Hyogo    | [新型コロナウイルスに感染した患者の発生状況](https://web.pref.hyogo.lg.jp/kk03/corona_hasseijyokyo.html) [PCR](https://web.pref.hyogo.lg.jp/kf16/singatakoronakensa.html) |
 |Ibaraki    | [新型コロナウイルス感染症患者の県内の発生状況について](https://www.pref.ibaraki.jp/hokenfukushi/yobo/kiki/yobo/kansen/idwr/press/20200318-corona.html) |
 |Ishikawa    | [新型コロナウイルス感染症の県内の患者発生状況](https://www.pref.ishikawa.lg.jp/kansen/coronakennai.html) |
-|Iwate    ||
+|Iwate    |[新型コロナウイルス感染症関連情報](https://www.pref.iwate.jp/kurashikankyou/iryou/covid19/index.html)|
 |Kagawa    | [新型コロナウイルスに関連した患者の発生について](https://www.pref.kagawa.lg.jp/content/dir1/dir1_6/dir1_6_1/wvwfb0200317171212.shtml)|
 |Kanagawa    | [新型コロナウイルスに感染した患者の発生状況](https://www.pref.kanagawa.jp/docs/ga4/bukanshi/occurrence.html) |
 |Kanagawa - Funabashi   |[市内で新型コロナウイルス感染症患者](https://www.city.funabashi.lg.jp/kenkou/kansenshou/001/index.html)|
-|Kagoshima    ||
+|Kagoshima    |[新型コロナウイルス感染症に関する情報](https://www.pref.kagoshima.jp/ae06/kenko-fukushi/kenko-iryo/kansen/kansensho/coronavirus.html)|
 |Kochi    | [高知県における新型コロナウイルス感染症患者の発生状況について](https://www.pref.kochi.lg.jp/soshiki/130401/2020022900049.html) [PCR](https://www.pref.kochi.lg.jp/soshiki/130120/2020030400166.html)|
 |Kumamoto    | [新型コロナウイルス感染症](https://www.pref.kumamoto.jp/kiji_30386.html) |
 |Kumamoto - Kumamoto City   | [新型コロナウイルス感染症について](http://www.city.kumamoto.jp/hpkiji/pub/detail.aspx?c_id=5&id=26562) |
@@ -74,10 +74,10 @@ data that we use to cross check and verify.
 |Niigata    | [県内における感染者の発生について](https://www.pref.niigata.lg.jp/sec/kikitaisaku/shingata-corona.html#hasseijoukyou)|
 |Oita    |[新型コロナウイルスに関するお知らせ](http://www.pref.oita.jp/site/bosaianzen/shingatacorona.html)|
 |Oita - Oita City | [大分市における新たな新型コロナウイルス感染症患者の発生について](https://www.city.oita.oita.jp/kenko/iryo/kansensho/index.html) |
-|Okayama    ||
+|Okayama    |[新型コロナウイルス感染症について](https://www.pref.okayama.jp/page/645925.html)|
 |Okinawa    | [患者の発生について](https://www.pref.okinawa.jp/site/hoken/chiikihoken/kekkaku/2019-ncov.html)|
 |Osaka    | [新型コロナウイルス感染症について](http://www.pref.osaka.lg.jp/iryo/osakakansensho/corona.html)|
-|Saga    | [](https://www.pref.saga.lg.jp/kiji00373220/index.html) |
+|Saga    | [佐賀県の新型コロナウイルス感染症の状況（事実と異なる情報や噂にご注意ください](https://www.pref.saga.lg.jp/kiji00373220/index.html) |
 |Saitama    |[記者発表資料](https://www.pref.saitama.lg.jp/a0701/covid19/jokyo.html)|
 |Shiga    | [新型コロナウイルス感染症患者の発生状況](https://www.pref.shiga.lg.jp/ippan/kenkouiryouhukushi/yakuzi/310735.html)|
 |Shimane    |[新型コロナウイルス感染症に関する情報](https://www.pref.shimane.lg.jp/bousai_info/bousai/kikikanri/shingata_taisaku/new_coronavirus_portal.html)|
@@ -87,10 +87,10 @@ data that we use to cross check and verify.
 | Tochigi - Utsunomiya City | [宇都宮市における新型コロナウイルス感染症の発生状況](https://www.city.utsunomiya.tochigi.jp/kurashi/kenko/kansensho/etc/1023128.html)
 |Tokushima    | [新型コロナウイルス感染症について](https://www.pref.tokushima.lg.jp/ippannokata/kenko/kansensho/5034012#25)|
 |Tokyo    |[Latest updates on COVID-19 in Tokyo](https://stopcovid19.metro.tokyo.lg.jp/en) / Primary sources: [東京都新型コロナウイルス感染症対策本部報](https://www.bousai.metro.tokyo.lg.jp/taisaku/saigai/1007261/index.html)|
-|Tottori    ||
-|Toyama    ||
+|Tottori    |[新型コロナウイルス感染症(COVID-19)特設サイト](https://www.pref.tottori.lg.jp/corona-virus/)|
+|Toyama    |[新型コロナウイルス感染症について（相談件数及び検査件数）](http://www.pref.toyama.jp/cms_sec/1205/kj00021629.html)|
 |Wakayama    |[新型コロナウイルス感染症に関連する情報について](https://www.pref.wakayama.lg.jp/prefg/041200/d00203387.html)|
-|Yamagata    ||
+|Yamagata    |[新型コロナウイルス感染症に関連するポータルサイト](http://www.pref.yamagata.jp/ou/bosai/020072/kochibou/coronavirus/coronavirus.html)|
 |Yamaguchi    |[新型コロナウイルス感染症の山口県内での発生について](https://www.pref.yamaguchi.lg.jp/cms/a15200/kansensyou/koronahassei.html)|
 |Yamanashi    |[新型コロナウイルス感染症に関する総合情報](https://www.pref.yamanashi.jp/koucho/coronavirus/info_coronavirus.html)|
 
