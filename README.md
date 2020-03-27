@@ -8,7 +8,7 @@ A COVID-19 Coronavirus tracker for Japan. Government agencies release detailed d
 
 If you would like to update any missing or incorrect data on the graphs, please leave a comment on this spreadsheet, and/or request edit access.
 
-https://docs.google.com/spreadsheets/d/1jfB4muWkzKTR0daklmf8D5F0Uf_IYAgcx_-Ij9McClQ/edit
+https://docs.google.com/spreadsheets/d/e/2PACX-1vRri4r42DHwMHePjJfYN-qEWhGvKeOQullBtEzfle15i-xAsm9ZgV8oMxQNhPRO1CId39BPnn1IO5YO/pubhtml
 
 
 
