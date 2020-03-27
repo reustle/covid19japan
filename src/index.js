@@ -13,7 +13,7 @@ import * as c3 from 'c3'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
-const JSON_PATH = 'https://covid19japan.s3.ap-northeast-1.amazonaws.com/data.json'
+const JSON_PATH = 'https://data.covid19japan.com/summary/latest.json'
 const TIME_FORMAT = 'YYYY-MM-DD'
 const COLOR_ACTIVE = 'rgb(223,14,31)'
 const COLOR_CONFIRMED = 'rgb(244,67,54)'
@@ -107,21 +107,35 @@ function calculateTotals(daily) {
   }
 
   // If there is an empty cell, fall back to the previous row
-  function pullLatestSumAndDiff(key) {
-    if(daily[daily.length-1][key].length){
-      totals[key] = parseInt(daily[daily.length-1][key])
-      totalsDiff[key] = totals[key] - parseInt(daily[daily.length-2][key])
-    }else{
-      totals[key] = parseInt(daily[daily.length-2][key])
-      totalsDiff[key] = totals[key] - parseInt(daily[daily.length-3][key])
+  function pullLatestSumAndDiff(rowKey, totalKey) {
+    let latest = {}
+    let dayBefore = {} 
+    let twoDaysBefore = {}
+    if (daily.length > 2) {
+      twoDaysBefore = daily[daily.length - 3]
+    } 
+    if (daily.length > 1) {
+      dayBefore = daily[daily.length - 2]
+    } 
+    if (daily.length > 0) {
+      latest = daily[daily.length - 1]
+    }
+
+    if (latest && dayBefore && latest[rowKey] && dayBefore[rowKey]) {
+      totals[totalKey] = latest[rowKey]
+      totalsDiff[totalKey] = latest[rowKey] - dayBefore[rowKey]
+    }
+
+    if (totalsDiff[totalKey] <= 0 && twoDaysBefore && twoDaysBefore[rowKey]) {
+      totalsDiff[totalKey] = latest[rowKey] - twoDaysBefore[rowKey]
     }
   }
 
-  pullLatestSumAndDiff('tested')
-  pullLatestSumAndDiff('critical')
-  pullLatestSumAndDiff('confirmed')
-  pullLatestSumAndDiff('recovered')
-  pullLatestSumAndDiff('deceased')
+  pullLatestSumAndDiff('testedCumulative', 'tested')
+  pullLatestSumAndDiff('criticalCumulative', 'critical')
+  pullLatestSumAndDiff('confirmedCumulative', 'confirmed')
+  pullLatestSumAndDiff('recoveredCumulative', 'recovered')
+  pullLatestSumAndDiff('deceasedCumulative', 'deceased')
 
   return [totals, totalsDiff]
 }
@@ -177,15 +191,15 @@ function drawTrendChart(sheetTrend) {
     }
     
     cols.Date.push(row.date)
-    cols.Confirmed.push(parseInt(row.confirmed))
-    cols.Critical.push(parseInt(row.critical))
-    cols.Deceased.push(parseInt(row.deceased))
-    cols.Recovered.push(parseInt(row.recovered))
-    cols.Active.push(parseInt(row.confirmed) - parseInt(row.deceased) - parseInt(row.recovered))
-    cols.Tested.push(parseInt(row.tested))
+    cols.Confirmed.push(row.confirmedCumulative)
+    cols.Critical.push(row.criticalCumulative)
+    cols.Deceased.push(row.deceasedCumulative)
+    cols.Recovered.push(row.recoveredCumulative)
+    cols.Active.push(row.confirmedCumulative - row.deceasedCumulative - row.recoveredCumulative)
+    cols.Tested.push(row.testedCumulative)
 
   }
-  
+
   var chart = c3.generate({
     bindto: '#trend-chart',
     data: {
@@ -265,7 +279,7 @@ function drawDailyIncreaseChart(sheetTrend) {
     }
     
     cols.Date.push(row.date)
-    cols.Confirmed.push(parseInt(row.confirmed) - parseInt(sheetTrend[i-1].confirmed))
+    cols.Confirmed.push(row.confirmed)
 
   }
   
@@ -320,6 +334,7 @@ function drawDailyIncreaseChart(sheetTrend) {
 
 
 function drawPrefectureTable(prefectures, totals) {
+
   // Draw the Cases By Prefecture table
   let dataTable = document.querySelector('#prefectures-table tbody')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
@@ -330,8 +345,7 @@ function drawPrefectureTable(prefectures, totals) {
 
   // Parse values so we can sort
   _.map(prefectures, function(pref){
-    // TODO change to confirmed
-    pref.confirmed = (pref.cases?parseInt(pref.cases):0)
+    pref.confirmed = (pref.confirmed?parseInt(pref.confirmed):0)
     pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
     // TODO change to deceased
     pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
@@ -345,17 +359,17 @@ function drawPrefectureTable(prefectures, totals) {
     
     let prefStr
     if(LANG == 'en'){
-      prefStr = pref.prefecture
+      prefStr = pref.name
     }else{
-      prefStr = pref.prefectureja
+      prefStr = pref.name_ja
     }
     
     // TODO Make this pretty
     
-    if(pref.prefecture == 'Unspecified'){
+    if(pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
-    }else if (pref.prefecture == 'Total'){
+    }else if (pref.name == 'Total'){
       // Skip
     }else{
       dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
@@ -442,9 +456,9 @@ function drawMapPrefectures(pageDraws) {
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
     
-    let cases = parseInt(prefecture.cases)
+    let cases = parseInt(prefecture.confirmed)
     if(cases > 0){
-      prefecturePaint.push(prefecture.prefecture)
+      prefecturePaint.push(prefecture.name)
       
       if(cases <= 50){
         // 1-50 cases
@@ -565,7 +579,7 @@ function loadDataOnPage() {
     ddb.totals = newTotals[0]
     ddb.totalsDiff = newTotals[1]
     ddb.trend = jsonData.daily
-    ddb.lastUpdated = jsonData.updated[0].lastupdated
+    ddb.lastUpdated = jsonData.updated
 
     drawKpis(ddb.totals, ddb.totalsDiff)
     if (!document.body.classList.contains('embed-mode')) {
