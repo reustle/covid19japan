@@ -551,7 +551,7 @@ function initDataTranslate() {
       loadPath: "/static/i18n/{{lng}}.json"
     }
   }).then(() => {
-    localize('body');
+    localize('html');
   });  
 
   // Handle language switching using data params
@@ -572,7 +572,7 @@ function initDataTranslate() {
       e.preventDefault()
       LANG = e.target.dataset.langPicker
       
-      i18next.changeLanguage(LANG).then(() => localize('body'));
+      i18next.changeLanguage(LANG).then(() => localize('html'));
       
       // Update the map
       map.getStyle().layers.forEach(function(thisLayer){
