@@ -505,17 +505,21 @@ function drawPrefectureTable(prefectures, totals) {
   dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
-function drawJapaneseBorderTable() {
+function drawJapaneseIncomingRestrictions() {
+  incomingRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
+}
+
+function incomingRestrictionsHelper(elementId, countries) {
   let countryList = [];
   // Iterate through and render table rows
-  _.orderBy(ddb.travelRestrictions.japan.banned, 'name', 'desc').map(function(country){
+  _.orderBy(countries, 'name', 'desc').map(function(country){
     let name = (LANG == 'en') ? country.name : country.nameJa;
 
     countryList.push(`${country.emoji}<a href="${country.link}">${name}</a>`);
     return true;
   })
 
-  let banned = document.querySelector('#banned-entry');
+  let banned = document.querySelector(elementId);
   banned.innerHTML = countryList.join(', ');
 }
 
@@ -717,7 +721,7 @@ function initDataTranslate() {
 
       // Redraw the japan borders restriction table
       if(document.getElementById('japan-borders-table')){
-        drawJapaneseBorderTable()
+        drawJapaneseIncomingRestrictions()
       }
 
       // Toggle the lang picker
@@ -746,7 +750,7 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
-      drawJapaneseBorderTable()
+      drawJapaneseIncomingRestrictions()
       drawForeignBordersTable(ddb.travelRestrictions.foreignBorders)
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
