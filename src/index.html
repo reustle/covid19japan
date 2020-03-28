@@ -59,7 +59,7 @@
       <a href="#" data-lang-picker='en' style="display:none">🇺🇸 English</a>
     </div>
     
-    <h1 data-i18n="header"></h1>
+    <h1 data-i18n="covid-19-tracker">Japan COVID-19 Coronavirus Tracker</h1>
     <div>
       <em>
         View our <a href="https://docs.google.com/spreadsheets/d/e/2PACX-1vRri4r42DHwMHePjJfYN-qEWhGvKeOQullBtEzfle15i-xAsm9ZgV8oMxQNhPRO1CId39BPnn1IO5YO/pubhtml" target="_blank">live patient database</a>
@@ -67,7 +67,7 @@
     </div>
     <div>
       <em>
-        <span data-ja="最終更新:">Last Updated:</span> <strong id="last-updated">-</strong>
+        <span data-i18n="last-updated">Last Updated:</span> <strong id="last-updated">-</strong>
       </em>
     </div>
   </header>
@@ -76,72 +76,72 @@
     <div id="kpi-active" data-tippy-content="Confirmed cases minus recovered minus deceased" data-tippy-placement="bottom">
       <div class="diff">&nbsp;</div>
       <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-ja="既存感染者数">Active &#9432;</div>
+      <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>
     </div>
     <div id="kpi-critical">
       <div class="diff">&nbsp;</div>
       <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-ja="重症者数">Critical</div>
+      <div class="label" data-i18n="kpi-critical">Critical</div>
     </div>
     <div id="kpi-deceased">
       <div class="diff">&nbsp;</div>
       <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-ja="死亡者数">Deaths</div>
+      <div class="label" data-i18n="kpi-deceased">Deaths</div>
     </div>
     <div id="kpi-tested">
       <div class="diff">&nbsp;</div>
       <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-ja="検査実施人数">Tested</div>
+      <div class="label" data-i18n="kpi-tested">Tested</div>
     </div>
     <div id="kpi-confirmed">
       <div class="diff">&nbsp;</div>
       <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-ja="感染者数">Confirmed</div>
+      <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
     </div>
     <div id="kpi-recovered">
       <div class="diff">&nbsp;</div>
       <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-ja="回復者数">Recovered</div>
+      <div class="label" data-i18n="kpi-recovered">Recovered</div>
     </div>
   </section>
   
   
   <a name="map"></a>
   <div class="center-offset">
-    <h4 data-ja="ウイルス感染マップ"><span class="embed-show">COVID-19 </span>Outbreak Map</h4>
+    <h4 data-i18n="ウイルス感染マップ"><span class="embed-show">COVID-19 </span>Outbreak Map</h4>
   </div>
   <section id="map-legend">
-    <div><span class="one">▉</span> <span data-ja="1-50 件">1-50 cases</span></div>
-    <div><span class="two">▉</span> <span data-ja="51-100 件">51-100 cases</span></div>
-    <div><span class="three">▉</span> <span data-ja="101-200 件">101-200 cases</span></div>
-    <div><span class="four">▉</span> <span data-ja="201+ 件">201+ cases</span></div>
+    <div><span class="one">▉</span> <span data-i18n="1-50 件">1-50 cases</span></div>
+    <div><span class="two">▉</span> <span data-i18n="51-100 件">51-100 cases</span></div>
+    <div><span class="three">▉</span> <span data-i18n="101-200 件">101-200 cases</span></div>
+    <div><span class="four">▉</span> <span data-i18n="201+ 件">201+ cases</span></div>
   </section>
   <div id="map-container"></div>
   <h5 class="embed-show">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></h5>
 
   <section id="trend-chart-container" class="embed-hide">
-    <h4 data-ja="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
+    <h4 data-i18n="ウイルス感染の拡散傾向">Outbreak Spread Trend</h4>
     <div id="trend-chart">
         <div class="text-center"><div class="lds-dual-ring"></div></div>
     </div>
   </section>
   
   <section id="daily-increase-container" class="embed-hide">
-    <h4 data-ja="陽性者数 (日別)">New Cases By Day</h4>
+    <h4 data-i18n="陽性者数 (日別)">New Cases By Day</h4>
     <div id="daily-increase-chart">
         <div class="text-center"><div class="lds-dual-ring"></div></div>
     </div>
   </section>
   
   <section class="embed-hide">
-    <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
+    <h4 data-i18n="都道府県ごとのデータ">Prefecture Data</h4>
     <table id="prefectures-table">
       <thead>
         <tr>
-          <th data-ja="都道府県">Prefecture</th>
-          <th data-ja="感染者数">Cases</th>
-          <th data-ja="回復者数">Recovered</th>
-          <th data-ja="死亡者数">Deaths</th>
+          <th data-i18n="都道府県">Prefecture</th>
+          <th data-i18n="感染者数">Cases</th>
+          <th data-i18n="回復者数">Recovered</th>
+          <th data-i18n="死亡者数">Deaths</th>
         </tr>
       </thead>
       <tbody>
@@ -153,7 +153,7 @@
   
   <section id="helpful-links" class="embed-hide">
     <a name="links"></a>
-    <h4 data-ja="有益な情報源">Helpful Links</h4>
+    <h4 data-i18n="有益な情報源">Helpful Links</h4>
     <ul>
       <li>
         <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">
@@ -183,7 +183,7 @@
     </ul>
   
     <br/>
-    <h4 data-ja="一次情報源">Primary Data Sources</h4>
+    <h4 data-i18n="一次情報源">Primary Data Sources</h4>
     <ul>
       <li><a href="https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html">https://www.mhlw.go.jp/stf/houdou/houdou_list_202002.html</a></li>
       <li><a href="https://www3.nhk.or.jp/news/special/coronavirus/latest-news/">https://www3.nhk.or.jp/news/special/coronavirus/latest-news/</a></li>
