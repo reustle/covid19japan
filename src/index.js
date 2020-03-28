@@ -545,26 +545,13 @@ function initDataTranslate() {
   // load translation framework
   const localize = locI18next.init(i18next);
   i18next.use(LanguageDetector).use(XHR).init({
-    debug: true,
     fallbackLng: 'en',
     backend: {
       loadPath: "/static/i18n/{{lng}}.json"
     }
   }).then(() => {
     localize('html');
-  });  
-
-  // Handle language switching using data params
-
-  const selector = '[data-ja]'
-  const parseNode = function(cb) {
-    document.querySelectorAll(selector).forEach(cb)
-  }
-
-  // Default website is in English. Extract it as the attr data-en="..."
-  parseNode(function(el) {
-    el.dataset['en'] = el.textContent
-  })
+  });
 
   // Language selector event handler
   document.querySelectorAll('[data-lang-picker]').forEach(function(pick) {
