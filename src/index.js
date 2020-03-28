@@ -9,6 +9,10 @@ import Chart from 'chart.js'
 import tippy from 'tippy.js'
 import * as d3 from 'd3'
 import * as c3 from 'c3'
+import i18next from 'i18next';
+import LanguageDetector from 'i18next-browser-languagedetector';
+import XHR from 'i18next-xhr-backend';
+import locI18next from 'loc-i18next';
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
@@ -538,6 +542,17 @@ function drawMapPrefectures(pageDraws) {
 }
 
 function initDataTranslate() {
+  // load translation framework
+  const localize = locI18next.init(i18next);
+  i18next.use(LanguageDetector).use(XHR).init({
+    debug: true,
+    backend: {
+      loadPath: "/static/i18n/{{lng}}.json"
+    }
+  }).then(() => {
+    localize('body');
+  });  
+
   // Handle language switching using data params
 
   const selector = '[data-ja]'
