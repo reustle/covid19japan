@@ -171,7 +171,9 @@ h1 {
   }
 }
 
-#trend-chart-container, #daily-increase-container {
+#trend-chart-container,
+#daily-increase-container,
+#prefecture-trajectory-container {
   //padding: 0px 10px;
 
   path.c3-line {
