@@ -773,14 +773,8 @@ function initDataTranslate() {
         drawPrefectureTable(ddb.prefectures, ddb.totals)
       }
 
-      // Redraw the foreign borders restriction table
-      if(document.getElementById('foreign-borders-table')){
-        drawForeignBordersTable(ddb.travelRestrictions.foreignBorders)
-      }
-
-      // Redraw the japan borders restriction table
-      if(document.getElementById('japan-borders-table')){
-        drawTravelRestrictions()
+      if (document.getElementById('travel-restrictions')){
+        drawTravelRestrictions();
       }
 
       // Toggle the lang picker
