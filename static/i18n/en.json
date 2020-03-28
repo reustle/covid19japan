@@ -9,5 +9,14 @@
     "kpi-recovered": "Recovered",
     "covid-19": "COVID-19",
     "outbreak-map": "Outbreak Map",
-    "cases": "cases"
+    "cases": "cases",
+    "outbreak-spread-trend": "Outbreak Spread Trend",
+    "new-cases-by-day": "New Cases By Day",
+    "prefecture-data": "Prefecture Data",
+    "prefecture": "Prefecture",
+    "cases-count": "Cases",
+    "recovered-count": "Recovered",
+    "deaths-count": "Deaths",
+    "helpful-links": "Helpful Links",
+    "primary-data-sources": "Primary Data Sources"
 }
