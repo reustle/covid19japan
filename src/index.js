@@ -209,16 +209,10 @@ let ddb = {
     },
     foreignBorders: [
       {
-        name: 'Canada',
-        nameJa: 'カナダ',
-        noEntry: true,
-        link: 'https://travel.gc.ca/travelling/advisories'
-      },
-      {
-        name: 'USA',
-        nameJa: '米国',
-        noEntry: false,
-        link: 'https://www.dhs.gov/'
+        banned: [],
+        visaRequired: [],
+        selfQuarantine: [],
+        other: []
       },
     ],
   }
@@ -580,14 +574,19 @@ function drawPrefectureTable(prefectures, totals) {
   dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
-function drawJapaneseIncomingRestrictions() {
-  incomingRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
-  incomingRestrictionsHelper('#visa-required', ddb.travelRestrictions.japan.visaRequired);
-  incomingRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
-  incomingRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
+function drawTravelRestrictions() {
+  travelRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
+  travelRestrictionsHelper('#visa-required', ddb.travelRestrictions.japan.visaRequired);
+  travelRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
+  travelRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
+
+  travelRestrictionsHelper('#foreign-banned-entry', ddb.travelRestrictions.foreignBorders.banned);
+  travelRestrictionsHelper('#foreign-visa-required', ddb.travelRestrictions.foreignBorders.visaRequired);
+  travelRestrictionsHelper('#foreign-self-quarantine', ddb.travelRestrictions.foreignBorders.selfQuarantine);
+  travelRestrictionsHelper('#foreign-other-restrictions', ddb.travelRestrictions.foreignBorders.other);
 }
 
-function incomingRestrictionsHelper(elementId, countries) {
+function travelRestrictionsHelper(elementId, countries) {
   let countryList = [];
   // Iterate through and render country links
   _.orderBy(countries, 'name', 'desc').map(function(country){
@@ -599,24 +598,6 @@ function incomingRestrictionsHelper(elementId, countries) {
 
   let banned = document.querySelector(elementId);
   banned.innerHTML = countryList.join(', ');
-}
-
-
-
-function drawForeignBordersTable(countries) {
-  let dataTable = document.querySelector('#foreign-borders-table tbody')
-
-  // Remove the loading cell
-  dataTable.innerHTML = ''
-
-  // Iterate through and render table rows
-  _.orderBy(countries, 'name', 'desc').map(function(country){
-    let name = (LANG == 'en') ? country.name : country.nameJa
-
-    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + (country.noEntry ? "✓" : "") +
-    `</td><td><a href="${country.link}">` + country.link + "</a></td></tr>"
-    return true
-  })
 }
 
 function drawKpis(totals, totalsDiff) {
@@ -799,7 +780,7 @@ function initDataTranslate() {
 
       // Redraw the japan borders restriction table
       if(document.getElementById('japan-borders-table')){
-        drawJapaneseIncomingRestrictions()
+        drawTravelRestrictions()
       }
 
       // Toggle the lang picker
@@ -828,8 +809,7 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
-      drawJapaneseIncomingRestrictions()
-      drawForeignBordersTable(ddb.travelRestrictions.foreignBorders)
+      drawTravelRestrictions()
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
     }
