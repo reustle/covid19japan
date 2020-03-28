@@ -744,9 +744,10 @@ function drawMapPrefectures(pageDraws) {
   }
 }
 
+// localize must be accessible globally
+const localize = locI18next.init(i18next);
 function initDataTranslate() {
   // load translation framework
-  const localize = locI18next.init(i18next);
   i18next.use(LanguageDetector).init({
     fallbackLng: 'en',
     resources: {
@@ -758,48 +759,52 @@ function initDataTranslate() {
       }
     }
   }).then(() => {
-    // fill all html tags with a data-i18n attribute
-    localize('html');
-    // sync the language picker
-    toggleLangPicker(i18next.language);
+    setLang(i18next.language);
   });
 
   // Language selector event handler
   document.querySelectorAll('[data-lang-picker]').forEach(function (pick) {
     pick.addEventListener('click', function (e) {
       e.preventDefault()
-      LANG = e.target.dataset.langPicker
-
-      i18next.changeLanguage(LANG).then(() => localize('html'));
-
-      // Update the map
-      map.getStyle().layers.forEach(function (thisLayer) {
-        if (thisLayer.type == 'symbol') {
-          map.setLayoutProperty(thisLayer.id, 'text-field', ['get', 'name_' + LANG])
-        }
-      })
-
-      // Redraw the prefectures table
-      if (document.getElementById('prefectures-table')) {
-        drawPrefectureTable(ddb.prefectures, ddb.totals)
-      }
-
-      if (document.getElementById('travel-restrictions')){
-        drawTravelRestrictions();
-      }
-
-      toggleLangPicker(LANG);
-
+      setLang(e.target.dataset.langPicker);
     })
   })
 }
 
-function toggleLangPicker(lng) {
+function setLang(lng) {
+  // set global var
+  LANG = lng;
+
+  // toggle picker
+  toggleLangPicker();
+
+  // set i18n framework lang
+  i18next.changeLanguage(LANG).then(() => localize('html'));
+
+  // Update the map
+  map.getStyle().layers.forEach(function (thisLayer) {
+    if (thisLayer.type == 'symbol') {
+      map.setLayoutProperty(thisLayer.id, 'text-field', ['get', 'name_' + LANG])
+    }
+  })
+
+  // Redraw the prefectures table
+  if (document.getElementById('prefectures-table')) {
+    drawPrefectureTable(ddb.prefectures, ddb.totals)
+  }
+
+  if (document.getElementById('travel-restrictions')){
+    drawTravelRestrictions();
+  }
+
+}
+
+function toggleLangPicker() {
   // Toggle the lang picker
   document.querySelectorAll('a[data-lang-picker]').forEach(function (el) {
     el.style.display = 'inline'
   })
-  document.querySelector('a[data-lang-picker=' + lng + ']').style.display = 'none'
+  document.querySelector('a[data-lang-picker=' + LANG + ']').style.display = 'none'
 }
 
 function loadDataOnPage() {
