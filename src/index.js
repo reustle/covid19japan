@@ -131,6 +131,9 @@ let ddb = {
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         }
       ],
+      visaRequired: [],
+      selfQuarantine: [],
+      other: []
     },
     foreignBorders: [
       {
@@ -507,6 +510,9 @@ function drawPrefectureTable(prefectures, totals) {
 
 function drawJapaneseIncomingRestrictions() {
   incomingRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
+  incomingRestrictionsHelper('#visa-required', ddb.travelRestrictions.japan.visaRequired);
+  incomingRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
+  incomingRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
 }
 
 function incomingRestrictionsHelper(elementId, countries) {
