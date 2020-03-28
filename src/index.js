@@ -49,6 +49,179 @@ let ddb = {
     deceased: 0,
     tested: 0,
     critical: 0
+  },
+  travelRestrictions: {
+    japan: {
+      banned: [
+        {
+          name: 'Andorra',
+          nameJa: 'アンドラ',
+          emoji: '🇦🇩',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Austria',
+          nameJa: 'オーストリア',
+          emoji: '🇦🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Belgium',
+          nameJa: 'ベルギー',
+          emoji: '🇧🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'China',
+          nameJa: '中国',
+          emoji: '🇨🇳',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Estonia',
+          nameJa: 'エストニア',
+          emoji: '🇪🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'France',
+          nameJa: '仏国',
+          emoji: '🇫🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Germany',
+          nameJa: '独国',
+          emoji: '🇩🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Iceland',
+          nameJa: 'アイスランド',
+          emoji: '🇮🇸',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Iran',
+          nameJa: 'イラン',
+          emoji: '🇮🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Ireland',
+          nameJa: 'アイルランド',
+          emoji: '🇮🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Italy',
+          nameJa: '伊井',
+          emoji: '🇮🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Korea',
+          nameJa: '大韓民国',
+          emoji: '🇰🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Liechtenstein',
+          nameJa: 'リヒテンシュタイン',
+          emoji: '🇱🇮',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Luxembourg',
+          nameJa: 'ルクセンブルク',
+          emoji: '🇱🇺',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Malta',
+          nameJa: 'マルタ',
+          emoji: '🇲🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Monaco',
+          nameJa: 'モナコ',
+          emoji: '🇲🇨',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Netherlands',
+          nameJa: 'オランダ',
+          emoji: '🇳🇱',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Norway',
+          nameJa: 'ノルウェー',
+          emoji: '🇳🇴',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Portugal',
+          nameJa: '葡萄牙',
+          emoji: '🇵🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'San Marino',
+          nameJa: 'サンマリノ',
+          emoji: '🇸🇲',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Slovenia',
+          nameJa: 'スロベニア',
+          emoji: '🇸🇮',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Spain',
+          nameJa: 'スペイン',
+          emoji: '🇪🇸',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Sweden',
+          nameJa: 'スウェーデン',
+          emoji: '🇸🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Switzerland',
+          nameJa: 'スイス',
+          emoji: '🇨🇭',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Vatican',
+          nameJa: 'バチカン市国',
+          emoji: '🇻🇦',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Westerdam (Cruise Ship)',
+          nameJa: 'ウェスターダム（船）',
+          emoji: '🛳',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        }
+      ],
+      visaRequired: [],
+      selfQuarantine: [],
+      other: []
+    },
+    foreignBorders: [
+      {
+        banned: [],
+        visaRequired: [],
+        selfQuarantine: [],
+        other: []
+      },
+    ],
   }
 }
 let map = undefined
@@ -203,10 +376,10 @@ function drawTrendChart(sheetTrend) {
     Tested: ['Tested'],
   }
 
-  for (var i = 0; i < sheetTrend.length; i++) {
+  for(var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
 
-    if (i === 0) {
+    if(i === 0){
       // Skip early feb data point
       continue
     }
@@ -291,10 +464,10 @@ function drawDailyIncreaseChart(sheetTrend) {
     Confirmed: ['New Cases'],
   }
 
-  for (var i = 0; i < sheetTrend.length; i++) {
+  for(var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
 
-    if (i === 0) {
+    if(i === 0){
       // Skip early feb data point
       continue
     }
@@ -387,7 +560,7 @@ function drawPrefectureTable(prefectures, totals) {
 
     // TODO Make this pretty
 
-    if (pref.name == 'Unspecified') {
+    if(pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered ? pref.recovered : '') + "</td><td>" + pref.deaths + "</td></tr>"
     } else if (pref.name == 'Total') {
@@ -406,6 +579,33 @@ function drawPrefectureTable(prefectures, totals) {
   }
 
   dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+}
+
+function drawTravelRestrictions() {
+  travelRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
+  travelRestrictionsHelper('#visa-required', ddb.travelRestrictions.japan.visaRequired);
+  travelRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
+  travelRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
+
+  /*travelRestrictionsHelper('#foreign-banned-entry', ddb.travelRestrictions.foreignBorders.banned);
+  travelRestrictionsHelper('#foreign-visa-required', ddb.travelRestrictions.foreignBorders.visaRequired);
+  travelRestrictionsHelper('#foreign-self-quarantine', ddb.travelRestrictions.foreignBorders.selfQuarantine);
+  travelRestrictionsHelper('#foreign-other-restrictions', ddb.travelRestrictions.foreignBorders.other);
+  */
+}
+
+function travelRestrictionsHelper(elementId, countries) {
+  let countryList = [];
+  // Iterate through and render country links
+  _.orderBy(countries, 'name', 'desc').map(function(country){
+    let name = (LANG == 'en') ? country.name : country.nameJa;
+
+    countryList.unshift(`<a href="${country.link}">${country.emoji}${name}</a>`);
+    return true;
+  })
+
+  let banned = document.querySelector(elementId);
+  banned.innerHTML = countryList.join(', ');
 }
 
 function drawKpis(totals, totalsDiff) {
@@ -475,13 +675,13 @@ function drawMapPrefectures(pageDraws) {
   ]
 
   // Go through all prefectures looking for cases
-  ddb.prefectures.map(function (prefecture) {
+  ddb.prefectures.map(function(prefecture){
 
     let cases = parseInt(prefecture.confirmed)
     if (cases > 0) {
       prefecturePaint.push(prefecture.name)
 
-      if (cases <= 50) {
+      if(cases <= 50){
         // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
       } else if (cases <= 100) {
@@ -584,6 +784,10 @@ function initDataTranslate() {
         drawPrefectureTable(ddb.prefectures, ddb.totals)
       }
 
+      if (document.getElementById('travel-restrictions')){
+        drawTravelRestrictions();
+      }
+
       toggleLangPicker(LANG);
 
     })
@@ -614,6 +818,7 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
+      drawTravelRestrictions()
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
     }
@@ -637,7 +842,7 @@ function whenMapAndDataReady() {
 }
 
 
-window.onload = function () {
+window.onload = function(){
 
   // Enable tooltips
   tippy('[data-tippy-content]')
@@ -645,7 +850,7 @@ window.onload = function () {
   initDataTranslate()
   drawMap()
 
-  map.once('style.load', function (e) {
+  map.once('style.load', function(e) {
     styleLoaded = true
     whenMapAndDataReady()
   })
