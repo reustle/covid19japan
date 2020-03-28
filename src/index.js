@@ -20,6 +20,7 @@ const COLOR_CONFIRMED = 'rgb(244,67,54)'
 const COLOR_RECOVERED = 'rgb(25,118,210)'
 const COLOR_DECEASED = 'rgb(55,71,79)'
 const COLOR_TESTED = 'rgb(164,173,192)'
+const COLOR_TESTED_DAILY = 'rgb(194,93,32)'
 const COLOR_INCREASE = 'rgb(163,172,191)'
 const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
 let LANG = 'en'
@@ -225,7 +226,14 @@ function drawTrendChart(sheetTrend) {
           cols.Recovered,
           cols.Deceased,
           //cols.Tested
-        ]
+        ],
+        regions: {
+          [cols.Confirmed[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+          [cols.Active[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+          [cols.Recovered[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+          [cols.Deceased[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}]
+          //[cols.Tested[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+        }
     },
     color: {
       pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED]
@@ -237,8 +245,8 @@ function drawTrendChart(sheetTrend) {
         x: {
             type: 'timeseries',
             tick: {
-                format: '%b %d',
-                count: 6
+              format: '%b %d',
+              count: 6
             }
         },
         y: {
@@ -255,7 +263,9 @@ function drawTrendChart(sheetTrend) {
         value: function (value, ratio, id, index) {
           if(index && cols[id][index]){
             var diff = parseInt(value) - cols[id][index]
-            return value + ' (' + (diff>=0?'+':'') + diff + ')'
+            return `${value} (${(diff>=0?'+':'') + diff}) ${
+              index === cols.Date.length-2 ? LANG === 'en' ? 'Provisory' : '助言' : ''
+            }`
           }else{
             return value
           }
@@ -300,11 +310,20 @@ function drawDailyIncreaseChart(sheetTrend) {
   var chart = c3.generate({
     bindto: '#daily-increase-chart',
     data: {
-        color: function(color, d){ return COLOR_TESTED },
+        color: function(color, d){ 
+          if(d && d.index === cols.Date.length-2 ) {
+            return COLOR_TESTED_DAILY;
+          } else {
+            return COLOR_TESTED;
+          }
+        },
         columns: [
           cols.Confirmed
         ],
-        type: 'bar'
+        type: 'bar',
+        regions: {
+          [cols.Confirmed[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+        }
     },
     bar: {
         width: {
@@ -326,6 +345,15 @@ function drawDailyIncreaseChart(sheetTrend) {
       y: {
         tick: {
           values: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
+        }
+      }
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id, index) {
+          return `${value} ${
+            (index === cols.Date.length-2 ? LANG === 'en' ? 'Provisory' : '助言' : '')
+          }`
         }
       }
     },
