@@ -6,5 +6,8 @@
     "kpi-deceased": "Deaths",
     "kpi-tested": "Tested",
     "kpi-confirmed": "Confirmed",
-    "kpi-recovered": "Recovered"
+    "kpi-recovered": "Recovered",
+    "covid-19": "COVID-19",
+    "outbreak-map": "Outbreak Map",
+    "cases": "cases"
 }
