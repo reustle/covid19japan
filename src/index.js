@@ -580,10 +580,11 @@ function drawTravelRestrictions() {
   travelRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
   travelRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
 
-  travelRestrictionsHelper('#foreign-banned-entry', ddb.travelRestrictions.foreignBorders.banned);
+  /*travelRestrictionsHelper('#foreign-banned-entry', ddb.travelRestrictions.foreignBorders.banned);
   travelRestrictionsHelper('#foreign-visa-required', ddb.travelRestrictions.foreignBorders.visaRequired);
   travelRestrictionsHelper('#foreign-self-quarantine', ddb.travelRestrictions.foreignBorders.selfQuarantine);
   travelRestrictionsHelper('#foreign-other-restrictions', ddb.travelRestrictions.foreignBorders.other);
+  */
 }
 
 function travelRestrictionsHelper(elementId, countries) {
@@ -592,7 +593,7 @@ function travelRestrictionsHelper(elementId, countries) {
   _.orderBy(countries, 'name', 'desc').map(function(country){
     let name = (LANG == 'en') ? country.name : country.nameJa;
 
-    countryList.unshift(`${country.emoji}<a href="${country.link}">${name}</a>`);
+    countryList.unshift(`<a href="${country.link}">${country.emoji}${name}</a>`);
     return true;
   })
 
