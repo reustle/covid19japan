@@ -44,48 +44,94 @@ let ddb = {
     critical: 0
   },
   travelRestrictions: {
-    japan: [
-      {
-        name: 'China',
-        nameJa: '中国',
-        regions: 'Hubei Province, Zhejiang Province',
-      },
-      {
-        name: 'Iceland',
-        nameJa: 'アイスランド',
-        regions: 'the whole country',
-      },
-      {
-        name: 'Iran',
-        nameJa: 'イラン',
-        regions: 'Gilan Province , Qom Province, Tehran Province, Alborz Province, Isfahan Province, Qazvin Province, Golestan Province, Semnan Province, Manzandaran Province, Markazi Province, Lorestan Province',
-      },
-      {
-        name: 'Italy',
-        nameJa: '伊井',
-        regions: 'Veneto Region, Emilia-Romagna Region, Piedmont Region, Marche Region, Lombardy Region, Aosta Valley Region, Trentino-South Tyrol Region, Friuli-Venezia Giulia Region, Liguria Region',
-      },
-      {
-        name: 'Korea',
-        nameJa: '大韓民国',
-        regions: 'Daegu-guangyeok-si, or Cheondo-gun, Gyeongsan-si, Andong-si, Yeongcheon-si, Chilgok-gun, Uiseong-gun, Seongju-gun, Gunwigun in Gyeongsangbuk-do',
-      },
-      {
-        name: 'San Marino',
-        nameJa: 'サンマリノ',
-        regions: 'the whole country',
-      },
-      {
-        name: 'Spain',
-        nameJa: 'スペイン',
-        regions: 'Chartered Community of Navarre, Basque Autonomous Community, Community of Madrid, La Rioja',
-      },
-      {
-        name: 'Switzerland',
-        nameJa: 'スイス',
-        regions: 'Canton of Ticino, Canton of Basel-Stadt',
-      },
-    ],
+    japan: {
+      banned: [
+        {
+          name: 'Andorra',
+          nameJa: '',
+          emoji: '🇦🇩',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Austria',
+          nameJa: '',
+          emoji: '🇦🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'China',
+          nameJa: '中国',
+          emoji: '🇨🇳',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Estonia',
+          nameJa: '',
+          emoji: '🇪🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Iceland',
+          nameJa: 'アイスランド',
+          emoji: '🇮🇸',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Iran',
+          nameJa: 'イラン',
+          emoji: '🇮🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Ireland',
+          nameJa: '',
+          emoji: '🇮🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Italy',
+          nameJa: '伊井',
+          emoji: '🇮🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Korea',
+          nameJa: '大韓民国',
+          emoji: '🇰🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Netherlands',
+          nameJa: '',
+          emoji: '🇳🇱',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'San Marino',
+          nameJa: 'サンマリノ',
+          emoji: '🇸🇲',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Spain',
+          nameJa: 'スペイン',
+          emoji: '🇪🇸',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Switzerland',
+          nameJa: 'スイス',
+          emoji: '🇨🇭',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Vatican',
+          nameJa: '',
+          emoji: '🇻🇦',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        }
+      ],
+    },
     foreignBorders: [
       {
         name: 'Canada',
@@ -459,20 +505,21 @@ function drawPrefectureTable(prefectures, totals) {
   dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
 }
 
-function drawJapaneseBorderTable(countries) {
-  let dataTable = document.querySelector('#japan-border-table tbody')
-
-  // Remove the loading cell
-  dataTable.innerHTML = ''
-
+function drawJapaneseBorderTable() {
+  let countryList = [];
   // Iterate through and render table rows
-  _.orderBy(countries, 'name', 'desc').map(function(country){
-    let name = (LANG == 'en') ? country.name : country.nameJa
+  _.orderBy(ddb.travelRestrictions.japan.banned, 'name', 'desc').map(function(country){
+    let name = (LANG == 'en') ? country.name : country.nameJa;
 
-    dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + name + "</td><td>" + country.regions + "</td></tr>"
-    return true
+    countryList.push(`${country.emoji}<a href="${country.link}">${name}</a>`);
+    return true;
   })
+
+  let banned = document.querySelector('#banned-entry');
+  banned.innerHTML = countryList.join(', ');
 }
+
+
 
 function drawForeignBordersTable(countries) {
   let dataTable = document.querySelector('#foreign-borders-table tbody')
@@ -670,7 +717,7 @@ function initDataTranslate() {
 
       // Redraw the japan borders restriction table
       if(document.getElementById('japan-borders-table')){
-        drawJapaneseBorderTable(ddb.travelRestrictions.japan)
+        drawJapaneseBorderTable()
       }
 
       // Toggle the lang picker
@@ -699,7 +746,7 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
-      drawJapaneseBorderTable(ddb.travelRestrictions.japan)
+      drawJapaneseBorderTable()
       drawForeignBordersTable(ddb.travelRestrictions.foreignBorders)
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
