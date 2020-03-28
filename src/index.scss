@@ -209,8 +209,17 @@ h1 {
     padding: 0 8px;
   }
 
+  th.prefecture, td.prefecture {
+    min-width: 5em;
+  }
+
   th.count, td.count {
     width: 7em;
+  }
+
+  span.increment {
+    color: rgb(244,67,54);
+    font-size: 10px;
   }
 }
 

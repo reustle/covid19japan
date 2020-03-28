@@ -82,7 +82,6 @@ function loadData(callback) {
       callback(data)
     })
     .catch(function(err) {
-      throw err
       retryFn(delay, err)
       delay *= 2  // exponential backoff.
 
@@ -346,6 +345,37 @@ function drawDailyIncreaseChart(sheetTrend) {
   })
 }
 
+function drawSparkLine(elementId, seriesData, maxConfirmedIncrease) {
+  // Draw the sparkline (for last 30 days)
+  let last30days = _.takeRight(seriesData, 30)
+  var options = {
+    series: [ { data: last30days }],
+    chart: {
+      type: 'bar',
+      width: 200,
+      height: 30,
+      sparkline: { enabled: true },
+      animations: { enabled: false },
+    },
+    colors: [ COLOR_CONFIRMED ],
+    plotOptions: { bar: { columnWidth: '95%' } },
+    xaxis: { crosshairs: { width: 1 } },
+    yaxis: { max: maxConfirmedIncrease },
+    tooltip: { 
+      fixed: { enabled: false },
+      x: { show: false },
+      y: { title: { formatter: function (seriesName) { return '' } } },
+      marker: { show: false }
+    }
+  };
+
+  // Need an artificial delay for the html element to attach.
+  setTimeout( function() { 
+    var chart = new ApexCharts(document.querySelector(elementId), options);
+    chart.render();
+  }, 1000);
+}
+
 
 function drawPrefectureTable(prefectures, totals) {
 
@@ -353,9 +383,13 @@ function drawPrefectureTable(prefectures, totals) {
   let dataTable = document.querySelector('#prefectures-table tbody')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
   let unspecifiedRow = ''
+  let portOfEntryRow = ''
 
   // Remove the loading cell
   dataTable.innerHTML = ''
+
+  // Work out the largest daily increase
+  let maxConfirmedIncrease = _.max(_.map(prefectures, pref => { return _.max(pref.dailyConfirmedCount) }))
 
   // Parse values so we can sort
   _.map(prefectures, function(pref){
@@ -377,56 +411,46 @@ function drawPrefectureTable(prefectures, totals) {
     }else{
       prefStr = pref.name_ja
     }
+
+    let increment = pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1]
+    let incrementString = ''
+    if (increment > 0) {
+      incrementString = `<span class='increment'>(+${increment})</span>`
+    }
     
     if (pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = `<td>${prefStr}</td>` +
-      `<td class="count">${pref.confirmed}</td>` +
-      `<td></td>` +
-      `<td class="count">${pref.recovered ? pref.recovered : 0}</td>` +
-      `<td class="count">${pref.deceased ? pref.deceased : 0}</td>` +
-      `</tr>`
+      unspecifiedRow = `<td class="prefecture">${prefStr}</td>` +
+        `<td class="sparkline"><div id="Unspecified-sparkline"></div></td>` +
+        `<td class="count">${pref.confirmed} ${incrementString}</td>` +
+        `<td class="count">${pref.recovered ? pref.recovered : 0}</td>` +
+        `<td class="count">${pref.deceased ? pref.deceased : 0}</td>` +
+        `</tr>`
+        drawSparkLine(`#Unspecified-sparkline`, pref.dailyConfirmedCount, maxConfirmedIncrease)
+    } else if (pref.name == 'Port Quarantine' || pref.name == 'Port of Entry') {
+      portOfEntryRow = `<td class="prefecture" data-ja="空港検疫">Port of Entry</td>` +
+        `<td class="sparkline"><div id="PortOfEntry-sparkline"></div></td>` +
+        `<td class="count">${pref.confirmed} ${incrementString}</td>` +
+        `<td class="count">${pref.recovered ? pref.recovered : 0}</td>` +
+        `<td class="count">${pref.deceased ? pref.deceased : 0}</td>` +
+        `</tr>`  
+        drawSparkLine(`#PortOfEntry-sparkline`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     } else if (pref.name == 'Total'){
       // Skip
     } else {
       dataTable.innerHTML += `<tr>` +
-        `<td>${prefStr}</td>` +
+        `<td class="prefecture">${prefStr}</td>` +
         `<td class="sparkline"><div id="${pref.name}-sparkline"></div></td>` +
-        `<td class="count">${pref.confirmed}</td>` +
+        `<td class="count">${pref.confirmed} ${incrementString}</td>` +
         `<td class="count">${pref.recovered ? pref.recovered : ''}</td>` +
         `<td class="count">${pref.deceased ? pref.deceased : ''}</td>` +
         `</tr>`
-
-      // Draw the sparkline
-      console.log(pref.dailyConfirmedCount)
-      var options = {
-        series: [ { data: pref.dailyConfirmedCount }],
-        chart: {
-          type: 'bar',
-          width: 300,
-          height: 30,
-          sparkline: { enabled: true },
-          animations: { enabled: false },
-        },
-        plotOptions: { bar: { columnWidth: '95%' } },
-        xaxis: { crosshairs: { width: 1 } },
-        yaxis: { max: 50 },
-        tooltip: { 
-          fixed: { enabled: false },
-          x: { show: false },
-          y: { title: { formatter: function (seriesName) { return '' } } },
-          marker: { show: false }
-        }
-      };
-      setTimeout( function() { 
-        var chart = new ApexCharts(document.querySelector(`#${pref.name}-sparkline`), options);
-        chart.render();
-      }, 1000);
+      drawSparkLine(`#${pref.name}-sparkline`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     }
     return true
   })
 
-  dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
+  dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow + portOfEntryRow
 
   let totalStr = 'Total'
   if(LANG == 'ja'){
