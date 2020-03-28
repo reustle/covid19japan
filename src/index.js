@@ -264,7 +264,7 @@ function drawTrendChart(sheetTrend) {
           if(index && cols[id][index]){
             var diff = parseInt(value) - cols[id][index]
             return `${value} (${(diff>=0?'+':'') + diff}) ${
-              index === cols.Date.length-2 ? LANG === 'en' ? 'Provisory' : '助言' : ''
+              index === cols.Date.length-2 ? LANG === 'en' ? 'Provisional' : '暫定' : ''
             }`
           }else{
             return value
@@ -352,7 +352,7 @@ function drawDailyIncreaseChart(sheetTrend) {
       format: {
         value: function (value, ratio, id, index) {
           return `${value} ${
-            (index === cols.Date.length-2 ? LANG === 'en' ? 'Provisory' : '助言' : '')
+            (index === cols.Date.length-2 ? LANG === 'en' ? 'Provisional' : '暫定' : '')
           }`
         }
       }
