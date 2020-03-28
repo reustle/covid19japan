@@ -48,19 +48,19 @@ let ddb = {
       banned: [
         {
           name: 'Andorra',
-          nameJa: '',
+          nameJa: 'アンドラ',
           emoji: '🇦🇩',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Austria',
-          nameJa: '',
+          nameJa: 'オーストリア',
           emoji: '🇦🇹',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Belgium',
-          nameJa: '',
+          nameJa: 'ベルギー',
           emoji: '🇧🇪',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
@@ -72,19 +72,19 @@ let ddb = {
         },
         {
           name: 'Estonia',
-          nameJa: '',
+          nameJa: 'エストニア',
           emoji: '🇪🇪',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'France',
-          nameJa: '',
+          nameJa: '仏国',
           emoji: '🇫🇷',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Germany',
-          nameJa: '',
+          nameJa: '独国',
           emoji: '🇩🇪',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
@@ -102,7 +102,7 @@ let ddb = {
         },
         {
           name: 'Ireland',
-          nameJa: '',
+          nameJa: 'アイルランド',
           emoji: '🇮🇪',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
@@ -120,43 +120,43 @@ let ddb = {
         },
         {
           name: 'Liechtenstein',
-          nameJa: '',
+          nameJa: 'リヒテンシュタイン',
           emoji: '🇱🇮',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Luxembourg',
-          nameJa: '',
+          nameJa: 'ルクセンブルク',
           emoji: '🇱🇺',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Malta',
-          nameJa: '',
+          nameJa: 'マルタ',
           emoji: '🇲🇹',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Monaco',
-          nameJa: '',
+          nameJa: 'モナコ',
           emoji: '🇲🇨',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Netherlands',
-          nameJa: '',
+          nameJa: 'オランダ',
           emoji: '🇳🇱',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Norway',
-          nameJa: '',
+          nameJa: 'ノルウェー',
           emoji: '🇳🇴',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Portugal',
-          nameJa: '',
+          nameJa: '葡萄牙',
           emoji: '🇵🇹',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
@@ -168,7 +168,7 @@ let ddb = {
         },
         {
           name: 'Slovenia',
-          nameJa: '',
+          nameJa: 'スロベニア',
           emoji: '🇸🇮',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
@@ -180,7 +180,7 @@ let ddb = {
         },
         {
           name: 'Sweden',
-          nameJa: '',
+          nameJa: 'スウェーデン',
           emoji: '🇸🇪',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
@@ -192,13 +192,13 @@ let ddb = {
         },
         {
           name: 'Vatican',
-          nameJa: '',
+          nameJa: 'バチカン市国',
           emoji: '🇻🇦',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         },
         {
           name: 'Westerdam (Cruise Ship)',
-          nameJa: '',
+          nameJa: 'ウェスターダム（船）',
           emoji: '🛳',
           link: 'http://www.moj.go.jp/content/001316999.pdf'
         }
