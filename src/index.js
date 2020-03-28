@@ -77,29 +77,29 @@ function isNetworkError(err) {
 function loadData(callback) {
   let delay = 2 * 1000 // 2 seconds
 
-  const tryFetch = function(retryFn) {
+  const tryFetch = function (retryFn) {
     // Load the json data file
     fetch(JSON_PATH)
-    .then(function(res){
-      return res.json()
-    })
-    .then(function(data){
-      callback(data)
-    })
-    .catch(function(err) {
-      retryFn(delay, err)
-      delay *= 2  // exponential backoff.
+      .then(function (res) {
+        return res.json()
+      })
+      .then(function (data) {
+        callback(data)
+      })
+      .catch(function (err) {
+        retryFn(delay, err)
+        delay *= 2  // exponential backoff.
 
-      // throwing the error again so it is logged in sentry/debuggable.
-      if (!isNetworkError(err)) {
-        throw err
-      }
-    })
+        // throwing the error again so it is logged in sentry/debuggable.
+        if (!isNetworkError(err)) {
+          throw err
+        }
+      })
   }
 
-  const retryFetchWithDelay = function(delay, err) {
+  const retryFetchWithDelay = function (delay, err) {
     console.log(err + ': retrying after ' + delay + 'ms.')
-    setTimeout(function() { tryFetch(retryFetchWithDelay) }, delay)
+    setTimeout(function () { tryFetch(retryFetchWithDelay) }, delay)
   }
 
   tryFetch(retryFetchWithDelay)
@@ -127,14 +127,14 @@ function calculateTotals(daily) {
   // If there is an empty cell, fall back to the previous row
   function pullLatestSumAndDiff(rowKey, totalKey) {
     let latest = {}
-    let dayBefore = {} 
+    let dayBefore = {}
     let twoDaysBefore = {}
     if (daily.length > 2) {
       twoDaysBefore = daily[daily.length - 3]
-    } 
+    }
     if (daily.length > 1) {
       dayBefore = daily[daily.length - 2]
-    } 
+    }
     if (daily.length > 0) {
       latest = daily[daily.length - 1]
     }
@@ -173,8 +173,8 @@ function drawMap() {
       lat: 38.52245616545571
     },
     maxBounds: [
-      {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
-      {lat: 59.34721256263214, lng: 175.3273570446982} // NE
+      { lat: 12.118318014416644, lng: 100.01240618330542 }, // SW
+      { lat: 59.34721256263214, lng: 175.3273570446982 } // NE
     ]
   })
 
@@ -189,7 +189,7 @@ function drawMap() {
 
 
 function drawTrendChart(sheetTrend) {
-  
+
   var cols = {
     Date: ['Date'],
     Confirmed: ['Confirmed'],
@@ -199,15 +199,15 @@ function drawTrendChart(sheetTrend) {
     Recovered: ['Recovered'],
     Tested: ['Tested'],
   }
-  
-  for(var i = 0; i < sheetTrend.length; i++) {
+
+  for (var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
-    
-    if(i === 0){
+
+    if (i === 0) {
       // Skip early feb data point
       continue
     }
-    
+
     cols.Date.push(row.date)
     cols.Confirmed.push(row.confirmedCumulative)
     cols.Critical.push(row.criticalCumulative)
@@ -221,15 +221,15 @@ function drawTrendChart(sheetTrend) {
   var chart = c3.generate({
     bindto: '#trend-chart',
     data: {
-        x: 'Date',
-        columns: [
-          cols.Date,
-          cols.Confirmed,
-          cols.Active,
-          cols.Recovered,
-          cols.Deceased,
-          //cols.Tested
-        ]
+      x: 'Date',
+      columns: [
+        cols.Date,
+        cols.Confirmed,
+        cols.Active,
+        cols.Recovered,
+        cols.Deceased,
+        //cols.Tested
+      ]
     },
     color: {
       pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED]
@@ -238,29 +238,29 @@ function drawTrendChart(sheetTrend) {
       r: 3,
     },
     axis: {
-        x: {
-            type: 'timeseries',
-            tick: {
-                format: '%b %d',
-                count: 6
-            }
-        },
-        y: {
-          padding: {
-            bottom: 0
-          },
-          tick: {
-            values: [0, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
-          }
+      x: {
+        type: 'timeseries',
+        tick: {
+          format: '%b %d',
+          count: 6
         }
+      },
+      y: {
+        padding: {
+          bottom: 0
+        },
+        tick: {
+          values: [0, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
+        }
+      }
     },
     tooltip: {
       format: {
         value: function (value, ratio, id, index) {
-          if(index && cols[id][index]){
+          if (index && cols[id][index]) {
             var diff = parseInt(value) - cols[id][index]
-            return value + ' (' + (diff>=0?'+':'') + diff + ')'
-          }else{
+            return value + ' (' + (diff >= 0 ? '+' : '') + diff + ')'
+          } else {
             return value
           }
         }
@@ -282,47 +282,47 @@ function drawTrendChart(sheetTrend) {
 
 
 function drawDailyIncreaseChart(sheetTrend) {
-  
+
   var cols = {
     Date: ['Date'],
     Confirmed: ['New Cases'],
   }
-  
-  for(var i = 0; i < sheetTrend.length; i++) {
+
+  for (var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
-    
-    if(i === 0){
+
+    if (i === 0) {
       // Skip early feb data point
       continue
     }
-    
+
     cols.Date.push(row.date)
     cols.Confirmed.push(row.confirmed)
 
   }
-  
+
   var chart = c3.generate({
     bindto: '#daily-increase-chart',
     data: {
-        color: function(color, d){ return COLOR_TESTED },
-        columns: [
-          cols.Confirmed
-        ],
-        type: 'bar'
+      color: function (color, d) { return COLOR_TESTED },
+      columns: [
+        cols.Confirmed
+      ],
+      type: 'bar'
     },
     bar: {
-        width: {
-            ratio: 0.8
-        }
+      width: {
+        ratio: 0.8
+      }
     },
     axis: {
       x: {
         tick: {
           format: function (x) {
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            
+
             // x+1 because the list is prefixed with the label
-            var xDate = new Date(cols.Date[x+1])
+            var xDate = new Date(cols.Date[x + 1])
             return months[xDate.getMonth()] + ' ' + xDate.getDate()
           }
         }
@@ -362,35 +362,35 @@ function drawPrefectureTable(prefectures, totals) {
   dataTable.innerHTML = ''
 
   // Parse values so we can sort
-  _.map(prefectures, function(pref){
-    pref.confirmed = (pref.confirmed?parseInt(pref.confirmed):0)
-    pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
+  _.map(prefectures, function (pref) {
+    pref.confirmed = (pref.confirmed ? parseInt(pref.confirmed) : 0)
+    pref.recovered = (pref.recovered ? parseInt(pref.recovered) : 0)
     // TODO change to deceased
-    pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
+    pref.deceased = (pref.deaths ? parseInt(pref.deaths) : 0)
   })
 
   // Iterate through and render table rows
-  _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
-    if(!pref.confirmed && !pref.recovered && !pref.deceased){
+  _.orderBy(prefectures, 'confirmed', 'desc').map(function (pref) {
+    if (!pref.confirmed && !pref.recovered && !pref.deceased) {
       return
     }
-    
+
     let prefStr
-    if(LANG == 'en'){
+    if (LANG == 'en') {
       prefStr = pref.name
-    }else{
+    } else {
       prefStr = pref.name_ja
     }
-    
+
     // TODO Make this pretty
-    
-    if(pref.name == 'Unspecified'){
+
+    if (pref.name == 'Unspecified') {
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
-    }else if (pref.name == 'Total'){
+      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered ? pref.recovered : '') + "</td><td>" + pref.deaths + "</td></tr>"
+    } else if (pref.name == 'Total') {
       // Skip
-    }else{
-      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
+    } else {
+      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered ? pref.recovered : '') + "</td><td>" + (pref.deceased ? pref.deceased : '') + "</td></tr>"
     }
     return true
   })
@@ -398,7 +398,7 @@ function drawPrefectureTable(prefectures, totals) {
   dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
 
   let totalStr = 'Total'
-  if(LANG == 'ja'){
+  if (LANG == 'ja') {
     totalStr = '計'
   }
 
@@ -412,7 +412,7 @@ function drawKpis(totals, totalsDiff) {
     document.querySelector('#kpi-' + key + ' .value').innerHTML = value
   }
   function setKpiDiff(key, value) {
-    let diffDir = (value >= 0?'+':'')
+    let diffDir = (value >= 0 ? '+' : '')
     document.querySelector('#kpi-' + key + ' .diff').innerHTML = '( ' + diffDir + value + ' )'
   }
 
@@ -455,11 +455,11 @@ function drawMapPrefectures(pageDraws) {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
-  
+
   var firstSymbolId
   var layers = map.getStyle().layers
-  for(var i = 0; i < layers.length; i++) {
-    if(layers[i].type === 'symbol') {
+  for (var i = 0; i < layers.length; i++) {
+    if (layers[i].type === 'symbol') {
       firstSymbolId = layers[i].id
       break;
     }
@@ -472,27 +472,27 @@ function drawMapPrefectures(pageDraws) {
   ]
 
   // Go through all prefectures looking for cases
-  ddb.prefectures.map(function(prefecture){
-    
+  ddb.prefectures.map(function (prefecture) {
+
     let cases = parseInt(prefecture.confirmed)
-    if(cases > 0){
+    if (cases > 0) {
       prefecturePaint.push(prefecture.name)
-      
-      if(cases <= 50){
+
+      if (cases <= 50) {
         // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
-      }else if(cases <= 100){
+      } else if (cases <= 100) {
         // 51-100 cases
         prefecturePaint.push('rgb(251,155,127)')
-      }else if(cases <= 200){
+      } else if (cases <= 200) {
         // 101-200 cases
         prefecturePaint.push('rgb(244,67,54)')
-      }else{
+      } else {
         // 201+ cases
         prefecturePaint.push('rgb(186,0,13)')
       }
     }
-    
+
   })
 
   // Add a final value to the list for the default color
@@ -518,7 +518,7 @@ function drawMapPrefectures(pageDraws) {
         'fill-opacity': 0.8
       }
     }, firstSymbolId)
-    
+
     // Add another layer with type "line"
     // to provide a styled prefecture border
     let prefBorderLayer = map.addLayer({
@@ -532,12 +532,12 @@ function drawMapPrefectures(pageDraws) {
         'line-opacity': 0.5
       }
     }, firstSymbolId)
-    
+
   } else {
     // Update prefecture paint properties
-    
+
     map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint)
-    
+
   }
 }
 
@@ -545,46 +545,52 @@ function initDataTranslate() {
   // load translation framework
   const localize = locI18next.init(i18next);
   i18next.use(LanguageDetector).use(XHR).init({
+    debug: true,
     fallbackLng: 'en',
     backend: {
       loadPath: "/static/i18n/{{lng}}.json"
     }
   }).then(() => {
     localize('html');
+    toggleLangPicker(i18next.language);
   });
 
   // Language selector event handler
-  document.querySelectorAll('[data-lang-picker]').forEach(function(pick) {
-    pick.addEventListener('click', function(e){
+  document.querySelectorAll('[data-lang-picker]').forEach(function (pick) {
+    pick.addEventListener('click', function (e) {
       e.preventDefault()
       LANG = e.target.dataset.langPicker
-      
+
       i18next.changeLanguage(LANG).then(() => localize('html'));
-      
+
       // Update the map
-      map.getStyle().layers.forEach(function(thisLayer){
-        if(thisLayer.type == 'symbol'){
-          map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
+      map.getStyle().layers.forEach(function (thisLayer) {
+        if (thisLayer.type == 'symbol') {
+          map.setLayoutProperty(thisLayer.id, 'text-field', ['get', 'name_' + LANG])
         }
       })
-  
+
       // Redraw the prefectures table
-      if(document.getElementById('prefectures-table')){
+      if (document.getElementById('prefectures-table')) {
         drawPrefectureTable(ddb.prefectures, ddb.totals)
       }
-      
-      // Toggle the lang picker
-      document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
-        el.style.display = 'inline'
-      })
-      document.querySelector('a[data-lang-picker='+LANG+']').style.display = 'none'
-      
+
+      toggleLangPicker(LANG);
+
     })
   })
 }
 
+function toggleLangPicker(lng) {
+  // Toggle the lang picker
+  document.querySelectorAll('a[data-lang-picker]').forEach(function (el) {
+    el.style.display = 'inline'
+  })
+  document.querySelector('a[data-lang-picker=' + lng + ']').style.display = 'none'
+}
+
 function loadDataOnPage() {
-  loadData(function(data) {
+  loadData(function (data) {
     jsonData = data
 
     ddb.prefectures = jsonData.prefectures
@@ -610,11 +616,11 @@ function loadDataOnPage() {
 var pageDraws = 0
 var styleLoaded = false
 var jsonData = undefined
-function whenMapAndDataReady(){
+function whenMapAndDataReady() {
   // This runs drawMapPref only when
   // both style and json data are ready
 
-  if(!styleLoaded || !jsonData){
+  if (!styleLoaded || !jsonData) {
     return
   }
 
@@ -622,15 +628,15 @@ function whenMapAndDataReady(){
 }
 
 
-window.onload = function(){
-  
+window.onload = function () {
+
   // Enable tooltips
   tippy('[data-tippy-content]')
 
   initDataTranslate()
   drawMap()
- 
-  map.once('style.load', function(e) {
+
+  map.once('style.load', function (e) {
     styleLoaded = true
     whenMapAndDataReady()
   })
@@ -639,7 +645,7 @@ window.onload = function(){
 
   // Reload data every INTERVAL
   const FIVE_MINUTES_IN_MS = 300000
-  setInterval(function() {
+  setInterval(function () {
     pageDraws++
     loadDataOnPage()
   }, FIVE_MINUTES_IN_MS)
