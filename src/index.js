@@ -546,6 +546,7 @@ function initDataTranslate() {
   const localize = locI18next.init(i18next);
   i18next.use(LanguageDetector).use(XHR).init({
     debug: true,
+    fallbackLng: 'en',
     backend: {
       loadPath: "/static/i18n/{{lng}}.json"
     }
@@ -571,11 +572,7 @@ function initDataTranslate() {
       e.preventDefault()
       LANG = e.target.dataset.langPicker
       
-      // Toggle the html lang tags
-      parseNode(function(el) {
-        if (!el.dataset[LANG]) return;
-        el.textContent = el.dataset[LANG]
-      })
+      i18next.changeLanguage(LANG).then(() => localize('body'));
       
       // Update the map
       map.getStyle().layers.forEach(function(thisLayer){
