@@ -75,7 +75,7 @@ data that we use to cross check and verify.
 |Oita    |[新型コロナウイルスに関するお知らせ](http://www.pref.oita.jp/site/bosaianzen/shingatacorona.html)|
 |Oita - Oita City | [大分市における新たな新型コロナウイルス感染症患者の発生について](https://www.city.oita.oita.jp/kenko/iryo/kansensho/index.html) |
 |Okayama    |[新型コロナウイルス感染症について](https://www.pref.okayama.jp/page/645925.html)|
-|Okinawa    | [患者の発生について](https://www.pref.okinawa.jp/site/hoken/chiikihoken/kekkaku/2019-ncov.html)|
+|Okinawa    | [患者の発生について](https://www.pref.okinawa.jp/site/hoken/chiikihoken/kekkaku/2019-ncov.html) ([Patients](https://www.pref.okinawa.lg.jp/site/hoken/chiikihoken/kekkaku/press/20200214_covid19_pr1.html))|
 |Osaka    | [新型コロナウイルス感染症について](http://www.pref.osaka.lg.jp/iryo/osakakansensho/corona.html)|
 |Saga    | [佐賀県の新型コロナウイルス感染症の状況（事実と異なる情報や噂にご注意ください](https://www.pref.saga.lg.jp/kiji00373220/index.html) |
 |Saitama    |[記者発表資料](https://www.pref.saitama.lg.jp/a0701/covid19/jokyo.html)|
