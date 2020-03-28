@@ -517,11 +517,11 @@ function drawJapaneseIncomingRestrictions() {
 
 function incomingRestrictionsHelper(elementId, countries) {
   let countryList = [];
-  // Iterate through and render table rows
+  // Iterate through and render country links
   _.orderBy(countries, 'name', 'desc').map(function(country){
     let name = (LANG == 'en') ? country.name : country.nameJa;
 
-    countryList.push(`${country.emoji}<a href="${country.link}">${name}</a>`);
+    countryList.unshift(`${country.emoji}<a href="${country.link}">${name}</a>`);
     return true;
   })
 
