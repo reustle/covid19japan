@@ -860,12 +860,11 @@ function drawKpis(totals, totalsDiff) {
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
 
-  // TODO we should be parsing the date, but I
-  // don't trust the user input on the sheet
-
   const display = document.getElementById('last-updated');
 
-  const lastUpdatedMoment = moment(lastUpdated.slice(0, -4), 'MMM DD YYYY, HH:mm', true)
+  // TODO we should be parsing the date, but I
+  // don't trust the user input on the sheet
+  const lastUpdatedMoment = moment(lastUpdated.slice(0, -4), 'MMM DD YYYY, HH:mm')
     .utcOffset(9, true); // JST offset
   if (!lastUpdatedMoment.isValid()) {
     // Fall back to raw value on failed parse
@@ -873,7 +872,7 @@ function drawLastUpdated(lastUpdated) {
     return;
   }
   const relativeTime = {
-    en: lastUpdatedMoment.fromNow(),
+    en: lastUpdatedMoment.clone().locale('en').fromNow(),
     ja: lastUpdatedMoment.clone().locale('ja').fromNow()
   }
 
