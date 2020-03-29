@@ -184,6 +184,12 @@ function drawMap() {
   }))
 }
 
+function getRGBColor(color) {
+  return color.substring(4, color.length-1)
+    .replace(/ /g, '')
+    .split(',');
+}
+
 
 function drawTrendChart(sheetTrend) {
   
@@ -219,6 +225,14 @@ function drawTrendChart(sheetTrend) {
     bindto: '#trend-chart',
     data: {
         x: 'Date',
+        color: function(color, d){ 
+          if(d && d.index === cols.Date.length-2 ) {
+            let rgb = getRGBColor(color)
+            return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.6})`
+          } else {
+            return color;
+          }
+        },
         columns: [
           cols.Date,
           cols.Confirmed,
