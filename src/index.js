@@ -43,6 +43,179 @@ let ddb = {
     deceased: 0,
     tested: 0,
     critical: 0
+  },
+  travelRestrictions: {
+    japan: {
+      banned: [
+        {
+          name: 'Andorra',
+          nameJa: 'アンドラ',
+          emoji: '🇦🇩',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Austria',
+          nameJa: 'オーストリア',
+          emoji: '🇦🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Belgium',
+          nameJa: 'ベルギー',
+          emoji: '🇧🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'China',
+          nameJa: '中国',
+          emoji: '🇨🇳',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Estonia',
+          nameJa: 'エストニア',
+          emoji: '🇪🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'France',
+          nameJa: '仏国',
+          emoji: '🇫🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Germany',
+          nameJa: '独国',
+          emoji: '🇩🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Iceland',
+          nameJa: 'アイスランド',
+          emoji: '🇮🇸',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Iran',
+          nameJa: 'イラン',
+          emoji: '🇮🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Ireland',
+          nameJa: 'アイルランド',
+          emoji: '🇮🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Italy',
+          nameJa: '伊井',
+          emoji: '🇮🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Korea',
+          nameJa: '大韓民国',
+          emoji: '🇰🇷',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Liechtenstein',
+          nameJa: 'リヒテンシュタイン',
+          emoji: '🇱🇮',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Luxembourg',
+          nameJa: 'ルクセンブルク',
+          emoji: '🇱🇺',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Malta',
+          nameJa: 'マルタ',
+          emoji: '🇲🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Monaco',
+          nameJa: 'モナコ',
+          emoji: '🇲🇨',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Netherlands',
+          nameJa: 'オランダ',
+          emoji: '🇳🇱',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Norway',
+          nameJa: 'ノルウェー',
+          emoji: '🇳🇴',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Portugal',
+          nameJa: '葡萄牙',
+          emoji: '🇵🇹',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'San Marino',
+          nameJa: 'サンマリノ',
+          emoji: '🇸🇲',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Slovenia',
+          nameJa: 'スロベニア',
+          emoji: '🇸🇮',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Spain',
+          nameJa: 'スペイン',
+          emoji: '🇪🇸',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Sweden',
+          nameJa: 'スウェーデン',
+          emoji: '🇸🇪',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Switzerland',
+          nameJa: 'スイス',
+          emoji: '🇨🇭',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Vatican',
+          nameJa: 'バチカン市国',
+          emoji: '🇻🇦',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        },
+        {
+          name: 'Westerdam (Cruise Ship)',
+          nameJa: 'ウェスターダム（船）',
+          emoji: '🛳',
+          link: 'http://www.moj.go.jp/content/001316999.pdf'
+        }
+      ],
+      visaRequired: [],
+      selfQuarantine: [],
+      other: []
+    },
+    foreignBorders: [
+      {
+        banned: [],
+        visaRequired: [],
+        selfQuarantine: [],
+        other: []
+      },
+    ],
   }
 }
 let map = undefined
@@ -124,14 +297,14 @@ function calculateTotals(daily) {
   // If there is an empty cell, fall back to the previous row
   function pullLatestSumAndDiff(rowKey, totalKey) {
     let latest = {}
-    let dayBefore = {} 
+    let dayBefore = {}
     let twoDaysBefore = {}
     if (daily.length > 2) {
       twoDaysBefore = daily[daily.length - 3]
-    } 
+    }
     if (daily.length > 1) {
       dayBefore = daily[daily.length - 2]
-    } 
+    }
     if (daily.length > 0) {
       latest = daily[daily.length - 1]
     }
@@ -192,7 +365,7 @@ function getRGBColor(color) {
 
 
 function drawTrendChart(sheetTrend) {
-  
+
   var cols = {
     Date: ['Date'],
     Confirmed: ['Confirmed'],
@@ -202,15 +375,15 @@ function drawTrendChart(sheetTrend) {
     Recovered: ['Recovered'],
     Tested: ['Tested'],
   }
-  
+
   for(var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
-    
+
     if(i === 0){
       // Skip early feb data point
       continue
     }
-    
+
     cols.Date.push(row.date)
     cols.Confirmed.push(row.confirmedCumulative)
     cols.Critical.push(row.criticalCumulative)
@@ -302,25 +475,25 @@ function drawTrendChart(sheetTrend) {
 
 
 function drawDailyIncreaseChart(sheetTrend) {
-  
+
   var cols = {
     Date: ['Date'],
     Confirmed: ['New Cases'],
   }
-  
+
   for(var i = 0; i < sheetTrend.length; i++) {
     var row = sheetTrend[i]
-    
+
     if(i === 0){
       // Skip early feb data point
       continue
     }
-    
+
     cols.Date.push(row.date)
     cols.Confirmed.push(row.confirmed)
 
   }
-  
+
   var chart = c3.generate({
     bindto: '#daily-increase-chart',
     data: {
@@ -349,7 +522,7 @@ function drawDailyIncreaseChart(sheetTrend) {
         tick: {
           format: function (x) {
             var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-            
+
             // x+1 because the list is prefixed with the label
             var xDate = new Date(cols.Date[x+1])
             return months[xDate.getMonth()] + ' ' + xDate.getDate()
@@ -412,16 +585,16 @@ function drawPrefectureTable(prefectures, totals) {
     if(!pref.confirmed && !pref.recovered && !pref.deceased){
       return
     }
-    
+
     let prefStr
     if(LANG == 'en'){
       prefStr = pref.name
     }else{
       prefStr = pref.name_ja
     }
-    
+
     // TODO Make this pretty
-    
+
     if(pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
@@ -441,6 +614,33 @@ function drawPrefectureTable(prefectures, totals) {
   }
 
   dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+}
+
+function drawTravelRestrictions() {
+  travelRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
+  travelRestrictionsHelper('#visa-required', ddb.travelRestrictions.japan.visaRequired);
+  travelRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
+  travelRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
+
+  /*travelRestrictionsHelper('#foreign-banned-entry', ddb.travelRestrictions.foreignBorders.banned);
+  travelRestrictionsHelper('#foreign-visa-required', ddb.travelRestrictions.foreignBorders.visaRequired);
+  travelRestrictionsHelper('#foreign-self-quarantine', ddb.travelRestrictions.foreignBorders.selfQuarantine);
+  travelRestrictionsHelper('#foreign-other-restrictions', ddb.travelRestrictions.foreignBorders.other);
+  */
+}
+
+function travelRestrictionsHelper(elementId, countries) {
+  let countryList = [];
+  // Iterate through and render country links
+  _.orderBy(countries, 'name', 'desc').map(function(country){
+    let name = (LANG == 'en') ? country.name : country.nameJa;
+
+    countryList.unshift(`<a href="${country.link}">${country.emoji}${name}</a>`);
+    return true;
+  })
+
+  let banned = document.querySelector(elementId);
+  banned.innerHTML = countryList.join(', ');
 }
 
 function drawKpis(totals, totalsDiff) {
@@ -493,7 +693,7 @@ function drawMapPrefectures(pageDraws) {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
-  
+
   var firstSymbolId
   var layers = map.getStyle().layers
   for(var i = 0; i < layers.length; i++) {
@@ -511,11 +711,11 @@ function drawMapPrefectures(pageDraws) {
 
   // Go through all prefectures looking for cases
   ddb.prefectures.map(function(prefecture){
-    
+
     let cases = parseInt(prefecture.confirmed)
     if(cases > 0){
       prefecturePaint.push(prefecture.name)
-      
+
       if(cases <= 50){
         // 1-50 cases
         prefecturePaint.push('rgb(253,234,203)')
@@ -530,7 +730,7 @@ function drawMapPrefectures(pageDraws) {
         prefecturePaint.push('rgb(186,0,13)')
       }
     }
-    
+
   })
 
   // Add a final value to the list for the default color
@@ -556,7 +756,7 @@ function drawMapPrefectures(pageDraws) {
         'fill-opacity': 0.8
       }
     }, firstSymbolId)
-    
+
     // Add another layer with type "line"
     // to provide a styled prefecture border
     let prefBorderLayer = map.addLayer({
@@ -570,12 +770,12 @@ function drawMapPrefectures(pageDraws) {
         'line-opacity': 0.5
       }
     }, firstSymbolId)
-    
+
   } else {
     // Update prefecture paint properties
-    
+
     map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint)
-    
+
   }
 }
 
@@ -597,31 +797,35 @@ function initDataTranslate() {
     pick.addEventListener('click', function(e){
       e.preventDefault()
       LANG = e.target.dataset.langPicker
-      
+
       // Toggle the html lang tags
       parseNode(function(el) {
         if (!el.dataset[LANG]) return;
         el.textContent = el.dataset[LANG]
       })
-      
+
       // Update the map
       map.getStyle().layers.forEach(function(thisLayer){
         if(thisLayer.type == 'symbol'){
           map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
         }
       })
-  
+
       // Redraw the prefectures table
       if(document.getElementById('prefectures-table')){
         drawPrefectureTable(ddb.prefectures, ddb.totals)
       }
-      
+
+      if (document.getElementById('travel-restrictions')){
+        drawTravelRestrictions();
+      }
+
       // Toggle the lang picker
       document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
         el.style.display = 'inline'
       })
       document.querySelector('a[data-lang-picker='+LANG+']').style.display = 'none'
-      
+
     })
   })
 }
@@ -642,6 +846,7 @@ function loadDataOnPage() {
       drawLastUpdated(ddb.lastUpdated)
       drawPageTitleCount(ddb.totals.confirmed)
       drawPrefectureTable(ddb.prefectures, ddb.totals)
+      drawTravelRestrictions()
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
     }
@@ -666,13 +871,13 @@ function whenMapAndDataReady(){
 
 
 window.onload = function(){
-  
+
   // Enable tooltips
   tippy('[data-tippy-content]')
 
   initDataTranslate()
   drawMap()
- 
+
   map.once('style.load', function(e) {
     styleLoaded = true
     whenMapAndDataReady()
