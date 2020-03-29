@@ -813,7 +813,9 @@ function travelRestrictionsHelper(elementId, countries) {
   })
 
   let banned = document.querySelector(elementId);
-  banned.innerHTML = countryList.join(', ');
+  if (banned) {
+    banned.innerHTML = countryList.join(', ');
+  }
 }
 
 function drawKpis(totals, totalsDiff) {
