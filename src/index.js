@@ -11,8 +11,6 @@ import * as c3 from 'c3'
 import ApexCharts from 'apexcharts'
 import moment from 'moment'
 
-import { parseDate, toRelativeTime } from './utils/date'
-
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://data.covid19japan.com/summary/latest.json'
@@ -867,16 +865,18 @@ function drawLastUpdated(lastUpdated) {
 
   const display = document.getElementById('last-updated');
 
-  let lastUpdatedDate;
-  try {
-    lastUpdatedDate = parseDate(lastUpdated);
-  } catch (error) {
+  const lastUpdatedMoment = moment(lastUpdated.slice(0, -4), 'MMM DD YYYY, HH:mm', true)
+    .utcOffset(9, true); // JST offset
+  if (!lastUpdatedMoment.isValid()) {
     // Fall back to raw value on failed parse
     display.textContent = lastUpdated;
     return;
   }
+  const relativeTime = {
+    en: lastUpdatedMoment.fromNow(),
+    ja: lastUpdatedMoment.clone().locale('ja').fromNow()
+  }
 
-  const relativeTime = toRelativeTime(lastUpdatedDate);
   display.textContent = relativeTime[LANG];
   display.setAttribute('title', lastUpdated);
   display.setAttribute('data-en', relativeTime['en']);
