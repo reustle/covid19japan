@@ -601,8 +601,11 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
   // Need an artificial delay for the html element to attach.
   setTimeout( function() { 
     try {
-      var chart = new ApexCharts(document.querySelector(elementId), options);
-      chart.render();
+      let chartElem = document.querySelector(elementId)
+      if (chartElem) {  // TODO(liquidx): So many places at the moment where HTML elements don't attach synchronously.
+        var chart = new ApexCharts(document.querySelector(elementId), options);
+        chart.render();
+      }
     } catch (err) {
       // Silently fail if there's an error when creating the chart.
       // TODO(liquidx): Figure out what is going on.
