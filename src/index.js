@@ -11,6 +11,8 @@ import * as c3 from 'c3'
 import ApexCharts from 'apexcharts'
 import moment from 'moment'
 
+import { parseDate, toRelativeTime } from './utils/date'
+
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
 const JSON_PATH = 'https://data.covid19japan.com/summary/latest.json'
@@ -854,16 +856,32 @@ function drawKpis(totals, totalsDiff) {
   setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
 }
 
-
+/**
+ * @param {string} lastUpdated - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
+ */
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
 
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
-  //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
-  document.getElementById('last-updated').innerHTML = lastUpdated
-}
 
+  const display = document.getElementById('last-updated');
+
+  let lastUpdatedDate;
+  try {
+    lastUpdatedDate = parseDate(lastUpdated);
+  } catch (error) {
+    // Fall back to raw value on failed parse
+    display.textContent = lastUpdated;
+    return;
+  }
+
+  const relativeTime = toRelativeTime(lastUpdatedDate);
+  display.textContent = relativeTime[LANG];
+  display.setAttribute('title', lastUpdated);
+  display.setAttribute('data-en', relativeTime['en']);
+  display.setAttribute('data-ja', relativeTime['ja']);
+}
 
 function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
