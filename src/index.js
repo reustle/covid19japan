@@ -705,6 +705,12 @@ function drawPrefectureTable(prefectures, totals) {
   let unspecifiedRow = ''
   let portOfEntryRow = ''
 
+  // Abort if dataTable or dataTableFoot is not accessible.
+  if (!dataTable || !dataTableFoot) {
+    console.error('Unable to find #prefecture-table')
+    return;
+  }
+
   // Remove the loading cell
   dataTable.innerHTML = ''
 
