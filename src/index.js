@@ -231,12 +231,21 @@ if ("NodeList" in window && !NodeList.prototype.forEach) {
 
 // Returns true if this is a network error
 function isNetworkError(err) {
-  if (err && err.name && err.name == "TypeError") {
-    if (err.toString() == "TypeError: Failed to fetch") {
-      return true;
+  const knownNetworkErrors = [
+    'TypeError: Failed to fetch',
+    'Error: Đã xảy ra lỗi SSL và không thể thực hiện kết nối an toàn tới máy chủ.',    
+  ]
+  if (err && err.name && err.name == 'TypeError') {
+    if (err.toString() == 'TypeError: Failed to fetch') {
+      return true
     }
   }
-  return false;
+  if (err) {
+    if (knownNetworkErrors.includes(err.toString())) {
+      return true
+    }
+  }
+  return false
 }
 
 // Fetches data from the JSON_PATH but applies an exponential
