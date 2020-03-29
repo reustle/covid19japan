@@ -5,11 +5,11 @@ import 'whatwg-fetch'
 
 // Add all non-polyfill deps below.
 import _ from 'lodash'
-import Chart from 'chart.js'
 import tippy from 'tippy.js'
 import * as d3 from 'd3'
 import * as c3 from 'c3'
-
+import ApexCharts from 'apexcharts'
+import moment from 'moment'
 
 mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
 const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
@@ -561,6 +561,50 @@ function drawDailyIncreaseChart(sheetTrend) {
   })
 }
 
+function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
+
+  let yMax = maxConfirmedIncrease
+  let prefectureMax = _.max(seriesData)
+  if (prefectureMax / maxConfirmedIncrease < 0.1) {
+    yMax = prefectureMax * 5 // artificially scale up low values to make it look ok. 
+  }
+
+  const period = 30 // days
+  let last30days = _.takeRight(seriesData, period)
+  var options = {
+    series: [ { data: last30days }],
+    chart: {
+      type: 'bar',
+      height: 30,
+      sparkline: { enabled: true },
+      animations: { enabled: false },
+    },
+    colors: [ COLOR_CONFIRMED ],
+    plotOptions: { bar: { columnWidth: '95%' } },
+    xaxis: { crosshairs: { width: 1 } },
+    yaxis: { max: yMax },
+    tooltip: { 
+      fixed: { enabled: false },
+      x: {  show: false },
+      y: {  
+        formatter: function(value, {series, seriesIndex, dataPointIndex, w}) {
+          let daysBeforeToday = period - dataPointIndex - 1
+          let dateString = moment().subtract(daysBeforeToday, 'days').format('MM/DD')
+          return `${dateString}: ${value}`
+        },
+        title: { formatter: (series) => { return '' } }
+      },
+      marker: { show: false }
+    }
+  };
+
+  // Need an artificial delay for the html element to attach.
+  setTimeout( function() { 
+    var chart = new ApexCharts(document.querySelector(elementId), options);
+    chart.render();
+  }, 1000);
+}
+
 function drawPrefectureTrajectoryChart(prefectures) {
   const minimumConfirmed = 50;
   const filteredPrefectures = _.filter(prefectures, function(prefecture) {
@@ -659,9 +703,13 @@ function drawPrefectureTable(prefectures, totals) {
   let dataTable = document.querySelector('#prefectures-table tbody')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
   let unspecifiedRow = ''
+  let portOfEntryRow = ''
 
   // Remove the loading cell
   dataTable.innerHTML = ''
+
+  // Work out the largest daily increase
+  let maxConfirmedIncrease = _.max(_.map(prefectures, pref => { return _.max(pref.dailyConfirmedCount) }))
 
   // Parse values so we can sort
   _.map(prefectures, function(pref){
@@ -684,27 +732,61 @@ function drawPrefectureTable(prefectures, totals) {
       prefStr = pref.name_ja
     }
 
-    // TODO Make this pretty
-
-    if(pref.name == 'Unspecified'){
+    let increment = pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1]
+    let incrementString = ''
+    if (increment > 0) {
+      incrementString = `<span class='increment'>(+${increment})</span>`
+    }
+    
+    if (pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = "<tr><td><em>" + prefStr + "</em></td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + pref.deaths + "</td></tr>"
-    }else if (pref.name == 'Total'){
+      unspecifiedRow = `<tr>
+        <td class="prefecture">${prefStr}</td>
+        <td class="trend"><div id="Unspecified-trend"></div></td>
+        <td class="count">${pref.confirmed} ${incrementString}</td>
+        <td class="count">${pref.recovered ? pref.recovered : 0}</td>
+        <td class="count">${pref.deceased ? pref.deceased : 0}</td>
+        </tr>`
+        drawPrefectureTrend(`#Unspecified-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
+    } else if (pref.name == 'Port Quarantine' || pref.name == 'Port of Entry') {
+      portOfEntryRow = `<tr>
+        <td class="prefecture" data-ja="空港検疫">Port of Entry</td>
+        <td class="trend"><div id="PortOfEntry-trend"></div></td>
+        <td class="count">${pref.confirmed} ${incrementString}</td>
+        <td class="count">${pref.recovered ? pref.recovered : 0}</td>
+        <td class="count">${pref.deceased ? pref.deceased : 0}</td>
+        </tr>`
+        drawPrefectureTrend(`#PortOfEntry-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
+    } else if (pref.name == 'Total'){
       // Skip
-    }else{
-      dataTable.innerHTML = dataTable.innerHTML + "<tr><td>" + prefStr + "</td><td>" + pref.confirmed + "</td><td>" + (pref.recovered?pref.recovered:'') + "</td><td>" + (pref.deceased?pref.deceased:'') + "</td></tr>"
+    } else {
+      dataTable.innerHTML += `<tr>
+        <td class="prefecture">${prefStr}</td>
+        <td class="trend"><div id="${pref.name}-trend"></div></td>
+        <td class="count">${pref.confirmed} ${incrementString}</td>
+        <td class="count">${pref.recovered ? pref.recovered : ''}</td>
+        <td class="count">${pref.deceased ? pref.deceased : ''}</td>
+        </tr>`
+      drawPrefectureTrend(`#${pref.name}-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     }
     return true
   })
 
-  dataTable.innerHTML = dataTable.innerHTML + unspecifiedRow
+  dataTable.innerHTML = dataTable.innerHTML +  portOfEntryRow + unspecifiedRow
 
   let totalStr = 'Total'
   if(LANG == 'ja'){
     totalStr = '計'
   }
 
-  dataTableFoot.innerHTML = "<tr class='totals'><td>" + totalStr + "</td><td>" + totals.confirmed + "</td><td>" + totals.recovered + "</td><td>" + totals.deceased + "</td></tr>"
+  dataTableFoot.innerHTML = `<tr class='totals'>
+        <td>${totalStr}</td>
+        <td class="trend"></td>
+        <td class="count">${totals.confirmed}</td>
+        <td class="count">${totals.recovered}</td>
+        <td class="count">${totals.deceased}</td> 
+        </tr>`
+
 }
 
 function drawTravelRestrictions() {
