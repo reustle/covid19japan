@@ -561,6 +561,97 @@ function drawDailyIncreaseChart(sheetTrend) {
   })
 }
 
+function drawPrefectureTrajectoryChart(prefectures) {
+  const minimumConfirmed = 50;
+  const filteredPrefectures = _.filter(prefectures, function(prefecture) {
+    return prefecture.confirmed >= minimumConfirmed
+  });
+  const trajectories = _.map(filteredPrefectures, function(prefecture) {
+    const cumulativeConfirmed = _.reduce(prefecture.dailyConfirmedCount, function(result, value) {
+      if(result.length > 0) {
+        const sum = result[result.length - 1] + value;
+        result.push(sum);
+        return result;
+      } else {
+        return [value];
+      }
+    }, []);
+    const cumulativeConfirmedFromMinimum = _.filter(cumulativeConfirmed, function(value) {
+      return value >= minimumConfirmed;
+    });
+    return {
+      name: prefecture.name,
+      name_ja: prefecture.name_ja,
+      confirmed: prefecture.confirmed,
+      cumulativeConfirmed: cumulativeConfirmedFromMinimum
+    }
+  })
+
+  const columns = _.map(trajectories, function(prefecture) {
+    return [prefecture.name].concat(prefecture.cumulativeConfirmed);
+  });
+
+  const labelPosition = _.reduce(trajectories, function(result, value) {
+    // Show on second to last point to avoid cutoff
+    result[value.name] = value.cumulativeConfirmed.length - 1;
+    return result;
+  }, {});
+
+  const maxDays = _.reduce(_.values(labelPosition), function(a, b) {
+    return Math.max(a, b);
+  }, 0)
+
+  const nameMap = _.reduce(trajectories, function(result, value) {
+    if(LANG === 'en') {
+      result[value.name] = value.name;
+    } else {
+      result[value.name] = value.name_ja;
+    }
+    return result;
+  }, {});
+
+  c3.generate({
+    bindto: '#prefecture-trajectory',
+    axis: {
+      y: {
+        min: minimumConfirmed,
+        padding: {
+          bottom: 0
+        },
+      },
+      x: {
+        // Set max x value to be 1 greater to avoid label cutoff
+        max: maxDays + 1,
+        label: `Number of Days since ${minimumConfirmed}th case`,
+      }
+    },
+    data: {
+      columns: columns,
+      labels: {
+        format: function(v, id, i) {
+          if(id) {
+            if(i === labelPosition[id]) {
+              return id;
+            }
+          }
+        }
+      },
+      names: nameMap
+    },
+    grid: {
+      x: {
+        show: true
+      },
+      y: {
+        show: true
+      }
+    },
+    padding: {
+      right: 24
+    }
+  })
+}
+
 
 function drawPrefectureTable(prefectures, totals) {
 
@@ -849,6 +940,7 @@ function loadDataOnPage() {
       drawTravelRestrictions()
       drawTrendChart(ddb.trend)
       drawDailyIncreaseChart(ddb.trend)
+      drawPrefectureTrajectoryChart(ddb.prefectures);
     }
 
     whenMapAndDataReady()
