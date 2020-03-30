@@ -229,30 +229,6 @@ if ("NodeList" in window && !NodeList.prototype.forEach) {
   };
 }
 
-// Returns true if this is a network error
-function isNetworkError(err) {
-  const knownNetworkErrors = [
-    'TypeError: Failed to fetch',
-    'TypeError: A conexão à internet parece estar desativada.',
-    'TypeError: Network request failed',
-    'Error: La connexion Internet semble interrompue.',
-    'TypeError: La conexión a Internet parece estar desactivada.',
-    'Error: Resource blocked by content blocker',
-    'Error: Đã xảy ra lỗi SSL và không thể thực hiện kết nối an toàn tới máy chủ.',    
-  ]
-  if (err && err.name && err.name == 'TypeError') {
-    if (err.toString() == 'TypeError: Failed to fetch') {
-      return true
-    }
-  }
-  if (err) {
-    if (knownNetworkErrors.includes(err.toString())) {
-      return true
-    }
-  }
-  return false
-}
-
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
 function loadData(callback) {
@@ -261,22 +237,20 @@ function loadData(callback) {
   const tryFetch = function (retryFn) {
     // Load the json data file
     fetch(JSON_PATH)
-      .then(function (res) {
-        return res.json();
-      })
-      .then(function (data) {
-        callback(data);
-      })
-      .catch(function (err) {
-        retryFn(delay, err);
-        delay *= 2; // exponential backoff.
-
-        // throwing the error again so it is logged in sentry/debuggable.
-        if (!isNetworkError(err)) {
-          throw err;
-        }
-      });
-  };
+    .then(function(res){
+      return res.json()
+    })
+    .catch(function(err) {
+      retryFn(delay, err)
+      delay *= 2  // exponential backoff.
+    })
+    .then(function(data){
+      // After catching the network error, this could possibly be called.
+      if (data) {
+        callback(data)
+      }
+    })
+  }
 
   const retryFetchWithDelay = function (delay, err) {
     console.log(err + ": retrying after " + delay + "ms.");
