@@ -1,30 +1,29 @@
-
 // Injects required polyfills for IE11
-import 'core-js/stable'
-import 'whatwg-fetch'
+import "core-js/stable";
+import "whatwg-fetch";
 
 // Add all non-polyfill deps below.
-import _ from 'lodash'
-import tippy from 'tippy.js'
-import * as d3 from 'd3'
-import * as c3 from 'c3'
-import ApexCharts from 'apexcharts'
-import moment from 'moment'
+import _ from "lodash";
+import tippy from "tippy.js";
+import * as d3 from "d3";
+import * as c3 from "c3";
+import ApexCharts from "apexcharts";
+import moment from "moment";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
-const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
-const JSON_PATH = 'https://data.covid19japan.com/summary/latest.json'
-const TIME_FORMAT = 'YYYY-MM-DD'
-const COLOR_ACTIVE = 'rgb(223,14,31)'
-const COLOR_CONFIRMED = 'rgb(244,67,54)'
-const COLOR_RECOVERED = 'rgb(25,118,210)'
-const COLOR_DECEASED = 'rgb(55,71,79)'
-const COLOR_TESTED = 'rgb(164,173,192)'
-const COLOR_TESTED_DAILY = 'rgb(209,214,223)'
-const COLOR_INCREASE = 'rgb(163,172,191)'
-const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
-let LANG = 'en'
-
+mapboxgl.accessToken =
+  "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
+const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
+const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
+const TIME_FORMAT = "YYYY-MM-DD";
+const COLOR_ACTIVE = "rgb(223,14,31)";
+const COLOR_CONFIRMED = "rgb(244,67,54)";
+const COLOR_RECOVERED = "rgb(25,118,210)";
+const COLOR_DECEASED = "rgb(55,71,79)";
+const COLOR_TESTED = "rgb(164,173,192)";
+const COLOR_TESTED_DAILY = "rgb(209,214,223)";
+const COLOR_INCREASE = "rgb(163,172,191)";
+const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
+let LANG = "en";
 
 // Global vars
 let ddb = {
@@ -35,195 +34,193 @@ let ddb = {
     recovered: 0,
     deceased: 0,
     tested: 0,
-    critical: 0
+    critical: 0,
   },
   totalsDiff: {
     confirmed: 0,
     recovered: 0,
     deceased: 0,
     tested: 0,
-    critical: 0
+    critical: 0,
   },
   travelRestrictions: {
     japan: {
       banned: [
         {
-          name: 'Andorra',
-          nameJa: 'アンドラ',
-          emoji: '🇦🇩',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Andorra",
+          nameJa: "アンドラ",
+          emoji: "🇦🇩",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Austria',
-          nameJa: 'オーストリア',
-          emoji: '🇦🇹',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Austria",
+          nameJa: "オーストリア",
+          emoji: "🇦🇹",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Belgium',
-          nameJa: 'ベルギー',
-          emoji: '🇧🇪',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Belgium",
+          nameJa: "ベルギー",
+          emoji: "🇧🇪",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'China',
-          nameJa: '中国',
-          emoji: '🇨🇳',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "China",
+          nameJa: "中国",
+          emoji: "🇨🇳",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Estonia',
-          nameJa: 'エストニア',
-          emoji: '🇪🇪',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Estonia",
+          nameJa: "エストニア",
+          emoji: "🇪🇪",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'France',
-          nameJa: '仏国',
-          emoji: '🇫🇷',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "France",
+          nameJa: "仏国",
+          emoji: "🇫🇷",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Germany',
-          nameJa: '独国',
-          emoji: '🇩🇪',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Germany",
+          nameJa: "独国",
+          emoji: "🇩🇪",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Iceland',
-          nameJa: 'アイスランド',
-          emoji: '🇮🇸',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Iceland",
+          nameJa: "アイスランド",
+          emoji: "🇮🇸",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Iran',
-          nameJa: 'イラン',
-          emoji: '🇮🇷',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Iran",
+          nameJa: "イラン",
+          emoji: "🇮🇷",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Ireland',
-          nameJa: 'アイルランド',
-          emoji: '🇮🇪',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Ireland",
+          nameJa: "アイルランド",
+          emoji: "🇮🇪",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Italy',
-          nameJa: '伊井',
-          emoji: '🇮🇹',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Italy",
+          nameJa: "伊井",
+          emoji: "🇮🇹",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Korea',
-          nameJa: '大韓民国',
-          emoji: '🇰🇷',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Korea",
+          nameJa: "大韓民国",
+          emoji: "🇰🇷",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Liechtenstein',
-          nameJa: 'リヒテンシュタイン',
-          emoji: '🇱🇮',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Liechtenstein",
+          nameJa: "リヒテンシュタイン",
+          emoji: "🇱🇮",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Luxembourg',
-          nameJa: 'ルクセンブルク',
-          emoji: '🇱🇺',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Luxembourg",
+          nameJa: "ルクセンブルク",
+          emoji: "🇱🇺",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Malta',
-          nameJa: 'マルタ',
-          emoji: '🇲🇹',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Malta",
+          nameJa: "マルタ",
+          emoji: "🇲🇹",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Monaco',
-          nameJa: 'モナコ',
-          emoji: '🇲🇨',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Monaco",
+          nameJa: "モナコ",
+          emoji: "🇲🇨",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Netherlands',
-          nameJa: 'オランダ',
-          emoji: '🇳🇱',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Netherlands",
+          nameJa: "オランダ",
+          emoji: "🇳🇱",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Norway',
-          nameJa: 'ノルウェー',
-          emoji: '🇳🇴',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Norway",
+          nameJa: "ノルウェー",
+          emoji: "🇳🇴",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Portugal',
-          nameJa: '葡萄牙',
-          emoji: '🇵🇹',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Portugal",
+          nameJa: "葡萄牙",
+          emoji: "🇵🇹",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'San Marino',
-          nameJa: 'サンマリノ',
-          emoji: '🇸🇲',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "San Marino",
+          nameJa: "サンマリノ",
+          emoji: "🇸🇲",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Slovenia',
-          nameJa: 'スロベニア',
-          emoji: '🇸🇮',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Slovenia",
+          nameJa: "スロベニア",
+          emoji: "🇸🇮",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Spain',
-          nameJa: 'スペイン',
-          emoji: '🇪🇸',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Spain",
+          nameJa: "スペイン",
+          emoji: "🇪🇸",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Sweden',
-          nameJa: 'スウェーデン',
-          emoji: '🇸🇪',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Sweden",
+          nameJa: "スウェーデン",
+          emoji: "🇸🇪",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Switzerland',
-          nameJa: 'スイス',
-          emoji: '🇨🇭',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Switzerland",
+          nameJa: "スイス",
+          emoji: "🇨🇭",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Vatican',
-          nameJa: 'バチカン市国',
-          emoji: '🇻🇦',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
+          name: "Vatican",
+          nameJa: "バチカン市国",
+          emoji: "🇻🇦",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: 'Westerdam (Cruise Ship)',
-          nameJa: 'ウェスターダム（船）',
-          emoji: '🛳',
-          link: 'http://www.moj.go.jp/content/001316999.pdf'
-        }
+          name: "Westerdam (Cruise Ship)",
+          nameJa: "ウェスターダム（船）",
+          emoji: "🛳",
+          link: "http://www.moj.go.jp/content/001316999.pdf",
+        },
       ],
       visaRequired: [],
       selfQuarantine: [],
-      other: []
+      other: [],
     },
     foreignBorders: [
       {
         banned: [],
         visaRequired: [],
         selfQuarantine: [],
-        other: []
+        other: [],
       },
     ],
-  }
-}
-let map = undefined
-
-
+  },
+};
+let map = undefined;
 
 // IE11 forEach Polyfill
-if ('NodeList' in window && !NodeList.prototype.forEach) {
+if ("NodeList" in window && !NodeList.prototype.forEach) {
   NodeList.prototype.forEach = function (callback, thisArg) {
     thisArg = thisArg || window;
     for (var i = 0; i < this.length; i++) {
@@ -234,368 +231,434 @@ if ('NodeList' in window && !NodeList.prototype.forEach) {
 
 // Returns true if this is a network error
 function isNetworkError(err) {
-  if (err && err.name && err.name == 'TypeError') {
-    if (err.toString() == 'TypeError: Failed to fetch') {
-      return true
+  if (err && err.name && err.name == "TypeError") {
+    if (err.toString() == "TypeError: Failed to fetch") {
+      return true;
     }
   }
-  return false
+  return false;
 }
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
 function loadData(callback) {
-  let delay = 2 * 1000 // 2 seconds
+  let delay = 2 * 1000; // 2 seconds
 
-  const tryFetch = function(retryFn) {
+  const tryFetch = function (retryFn) {
     // Load the json data file
     fetch(JSON_PATH)
-    .then(function(res){
-      return res.json()
-    })
-    .then(function(data){
-      callback(data)
-    })
-    .catch(function(err) {
-      retryFn(delay, err)
-      delay *= 2  // exponential backoff.
+      .then(function (res) {
+        return res.json();
+      })
+      .then(function (data) {
+        callback(data);
+      })
+      .catch(function (err) {
+        retryFn(delay, err);
+        delay *= 2; // exponential backoff.
 
-      // throwing the error again so it is logged in sentry/debuggable.
-      if (!isNetworkError(err)) {
-        throw err
-      }
-    })
-  }
+        // throwing the error again so it is logged in sentry/debuggable.
+        if (!isNetworkError(err)) {
+          throw err;
+        }
+      });
+  };
 
-  const retryFetchWithDelay = function(delay, err) {
-    console.log(err + ': retrying after ' + delay + 'ms.')
-    setTimeout(function() { tryFetch(retryFetchWithDelay) }, delay)
-  }
+  const retryFetchWithDelay = function (delay, err) {
+    console.log(err + ": retrying after " + delay + "ms.");
+    setTimeout(function () {
+      tryFetch(retryFetchWithDelay);
+    }, delay);
+  };
 
-  tryFetch(retryFetchWithDelay)
+  tryFetch(retryFetchWithDelay);
 }
-
 
 function calculateTotals(daily) {
   // Calculate the totals
-
   let totals = {
     confirmed: 0,
     recovered: 0,
     deceased: 0,
     critical: 0,
-    tested: 0
-  }
+    tested: 0,
+  };
   let totalsDiff = {
     confirmed: 1,
     recovered: 1,
     deceased: 1,
     critical: 1,
-    tested: 1
-  }
+    tested: 1,
+  };
 
   // If there is an empty cell, fall back to the previous row
   function pullLatestSumAndDiff(rowKey, totalKey) {
-    let latest = {}
-    let dayBefore = {}
-    let twoDaysBefore = {}
+    let latest = {};
+    let dayBefore = {};
+    let twoDaysBefore = {};
     if (daily.length > 2) {
-      twoDaysBefore = daily[daily.length - 3]
+      twoDaysBefore = daily[daily.length - 3];
     }
     if (daily.length > 1) {
-      dayBefore = daily[daily.length - 2]
+      dayBefore = daily[daily.length - 2];
     }
     if (daily.length > 0) {
-      latest = daily[daily.length - 1]
+      latest = daily[daily.length - 1];
     }
 
     if (latest && dayBefore && latest[rowKey] && dayBefore[rowKey]) {
-      totals[totalKey] = latest[rowKey]
-      totalsDiff[totalKey] = latest[rowKey] - dayBefore[rowKey]
+      totals[totalKey] = latest[rowKey];
+      totalsDiff[totalKey] = latest[rowKey] - dayBefore[rowKey];
     }
 
     if (totalsDiff[totalKey] <= 0 && twoDaysBefore && twoDaysBefore[rowKey]) {
-      totalsDiff[totalKey] = latest[rowKey] - twoDaysBefore[rowKey]
+      totalsDiff[totalKey] = latest[rowKey] - twoDaysBefore[rowKey];
     }
   }
 
-  pullLatestSumAndDiff('testedCumulative', 'tested')
-  pullLatestSumAndDiff('criticalCumulative', 'critical')
-  pullLatestSumAndDiff('confirmedCumulative', 'confirmed')
-  pullLatestSumAndDiff('recoveredCumulative', 'recovered')
-  pullLatestSumAndDiff('deceasedCumulative', 'deceased')
+  pullLatestSumAndDiff("testedCumulative", "tested");
+  pullLatestSumAndDiff("criticalCumulative", "critical");
+  pullLatestSumAndDiff("confirmedCumulative", "confirmed");
+  pullLatestSumAndDiff("recoveredCumulative", "recovered");
+  pullLatestSumAndDiff("deceasedCumulative", "deceased");
 
-  return [totals, totalsDiff]
+  return [totals, totalsDiff];
 }
-
 
 function drawMap() {
   // Initialize Map
 
   map = new mapboxgl.Map({
-    container: 'map-container',
-    style: 'mapbox://styles/mapbox/light-v10',
+    container: "map-container",
+    style: "mapbox://styles/mapbox/light-v10",
     zoom: 4,
     minZoom: 3.5,
     maxZoom: 7,
     center: {
       lng: 139.11792973051274,
-      lat: 38.52245616545571
+      lat: 38.52245616545571,
     },
     maxBounds: [
-      {lat: 12.118318014416644, lng: 100.01240618330542}, // SW
-      {lat: 59.34721256263214, lng: 175.3273570446982} // NE
-    ]
-  })
+      { lat: 12.118318014416644, lng: 100.01240618330542 }, // SW
+      { lat: 59.34721256263214, lng: 175.3273570446982 }, // NE
+    ],
+  });
 
-  map.dragRotate.disable()
-  map.touchZoomRotate.disableRotation()
-  map.scrollZoom.disable()
-  map.addControl(new mapboxgl.NavigationControl({
-    showCompass: false,
-    showZoom: true
-  }))
+  map.dragRotate.disable();
+  map.touchZoomRotate.disableRotation();
+  map.scrollZoom.disable();
+  map.addControl(
+    new mapboxgl.NavigationControl({
+      showCompass: false,
+      showZoom: true,
+    })
+  );
 }
 
 function getRGBColor(color) {
-  return color.substring(4, color.length-1)
-    .replace(/ /g, '')
-    .split(',');
+  return color
+    .substring(4, color.length - 1)
+    .replace(/ /g, "")
+    .split(",");
 }
 
-
 function drawTrendChart(sheetTrend) {
-
   var cols = {
-    Date: ['Date'],
-    Confirmed: ['Confirmed'],
-    Active: ['Active'],
-    Critical: ['Critical'],
-    Deceased: ['Deceased'],
-    Recovered: ['Recovered'],
-    Tested: ['Tested'],
-  }
+    Date: ["Date"],
+    Confirmed: ["Confirmed"],
+    Active: ["Active"],
+    Critical: ["Critical"],
+    Deceased: ["Deceased"],
+    Recovered: ["Recovered"],
+    Tested: ["Tested"],
+  };
 
-  for(var i = 0; i < sheetTrend.length; i++) {
-    var row = sheetTrend[i]
+  for (var i = 0; i < sheetTrend.length; i++) {
+    var row = sheetTrend[i];
 
-    if(i === 0){
+    if (i === 0) {
       // Skip early feb data point
-      continue
+      continue;
     }
 
-    cols.Date.push(row.date)
-    cols.Confirmed.push(row.confirmedCumulative)
-    cols.Critical.push(row.criticalCumulative)
-    cols.Deceased.push(row.deceasedCumulative)
-    cols.Recovered.push(row.recoveredCumulative)
-    cols.Active.push(row.confirmedCumulative - row.deceasedCumulative - row.recoveredCumulative)
-    cols.Tested.push(row.testedCumulative)
-
+    cols.Date.push(row.date);
+    cols.Confirmed.push(row.confirmedCumulative);
+    cols.Critical.push(row.criticalCumulative);
+    cols.Deceased.push(row.deceasedCumulative);
+    cols.Recovered.push(row.recoveredCumulative);
+    cols.Active.push(
+      row.confirmedCumulative - row.deceasedCumulative - row.recoveredCumulative
+    );
+    cols.Tested.push(row.testedCumulative);
   }
 
   var chart = c3.generate({
-    bindto: '#trend-chart',
+    bindto: "#trend-chart",
     data: {
-        x: 'Date',
-        color: function(color, d){ 
-          if(d && d.index === cols.Date.length-2 ) {
-            let rgb = getRGBColor(color)
-            return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.6})`
-          } else {
-            return color;
-          }
-        },
-        columns: [
-          cols.Date,
-          cols.Confirmed,
-          cols.Active,
-          cols.Recovered,
-          cols.Deceased,
-          //cols.Tested
-        ],
-        regions: {
-          [cols.Confirmed[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
-          [cols.Active[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
-          [cols.Recovered[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
-          [cols.Deceased[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}]
-          //[cols.Tested[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+      x: "Date",
+      color: function (color, d) {
+        if (d && d.index === cols.Date.length - 2) {
+          let rgb = getRGBColor(color);
+          return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.6})`;
+        } else {
+          return color;
         }
+      },
+      columns: [
+        cols.Date,
+        cols.Confirmed,
+        cols.Active,
+        cols.Recovered,
+        cols.Deceased,
+        //cols.Tested
+      ],
+      regions: {
+        [cols.Confirmed[0]]: [
+          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
+        ],
+        [cols.Active[0]]: [
+          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
+        ],
+        [cols.Recovered[0]]: [
+          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
+        ],
+        [cols.Deceased[0]]: [
+          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
+        ],
+        //[cols.Tested[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+      },
     },
     color: {
-      pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED]
+      pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED],
     },
     point: {
       r: 3,
     },
     axis: {
-        x: {
-            type: 'timeseries',
-            tick: {
-              format: '%b %d',
-              count: 6
-            }
+      x: {
+        type: "timeseries",
+        tick: {
+          format: "%b %d",
+          count: 6,
         },
-        y: {
-          padding: {
-            bottom: 0
-          },
-          tick: {
-            values: [0, 100, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000]
-          }
-        }
+      },
+      y: {
+        padding: {
+          bottom: 0,
+        },
+        tick: {
+          values: [
+            0,
+            100,
+            500,
+            1000,
+            1500,
+            2000,
+            2500,
+            3000,
+            3500,
+            4000,
+            4500,
+            5000,
+          ],
+        },
+      },
     },
     tooltip: {
       format: {
         value: function (value, ratio, id, index) {
-          if(index && cols[id][index]){
-            var diff = parseInt(value) - cols[id][index]
-            return `${value} (${(diff>=0?'+':'') + diff}) ${
-              index === cols.Date.length-2 ? LANG === 'en' ? 'Provisional' : '暫定' : ''
-            }`
-          }else{
-            return value
+          if (index && cols[id][index]) {
+            var diff = parseInt(value) - cols[id][index];
+            return `${value} (${(diff >= 0 ? "+" : "") + diff}) ${
+              index === cols.Date.length - 2
+                ? LANG === "en"
+                  ? "Provisional"
+                  : "暫定"
+                : ""
+            }`;
+          } else {
+            return value;
           }
-        }
-      }
+        },
+      },
     },
     grid: {
       x: {
-        show: true
+        show: true,
       },
       y: {
-        show: true
-      }
+        show: true,
+      },
     },
     padding: {
-      right: 24
-    }
-  })
+      right: 24,
+    },
+  });
 }
 
-
 function drawDailyIncreaseChart(sheetTrend) {
-
   var cols = {
-    Date: ['Date'],
-    Confirmed: ['New Cases'],
-  }
+    Date: ["Date"],
+    Confirmed: ["New Cases"],
+  };
 
-  for(var i = 0; i < sheetTrend.length; i++) {
-    var row = sheetTrend[i]
+  for (var i = 0; i < sheetTrend.length; i++) {
+    var row = sheetTrend[i];
 
-    if(i === 0){
+    if (i === 0) {
       // Skip early feb data point
-      continue
+      continue;
     }
 
-    cols.Date.push(row.date)
-    cols.Confirmed.push(row.confirmed)
-
+    cols.Date.push(row.date);
+    cols.Confirmed.push(row.confirmed);
   }
 
   var chart = c3.generate({
-    bindto: '#daily-increase-chart',
+    bindto: "#daily-increase-chart",
     data: {
-        color: function(color, d){ 
-          if(d && d.index === cols.Date.length-2 ) {
-            return COLOR_TESTED_DAILY;
-          } else {
-            return COLOR_TESTED;
-          }
-        },
-        columns: [
-          cols.Confirmed
-        ],
-        type: 'bar',
-        regions: {
-          [cols.Confirmed[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
+      color: function (color, d) {
+        if (d && d.index === cols.Date.length - 2) {
+          return COLOR_TESTED_DAILY;
+        } else {
+          return COLOR_TESTED;
         }
+      },
+      columns: [cols.Confirmed],
+      type: "bar",
+      regions: {
+        [cols.Confirmed[0]]: [
+          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
+        ],
+      },
     },
     bar: {
-        width: {
-            ratio: 0.8
-        }
+      width: {
+        ratio: 0.8,
+      },
     },
     axis: {
       x: {
         tick: {
           format: function (x) {
-            var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            var months = [
+              "Jan",
+              "Feb",
+              "Mar",
+              "Apr",
+              "May",
+              "Jun",
+              "Jul",
+              "Aug",
+              "Sep",
+              "Oct",
+              "Nov",
+              "Dec",
+            ];
 
             // x+1 because the list is prefixed with the label
-            var xDate = new Date(cols.Date[x+1])
-            return months[xDate.getMonth()] + ' ' + xDate.getDate()
-          }
-        }
+            var xDate = new Date(cols.Date[x + 1]);
+            return months[xDate.getMonth()] + " " + xDate.getDate();
+          },
+        },
       },
       y: {
         tick: {
-          values: [0, 25, 50, 75, 100, 125, 150, 175, 200, 225, 250, 275, 300, 325, 350, 375, 400]
-        }
-      }
+          values: [
+            0,
+            25,
+            50,
+            75,
+            100,
+            125,
+            150,
+            175,
+            200,
+            225,
+            250,
+            275,
+            300,
+            325,
+            350,
+            375,
+            400,
+          ],
+        },
+      },
     },
     tooltip: {
       format: {
         value: function (value, ratio, id, index) {
           return `${value} ${
-            (index === cols.Date.length-2 ? LANG === 'en' ? 'Provisional' : '暫定' : '')
-          }`
-        }
-      }
+            index === cols.Date.length - 2
+              ? LANG === "en"
+                ? "Provisional"
+                : "暫定"
+              : ""
+          }`;
+        },
+      },
     },
     grid: {
       x: {
-        show: true
+        show: true,
       },
       y: {
-        show: true
-      }
+        show: true,
+      },
     },
     legend: {
-      hide: true
+      hide: true,
     },
     padding: {
-      right: 24
-    }
-  })
+      right: 24,
+    },
+  });
 }
 
 function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
-
-  let yMax = maxConfirmedIncrease
-  let prefectureMax = _.max(seriesData)
+  let yMax = maxConfirmedIncrease;
+  let prefectureMax = _.max(seriesData);
   if (prefectureMax / maxConfirmedIncrease < 0.1) {
-    yMax = prefectureMax * 5 // artificially scale up low values to make it look ok. 
+    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
   }
 
-  const period = 30 // days
-  let last30days = _.takeRight(seriesData, period)
+  const period = 30; // days
+  let last30days = _.takeRight(seriesData, period);
   var options = {
-    series: [ { data: last30days }],
+    series: [{ data: last30days }],
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 30,
       sparkline: { enabled: true },
       animations: { enabled: false },
     },
-    colors: [ COLOR_CONFIRMED ],
-    plotOptions: { bar: { columnWidth: '95%' } },
+    colors: [COLOR_CONFIRMED],
+    plotOptions: { bar: { columnWidth: "95%" } },
     xaxis: { crosshairs: { width: 1 } },
     yaxis: { max: yMax },
-    tooltip: { 
+    tooltip: {
       fixed: { enabled: false },
-      x: {  show: false },
-      y: {  
-        formatter: function(value, {series, seriesIndex, dataPointIndex, w}) {
-          let daysBeforeToday = period - dataPointIndex - 1
-          let dateString = moment().subtract(daysBeforeToday, 'days').format('MM/DD')
-          return `${dateString}: ${value}`
+      x: { show: false },
+      y: {
+        formatter: function (
+          value,
+          { series, seriesIndex, dataPointIndex, w }
+        ) {
+          let daysBeforeToday = period - dataPointIndex - 1;
+          let dateString = moment()
+            .subtract(daysBeforeToday, "days")
+            .format("MM/DD");
+          return `${dateString}: ${value}`;
         },
-        title: { formatter: (series) => { return '' } }
+        title: {
+          formatter: (series) => {
+            return "";
+          },
+        },
       },
-      marker: { show: false }
-    }
+      marker: { show: false },
+    },
   };
 
   try {
@@ -608,105 +671,122 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
 
 function drawPrefectureTrajectoryChart(prefectures) {
   const minimumConfirmed = 50;
-  const filteredPrefectures = _.filter(prefectures, function(prefecture) {
-    return prefecture.confirmed >= minimumConfirmed
+  const filteredPrefectures = _.filter(prefectures, function (prefecture) {
+    return prefecture.confirmed >= minimumConfirmed;
   });
-  const trajectories = _.map(filteredPrefectures, function(prefecture) {
-    const cumulativeConfirmed = _.reduce(prefecture.dailyConfirmedCount, function(result, value) {
-      if(result.length > 0) {
-        const sum = result[result.length - 1] + value;
-        result.push(sum);
-        return result;
-      } else {
-        return [value];
+  const trajectories = _.map(filteredPrefectures, function (prefecture) {
+    const cumulativeConfirmed = _.reduce(
+      prefecture.dailyConfirmedCount,
+      function (result, value) {
+        if (result.length > 0) {
+          const sum = result[result.length - 1] + value;
+          result.push(sum);
+          return result;
+        } else {
+          return [value];
+        }
+      },
+      []
+    );
+    const cumulativeConfirmedFromMinimum = _.filter(
+      cumulativeConfirmed,
+      function (value) {
+        return value >= minimumConfirmed;
       }
-    }, []);
-    const cumulativeConfirmedFromMinimum = _.filter(cumulativeConfirmed, function(value) {
-      return value >= minimumConfirmed;
-    });
+    );
     return {
       name: prefecture.name,
       name_ja: prefecture.name_ja,
       confirmed: prefecture.confirmed,
-      cumulativeConfirmed: cumulativeConfirmedFromMinimum
-    }
-  })
+      cumulativeConfirmed: cumulativeConfirmedFromMinimum,
+    };
+  });
 
-  const columns = _.map(trajectories, function(prefecture) {
+  const columns = _.map(trajectories, function (prefecture) {
     return [prefecture.name].concat(prefecture.cumulativeConfirmed);
   });
 
-  const labelPosition = _.reduce(trajectories, function(result, value) {
-    // Show on second to last point to avoid cutoff
-    result[value.name] = value.cumulativeConfirmed.length - 1;
-    return result;
-  }, {});
+  const labelPosition = _.reduce(
+    trajectories,
+    function (result, value) {
+      // Show on second to last point to avoid cutoff
+      result[value.name] = value.cumulativeConfirmed.length - 1;
+      return result;
+    },
+    {}
+  );
 
-  const maxDays = _.reduce(_.values(labelPosition), function(a, b) {
-    return Math.max(a, b);
-  }, 0)
+  const maxDays = _.reduce(
+    _.values(labelPosition),
+    function (a, b) {
+      return Math.max(a, b);
+    },
+    0
+  );
 
-  const nameMap = _.reduce(trajectories, function(result, value) {
-    if(LANG === 'en') {
-      result[value.name] = value.name;
-    } else {
-      result[value.name] = value.name_ja;
-    }
-    return result;
-  }, {});
+  const nameMap = _.reduce(
+    trajectories,
+    function (result, value) {
+      if (LANG === "en") {
+        result[value.name] = value.name;
+      } else {
+        result[value.name] = value.name_ja;
+      }
+      return result;
+    },
+    {}
+  );
 
   c3.generate({
-    bindto: '#prefecture-trajectory',
+    bindto: "#prefecture-trajectory",
     axis: {
       y: {
         min: minimumConfirmed,
         padding: {
-          bottom: 0
+          bottom: 0,
         },
       },
       x: {
         // Set max x value to be 1 greater to avoid label cutoff
         max: maxDays + 1,
         label: `Number of Days since ${minimumConfirmed}th case`,
-      }
+      },
     },
     data: {
       columns: columns,
       labels: {
-        format: function(v, id, i) {
-          if(id) {
-            if(i === labelPosition[id]) {
+        format: function (v, id, i) {
+          if (id) {
+            if (i === labelPosition[id]) {
               return id;
             }
           }
-        }
+        },
       },
-      names: nameMap
+      names: nameMap,
     },
     grid: {
       x: {
-        show: true
+        show: true,
       },
       y: {
-        show: true
-      }
+        show: true,
+      },
     },
     padding: {
-      right: 24
-    }
-  })
+      right: 24,
+    },
+  });
 }
 
-
 function drawPrefectureTable(prefectures, totals) {
-
   // Draw the Cases By Prefecture table
   let dataTable = document.querySelector('#prefectures-table')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
 
   // Abort if dataTable or dataTableFoot is not accessible.
   if (!dataTable || !dataTableFoot) {
-    console.error('Unable to find #prefecture-table')
+    console.error("Unable to find #prefecture-table");
     return;
   }
 
@@ -729,36 +809,41 @@ function drawPrefectureTable(prefectures, totals) {
 
 
   // Work out the largest daily increase
-  let maxConfirmedIncrease = _.max(_.map(prefectures, pref => { return _.max(pref.dailyConfirmedCount) }))
+  let maxConfirmedIncrease = _.max(
+    _.map(prefectures, (pref) => {
+      return _.max(pref.dailyConfirmedCount);
+    })
+  );
 
   // Parse values so we can sort
-  _.map(prefectures, function(pref){
-    pref.confirmed = (pref.confirmed?parseInt(pref.confirmed):0)
-    pref.recovered = (pref.recovered?parseInt(pref.recovered):0)
+  _.map(prefectures, function (pref) {
+    pref.confirmed = pref.confirmed ? parseInt(pref.confirmed) : 0;
+    pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
-    pref.deceased = (pref.deaths?parseInt(pref.deaths):0)
-  })
+    pref.deceased = pref.deaths ? parseInt(pref.deaths) : 0;
+  });
 
   // Iterate through and render table rows
-  _.orderBy(prefectures, 'confirmed', 'desc').map(function(pref){
-    if(!pref.confirmed && !pref.recovered && !pref.deceased){
-      return
+  _.orderBy(prefectures, "confirmed", "desc").map(function (pref) {
+    if (!pref.confirmed && !pref.recovered && !pref.deceased) {
+      return;
     }
 
-    let prefStr
-    if(LANG == 'en'){
-      prefStr = pref.name
-    }else{
-      prefStr = pref.name_ja
+    let prefStr;
+    if (LANG == "en") {
+      prefStr = pref.name;
+    } else {
+      prefStr = pref.name_ja;
     }
 
-    let increment = pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1]
-    let incrementString = ''
+    let increment =
+      pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1];
+    let incrementString = "";
     if (increment > 0) {
-      incrementString = `<span class='increment'>(+${increment})</span>`
+      incrementString = `<span class='increment'>(+${increment})</span>`;
     }
-    
-    if (pref.name == 'Unspecified'){
+
+    if (pref.name == "Unspecified") {
       // Save the "Unspecified" row for the end of the table
       unspecifiedRows.innerHTML = `<tr>
         <td class="prefecture">${prefStr}</td>
@@ -796,8 +881,8 @@ function drawPrefectureTable(prefectures, totals) {
       `
       drawPrefectureTrend(`#${pref.name}-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     }
-    return true
-  })
+    return true;
+  });
 
   let totalStr = 'Total'
   if(LANG == 'ja'){
@@ -810,15 +895,26 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
         <td class="count">${totals.deceased}</td> 
-        </tr>`
-
+        </tr>`;
 }
 
 function drawTravelRestrictions() {
-  travelRestrictionsHelper('#banned-entry', ddb.travelRestrictions.japan.banned);
-  travelRestrictionsHelper('#visa-required', ddb.travelRestrictions.japan.visaRequired);
-  travelRestrictionsHelper('#self-quarantine', ddb.travelRestrictions.japan.selfQuarantine);
-  travelRestrictionsHelper('#other-restrictions', ddb.travelRestrictions.japan.other);
+  travelRestrictionsHelper(
+    "#banned-entry",
+    ddb.travelRestrictions.japan.banned
+  );
+  travelRestrictionsHelper(
+    "#visa-required",
+    ddb.travelRestrictions.japan.visaRequired
+  );
+  travelRestrictionsHelper(
+    "#self-quarantine",
+    ddb.travelRestrictions.japan.selfQuarantine
+  );
+  travelRestrictionsHelper(
+    "#other-restrictions",
+    ddb.travelRestrictions.japan.other
+  );
 
   /*travelRestrictionsHelper('#foreign-banned-entry', ddb.travelRestrictions.foreignBorders.banned);
   travelRestrictionsHelper('#foreign-visa-required', ddb.travelRestrictions.foreignBorders.visaRequired);
@@ -830,16 +926,18 @@ function drawTravelRestrictions() {
 function travelRestrictionsHelper(elementId, countries) {
   let countryList = [];
   // Iterate through and render country links
-  _.orderBy(countries, 'name', 'desc').map(function(country){
-    let name = (LANG == 'en') ? country.name : country.nameJa;
+  _.orderBy(countries, "name", "desc").map(function (country) {
+    let name = LANG == "en" ? country.name : country.nameJa;
 
-    countryList.unshift(`<a href="${country.link}">${country.emoji}${name}</a>`);
+    countryList.unshift(
+      `<a href="${country.link}">${country.emoji}${name}</a>`
+    );
     return true;
-  })
+  });
 
   let banned = document.querySelector(elementId);
   if (banned) {
-    banned.innerHTML = countryList.join(', ');
+    banned.innerHTML = countryList.join(", ");
   }
 }
 
@@ -847,42 +945,68 @@ function drawKpis(totals, totalsDiff) {
   // Draw the KPI values
 
   function setKpi(key, value) {
-    document.querySelector('#kpi-' + key + ' .value').innerHTML = value
+    document.querySelector("#kpi-" + key + " .value").innerHTML = value;
   }
   function setKpiDiff(key, value) {
-    let diffDir = (value >= 0?'+':'')
-    document.querySelector('#kpi-' + key + ' .diff').innerHTML = '( ' + diffDir + value + ' )'
+    let diffDir = value >= 0 ? "+" : "";
+    document.querySelector("#kpi-" + key + " .diff").innerHTML =
+      "( " + diffDir + value + " )";
   }
 
-  setKpi('confirmed', totals.confirmed)
-  setKpiDiff('confirmed', totalsDiff.confirmed)
-  setKpi('recovered', totals.recovered)
-  setKpiDiff('recovered', totalsDiff.recovered)
-  setKpi('deceased', totals.deceased)
-  setKpiDiff('deceased', totalsDiff.deceased)
-  setKpi('critical', totals.critical)
-  setKpiDiff('critical', totalsDiff.critical)
-  setKpi('tested', totals.tested)
-  setKpiDiff('tested', totalsDiff.tested)
-  setKpi('active', (totals.confirmed - totals.recovered) - totals.deceased)
-  setKpiDiff('active', (totalsDiff.confirmed - totalsDiff.recovered) - totalsDiff.deceased)
+  setKpi("confirmed", totals.confirmed);
+  setKpiDiff("confirmed", totalsDiff.confirmed);
+  setKpi("recovered", totals.recovered);
+  setKpiDiff("recovered", totalsDiff.recovered);
+  setKpi("deceased", totals.deceased);
+  setKpiDiff("deceased", totalsDiff.deceased);
+  setKpi("critical", totals.critical);
+  setKpiDiff("critical", totalsDiff.critical);
+  setKpi("tested", totals.tested);
+  setKpiDiff("tested", totalsDiff.tested);
+  setKpi("active", totals.confirmed - totals.recovered - totals.deceased);
+  setKpiDiff(
+    "active",
+    totalsDiff.confirmed - totalsDiff.recovered - totalsDiff.deceased
+  );
 }
 
-
+/**
+ * @param {string} lastUpdated - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
+ */
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
 
+  const display = document.getElementById("last-updated");
+  if (!display) {
+    return;
+  }
+
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
-  //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
-  document.getElementById('last-updated').innerHTML = lastUpdated
-}
+  const lastUpdatedMoment = moment(
+    lastUpdated.slice(0, -4),
+    "MMM DD YYYY, HH:mm"
+  ).utcOffset(9, true); // JST offset
+  if (!lastUpdatedMoment.isValid()) {
+    // Fall back to raw value on failed parse
+    display.textContent = lastUpdated;
+    return;
+  }
+  const relativeTime = {
+    en: lastUpdatedMoment.clone().locale("en").fromNow(),
+    ja: lastUpdatedMoment.clone().locale("ja").fromNow(),
+  };
 
+  display.textContent = relativeTime[LANG];
+  display.setAttribute("title", lastUpdated);
+  display.setAttribute("data-en", relativeTime["en"]);
+  display.setAttribute("data-ja", relativeTime["ja"]);
+}
 
 function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
 
-  document.title = "(" + confirmed + ") " + PAGE_TITLE
+  document.title = "(" + confirmed + ") " + PAGE_TITLE;
 }
 
 /**
@@ -894,122 +1018,123 @@ function drawMapPrefectures(pageDraws) {
   // in the map style so we can draw the
   // prefecture colors behind it
 
-  var firstSymbolId
-  var layers = map.getStyle().layers
-  for(var i = 0; i < layers.length; i++) {
-    if(layers[i].type === 'symbol') {
-      firstSymbolId = layers[i].id
+  var firstSymbolId;
+  var layers = map.getStyle().layers;
+  for (var i = 0; i < layers.length; i++) {
+    if (layers[i].type === "symbol") {
+      firstSymbolId = layers[i].id;
       break;
     }
   }
 
   // Start the Mapbox search expression
-  let prefecturePaint = [
-    'match',
-    ['get', 'NAME_1'],
-  ]
+  let prefecturePaint = ["match", ["get", "NAME_1"]];
 
   // Go through all prefectures looking for cases
-  ddb.prefectures.map(function(prefecture){
+  ddb.prefectures.map(function (prefecture) {
+    let cases = parseInt(prefecture.confirmed);
+    if (cases > 0) {
+      prefecturePaint.push(prefecture.name);
 
-    let cases = parseInt(prefecture.confirmed)
-    if(cases > 0){
-      prefecturePaint.push(prefecture.name)
-
-      if(cases <= 50){
+      if (cases <= 50) {
         // 1-50 cases
-        prefecturePaint.push('rgb(253,234,203)')
-      }else if(cases <= 100){
+        prefecturePaint.push("rgb(253,234,203)");
+      } else if (cases <= 100) {
         // 51-100 cases
-        prefecturePaint.push('rgb(251,155,127)')
-      }else if(cases <= 200){
+        prefecturePaint.push("rgb(251,155,127)");
+      } else if (cases <= 200) {
         // 101-200 cases
-        prefecturePaint.push('rgb(244,67,54)')
-      }else{
+        prefecturePaint.push("rgb(244,67,54)");
+      } else {
         // 201+ cases
-        prefecturePaint.push('rgb(186,0,13)')
+        prefecturePaint.push("rgb(186,0,13)");
       }
     }
-
-  })
+  });
 
   // Add a final value to the list for the default color
-  prefecturePaint.push('rgba(0,0,0,0)')
-
+  prefecturePaint.push("rgba(0,0,0,0)");
 
   if (pageDraws === 0) {
     // If it is the first time drawing the map
 
-    map.addSource('prefectures', {
-      type: 'geojson',
+    map.addSource("prefectures", {
+      type: "geojson",
       data: PREFECTURE_JSON_PATH,
-    })
+    });
 
     // Add the prefecture color layer to the map
-    map.addLayer({
-      'id': 'prefecture-layer',
-      'type': 'fill',
-      'source': 'prefectures',
-      'layout': {},
-      'paint': {
-        'fill-color': prefecturePaint,
-        'fill-opacity': 0.8
-      }
-    }, firstSymbolId)
+    map.addLayer(
+      {
+        id: "prefecture-layer",
+        type: "fill",
+        source: "prefectures",
+        layout: {},
+        paint: {
+          "fill-color": prefecturePaint,
+          "fill-opacity": 0.8,
+        },
+      },
+      firstSymbolId
+    );
 
     // Add another layer with type "line"
     // to provide a styled prefecture border
-    let prefBorderLayer = map.addLayer({
-      'id': 'prefecture-outline-layer',
-      'type': 'line',
-      'source': 'prefectures',
-      'layout': {},
-      'paint': {
-        'line-width': 0.5,
-        'line-color': '#c0c0c0',
-        'line-opacity': 0.5
-      }
-    }, firstSymbolId)
-
+    let prefBorderLayer = map.addLayer(
+      {
+        id: "prefecture-outline-layer",
+        type: "line",
+        source: "prefectures",
+        layout: {},
+        paint: {
+          "line-width": 0.5,
+          "line-color": "#c0c0c0",
+          "line-opacity": 0.5,
+        },
+      },
+      firstSymbolId
+    );
   } else {
     // Update prefecture paint properties
 
-    map.setPaintProperty('prefecture-layer', 'fill-color', prefecturePaint)
-
+    map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
   }
 }
 
 function initDataTranslate() {
   // Handle language switching using data params
 
-  const selector = '[data-ja]'
-  const parseNode = function(cb) {
-    document.querySelectorAll(selector).forEach(cb)
-  }
+  const selector = "[data-ja]";
+  const parseNode = function (cb) {
+    document.querySelectorAll(selector).forEach(cb);
+  };
 
   // Default website is in English. Extract it as the attr data-en="..."
-  parseNode(function(el) {
-    el.dataset['en'] = el.textContent
-  })
+  parseNode(function (el) {
+    el.dataset["en"] = el.textContent;
+  });
 
   // Language selector event handler
-  document.querySelectorAll('[data-lang-picker]').forEach(function(pick) {
-    pick.addEventListener('click', function(e){
-      e.preventDefault()
-      LANG = e.target.dataset.langPicker
+  document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
+    pick.addEventListener("click", function (e) {
+      e.preventDefault();
+      LANG = e.target.dataset.langPicker;
 
       // Toggle the html lang tags
-      parseNode(function(el) {
+      parseNode(function (el) {
         if (!el.dataset[LANG]) return;
-        el.textContent = el.dataset[LANG]
-      })
+        el.textContent = el.dataset[LANG];
+      });
 
       // Update the map
-      map.getStyle().layers.forEach(function(thisLayer){
-        if(thisLayer.type == 'symbol'){
-          map.setLayoutProperty(thisLayer.id, 'text-field', ['get','name_' + LANG])
+      map.getStyle().layers.forEach(function (thisLayer) {
+        if (thisLayer.type == "symbol") {
+          map.setLayoutProperty(thisLayer.id, "text-field", [
+            "get",
+            "name_" + LANG,
+          ]);
         }
-      })
+      });
 
       // Redraw the prefectures table
       if (!document.body.classList.contains('embed-mode')) {
@@ -1023,75 +1148,73 @@ function initDataTranslate() {
       }
 
       // Toggle the lang picker
-      document.querySelectorAll('a[data-lang-picker]').forEach(function(el){
-        el.style.display = 'inline'
-      })
-      document.querySelector('a[data-lang-picker='+LANG+']').style.display = 'none'
-
-    })
-  })
+      document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
+        el.style.display = "inline";
+      });
+      document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
+        "none";
+    });
+  });
 }
 
 function loadDataOnPage() {
-  loadData(function(data) {
-    jsonData = data
+  loadData(function (data) {
+    jsonData = data;
 
-    ddb.prefectures = jsonData.prefectures
-    let newTotals = calculateTotals(jsonData.daily)
-    ddb.totals = newTotals[0]
-    ddb.totalsDiff = newTotals[1]
-    ddb.trend = jsonData.daily
-    ddb.lastUpdated = jsonData.updated
+    ddb.prefectures = jsonData.prefectures;
+    let newTotals = calculateTotals(jsonData.daily);
+    ddb.totals = newTotals[0];
+    ddb.totalsDiff = newTotals[1];
+    ddb.trend = jsonData.daily;
+    ddb.lastUpdated = jsonData.updated;
 
-    drawKpis(ddb.totals, ddb.totalsDiff)
-    if (!document.body.classList.contains('embed-mode')) {
-      drawLastUpdated(ddb.lastUpdated)
-      drawPageTitleCount(ddb.totals.confirmed)
-      drawPrefectureTable(ddb.prefectures, ddb.totals)
-      drawTravelRestrictions()
-      drawTrendChart(ddb.trend)
-      drawDailyIncreaseChart(ddb.trend)
+    drawKpis(ddb.totals, ddb.totalsDiff);
+    if (!document.body.classList.contains("embed-mode")) {
+      drawLastUpdated(ddb.lastUpdated);
+      drawPageTitleCount(ddb.totals.confirmed);
+      drawPrefectureTable(ddb.prefectures, ddb.totals);
+      drawTravelRestrictions();
+      drawTrendChart(ddb.trend);
+      drawDailyIncreaseChart(ddb.trend);
       drawPrefectureTrajectoryChart(ddb.prefectures);
     }
 
-    whenMapAndDataReady()
-  })
+    whenMapAndDataReady();
+  });
 }
 
-var pageDraws = 0
-var styleLoaded = false
-var jsonData = undefined
-function whenMapAndDataReady(){
+var pageDraws = 0;
+var styleLoaded = false;
+var jsonData = undefined;
+function whenMapAndDataReady() {
   // This runs drawMapPref only when
   // both style and json data are ready
 
-  if(!styleLoaded || !jsonData){
-    return
+  if (!styleLoaded || !jsonData) {
+    return;
   }
 
-  drawMapPrefectures(pageDraws)
+  drawMapPrefectures(pageDraws);
 }
 
-
-window.onload = function(){
-
+window.onload = function () {
   // Enable tooltips
-  tippy('[data-tippy-content]')
+  tippy("[data-tippy-content]");
 
-  initDataTranslate()
-  drawMap()
+  initDataTranslate();
+  drawMap();
 
-  map.once('style.load', function(e) {
-    styleLoaded = true
-    whenMapAndDataReady()
-  })
+  map.once("style.load", function (e) {
+    styleLoaded = true;
+    whenMapAndDataReady();
+  });
 
-  loadDataOnPage()
+  loadDataOnPage();
 
   // Reload data every INTERVAL
-  const FIVE_MINUTES_IN_MS = 300000
-  setInterval(function() {
-    pageDraws++
-    loadDataOnPage()
-  }, FIVE_MINUTES_IN_MS)
-}
+  const FIVE_MINUTES_IN_MS = 300000;
+  setInterval(function () {
+    pageDraws++;
+    loadDataOnPage();
+  }, FIVE_MINUTES_IN_MS);
+};
