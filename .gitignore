@@ -4,3 +4,5 @@ _site/
 
 node_modules
 .jekyll-cache/
+
+.eslintcache
