@@ -237,20 +237,20 @@ function loadData(callback) {
   const tryFetch = function (retryFn) {
     // Load the json data file
     fetch(JSON_PATH)
-    .then(function(res){
-      return res.json()
-    })
-    .catch(function(networkError) {
-      retryFn(delay, networkError)
-      delay *= 2  // exponential backoff.
-    })
-    .then(function(data){
-      // After catching the network error, this could possibly be called.
-      if (data) {
-        callback(data)
-      }
-    })
-  }
+      .then(function (res) {
+        return res.json();
+      })
+      .catch(function (networkError) {
+        retryFn(delay, networkError);
+        delay *= 2; // exponential backoff.
+      })
+      .then(function (data) {
+        // If there was a network error, data will null.
+        if (data) {
+          callback(data);
+        }
+      });
+  };
 
   const retryFetchWithDelay = function (delay, err) {
     console.log(err + ": retrying after " + delay + "ms.");
@@ -1197,9 +1197,7 @@ function whenMapAndDataReady() {
   drawMapPrefectures(pageDraws);
 }
 
-
-window.onload = function() {
-
+window.onload = function () {
   // Enable tooltips
   tippy("[data-tippy-content]");
 
