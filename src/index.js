@@ -598,16 +598,12 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
     }
   };
 
-  // Need an artificial delay for the html element to attach.
-  setTimeout( function() { 
-    try {
-      var chart = new ApexCharts(document.querySelector(elementId), options);
-      chart.render();
-    } catch (err) {
-      // Silently fail if there's an error when creating the chart.
-      // TODO(liquidx): Figure out what is going on.
-    }
-  }, 1000);
+  try {
+    var chart = new ApexCharts(document.querySelector(elementId), options);
+    chart.render();
+  } catch (err) {
+    // Silently fail if there's an error when creating the chart.
+  }
 }
 
 function drawPrefectureTrajectoryChart(prefectures) {
@@ -705,10 +701,8 @@ function drawPrefectureTrajectoryChart(prefectures) {
 function drawPrefectureTable(prefectures, totals) {
 
   // Draw the Cases By Prefecture table
-  let dataTable = document.querySelector('#prefectures-table tbody')
+  let dataTable = document.querySelector('#prefectures-table')
   let dataTableFoot = document.querySelector('#prefectures-table tfoot')
-  let unspecifiedRow = ''
-  let portOfEntryRow = ''
 
   // Abort if dataTable or dataTableFoot is not accessible.
   if (!dataTable || !dataTableFoot) {
@@ -716,8 +710,23 @@ function drawPrefectureTable(prefectures, totals) {
     return;
   }
 
-  // Remove the loading cell
-  dataTable.innerHTML = ''
+  // Remove any tbody elements (including the loading indicator).
+  for (let tbody of document.querySelectorAll('#prefectures-table tbody')) {
+    tbody.parentNode.removeChild(tbody)
+  }
+
+  let prefectureRows = document.createElement('tbody')
+  prefectureRows.id = 'prefecture-rows'
+  dataTable.appendChild(prefectureRows)
+
+  let portOfEntryRows = document.createElement('tbody')
+  portOfEntryRows.id = 'portofentry-rows'
+  dataTable.appendChild(portOfEntryRows)
+
+  let unspecifiedRows = document.createElement('tbody')
+  unspecifiedRows.id = 'unspecified-rows'
+  dataTable.appendChild(unspecifiedRows)
+
 
   // Work out the largest daily increase
   let maxConfirmedIncrease = _.max(_.map(prefectures, pref => { return _.max(pref.dailyConfirmedCount) }))
@@ -751,39 +760,44 @@ function drawPrefectureTable(prefectures, totals) {
     
     if (pref.name == 'Unspecified'){
       // Save the "Unspecified" row for the end of the table
-      unspecifiedRow = `<tr>
+      unspecifiedRows.innerHTML = `<tr>
         <td class="prefecture">${prefStr}</td>
         <td class="trend"><div id="Unspecified-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : 0}</td>
-        <td class="count">${pref.deceased ? pref.deceased : 0}</td>
+        <td class="count">${pref.recovered ? pref.recovered : ''}</td>
+        <td class="count">${pref.deceased ? pref.deceased : ''}</td>
         </tr>`
         drawPrefectureTrend(`#Unspecified-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     } else if (pref.name == 'Port Quarantine' || pref.name == 'Port of Entry') {
-      portOfEntryRow = `<tr>
-        <td class="prefecture" data-ja="空港検疫">Port of Entry</td>
+      // Override name temporarily as Port Quarantine was a working name for the spreadsheet.
+      // TODO(liquidx): move this hack into covid19japan-data.
+      if (LANG == 'en'){
+        prefStr = 'Port of Entry'
+      }
+      portOfEntryRows.innerHTML = `<tr>
+        <td class="prefecture">${prefStr}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : 0}</td>
-        <td class="count">${pref.deceased ? pref.deceased : 0}</td>
+        <td class="count">${pref.recovered ? pref.recovered : ''}</td>
+        <td class="count">${pref.deceased ? pref.deceased : ''}</td>
         </tr>`
         drawPrefectureTrend(`#PortOfEntry-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     } else if (pref.name == 'Total'){
       // Skip
     } else {
-      dataTable.innerHTML += `<tr>
+      let row = document.createElement('tr')
+      prefectureRows.appendChild(row)
+      row.innerHTML = `
         <td class="prefecture">${prefStr}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ''}</td>
         <td class="count">${pref.deceased ? pref.deceased : ''}</td>
-        </tr>`
+      `
       drawPrefectureTrend(`#${pref.name}-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     }
     return true
   })
-
-  dataTable.innerHTML = dataTable.innerHTML +  portOfEntryRow + unspecifiedRow
 
   let totalStr = 'Total'
   if(LANG == 'ja'){
@@ -998,12 +1012,14 @@ function initDataTranslate() {
       })
 
       // Redraw the prefectures table
-      if(document.getElementById('prefectures-table')){
-        drawPrefectureTable(ddb.prefectures, ddb.totals)
-      }
+      if (!document.body.classList.contains('embed-mode')) {
+        if(document.getElementById('prefectures-table')){
+          drawPrefectureTable(ddb.prefectures, ddb.totals)
+        }
 
-      if (document.getElementById('travel-restrictions')){
-        drawTravelRestrictions();
+        if (document.getElementById('travel-restrictions')){
+          drawTravelRestrictions();
+        }
       }
 
       // Toggle the lang picker
