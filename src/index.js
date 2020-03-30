@@ -229,16 +229,6 @@ if ("NodeList" in window && !NodeList.prototype.forEach) {
   };
 }
 
-// Returns true if this is a network error
-function isNetworkError(err) {
-  if (err && err.name && err.name == "TypeError") {
-    if (err.toString() == "TypeError: Failed to fetch") {
-      return true;
-    }
-  }
-  return false;
-}
-
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
 function loadData(callback) {
@@ -250,16 +240,14 @@ function loadData(callback) {
       .then(function (res) {
         return res.json();
       })
-      .then(function (data) {
-        callback(data);
-      })
-      .catch(function (err) {
-        retryFn(delay, err);
+      .catch(function (networkError) {
+        retryFn(delay, networkError);
         delay *= 2; // exponential backoff.
-
-        // throwing the error again so it is logged in sentry/debuggable.
-        if (!isNetworkError(err)) {
-          throw err;
+      })
+      .then(function (data) {
+        // If there was a network error, data will null.
+        if (data) {
+          callback(data);
         }
       });
   };
