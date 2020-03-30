@@ -132,15 +132,24 @@
     </div>
   </section>
 
+  <section id="prefecture-trajectory-container" class="embed-hide">
+    <h4 data-ja="都道府県別の患者数推移 (50例以上)">Confirmed Case Trajectories by Prefecture (> 50 Cases)</h4>
+    <div id="prefecture-trajectory">
+        <div class="text-center"><div class="lds-dual-ring"></div></div>
+    </div>
+  </section>
+
   <section class="embed-hide">
     <h4 data-ja="都道府県ごとのデータ">Prefecture Data</h4>
     <table id="prefectures-table">
       <thead>
         <tr>
-          <th data-ja="都道府県">Prefecture</th>
-          <th data-ja="感染者数">Cases</th>
-          <th data-ja="回復者数">Recovered</th>
-          <th data-ja="死亡者数">Deaths</th>
+          <th data-ja="都道府県" class="prefecture">Prefecture</th>
+          <th class="trend"><div id="sparkline-chart"></div>
+          </th>
+          <th data-ja="感染者数" class="count">Confirmed</th>
+          <th data-ja="回復者数" class="count">Recovered</th>
+          <th data-ja="死亡者数" class="count">Deaths</th>
         </tr>
       </thead>
       <tbody>
