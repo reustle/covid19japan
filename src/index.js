@@ -233,6 +233,11 @@ if ("NodeList" in window && !NodeList.prototype.forEach) {
 function isNetworkError(err) {
   const knownNetworkErrors = [
     'TypeError: Failed to fetch',
+    'TypeError: A conexão à internet parece estar desativada.',
+    'TypeError: Network request failed',
+    'Error: La connexion Internet semble interrompue.',
+    'TypeError: La conexión a Internet parece estar desactivada.',
+    'Error: Resource blocked by content blocker',
     'Error: Đã xảy ra lỗi SSL và không thể thực hiện kết nối an toàn tới máy chủ.',    
   ]
   if (err && err.name && err.name == 'TypeError') {
