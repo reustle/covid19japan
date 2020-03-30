@@ -11,7 +11,7 @@
     "outbreak-map": "感染マップ",
     "cases": "件",
     "outbreak-spread-trend": "ウイルス感染の拡散傾向",
-    "new-cases-by-day": "陽性者数 (日別)",
+    "new-cases-by-day": "日別新着感染者数",
     "prefecture-data": "都道府県ごとのデータ",
     "prefecture": "都道府県",
     "cases-count": "感染者数",
