@@ -854,7 +854,9 @@ function drawPrefectureTable(prefectures, totals) {
         </tr>`
         drawPrefectureTrend(`#Unspecified-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
     } else if (pref.name == 'Port Quarantine' || pref.name == 'Port of Entry') {
-      // Override name temporarily as Port Quarantine was a working name for the spreadsheet.
+      // Override Port Quartantine name as "Port of Entry". The name in the spreadsheet is
+      //  confusing.
+      //
       // TODO(liquidx): move this hack into covid19japan-data.
       if (LANG == 'en'){
         prefStr = 'Port of Entry'
