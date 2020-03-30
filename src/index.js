@@ -3,27 +3,27 @@ import "core-js/stable";
 import "whatwg-fetch";
 
 // Add all non-polyfill deps below.
-import _ from 'lodash'
-import tippy from 'tippy.js'
-import * as d3 from 'd3'
-import * as c3 from 'c3'
-import ApexCharts from 'apexcharts'
-import moment from 'moment'
+import _ from "lodash";
+import tippy from "tippy.js";
+import * as d3 from "d3";
+import * as c3 from "c3";
+import ApexCharts from "apexcharts";
+import moment from "moment";
 
-mapboxgl.accessToken = 'pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g'
-const PREFECTURE_JSON_PATH = 'static/prefectures.geojson'
-const JSON_PATH = 'https://data.covid19japan.com/summary/latest.json'
-const TIME_FORMAT = 'YYYY-MM-DD'
-const COLOR_ACTIVE = 'rgb(223,14,31)'
-const COLOR_CONFIRMED = 'rgb(244,67,54)'
-const COLOR_RECOVERED = 'rgb(25,118,210)'
-const COLOR_DECEASED = 'rgb(55,71,79)'
-const COLOR_TESTED = 'rgb(164,173,192)'
-const COLOR_TESTED_DAILY = 'rgb(209,214,223)'
-const COLOR_INCREASE = 'rgb(163,172,191)'
-const PAGE_TITLE = 'Coronavirus Disease (COVID-19) Japan Tracker'
-let LANG = 'en'
-
+mapboxgl.accessToken =
+  "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
+const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
+const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
+const TIME_FORMAT = "YYYY-MM-DD";
+const COLOR_ACTIVE = "rgb(223,14,31)";
+const COLOR_CONFIRMED = "rgb(244,67,54)";
+const COLOR_RECOVERED = "rgb(25,118,210)";
+const COLOR_DECEASED = "rgb(55,71,79)";
+const COLOR_TESTED = "rgb(164,173,192)";
+const COLOR_TESTED_DAILY = "rgb(209,214,223)";
+const COLOR_INCREASE = "rgb(163,172,191)";
+const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
+let LANG = "en";
 
 // Global vars
 let ddb = {
@@ -617,47 +617,56 @@ function drawDailyIncreaseChart(sheetTrend) {
 }
 
 function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
-
-  let yMax = maxConfirmedIncrease
-  let prefectureMax = _.max(seriesData)
+  let yMax = maxConfirmedIncrease;
+  let prefectureMax = _.max(seriesData);
   if (prefectureMax / maxConfirmedIncrease < 0.1) {
-    yMax = prefectureMax * 5 // artificially scale up low values to make it look ok. 
+    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
   }
 
-  const period = 30 // days
-  let last30days = _.takeRight(seriesData, period)
+  const period = 30; // days
+  let last30days = _.takeRight(seriesData, period);
   var options = {
-    series: [ { data: last30days }],
+    series: [{ data: last30days }],
     chart: {
-      type: 'bar',
+      type: "bar",
       height: 30,
       sparkline: { enabled: true },
       animations: { enabled: false },
     },
-    colors: [ COLOR_CONFIRMED ],
-    plotOptions: { bar: { columnWidth: '95%' } },
+    colors: [COLOR_CONFIRMED],
+    plotOptions: { bar: { columnWidth: "95%" } },
     xaxis: { crosshairs: { width: 1 } },
     yaxis: { max: yMax },
-    tooltip: { 
+    tooltip: {
       fixed: { enabled: false },
-      x: {  show: false },
-      y: {  
-        formatter: function(value, {series, seriesIndex, dataPointIndex, w}) {
-          let daysBeforeToday = period - dataPointIndex - 1
-          let dateString = moment().subtract(daysBeforeToday, 'days').format('MM/DD')
-          return `${dateString}: ${value}`
+      x: { show: false },
+      y: {
+        formatter: function (
+          value,
+          { series, seriesIndex, dataPointIndex, w }
+        ) {
+          let daysBeforeToday = period - dataPointIndex - 1;
+          let dateString = moment()
+            .subtract(daysBeforeToday, "days")
+            .format("MM/DD");
+          return `${dateString}: ${value}`;
         },
-        title: { formatter: (series) => { return '' } }
+        title: {
+          formatter: (series) => {
+            return "";
+          },
+        },
       },
-      marker: { show: false }
-    }
+      marker: { show: false },
+    },
   };
 
   // Need an artificial delay for the html element to attach.
-  setTimeout( function() { 
+  setTimeout(function () {
     try {
-      let chartElem = document.querySelector(elementId)
-      if (chartElem) {  // TODO(liquidx): So many places at the moment where HTML elements don't attach synchronously.
+      let chartElem = document.querySelector(elementId);
+      if (chartElem) {
+        // TODO(liquidx): So many places at the moment where HTML elements don't attach synchronously.
         var chart = new ApexCharts(document.querySelector(elementId), options);
         chart.render();
       }
@@ -780,14 +789,14 @@ function drawPrefectureTrajectoryChart(prefectures) {
 
 function drawPrefectureTable(prefectures, totals) {
   // Draw the Cases By Prefecture table
-  let dataTable = document.querySelector('#prefectures-table tbody')
-  let dataTableFoot = document.querySelector('#prefectures-table tfoot')
-  let unspecifiedRow = ''
-  let portOfEntryRow = ''
+  let dataTable = document.querySelector("#prefectures-table tbody");
+  let dataTableFoot = document.querySelector("#prefectures-table tfoot");
+  let unspecifiedRow = "";
+  let portOfEntryRow = "";
 
   // Abort if dataTable or dataTableFoot is not accessible.
   if (!dataTable || !dataTableFoot) {
-    console.error('Unable to find #prefecture-table')
+    console.error("Unable to find #prefecture-table");
     return;
   }
 
@@ -795,7 +804,11 @@ function drawPrefectureTable(prefectures, totals) {
   dataTable.innerHTML = "";
 
   // Work out the largest daily increase
-  let maxConfirmedIncrease = _.max(_.map(prefectures, pref => { return _.max(pref.dailyConfirmedCount) }))
+  let maxConfirmedIncrease = _.max(
+    _.map(prefectures, (pref) => {
+      return _.max(pref.dailyConfirmedCount);
+    })
+  );
 
   // Parse values so we can sort
   _.map(prefectures, function (pref) {
@@ -818,13 +831,14 @@ function drawPrefectureTable(prefectures, totals) {
       prefStr = pref.name_ja;
     }
 
-    let increment = pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1]
-    let incrementString = ''
+    let increment =
+      pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1];
+    let incrementString = "";
     if (increment > 0) {
-      incrementString = `<span class='increment'>(+${increment})</span>`
+      incrementString = `<span class='increment'>(+${increment})</span>`;
     }
-    
-    if (pref.name == 'Unspecified'){
+
+    if (pref.name == "Unspecified") {
       // Save the "Unspecified" row for the end of the table
       unspecifiedRow = `<tr>
         <td class="prefecture">${prefStr}</td>
@@ -832,33 +846,45 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : 0}</td>
         <td class="count">${pref.deceased ? pref.deceased : 0}</td>
-        </tr>`
-        drawPrefectureTrend(`#Unspecified-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
-    } else if (pref.name == 'Port Quarantine' || pref.name == 'Port of Entry') {
+        </tr>`;
+      drawPrefectureTrend(
+        `#Unspecified-trend`,
+        pref.dailyConfirmedCount,
+        maxConfirmedIncrease
+      );
+    } else if (pref.name == "Port Quarantine" || pref.name == "Port of Entry") {
       portOfEntryRow = `<tr>
         <td class="prefecture" data-ja="空港検疫">Port of Entry</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : 0}</td>
         <td class="count">${pref.deceased ? pref.deceased : 0}</td>
-        </tr>`
-        drawPrefectureTrend(`#PortOfEntry-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
-    } else if (pref.name == 'Total'){
+        </tr>`;
+      drawPrefectureTrend(
+        `#PortOfEntry-trend`,
+        pref.dailyConfirmedCount,
+        maxConfirmedIncrease
+      );
+    } else if (pref.name == "Total") {
       // Skip
     } else {
       dataTable.innerHTML += `<tr>
         <td class="prefecture">${prefStr}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ''}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ''}</td>
-        </tr>`
-      drawPrefectureTrend(`#${pref.name}-trend`, pref.dailyConfirmedCount, maxConfirmedIncrease)
+        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
+        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        </tr>`;
+      drawPrefectureTrend(
+        `#${pref.name}-trend`,
+        pref.dailyConfirmedCount,
+        maxConfirmedIncrease
+      );
     }
     return true;
   });
 
-  dataTable.innerHTML = dataTable.innerHTML +  portOfEntryRow + unspecifiedRow
+  dataTable.innerHTML = dataTable.innerHTML + portOfEntryRow + unspecifiedRow;
 
   let totalStr = "Total";
   if (LANG == "ja") {
@@ -871,8 +897,7 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
         <td class="count">${totals.deceased}</td> 
-        </tr>`
-
+        </tr>`;
 }
 
 function drawTravelRestrictions() {
@@ -914,7 +939,7 @@ function travelRestrictionsHelper(elementId, countries) {
 
   let banned = document.querySelector(elementId);
   if (banned) {
-    banned.innerHTML = countryList.join(', ');
+    banned.innerHTML = countryList.join(", ");
   }
 }
 
