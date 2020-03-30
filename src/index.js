@@ -355,13 +355,6 @@ function drawMap() {
   );
 }
 
-function getRGBColor(color) {
-  return color
-    .substring(4, color.length - 1)
-    .replace(/ /g, "")
-    .split(",");
-}
-
 function drawTrendChart(sheetTrend) {
   var cols = {
     Date: ["Date"],
@@ -398,8 +391,9 @@ function drawTrendChart(sheetTrend) {
       x: "Date",
       color: function (color, d) {
         if (d && d.index === cols.Date.length - 2) {
-          let rgb = getRGBColor(color);
-          return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.6})`;
+          let newColor = d3.color(color);
+          newColor.opacity = 0.6;
+          return newColor;
         } else {
           return color;
         }
@@ -774,7 +768,6 @@ function drawPrefectureTrajectoryChart(prefectures) {
       names: nameMap,
       color: function (color, d) {
         if (d && d.index && d.index === lastIndex[d.id]) {
-          let rgb = getRGBColor(color);
           let newColor = d3.color(color);
           newColor.opacity = 0.6;
           return newColor;
@@ -925,7 +918,7 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
-        <td class="count">${totals.deceased}</td> 
+        <td class="count">${totals.deceased}</td>
         </tr>`;
 }
 
