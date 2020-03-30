@@ -218,6 +218,7 @@ let ddb = {
   },
 };
 let map = undefined;
+let tippyInstances;
 
 // IE11 forEach Polyfill
 if ("NodeList" in window && !NodeList.prototype.forEach) {
@@ -1092,6 +1093,9 @@ function initDataTranslate() {
     el.dataset["en"] = el.textContent;
   });
 
+  // Enable tooltips
+  updateTooltipLang();
+
   // Language selector event handler
   document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
     pick.addEventListener("click", function (e) {
@@ -1123,6 +1127,9 @@ function initDataTranslate() {
         drawTravelRestrictions();
       }
 
+      // Toggle tooltip lang
+      updateTooltipLang();
+
       // Toggle the lang picker
       document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
         el.style.display = "inline";
@@ -1131,6 +1138,24 @@ function initDataTranslate() {
         "none";
     });
   });
+}
+
+function updateTooltipLang() {
+  // Destroy current tooltips
+  if (Array.isArray(tippyInstances)) {
+    tippyInstances.forEach((instance) => instance.destroy());
+  }
+
+  // Set tooltip content to current language
+  document.querySelectorAll(`[data-tippy-content-${LANG}]`).forEach((node) => {
+    node.setAttribute(
+      "data-tippy-content",
+      node.getAttribute(`data-tippy-content-${LANG}`)
+    );
+  });
+
+  // Activate tooltips
+  tippyInstances = tippy("[data-tippy-content]");
 }
 
 function loadDataOnPage() {
@@ -1174,9 +1199,6 @@ function whenMapAndDataReady() {
 }
 
 window.onload = function () {
-  // Enable tooltips
-  tippy("[data-tippy-content]");
-
   initDataTranslate();
   drawMap();
 
