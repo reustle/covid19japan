@@ -716,6 +716,14 @@ function drawPrefectureTrajectoryChart(prefectures) {
     {}
   );
 
+  const regions = _.mapValues(lastIndex, function (value) {
+    if (value > 0) {
+      return [{ start: value - 1, end: value, style: "dashed" }];
+    } else {
+      return [];
+    }
+  });
+
   const maxDays = _.reduce(
     _.values(lastIndex),
     function (a, b) {
@@ -774,6 +782,7 @@ function drawPrefectureTrajectoryChart(prefectures) {
           return color;
         }
       },
+      regions: regions,
     },
     grid: {
       x: {
