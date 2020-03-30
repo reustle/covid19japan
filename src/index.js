@@ -240,8 +240,8 @@ function loadData(callback) {
     .then(function(res){
       return res.json()
     })
-    .catch(function(err) {
-      retryFn(delay, err)
+    .catch(function(networkError) {
+      retryFn(delay, networkError)
       delay *= 2  // exponential backoff.
     })
     .then(function(data){
@@ -1197,7 +1197,9 @@ function whenMapAndDataReady() {
   drawMapPrefectures(pageDraws);
 }
 
-window.onload = function () {
+
+window.onload = function() {
+
   // Enable tooltips
   tippy("[data-tippy-content]");
 
