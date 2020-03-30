@@ -14,9 +14,9 @@
     "new-cases-by-day": "New Cases By Day",
     "prefecture-data": "Prefecture Data",
     "prefecture": "Prefecture",
-    "cases-count": "Cases",
-    "recovered-count": "Recovered",
-    "deaths-count": "Deaths",
+    "confirmed": "Confirmed",
+    "recovered": "Recovered",
+    "deaths": "Deaths",
     "helpful-links": "Helpful Links",
     "primary-data-sources": "Primary Data Sources"
 }

@@ -14,9 +14,9 @@
     "new-cases-by-day": "日別新着感染者数",
     "prefecture-data": "都道府県ごとのデータ",
     "prefecture": "都道府県",
-    "cases-count": "感染者数",
-    "recovered-count": "回復者数",
-    "deaths-count": "死亡者数",
+    "confirmed": "感染者数",
+    "recovered": "回復者数",
+    "deaths": "死亡者数",
     "helpful-links": "有益な情報源",
     "primary-data-sources": "一次情報源"
 }
