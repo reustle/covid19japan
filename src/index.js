@@ -776,7 +776,7 @@ function drawPrefectureTrajectoryChart(prefectures) {
         if (d && d.index && d.index === lastIndex[d.id]) {
           let rgb = getRGBColor(color);
           let newColor = d3.color(color);
-          newColor.opacity = 0.4;
+          newColor.opacity = 0.6;
           return newColor;
         } else {
           return color;
