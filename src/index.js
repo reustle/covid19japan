@@ -706,10 +706,10 @@ function drawPrefectureTrajectoryChart(prefectures) {
     return [prefecture.name].concat(prefecture.cumulativeConfirmed);
   });
 
-  const labelPosition = _.reduce(
+  // Mapping of id (name) to the last index for each trajectory.
+  const lastIndex = _.reduce(
     trajectories,
     function (result, value) {
-      // Show on second to last point to avoid cutoff
       result[value.name] = value.cumulativeConfirmed.length - 1;
       return result;
     },
@@ -717,7 +717,7 @@ function drawPrefectureTrajectoryChart(prefectures) {
   );
 
   const maxDays = _.reduce(
-    _.values(labelPosition),
+    _.values(lastIndex),
     function (a, b) {
       return Math.max(a, b);
     },
@@ -747,8 +747,8 @@ function drawPrefectureTrajectoryChart(prefectures) {
         },
       },
       x: {
-        // Set max x value to be 1 greater to avoid label cutoff
-        max: maxDays + 1,
+        // Set max x value to be 2 greater to avoid label cutoff
+        max: maxDays + 2,
         label: `Number of Days since ${minimumConfirmed}th case`,
       },
     },
@@ -757,13 +757,23 @@ function drawPrefectureTrajectoryChart(prefectures) {
       labels: {
         format: function (v, id, i) {
           if (id) {
-            if (i === labelPosition[id]) {
+            if (i === lastIndex[id]) {
               return id;
             }
           }
         },
       },
       names: nameMap,
+      color: function (color, d) {
+        if (d && d.index && d.index === lastIndex[d.id]) {
+          let rgb = getRGBColor(color);
+          let newColor = d3.color(color);
+          newColor.opacity = 0.4;
+          return newColor;
+        } else {
+          return color;
+        }
+      },
     },
     grid: {
       x: {
