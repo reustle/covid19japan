@@ -80,7 +80,7 @@ data that we use to cross check and verify.
 |Okinawa    | [患者の発生について](https://www.pref.okinawa.jp/site/hoken/chiikihoken/kekkaku/2019-ncov.html) ([Patients](https://www.pref.okinawa.lg.jp/site/hoken/chiikihoken/kekkaku/press/20200214_covid19_pr1.html))|
 |Osaka    | [新型コロナウイルス感染症について](http://www.pref.osaka.lg.jp/iryo/osakakansensho/corona.html)|
 |Saga    | [佐賀県の新型コロナウイルス感染症の状況（事実と異なる情報や噂にご注意ください](https://www.pref.saga.lg.jp/kiji00373220/index.html) |
-|Saitama    |[記者発表資料](https://www.pref.saitama.lg.jp/a0701/covid19/jokyo.html)|
+|Saitama    |[記者発表資料](https://www.pref.saitama.lg.jp/a0701/covid19/jokyo.html) ([Dashboard](https://saitama.stopcovid19.jp/))|
 |Shiga    | [新型コロナウイルス感染症患者の発生状況](https://www.pref.shiga.lg.jp/ippan/kenkouiryouhukushi/yakuzi/310735.html)|
 |Shimane    |[新型コロナウイルス感染症に関する情報](https://www.pref.shimane.lg.jp/bousai_info/bousai/kikikanri/shingata_taisaku/new_coronavirus_portal.html)|
 |Shizuoka    |[新型コロナウイルス感染症(COVID-19)関連情報](https://www.pref.shizuoka.jp/kinkyu/covid-19.html)|

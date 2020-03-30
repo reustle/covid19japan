@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@babel/core": "^7.7.7",
+    "apexcharts": "^3.17.0",
     "c3": "^0.7.15",
     "chart.js": "^2.9.3",
     "core-js": "^3.6.4",
