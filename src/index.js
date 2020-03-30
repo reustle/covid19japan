@@ -972,13 +972,37 @@ function drawKpis(totals, totalsDiff) {
   );
 }
 
+/**
+ * @param {string} lastUpdated - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
+ */
 function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
 
+  const display = document.getElementById("last-updated");
+  if (!display) {
+    return;
+  }
+
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
-  //let prettyUpdatedTime = moment(lastUpdated).format('MMM D, YYYY') + ' JST'
-  document.getElementById("last-updated").innerHTML = lastUpdated;
+  const lastUpdatedMoment = moment(
+    lastUpdated.slice(0, -4),
+    "MMM DD YYYY, HH:mm"
+  ).utcOffset(9, true); // JST offset
+  if (!lastUpdatedMoment.isValid()) {
+    // Fall back to raw value on failed parse
+    display.textContent = lastUpdated;
+    return;
+  }
+  const relativeTime = {
+    en: lastUpdatedMoment.clone().locale("en").fromNow(),
+    ja: lastUpdatedMoment.clone().locale("ja").fromNow(),
+  };
+
+  display.textContent = relativeTime[LANG];
+  display.setAttribute("title", lastUpdated);
+  display.setAttribute("data-en", relativeTime["en"]);
+  display.setAttribute("data-ja", relativeTime["ja"]);
 }
 
 function drawPageTitleCount(confirmed) {
