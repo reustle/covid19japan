@@ -979,6 +979,9 @@ function drawLastUpdated(lastUpdated) {
   // Draw the last updated time
 
   const display = document.getElementById("last-updated");
+  if (!display) {
+    return;
+  }
 
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
