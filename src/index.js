@@ -1156,7 +1156,7 @@ function setLang(lng) {
       }
     });
 
-    // Redraw the prefectures table
+    // Redraw all components that need rerendering to be localized the prefectures table
     if (!document.body.classList.contains("embed-mode")) {
       if (document.getElementById("prefectures-table")) {
         drawPrefectureTable(ddb.prefectures, ddb.totals);
@@ -1165,6 +1165,8 @@ function setLang(lng) {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions();
       }
+
+      drawPrefectureTrajectoryChart(ddb.prefectures);
     }
   });
 }
