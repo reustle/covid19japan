@@ -21,5 +21,6 @@
     "primary-data-sources": "Primary Data Sources",
     "confirmed-case-trajectories-by-prefecture": "Confirmed Case Trajectories by Prefecture (> 50 Cases)",
     "traveling-into-japan": "Traveling into Japan",
-    "provisional": "Provisional"
+    "provisional": "Provisional",
+    "total": "Total"
 }

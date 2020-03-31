@@ -32,7 +32,6 @@ const COLOR_TESTED_DAILY = "rgb(209,214,223)";
 const COLOR_INCREASE = "rgb(163,172,191)";
 const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
 let LANG = "en";
-const t = i18next.t;
 
 // Global vars
 let ddb = {
@@ -581,7 +580,7 @@ function drawDailyIncreaseChart(sheetTrend) {
       format: {
         value: function (value, ratio, id, index) {
           return `${value} ${
-            index === cols.Date.length - 2 ? t("provisional") : ""
+            index === cols.Date.length - 2 ? i18next.t("provisional") : ""
           }`;
         },
       },
@@ -902,13 +901,8 @@ function drawPrefectureTable(prefectures, totals) {
     return true;
   });
 
-  let totalStr = "Total";
-  if (LANG == "ja") {
-    totalStr = "計";
-  }
-
   dataTableFoot.innerHTML = `<tr class='totals'>
-        <td>${totalStr}</td>
+        <td>${i18next.t("total")}</td>
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
@@ -1157,28 +1151,29 @@ function setLang(lng) {
   toggleLangPicker();
 
   // set i18n framework lang
-  i18next.changeLanguage(LANG).then(() => localize("html"));
+  i18next.changeLanguage(LANG).then(() => {
+    localize("html");
+    // Update the map
+    map.getStyle().layers.forEach(function (thisLayer) {
+      if (thisLayer.type == "symbol") {
+        map.setLayoutProperty(thisLayer.id, "text-field", [
+          "get",
+          "name_" + LANG,
+        ]);
+      }
+    });
 
-  // Update the map
-  map.getStyle().layers.forEach(function (thisLayer) {
-    if (thisLayer.type == "symbol") {
-      map.setLayoutProperty(thisLayer.id, "text-field", [
-        "get",
-        "name_" + LANG,
-      ]);
+    // Redraw the prefectures table
+    if (!document.body.classList.contains("embed-mode")) {
+      if (document.getElementById("prefectures-table")) {
+        drawPrefectureTable(ddb.prefectures, ddb.totals);
+      }
+
+      if (document.getElementById("travel-restrictions")) {
+        drawTravelRestrictions();
+      }
     }
   });
-
-  // Redraw the prefectures table
-  if (!document.body.classList.contains("embed-mode")) {
-    if (document.getElementById("prefectures-table")) {
-      drawPrefectureTable(ddb.prefectures, ddb.totals);
-    }
-
-    if (document.getElementById("travel-restrictions")) {
-      drawTravelRestrictions();
-    }
-  }
 }
 
 function toggleLangPicker() {
