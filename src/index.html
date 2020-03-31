@@ -44,6 +44,7 @@
       Sentry.init({
         dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
         debug: false,
+        sampleRate: 0.05,
         integrations: [
           new Sentry.Integrations.CaptureConsole({
             levels: ['error']
