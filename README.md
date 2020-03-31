@@ -139,6 +139,14 @@ npm run build-prod
 
 You will now be able to access the site at http://localhost:4000/
 
+## Code Re-use
+
+The code for this project is released under the [MIT License](LICENSE). You are free to re-use it but we ask that you please include a link back to the [COVID-19 Japan website](https://covid19japan.com/) or [this GitHub repository](https://github.com/reustle/covid19japan). We'd also be happy to include your site in the list of forked projects below – just create an issue to request it.
+
+### Forked Projects
+
+* [Sri Lanka COVID-19 Coronavirus Tracker](https://covidsl.com)
+* [Kerala COVID-19 Coronavirus Tracker](https://covid19kerala.info)
 
 ## Contributors
 
