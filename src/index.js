@@ -343,13 +343,6 @@ function drawMap() {
   );
 }
 
-function getRGBColor(color) {
-  return color
-    .substring(4, color.length - 1)
-    .replace(/ /g, "")
-    .split(",");
-}
-
 function drawTrendChart(sheetTrend) {
   var cols = {
     Date: ["Date"],
@@ -386,8 +379,9 @@ function drawTrendChart(sheetTrend) {
       x: "Date",
       color: function (color, d) {
         if (d && d.index === cols.Date.length - 2) {
-          let rgb = getRGBColor(color);
-          return `rgba(${rgb[0]},${rgb[1]},${rgb[2]},${0.6})`;
+          let newColor = d3.color(color);
+          newColor.opacity = 0.6;
+          return newColor;
         } else {
           return color;
         }
@@ -694,18 +688,26 @@ function drawPrefectureTrajectoryChart(prefectures) {
     return [prefecture.name].concat(prefecture.cumulativeConfirmed);
   });
 
-  const labelPosition = _.reduce(
+  // Mapping of id (name) to the last index for each trajectory.
+  const lastIndex = _.reduce(
     trajectories,
     function (result, value) {
-      // Show on second to last point to avoid cutoff
       result[value.name] = value.cumulativeConfirmed.length - 1;
       return result;
     },
     {}
   );
 
+  const regions = _.mapValues(lastIndex, function (value) {
+    if (value > 0) {
+      return [{ start: value - 1, end: value, style: "dashed" }];
+    } else {
+      return [];
+    }
+  });
+
   const maxDays = _.reduce(
-    _.values(labelPosition),
+    _.values(lastIndex),
     function (a, b) {
       return Math.max(a, b);
     },
@@ -735,8 +737,8 @@ function drawPrefectureTrajectoryChart(prefectures) {
         },
       },
       x: {
-        // Set max x value to be 1 greater to avoid label cutoff
-        max: maxDays + 1,
+        // Set max x value to be 2 greater to avoid label cutoff
+        max: maxDays + 2,
         label: `Number of Days since ${minimumConfirmed}th case`,
       },
     },
@@ -745,13 +747,23 @@ function drawPrefectureTrajectoryChart(prefectures) {
       labels: {
         format: function (v, id, i) {
           if (id) {
-            if (i === labelPosition[id]) {
+            if (i === lastIndex[id]) {
               return id;
             }
           }
         },
       },
       names: nameMap,
+      color: function (color, d) {
+        if (d && d.index && d.index === lastIndex[d.id]) {
+          let newColor = d3.color(color);
+          newColor.opacity = 0.6;
+          return newColor;
+        } else {
+          return color;
+        }
+      },
+      regions: regions,
     },
     grid: {
       x: {
@@ -894,7 +906,7 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
-        <td class="count">${totals.deceased}</td> 
+        <td class="count">${totals.deceased}</td>
         </tr>`;
 }
 
