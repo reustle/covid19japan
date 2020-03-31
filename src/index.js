@@ -460,11 +460,7 @@ function drawTrendChart(sheetTrend) {
           if (index && cols[id][index]) {
             var diff = parseInt(value) - cols[id][index];
             return `${value} (${(diff >= 0 ? "+" : "") + diff}) ${
-              index === cols.Date.length - 2
-                ? LANG === "en"
-                  ? "Provisional"
-                  : "暫定"
-                : ""
+              index === cols.Date.length - 2 ? i18next.t("provisional") : ""
             }`;
           } else {
             return value;
@@ -865,11 +861,8 @@ function drawPrefectureTable(prefectures, totals) {
       //  confusing.
       //
       // TODO(liquidx): move this hack into covid19japan-data.
-      if (LANG == "en") {
-        prefStr = "Port of Entry";
-      }
       portOfEntryRows.innerHTML = `<tr>
-        <td class="prefecture">${prefStr}</td>
+        <td class="prefecture">${i18next.t("port-of-entry")}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>

@@ -21,5 +21,6 @@
     "primary-data-sources": "一次情報源",
     "confirmed-case-trajectories-by-prefecture": "都道府県別の患者数推移 (50例以上)",
     "provisional": "暫定",
-    "total": "計"
+    "total": "計",
+    "port-of-entry": "入国港"
 }
