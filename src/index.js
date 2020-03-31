@@ -54,159 +54,134 @@ let ddb = {
   travelRestrictions: {
     japan: {
       banned: [
+        // refer to the keys under "countries" in the i18n files for names
         {
-          name: "Andorra",
-          nameJa: "アンドラ",
+          name: "andorra",
           emoji: "🇦🇩",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Austria",
-          nameJa: "オーストリア",
+          name: "austria",
           emoji: "🇦🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Belgium",
-          nameJa: "ベルギー",
+          name: "belgium",
           emoji: "🇧🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "China",
-          nameJa: "中国",
+          name: "china",
           emoji: "🇨🇳",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Estonia",
-          nameJa: "エストニア",
+          name: "estonia",
           emoji: "🇪🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "France",
-          nameJa: "仏国",
+          name: "france",
           emoji: "🇫🇷",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Germany",
-          nameJa: "独国",
+          name: "germany",
           emoji: "🇩🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Iceland",
-          nameJa: "アイスランド",
+          name: "iceland",
           emoji: "🇮🇸",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Iran",
-          nameJa: "イラン",
+          name: "iran",
           emoji: "🇮🇷",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Ireland",
-          nameJa: "アイルランド",
+          name: "ireland",
           emoji: "🇮🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Italy",
-          nameJa: "伊井",
+          name: "italy",
           emoji: "🇮🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Korea",
-          nameJa: "大韓民国",
+          name: "korea",
           emoji: "🇰🇷",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Liechtenstein",
-          nameJa: "リヒテンシュタイン",
+          name: "liechtenstein",
           emoji: "🇱🇮",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Luxembourg",
-          nameJa: "ルクセンブルク",
+          name: "luxembourg",
           emoji: "🇱🇺",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Malta",
-          nameJa: "マルタ",
+          name: "malta",
           emoji: "🇲🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Monaco",
-          nameJa: "モナコ",
+          name: "monaco",
           emoji: "🇲🇨",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Netherlands",
-          nameJa: "オランダ",
+          name: "netherlands",
           emoji: "🇳🇱",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Norway",
-          nameJa: "ノルウェー",
+          name: "norway",
           emoji: "🇳🇴",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Portugal",
-          nameJa: "葡萄牙",
+          name: "portugal",
           emoji: "🇵🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "San Marino",
-          nameJa: "サンマリノ",
+          name: "sanmarino",
           emoji: "🇸🇲",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Slovenia",
-          nameJa: "スロベニア",
+          name: "slovenia",
           emoji: "🇸🇮",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Spain",
-          nameJa: "スペイン",
+          name: "spain",
           emoji: "🇪🇸",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Sweden",
-          nameJa: "スウェーデン",
+          name: "sweden",
           emoji: "🇸🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Switzerland",
-          nameJa: "スイス",
+          name: "switzerland",
           emoji: "🇨🇭",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Vatican",
-          nameJa: "バチカン市国",
+          name: "vatican",
           emoji: "🇻🇦",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Westerdam (Cruise Ship)",
-          nameJa: "ウェスターダム（船）",
+          name: "westerdam",
           emoji: "🛳",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
@@ -932,8 +907,7 @@ function travelRestrictionsHelper(elementId, countries) {
   let countryList = [];
   // Iterate through and render country links
   _.orderBy(countries, "name", "desc").map(function (country) {
-    let name = LANG == "en" ? country.name : country.nameJa;
-
+    let name = i18next.t(`countries.${country.name}`);
     countryList.unshift(
       `<a href="${country.link}">${country.emoji}${name}</a>`
     );
