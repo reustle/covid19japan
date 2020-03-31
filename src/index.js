@@ -32,6 +32,7 @@ const COLOR_TESTED_DAILY = "rgb(209,214,223)";
 const COLOR_INCREASE = "rgb(163,172,191)";
 const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
 let LANG = "en";
+const t = i18next.t;
 
 // Global vars
 let ddb = {
@@ -580,11 +581,7 @@ function drawDailyIncreaseChart(sheetTrend) {
       format: {
         value: function (value, ratio, id, index) {
           return `${value} ${
-            index === cols.Date.length - 2
-              ? LANG === "en"
-                ? "Provisional"
-                : "暫定"
-              : ""
+            index === cols.Date.length - 2 ? t("provisional") : ""
           }`;
         },
       },

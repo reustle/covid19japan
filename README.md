@@ -140,11 +140,12 @@ You will now be able to access the site at http://localhost:4000/
 
 ### Localization
 
-All strings in the `src/index.html` should be localized like this:
+All strings in the `src/` files should be localized like this:
 
 1. add a key-value pair in `src/i18n/en.json` for your string/text
-2. add the `data-i18n="your-new-key"` attribute to the HTML element to be localized (replace "your-new-key" in the example)
-3. add any additional translations with the same key to other files in `src/i18n/`
+2. for HTML: add the `data-i18n="your-new-key"` attribute to the HTML element to be localized (replace "your-new-key" in the example)
+3. for JavaScript: call the `t("your-new-key")` function to retrieve the localized string (replace "your-new-key" in the example)
+4. add any additional translations with the same key to other files in `src/i18n/`
 
 ## Code Re-use
 
