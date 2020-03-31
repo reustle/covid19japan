@@ -8,7 +8,6 @@ import _ from "lodash";
 import tippy from "tippy.js";
 import * as d3 from "d3";
 import * as c3 from "c3";
-import ApexCharts from "apexcharts";
 import moment from "moment";
 
 mapboxgl.accessToken =
@@ -608,49 +607,39 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
 
   const period = 30; // days
   let last30days = _.takeRight(seriesData, period);
-  var options = {
-    series: [{ data: last30days }],
-    chart: {
+  c3.generate({
+    bindto: elementId,
+    interaction: { enabled: false },
+    data: {
       type: "bar",
-      height: 30,
-      sparkline: { enabled: true },
-      animations: { enabled: false },
+      columns: [_.concat(["confirmed"], last30days)],
+      colors: { confirmed: COLOR_CONFIRMED },
     },
-    colors: [COLOR_CONFIRMED],
-    plotOptions: { bar: { columnWidth: "95%" } },
-    xaxis: { crosshairs: { width: 1 } },
-    yaxis: { max: yMax },
-    grid: { show: false },
-    tooltip: {
-      fixed: { enabled: false },
-      x: { show: false },
-      y: {
-        formatter: function (
-          value,
-          { series, seriesIndex, dataPointIndex, w }
-        ) {
-          let daysBeforeToday = period - dataPointIndex - 1;
-          let dateString = moment()
-            .subtract(daysBeforeToday, "days")
-            .format("MM/DD");
-          return `${dateString}: ${value}`;
-        },
-        title: {
-          formatter: (series) => {
-            return "";
-          },
-        },
+    bar: {
+      width: { ratio: 0.65 },
+      zerobased: true,
+    },
+    axis: {
+      x: {
+        show: false,
+        min: 0,
+        padding: 5,
       },
-      marker: { show: false },
+      y: {
+        show: false,
+        min: 0,
+        max: yMax,
+        padding: 1,
+      },
     },
-  };
+    size: {
+      height: 40,
+    },
 
-  try {
-    var chart = new ApexCharts(document.querySelector(elementId), options);
-    chart.render();
-  } catch (err) {
-    // Silently fail if there's an error when creating the chart.
-  }
+    legend: { show: false },
+    tooltip: { show: false },
+    point: { show: false },
+  });
 }
 
 function drawPrefectureTrajectoryChart(prefectures) {
