@@ -1,6 +1,6 @@
 # COVID19Japan.com
 
-A COVID-19 Coronavirus tracker for Japan. Government agencies release detailed data, but in difficult to read formats and usually only in Japaneese.
+A COVID-19 Coronavirus tracker for Japan. Government agencies release detailed data, but in difficult to read formats and usually only in Japanese.
 
 
 
