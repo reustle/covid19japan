@@ -103,7 +103,7 @@ data that we use to cross check and verify.
 
 If you would like to contribute features / refactor / etc, please open an Issue on this repo, and tag @reustle - We can then open a new Pull Request if it is deemed in line with the projects goals.
 
-### Requirements
+### Dev Requirements
 
  * NodeJS
 
