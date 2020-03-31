@@ -10,10 +10,6 @@ body {
   line-height: 25px;
   color: $primary-black;
   font-size: 16px;
-
-  .embed-show {
-    display: none;
-  }
 }
 h1 {
   font-size: 48px;
@@ -29,6 +25,7 @@ h5 {
   margin-bottom: 5px;
 }
 .footnote {
+  display: block;
   font-weight: 400;
   font-size: 15px;
   padding-left: 5px;
@@ -271,8 +268,15 @@ footer {
   }
 }
 
-body.embed {
-  .embed-hide { display: none; }
-  .embed-show { display: block; }
-  span.embed-show { display: inline; }
+body {
+  &.embed {
+    .embed-hide {
+      display: none;
+    }
+  }
+  &:not(.embed) {
+    .embed-show {
+      display: none;
+    }
+  }
 }
