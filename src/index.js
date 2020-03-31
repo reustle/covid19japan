@@ -1,6 +1,7 @@
 // Injects required polyfills for IE11
 import "core-js/stable";
 import "whatwg-fetch";
+import "classlist-polyfill";
 
 // Add all non-polyfill deps below.
 import _ from "lodash";
@@ -619,6 +620,7 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
     plotOptions: { bar: { columnWidth: "95%" } },
     xaxis: { crosshairs: { width: 1 } },
     yaxis: { max: yMax },
+    grid: { show: false },
     tooltip: {
       fixed: { enabled: false },
       x: { show: false },
