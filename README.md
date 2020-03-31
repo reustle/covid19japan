@@ -144,7 +144,7 @@ All strings in the `src/` files should be localized like this:
 
 1. add a key-value pair in `src/i18n/en.json` for your string/text
 2. for HTML: add the `data-i18n="your-new-key"` attribute to the HTML element to be localized (replace "your-new-key" in the example)
-3. for JavaScript: call the `t("your-new-key")` function to retrieve the localized string (replace "your-new-key" in the example)
+3. for JavaScript: call the `i18next.t("your-new-key")` function to retrieve the localized string (replace "your-new-key" in the example)
 4. add any additional translations with the same key to other files in `src/i18n/`
 
 ## Code Re-use
