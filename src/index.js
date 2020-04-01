@@ -10,6 +10,13 @@ import * as d3 from "d3";
 import * as c3 from "c3";
 import moment from "moment";
 
+// Localization deps
+import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import locI18next from "loc-i18next";
+import translationEn from "./i18n/en.json";
+import translationJa from "./i18n/ja.json";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
 const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
@@ -46,159 +53,134 @@ let ddb = {
   travelRestrictions: {
     japan: {
       banned: [
+        // refer to the keys under "countries" in the i18n files for names
         {
-          name: "Andorra",
-          nameJa: "アンドラ",
+          name: "andorra",
           emoji: "🇦🇩",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Austria",
-          nameJa: "オーストリア",
+          name: "austria",
           emoji: "🇦🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Belgium",
-          nameJa: "ベルギー",
+          name: "belgium",
           emoji: "🇧🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "China",
-          nameJa: "中国",
+          name: "china",
           emoji: "🇨🇳",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Estonia",
-          nameJa: "エストニア",
+          name: "estonia",
           emoji: "🇪🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "France",
-          nameJa: "仏国",
+          name: "france",
           emoji: "🇫🇷",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Germany",
-          nameJa: "独国",
+          name: "germany",
           emoji: "🇩🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Iceland",
-          nameJa: "アイスランド",
+          name: "iceland",
           emoji: "🇮🇸",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Iran",
-          nameJa: "イラン",
+          name: "iran",
           emoji: "🇮🇷",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Ireland",
-          nameJa: "アイルランド",
+          name: "ireland",
           emoji: "🇮🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Italy",
-          nameJa: "伊井",
+          name: "italy",
           emoji: "🇮🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Korea",
-          nameJa: "大韓民国",
+          name: "korea",
           emoji: "🇰🇷",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Liechtenstein",
-          nameJa: "リヒテンシュタイン",
+          name: "liechtenstein",
           emoji: "🇱🇮",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Luxembourg",
-          nameJa: "ルクセンブルク",
+          name: "luxembourg",
           emoji: "🇱🇺",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Malta",
-          nameJa: "マルタ",
+          name: "malta",
           emoji: "🇲🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Monaco",
-          nameJa: "モナコ",
+          name: "monaco",
           emoji: "🇲🇨",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Netherlands",
-          nameJa: "オランダ",
+          name: "netherlands",
           emoji: "🇳🇱",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Norway",
-          nameJa: "ノルウェー",
+          name: "norway",
           emoji: "🇳🇴",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Portugal",
-          nameJa: "葡萄牙",
+          name: "portugal",
           emoji: "🇵🇹",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "San Marino",
-          nameJa: "サンマリノ",
+          name: "sanmarino",
           emoji: "🇸🇲",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Slovenia",
-          nameJa: "スロベニア",
+          name: "slovenia",
           emoji: "🇸🇮",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Spain",
-          nameJa: "スペイン",
+          name: "spain",
           emoji: "🇪🇸",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Sweden",
-          nameJa: "スウェーデン",
+          name: "sweden",
           emoji: "🇸🇪",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Switzerland",
-          nameJa: "スイス",
+          name: "switzerland",
           emoji: "🇨🇭",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Vatican",
-          nameJa: "バチカン市国",
+          name: "vatican",
           emoji: "🇻🇦",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
         {
-          name: "Westerdam (Cruise Ship)",
-          nameJa: "ウェスターダム（船）",
+          name: "westerdam",
           emoji: "🛳",
           link: "http://www.moj.go.jp/content/001316999.pdf",
         },
@@ -452,11 +434,7 @@ function drawTrendChart(sheetTrend) {
           if (index && cols[id][index]) {
             var diff = parseInt(value) - cols[id][index];
             return `${value} (${(diff >= 0 ? "+" : "") + diff}) ${
-              index === cols.Date.length - 2
-                ? LANG === "en"
-                  ? "Provisional"
-                  : "暫定"
-                : ""
+              index === cols.Date.length - 2 ? i18next.t("provisional") : ""
             }`;
           } else {
             return value;
@@ -572,11 +550,7 @@ function drawDailyIncreaseChart(sheetTrend) {
       format: {
         value: function (value, ratio, id, index) {
           return `${value} ${
-            index === cols.Date.length - 2
-              ? LANG === "en"
-                ? "Provisional"
-                : "暫定"
-              : ""
+            index === cols.Date.length - 2 ? i18next.t("provisional") : ""
           }`;
         },
       },
@@ -851,11 +825,8 @@ function drawPrefectureTable(prefectures, totals) {
       //  confusing.
       //
       // TODO(liquidx): move this hack into covid19japan-data.
-      if (LANG == "en") {
-        prefStr = "Port of Entry";
-      }
       portOfEntryRows.innerHTML = `<tr>
-        <td class="prefecture">${prefStr}</td>
+        <td class="prefecture">${i18next.t("port-of-entry")}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -887,13 +858,8 @@ function drawPrefectureTable(prefectures, totals) {
     return true;
   });
 
-  let totalStr = "Total";
-  if (LANG == "ja") {
-    totalStr = "計";
-  }
-
   dataTableFoot.innerHTML = `<tr class='totals'>
-        <td>${totalStr}</td>
+        <td>${i18next.t("total")}</td>
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
@@ -930,8 +896,7 @@ function travelRestrictionsHelper(elementId, countries) {
   let countryList = [];
   // Iterate through and render country links
   _.orderBy(countries, "name", "desc").map(function (country) {
-    let name = LANG == "en" ? country.name : country.nameJa;
-
+    let name = i18next.t(`countries.${country.name}`);
     countryList.unshift(
       `<a href="${country.link}">${country.emoji}${name}</a>`
     );
@@ -1104,60 +1069,78 @@ function drawMapPrefectures(pageDraws) {
   }
 }
 
+// localize must be accessible globally
+const localize = locI18next.init(i18next);
 function initDataTranslate() {
-  // Handle language switching using data params
-
-  const selector = "[data-ja]";
-  const parseNode = function (cb) {
-    document.querySelectorAll(selector).forEach(cb);
-  };
-
-  // Default website is in English. Extract it as the attr data-en="..."
-  parseNode(function (el) {
-    el.dataset["en"] = el.textContent;
-  });
+  // load translation framework
+  i18next
+    .use(LanguageDetector)
+    .init({
+      fallbackLng: "en",
+      resources: {
+        en: {
+          translation: translationEn,
+        },
+        ja: {
+          translation: translationJa,
+        },
+      },
+    })
+    .then(() => {
+      setLang(i18next.language);
+    });
 
   // Language selector event handler
   document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
     pick.addEventListener("click", function (e) {
       e.preventDefault();
-      LANG = e.target.dataset.langPicker;
-
-      // Toggle the html lang tags
-      parseNode(function (el) {
-        if (!el.dataset[LANG]) return;
-        el.textContent = el.dataset[LANG];
-      });
-
-      // Update the map
-      map.getStyle().layers.forEach(function (thisLayer) {
-        if (thisLayer.type == "symbol") {
-          map.setLayoutProperty(thisLayer.id, "text-field", [
-            "get",
-            "name_" + LANG,
-          ]);
-        }
-      });
-
-      // Redraw the prefectures table
-      if (!document.body.classList.contains("embed-mode")) {
-        if (document.getElementById("prefectures-table")) {
-          drawPrefectureTable(ddb.prefectures, ddb.totals);
-        }
-
-        if (document.getElementById("travel-restrictions")) {
-          drawTravelRestrictions();
-        }
-      }
-
-      // Toggle the lang picker
-      document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
-        el.style.display = "inline";
-      });
-      document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
-        "none";
+      setLang(e.target.dataset.langPicker);
     });
   });
+}
+
+function setLang(lng) {
+  // set global var
+  LANG = lng;
+
+  // toggle picker
+  toggleLangPicker();
+
+  // set i18n framework lang
+  i18next.changeLanguage(LANG).then(() => {
+    localize("html");
+    // Update the map
+    map.getStyle().layers.forEach(function (thisLayer) {
+      if (thisLayer.type == "symbol") {
+        map.setLayoutProperty(thisLayer.id, "text-field", [
+          "get",
+          "name_" + LANG,
+        ]);
+      }
+    });
+
+    // Redraw all components that need rerendering to be localized the prefectures table
+    if (!document.body.classList.contains("embed-mode")) {
+      if (document.getElementById("prefectures-table")) {
+        drawPrefectureTable(ddb.prefectures, ddb.totals);
+      }
+
+      if (document.getElementById("travel-restrictions")) {
+        drawTravelRestrictions();
+      }
+
+      drawPrefectureTrajectoryChart(ddb.prefectures);
+    }
+  });
+}
+
+function toggleLangPicker() {
+  // Toggle the lang picker
+  document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
+    el.style.display = "inline";
+  });
+  document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
+    "none";
 }
 
 function loadDataOnPage() {
