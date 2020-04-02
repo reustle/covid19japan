@@ -753,7 +753,6 @@ function drawPrefectureTable(prefectures, totals) {
 
   // Abort if dataTable or dataTableFoot is not accessible.
   if (!dataTable || !dataTableFoot) {
-    console.error("Unable to find #prefecture-table");
     return;
   }
 
@@ -764,15 +763,15 @@ function drawPrefectureTable(prefectures, totals) {
 
   let prefectureRows = document.createElement("tbody");
   prefectureRows.id = "prefecture-rows";
-  dataTable.appendChild(prefectureRows);
+  dataTable.insertBefore(prefectureRows, dataTableFoot);
 
   let portOfEntryRows = document.createElement("tbody");
   portOfEntryRows.id = "portofentry-rows";
-  dataTable.appendChild(portOfEntryRows);
+  dataTable.insertBefore(portOfEntryRows, dataTableFoot);
 
   let unspecifiedRows = document.createElement("tbody");
   unspecifiedRows.id = "unspecified-rows";
-  dataTable.appendChild(unspecifiedRows);
+  dataTable.insertBefore(unspecifiedRows, dataTableFoot);
 
   // Work out the largest daily increase
   let maxConfirmedIncrease = _.max(
@@ -795,13 +794,6 @@ function drawPrefectureTable(prefectures, totals) {
       return;
     }
 
-    let prefStr;
-    if (LANG == "en") {
-      prefStr = pref.name;
-    } else {
-      prefStr = pref.name_ja;
-    }
-
     let increment =
       pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1];
     let incrementString = "";
@@ -811,7 +803,9 @@ function drawPrefectureTable(prefectures, totals) {
 
     if (pref.name == "Unspecified") {
       unspecifiedRows.innerHTML = `<tr>
-        <td class="prefecture">${prefStr}</td>
+        <td class="prefecture" data-i18n="unspecified">${i18next.t(
+          "unspecified"
+        )}</td>
         <td class="trend"><div id="Unspecified-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -828,7 +822,9 @@ function drawPrefectureTable(prefectures, totals) {
       //
       // TODO(liquidx): move this hack into covid19japan-data.
       portOfEntryRows.innerHTML = `<tr>
-        <td class="prefecture">${i18next.t("port-of-entry")}</td>
+        <td class="prefecture" data-i18n="port-of-entry">${i18next.t(
+          "port-of-entry"
+        )}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -845,7 +841,9 @@ function drawPrefectureTable(prefectures, totals) {
       let row = document.createElement("tr");
       prefectureRows.appendChild(row);
       row.innerHTML = `
-        <td class="prefecture">${prefStr}</td>
+        <td class="prefecture" data-i18n="prefectures.${pref.name}">${i18next.t(
+        "prefectures." + pref.name
+      )}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -1137,10 +1135,6 @@ function setLang(lng) {
 
     // Redraw all components that need rerendering to be localized the prefectures table
     if (!document.body.classList.contains("embed-mode")) {
-      if (document.getElementById("prefectures-table")) {
-        drawPrefectureTable(ddb.prefectures, ddb.totals);
-      }
-
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions();
       }
