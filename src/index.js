@@ -1115,6 +1115,7 @@ function setLang(lng) {
   // set global var
   LANG = lng;
 
+  toggleLangPicker();
   updateTooltipLang();
 
   // set i18n framework lang
@@ -1140,12 +1141,7 @@ function setLang(lng) {
         drawTravelRestrictions();
       }
 
-      // Toggle the lang picker
-      document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
-        el.style.display = "inline";
-      });
-      document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
-        "none";
+      drawPrefectureTrajectoryChart(ddb.prefectures);
     }
   });
 }
@@ -1165,6 +1161,15 @@ function updateTooltipLang() {
 
   // Activate tooltips
   tippyInstances = tippy("[data-tippy-content]");
+}
+
+function toggleLangPicker() {
+  // Toggle the lang picker
+  document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
+    el.style.display = "inline";
+  });
+  document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
+    "none";
 }
 
 function loadDataOnPage() {
