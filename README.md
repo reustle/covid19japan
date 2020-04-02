@@ -24,6 +24,7 @@ If you would like to contribute features, refactor code, etc., please create or 
 Requirements: NodeJS
 
 Set up the environment:
+
 ```
 npm install
 ```
@@ -39,24 +40,38 @@ You will now be able to access the site at http://localhost:4000/
 ### More Commands
 
 Build once:
+
 ```
 npm run build
 ```
 
 Build continuously:
+
 ```
 npm run watch
 ```
 
 Start Server:
+
 ```
 npm run start
 ```
 
 Build for production (minified):
+
 ```
 npm run build-prod
 ```
+
+
+### Localization
+
+All strings in the `src/` files should be localized like this:
+
+1. Add a key-value pair in `src/i18n/en.json` for your string/text
+2. For HTML: add the `data-i18n="your-new-key"` attribute to the HTML element to be localized (replace "your-new-key" in the example)
+3. For JavaScript: call the `i18next.t("your-new-key")` function to retrieve the localized string (replace "your-new-key" in the example)
+4. Add any additional translations with the same key to other files in `src/i18n/`
 
 
 ## License & Code Re-use
@@ -66,8 +81,8 @@ The code for this project is released under the [MIT License](LICENSE). You are 
 
 ### Forked Projects
 
-* [Sri Lanka COVID-19 Coronavirus Tracker](https://covidsl.com)
-* [Kerala COVID-19 Coronavirus Tracker](https://covid19kerala.info)
+- [Sri Lanka COVID-19 Coronavirus Tracker](https://covidsl.com)
+- [Kerala COVID-19 Coronavirus Tracker](https://covid19kerala.info)
 
 
 ## Core Contributors
@@ -77,3 +92,4 @@ The code for this project is released under the [MIT License](LICENSE). You are 
 - [Leonard Chin](https://github.com/l15n)
 - [Jiahui Zhou](https://jiahuizhou.design/) *(concept and design)*
 - and [these wonderful developers](https://github.com/reustle/covid19japan/graphs/contributors)
+
