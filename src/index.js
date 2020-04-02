@@ -1119,14 +1119,16 @@ function setLang(lng) {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    map.getStyle().layers.forEach(function (thisLayer) {
-      if (thisLayer.type == "symbol") {
-        map.setLayoutProperty(thisLayer.id, "text-field", [
-          "get",
-          "name_" + LANG,
-        ]);
-      }
-    });
+    if (styleLoaded) {
+      map.getStyle().layers.forEach(function (thisLayer) {
+        if (thisLayer.type == "symbol") {
+          map.setLayoutProperty(thisLayer.id, "text-field", [
+            "get",
+            "name_" + LANG,
+          ]);
+        }
+      });
+    }
 
     // Redraw all components that need rerendering to be localized the prefectures table
     if (!document.body.classList.contains("embed-mode")) {
@@ -1203,6 +1205,16 @@ window.onload = function () {
 
   map.once("style.load", function (e) {
     styleLoaded = true;
+
+    map.getStyle().layers.forEach(function (thisLayer) {
+      if (thisLayer.type == "symbol") {
+        map.setLayoutProperty(thisLayer.id, "text-field", [
+          "get",
+          "name_" + LANG,
+        ]);
+      }
+    });
+
     whenMapAndDataReady();
   });
 
