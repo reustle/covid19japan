@@ -1080,6 +1080,9 @@ function initDataTranslate() {
     .init({
       fallbackLng: "en",
       lowerCaseLng: true,
+      detection: {
+        order: ["querystring", "navigator"],
+      },
       resources: {
         en: {
           translation: translationEn,
