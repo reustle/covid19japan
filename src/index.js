@@ -30,6 +30,8 @@ const COLOR_TESTED = "rgb(164,173,192)";
 const COLOR_TESTED_DAILY = "rgb(209,214,223)";
 const COLOR_INCREASE = "rgb(163,172,191)";
 const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
+
+const SUPPORTED_LANGS = ["en", "ja"];
 let LANG = "en";
 
 // Global vars
@@ -1077,6 +1079,10 @@ function initDataTranslate() {
     .use(LanguageDetector)
     .init({
       fallbackLng: "en",
+      lowerCaseLng: true,
+      detection: {
+        order: ["querystring", "navigator"],
+      },
       resources: {
         en: {
           translation: translationEn,
@@ -1091,17 +1097,20 @@ function initDataTranslate() {
     });
 
   // Language selector event handler
-  document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
-    pick.addEventListener("click", function (e) {
-      e.preventDefault();
-      setLang(e.target.dataset.langPicker);
+  if (document.querySelectorAll("[data-lang-picker]")) {
+    document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
+      pick.addEventListener("click", function (e) {
+        e.preventDefault();
+        setLang(e.target.dataset.langPicker);
+      });
     });
-  });
+  }
 }
 
 function setLang(lng) {
-  // set global var
-  LANG = lng;
+  // Clip to first two letters of the language.
+  // i18next.options.whitelist = ['en, 'ja'] seems to be indeterministic.
+  LANG = lng.slice(0, 2);
 
   // toggle picker
   toggleLangPicker();
@@ -1136,11 +1145,13 @@ function setLang(lng) {
 
 function toggleLangPicker() {
   // Toggle the lang picker
-  document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
-    el.style.display = "inline";
-  });
-  document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
-    "none";
+  if (document.querySelectorAll("a[data-lang-picker]")) {
+    document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
+      el.style.display = "inline";
+    });
+    document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
+      "none";
+  }
 }
 
 function loadDataOnPage() {
