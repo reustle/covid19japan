@@ -30,6 +30,8 @@ const COLOR_TESTED = "rgb(164,173,192)";
 const COLOR_TESTED_DAILY = "rgb(209,214,223)";
 const COLOR_INCREASE = "rgb(163,172,191)";
 const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
+
+const SUPPORTED_LANGS = ["en", "ja"];
 let LANG = "en";
 
 // Global vars
@@ -752,7 +754,6 @@ function drawPrefectureTable(prefectures, totals) {
 
   // Abort if dataTable or dataTableFoot is not accessible.
   if (!dataTable || !dataTableFoot) {
-    console.error("Unable to find #prefecture-table");
     return;
   }
 
@@ -763,15 +764,15 @@ function drawPrefectureTable(prefectures, totals) {
 
   let prefectureRows = document.createElement("tbody");
   prefectureRows.id = "prefecture-rows";
-  dataTable.appendChild(prefectureRows);
+  dataTable.insertBefore(prefectureRows, dataTableFoot);
 
   let portOfEntryRows = document.createElement("tbody");
   portOfEntryRows.id = "portofentry-rows";
-  dataTable.appendChild(portOfEntryRows);
+  dataTable.insertBefore(portOfEntryRows, dataTableFoot);
 
   let unspecifiedRows = document.createElement("tbody");
   unspecifiedRows.id = "unspecified-rows";
-  dataTable.appendChild(unspecifiedRows);
+  dataTable.insertBefore(unspecifiedRows, dataTableFoot);
 
   // Work out the largest daily increase
   let maxConfirmedIncrease = _.max(
@@ -794,13 +795,6 @@ function drawPrefectureTable(prefectures, totals) {
       return;
     }
 
-    let prefStr;
-    if (LANG == "en") {
-      prefStr = pref.name;
-    } else {
-      prefStr = pref.name_ja;
-    }
-
     let increment =
       pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1];
     let incrementString = "";
@@ -810,7 +804,9 @@ function drawPrefectureTable(prefectures, totals) {
 
     if (pref.name == "Unspecified") {
       unspecifiedRows.innerHTML = `<tr>
-        <td class="prefecture">${prefStr}</td>
+        <td class="prefecture" data-i18n="unspecified">${i18next.t(
+          "unspecified"
+        )}</td>
         <td class="trend"><div id="Unspecified-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -827,7 +823,9 @@ function drawPrefectureTable(prefectures, totals) {
       //
       // TODO(liquidx): move this hack into covid19japan-data.
       portOfEntryRows.innerHTML = `<tr>
-        <td class="prefecture">${i18next.t("port-of-entry")}</td>
+        <td class="prefecture" data-i18n="port-of-entry">${i18next.t(
+          "port-of-entry"
+        )}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -844,7 +842,9 @@ function drawPrefectureTable(prefectures, totals) {
       let row = document.createElement("tr");
       prefectureRows.appendChild(row);
       row.innerHTML = `
-        <td class="prefecture">${prefStr}</td>
+        <td class="prefecture" data-i18n="prefectures.${pref.name}">${i18next.t(
+        "prefectures." + pref.name
+      )}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
@@ -860,7 +860,7 @@ function drawPrefectureTable(prefectures, totals) {
   });
 
   dataTableFoot.innerHTML = `<tr class='totals'>
-        <td>${i18next.t("total")}</td>
+        <td data-i18n="total">${i18next.t("total")}</td>
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
@@ -947,6 +947,11 @@ function drawLastUpdated(lastUpdated) {
 
   const display = document.getElementById("last-updated");
   if (!display) {
+    return;
+  }
+
+  // If this is called before data is loaded, lastUpdated can be null.
+  if (!lastUpdated) {
     return;
   }
 
@@ -1089,6 +1094,10 @@ function initDataTranslate() {
     .use(LanguageDetector)
     .init({
       fallbackLng: "en",
+      lowerCaseLng: true,
+      detection: {
+        order: ["querystring", "navigator"],
+      },
       resources: {
         en: {
           translation: translationEn,
@@ -1103,17 +1112,25 @@ function initDataTranslate() {
     });
 
   // Language selector event handler
-  document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
-    pick.addEventListener("click", function (e) {
-      e.preventDefault();
-      setLang(e.target.dataset.langPicker);
+  if (document.querySelectorAll("[data-lang-picker]")) {
+    document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
+      pick.addEventListener("click", function (e) {
+        e.preventDefault();
+        setLang(e.target.dataset.langPicker);
+      });
     });
-  });
+  }
 }
 
 function setLang(lng) {
-  // set global var
-  LANG = lng;
+  if (lng && lng.length > 1) {
+    // Clip to first two letters of the language.
+    let proposedLng = lng.slice(0, 2);
+    // Don't set the lang if it's not the supported languages.
+    if (SUPPORTED_LANGS.indexOf(proposedLng) != -1) {
+      LANG = proposedLng;
+    }
+  }
 
   toggleLangPicker();
   updateTooltipLang();
@@ -1122,25 +1139,23 @@ function setLang(lng) {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    map.getStyle().layers.forEach(function (thisLayer) {
-      if (thisLayer.type == "symbol") {
-        map.setLayoutProperty(thisLayer.id, "text-field", [
-          "get",
-          "name_" + LANG,
-        ]);
-      }
-    });
+    if (styleLoaded) {
+      map.getStyle().layers.forEach(function (thisLayer) {
+        if (thisLayer.type == "symbol") {
+          map.setLayoutProperty(thisLayer.id, "text-field", [
+            "get",
+            "name_" + LANG,
+          ]);
+        }
+      });
+    }
 
     // Redraw all components that need rerendering to be localized the prefectures table
     if (!document.body.classList.contains("embed-mode")) {
-      if (document.getElementById("prefectures-table")) {
-        drawPrefectureTable(ddb.prefectures, ddb.totals);
-      }
-
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions();
       }
-
+      drawLastUpdated(ddb.lastUpdated);
       drawPrefectureTrajectoryChart(ddb.prefectures);
     }
   });
@@ -1165,11 +1180,18 @@ function updateTooltipLang() {
 
 function toggleLangPicker() {
   // Toggle the lang picker
-  document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
-    el.style.display = "inline";
-  });
-  document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
-    "none";
+  if (document.querySelectorAll("a[data-lang-picker]")) {
+    document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
+      el.style.display = "inline";
+    });
+
+    let currentLangPicker = document.querySelector(
+      "a[data-lang-picker=" + LANG + "]"
+    );
+    if (currentLangPicker) {
+      currentLangPicker.style.display = "none";
+    }
+  }
 }
 
 function loadDataOnPage() {
@@ -1218,6 +1240,16 @@ window.onload = function () {
 
   map.once("style.load", function (e) {
     styleLoaded = true;
+
+    map.getStyle().layers.forEach(function (thisLayer) {
+      if (thisLayer.type == "symbol") {
+        map.setLayoutProperty(thisLayer.id, "text-field", [
+          "get",
+          "name_" + LANG,
+        ]);
+      }
+    });
+
     whenMapAndDataReady();
   });
 
