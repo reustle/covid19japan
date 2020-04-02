@@ -436,7 +436,7 @@ function drawTrendChart(sheetTrend) {
             var diff = parseInt(value) - cols[id][index];
             return `${value} (${(diff >= 0 ? "+" : "") + diff}) ${
               index === cols.Date.length - 2 ? i18next.t("provisional") : ""
-              }`;
+            }`;
           } else {
             return value;
           }
@@ -552,7 +552,7 @@ function drawDailyIncreaseChart(sheetTrend) {
         value: function (value, ratio, id, index) {
           return `${value} ${
             index === cols.Date.length - 2 ? i18next.t("provisional") : ""
-            }`;
+          }`;
         },
       },
     },
