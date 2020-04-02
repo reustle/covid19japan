@@ -1078,6 +1078,7 @@ function initDataTranslate() {
   i18next
     .use(LanguageDetector)
     .init({
+      debug: true,
       fallbackLng: "en",
       lowerCaseLng: true,
       detection: {
@@ -1108,9 +1109,13 @@ function initDataTranslate() {
 }
 
 function setLang(lng) {
-  // Clip to first two letters of the language.
-  // i18next.options.whitelist = ['en, 'ja'] seems to be indeterministic.
-  LANG = lng.slice(0, 2);
+  if (lng && lng.length > 1) {
+    // Clip to first two letters of the language.
+    let proposedLng = lng.slice(0, 2);
+    if (SUPPORTED_LANGS.indexOf(proposedLng) != -1) {
+      LANG = proposedLng;
+    }
+  }
 
   // toggle picker
   toggleLangPicker();
@@ -1151,8 +1156,13 @@ function toggleLangPicker() {
     document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
       el.style.display = "inline";
     });
-    document.querySelector("a[data-lang-picker=" + LANG + "]").style.display =
-      "none";
+
+    let currentLangPicker = document.querySelector(
+      "a[data-lang-picker=" + LANG + "]"
+    );
+    if (currentLangPicker) {
+      currentLangPicker.style.display = "none";
+    }
   }
 }
 
