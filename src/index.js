@@ -1080,6 +1080,7 @@ function initDataTranslate() {
     .init({
       fallbackLng: "en",
       whitelist: SUPPORTED_LANGS,
+      lowerCaseLng: true,
       resources: {
         en: {
           translation: translationEn,
