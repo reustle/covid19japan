@@ -968,8 +968,19 @@ function drawLastUpdated(lastUpdated) {
 
   display.textContent = relativeTime[LANG];
   display.setAttribute("title", lastUpdated);
-  display.setAttribute("data-en", relativeTime["en"]);
-  display.setAttribute("data-ja", relativeTime["ja"]);
+  i18next.addResource(
+    "en",
+    "translation",
+    "last-updated-time",
+    relativeTime["en"]
+  );
+  i18next.addResource(
+    "ja",
+    "translation",
+    "last-updated-time",
+    relativeTime["ja"]
+  );
+  display.setAttribute("data-i18n", "last-updated-time");
 }
 
 function drawPageTitleCount(confirmed) {
@@ -1091,9 +1102,6 @@ function initDataTranslate() {
       setLang(i18next.language);
     });
 
-  // Enable tooltips
-  updateTooltipLang();
-
   // Language selector event handler
   document.querySelectorAll("[data-lang-picker]").forEach(function (pick) {
     pick.addEventListener("click", function (e) {
@@ -1107,8 +1115,7 @@ function setLang(lng) {
   // set global var
   LANG = lng;
 
-  // toggle picker
-  toggleLangPicker();
+  updateTooltipLang();
 
   // set i18n framework lang
   i18next.changeLanguage(LANG).then(() => {
@@ -1133,9 +1140,6 @@ function setLang(lng) {
         drawTravelRestrictions();
       }
 
-      // Toggle tooltip lang
-      updateTooltipLang();
-
       // Toggle the lang picker
       document.querySelectorAll("a[data-lang-picker]").forEach(function (el) {
         el.style.display = "inline";
@@ -1153,11 +1157,10 @@ function updateTooltipLang() {
   }
 
   // Set tooltip content to current language
-  document.querySelectorAll(`[data-tippy-content-${LANG}]`).forEach((node) => {
-    node.setAttribute(
-      "data-tippy-content",
-      node.getAttribute(`data-tippy-content-${LANG}`)
-    );
+  document.querySelectorAll(`[data-tippy-i18n]`).forEach((node) => {
+    const i18nKey = node.getAttribute("data-tippy-i18n");
+    const dataTippyContent = i18next.t(i18nKey);
+    node.setAttribute("data-tippy-content", dataTippyContent);
   });
 
   // Activate tooltips
