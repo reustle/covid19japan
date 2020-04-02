@@ -1078,7 +1078,6 @@ function initDataTranslate() {
   i18next
     .use(LanguageDetector)
     .init({
-      debug: true,
       fallbackLng: "en",
       lowerCaseLng: true,
       detection: {
@@ -1112,6 +1111,7 @@ function setLang(lng) {
   if (lng && lng.length > 1) {
     // Clip to first two letters of the language.
     let proposedLng = lng.slice(0, 2);
+    // Don't set the lang if it's not the supported languages.
     if (SUPPORTED_LANGS.indexOf(proposedLng) != -1) {
       LANG = proposedLng;
     }
