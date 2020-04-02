@@ -188,9 +188,15 @@ table {
   border-spacing: 0px;
   font-size: 14px;
 
-  tr:nth-child(even) {
+  tr:nth-child(even), tbody#unspecified-rows tr {
     background-color: rgb(244,247,248);
   }
+
+  tfoot tr {
+    background-color: rgb(235, 238, 239);
+
+  }
+
   th {
     text-align: left;
     font-size: 11px;
@@ -231,6 +237,7 @@ table {
     color: rgb(244,67,54);
     font-size: 10px;
   }
+
 }
 
 #helpful-links {
