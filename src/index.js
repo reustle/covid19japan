@@ -1081,7 +1081,7 @@ function initDataTranslate() {
       fallbackLng: "en",
       lowerCaseLng: true,
       detection: {
-        order: ["querystring", "navigator"],
+        order: ["querystring", "cookie", "navigator"],
       },
       resources: {
         en: {
