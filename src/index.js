@@ -1079,7 +1079,6 @@ function initDataTranslate() {
     .use(LanguageDetector)
     .init({
       fallbackLng: "en",
-      whitelist: SUPPORTED_LANGS,
       lowerCaseLng: true,
       resources: {
         en: {
@@ -1106,7 +1105,9 @@ function initDataTranslate() {
 }
 
 function setLang(lng) {
-  LANG = lng;
+  // Clip to first two letters of the language.
+  // i18next.options.whitelist = ['en, 'ja'] seems to be indeterministic.
+  LANG = lng.slice(0, 2);
 
   // toggle picker
   toggleLangPicker();
