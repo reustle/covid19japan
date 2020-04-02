@@ -859,7 +859,7 @@ function drawPrefectureTable(prefectures, totals) {
   });
 
   dataTableFoot.innerHTML = `<tr class='totals'>
-        <td>${i18next.t("total")}</td>
+        <td data-i18n="total">${i18next.t("total")}</td>
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
