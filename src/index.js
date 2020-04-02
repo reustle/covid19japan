@@ -949,6 +949,11 @@ function drawLastUpdated(lastUpdated) {
     return;
   }
 
+  // If this is called before data is loaded, lastUpdated can be null.
+  if (!lastUpdated) {
+    return;
+  }
+
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
   const lastUpdatedMoment = moment(
