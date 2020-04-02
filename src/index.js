@@ -1138,7 +1138,7 @@ function setLang(lng) {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions();
       }
-
+      drawLastUpdated(ddb.lastUpdated);
       drawPrefectureTrajectoryChart(ddb.prefectures);
     }
   });
