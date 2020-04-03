@@ -1133,7 +1133,6 @@ function setLang(lng) {
   }
 
   toggleLangPicker();
-  updateTooltipLang();
 
   // set i18n framework lang
   i18next.changeLanguage(LANG).then(() => {
@@ -1157,6 +1156,8 @@ function setLang(lng) {
       }
       drawPrefectureTrajectoryChart(ddb.prefectures);
     }
+
+    updateTooltipLang();
   });
 }
 
