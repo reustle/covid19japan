@@ -696,6 +696,9 @@ function drawPrefectureTrajectoryChart(prefectures) {
 
   c3.generate({
     bindto: "#prefecture-trajectory",
+    color: {
+      pattern: d3.schemeTableau10,
+    },
     axis: {
       y: {
         min: minimumConfirmed,
@@ -714,21 +717,27 @@ function drawPrefectureTrajectoryChart(prefectures) {
       labels: {
         format: function (v, id, i) {
           if (id) {
-            if (i === lastIndex[id]) {
+            if (lastIndex[id] === 0 || i === lastIndex[id] - 1) {
               return id;
             }
           }
         },
       },
       names: nameMap,
-      color: function (color, d) {
-        if (d && d.index && d.index === lastIndex[d.id]) {
-          let newColor = d3.color(color);
-          newColor.opacity = 0.6;
-          return newColor;
-        } else {
-          return color;
+      color: function (originalColor, d) {
+        let color = d3.hsl(originalColor);
+        // Grey out when less than 1 week over minimumConfirmed
+        if (d && d.id && lastIndex[d.id] < 7) {
+          color.l = 0.8;
+          color.s = 0.1;
         }
+
+        if (d && d.index && d.index === lastIndex[d.id]) {
+          color.opacity = 0.4;
+        } else {
+          color.opacity = 1;
+        }
+        return color;
       },
       regions: regions,
     },
