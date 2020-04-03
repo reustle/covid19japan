@@ -619,7 +619,7 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
 }
 
 function drawPrefectureTrajectoryChart(prefectures) {
-  const minimumConfirmed = 50;
+  const minimumConfirmed = 100;
   const filteredPrefectures = _.filter(prefectures, function (prefecture) {
     return prefecture.confirmed >= minimumConfirmed;
   });
