@@ -678,8 +678,6 @@ function drawPrefectureTrajectoryChart(prefectures) {
     0
   );
 
-  console.log(`Max Days: ${maxDays}`);
-
   const nameMap = _.reduce(
     trajectories,
     function (result, value) {
