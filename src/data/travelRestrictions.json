@@ -1,7 +1,6 @@
 {
   "japan": {
     "banned": [
-      // refer to the keys under "countries" in the i18n files for names
       {
         "name": "andorra",
         "emoji": "🇦🇩",

@@ -18,7 +18,7 @@ import translationEn from "./i18n/en.json";
 import translationJa from "./i18n/ja.json";
 
 // import static data
-import travelRestrictions from "./data/travelRestrictions";
+import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
