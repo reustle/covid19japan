@@ -2,6 +2,11 @@
   "japan": {
     "banned": [
       {
+        "name": "albania",
+        "emoji": "🇦🇱",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "andorra",
         "emoji": "🇦🇩",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -27,6 +32,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "bosniaherzegovina",
+        "emoji": "🇧🇦",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "brazil",
         "emoji": "🇧🇷",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -34,6 +44,11 @@
       {
         "name": "brunei",
         "emoji": "🇧🇳",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "bulgaria",
+        "emoji": "🇧🇬",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -52,6 +67,26 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "croatia",
+        "emoji": "🇭🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "cyprus",
+        "emoji": "🇨🇾",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "czechrepublic",
+        "emoji": "🇨🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "denmark",
+        "emoji": "🇩🇰",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "dominica",
         "emoji": "🇩🇲",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -67,6 +102,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "finland",
+        "emoji": "🇫🇮",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "france",
         "emoji": "🇫🇷",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -74,6 +114,16 @@
       {
         "name": "germany",
         "emoji": "🇩🇪",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "greece",
+        "emoji": "🇬🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "hungary",
+        "emoji": "🇭🇺",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -107,8 +157,23 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "kosovo",
+        "emoji": "🇽🇰",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "latvia",
+        "emoji": "🇱🇻",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "liechtenstein",
         "emoji": "🇱🇮",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "lithuania",
+        "emoji": "🇱🇹",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -127,8 +192,18 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "moldova",
+        "emoji": "🇲🇩",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "monaco",
         "emoji": "🇲🇨",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "montenegro",
+        "emoji": "🇲🇪",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -139,6 +214,11 @@
       {
         "name": "newzealand",
         "emoji": "🇳🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "northmacedonia",
+        "emoji": "🇲🇰",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -157,8 +237,18 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "poland",
+        "emoji": "🇵🇱",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "portugal",
         "emoji": "🇵🇹",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "romania",
+        "emoji": "🇷🇴",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -167,8 +257,18 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "serbia",
+        "emoji": "🇷🇸",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "singapore",
         "emoji": "🇸🇬",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "slovakia",
+        "emoji": "🇸🇰",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -199,6 +299,11 @@
       {
         "name": "thailand",
         "emoji": "🇹🇭",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "uk",
+        "emoji": "🇬🇧",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
