@@ -22,6 +22,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "bahrain",
+        "emoji": "🇧🇭",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "belgium",
         "emoji": "🇧🇪",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -67,6 +72,16 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "congo-kinshasa",
+        "emoji": "🇨🇩",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "cotedivoire",
+        "emoji": "🇨🇮",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "croatia",
         "emoji": "🇭🇷",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -94,6 +109,11 @@
       {
         "name": "ecuador",
         "emoji": "🇪🇨",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "egypt",
+        "emoji": "🇪🇬",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -147,6 +167,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "israel",
+        "emoji": "🇮🇱",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "italy",
         "emoji": "🇮🇹",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -192,6 +217,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "mauritius",
+        "emoji": "🇲🇺",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "name": "moldova",
         "emoji": "🇲🇩",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -204,6 +234,11 @@
       {
         "name": "montenegro",
         "emoji": "🇲🇪",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "morocco",
+        "emoji": "🇲🇦",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -299,6 +334,11 @@
       {
         "name": "thailand",
         "emoji": "🇹🇭",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "turkey",
+        "emoji": "🇹🇷",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
