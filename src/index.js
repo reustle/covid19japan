@@ -8,7 +8,8 @@ import _ from "lodash";
 import tippy from "tippy.js";
 import * as d3 from "d3";
 import * as c3 from "c3";
-import moment from "moment";
+import { formatDistance, parse } from "date-fns";
+import { enUS, ja } from "date-fns/locale";
 
 // Localization deps
 import i18next from "i18next";
@@ -24,7 +25,6 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
 const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
 const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
-const TIME_FORMAT = "YYYY-MM-DD";
 const COLOR_ACTIVE = "rgb(223,14,31)";
 const COLOR_CONFIRMED = "rgb(244,67,54)";
 const COLOR_RECOVERED = "rgb(25,118,210)";
@@ -840,18 +840,22 @@ function drawLastUpdated(lastUpdated) {
 
   // TODO we should be parsing the date, but I
   // don't trust the user input on the sheet
-  const lastUpdatedMoment = moment(
-    lastUpdated.slice(0, -4),
-    "MMM DD YYYY, HH:mm"
-  ).utcOffset(9, true); // JST offset
-  if (!lastUpdatedMoment.isValid()) {
+  let lastUpdatedMoment;
+  try {
+    lastUpdatedMoment = parse(
+      lastUpdated.slice(0, -4),
+      "MMMM d yyyy, HH:mm",
+      new Date()
+    );
+  } catch (e) {
     // Fall back to raw value on failed parse
     display.textContent = lastUpdated;
     return;
   }
+  const now = new Date();
   const relativeTime = {
-    en: lastUpdatedMoment.clone().locale("en").fromNow(),
-    ja: lastUpdatedMoment.clone().locale("ja").fromNow(),
+    en: formatDistance(lastUpdatedMoment, now, { local: enUS }),
+    ja: formatDistance(lastUpdatedMoment, now, { locale: ja }),
   };
 
   display.textContent = relativeTime[LANG];
