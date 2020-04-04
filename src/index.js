@@ -17,6 +17,9 @@ import locI18next from "loc-i18next";
 import translationEn from "./i18n/en.json";
 import translationJa from "./i18n/ja.json";
 
+// import static data
+import travelRestrictions from "./data/travelRestrictions";
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
 const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
@@ -52,154 +55,7 @@ let ddb = {
     tested: 0,
     critical: 0,
   },
-  travelRestrictions: {
-    japan: {
-      banned: [
-        // refer to the keys under "countries" in the i18n files for names
-        {
-          name: "andorra",
-          emoji: "🇦🇩",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "austria",
-          emoji: "🇦🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "belgium",
-          emoji: "🇧🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "china",
-          emoji: "🇨🇳",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "estonia",
-          emoji: "🇪🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "france",
-          emoji: "🇫🇷",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "germany",
-          emoji: "🇩🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "iceland",
-          emoji: "🇮🇸",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "iran",
-          emoji: "🇮🇷",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "ireland",
-          emoji: "🇮🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "italy",
-          emoji: "🇮🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "korea",
-          emoji: "🇰🇷",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "liechtenstein",
-          emoji: "🇱🇮",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "luxembourg",
-          emoji: "🇱🇺",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "malta",
-          emoji: "🇲🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "monaco",
-          emoji: "🇲🇨",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "netherlands",
-          emoji: "🇳🇱",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "norway",
-          emoji: "🇳🇴",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "portugal",
-          emoji: "🇵🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "sanmarino",
-          emoji: "🇸🇲",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "slovenia",
-          emoji: "🇸🇮",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "spain",
-          emoji: "🇪🇸",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "sweden",
-          emoji: "🇸🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "switzerland",
-          emoji: "🇨🇭",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "vatican",
-          emoji: "🇻🇦",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "westerdam",
-          emoji: "🛳",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-      ],
-      visaRequired: [],
-      selfQuarantine: [],
-      other: [],
-    },
-    foreignBorders: [
-      {
-        banned: [],
-        visaRequired: [],
-        selfQuarantine: [],
-        other: [],
-      },
-    ],
-  },
+  travelRestrictions,
 };
 let map = undefined;
 
