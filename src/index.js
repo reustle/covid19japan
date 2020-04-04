@@ -58,6 +58,7 @@ let ddb = {
   travelRestrictions,
 };
 let map = undefined;
+let tippyInstances;
 
 // IE11 forEach Polyfill
 if ("NodeList" in window && !NodeList.prototype.forEach) {
@@ -856,8 +857,19 @@ function drawLastUpdated(lastUpdated) {
 
   display.textContent = relativeTime[LANG];
   display.setAttribute("title", lastUpdated);
-  display.setAttribute("data-en", relativeTime["en"]);
-  display.setAttribute("data-ja", relativeTime["ja"]);
+  i18next.addResource(
+    "en",
+    "translation",
+    "last-updated-time",
+    relativeTime["en"]
+  );
+  i18next.addResource(
+    "ja",
+    "translation",
+    "last-updated-time",
+    relativeTime["ja"]
+  );
+  display.setAttribute("data-i18n", "last-updated-time");
 }
 
 function drawPageTitleCount(confirmed) {
@@ -1004,7 +1016,6 @@ function setLang(lng) {
     }
   }
 
-  // toggle picker
   toggleLangPicker();
 
   // set i18n framework lang
@@ -1027,10 +1038,28 @@ function setLang(lng) {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions();
       }
-      drawLastUpdated(ddb.lastUpdated);
       drawPrefectureTrajectoryChart(ddb.prefectures);
     }
+
+    updateTooltipLang();
   });
+}
+
+function updateTooltipLang() {
+  // Destroy current tooltips
+  if (Array.isArray(tippyInstances)) {
+    tippyInstances.forEach((instance) => instance.destroy());
+  }
+
+  // Set tooltip content to current language
+  document.querySelectorAll(`[data-tippy-i18n]`).forEach((node) => {
+    const i18nKey = node.getAttribute("data-tippy-i18n");
+    const dataTippyContent = i18next.t(i18nKey);
+    node.setAttribute("data-tippy-content", dataTippyContent);
+  });
+
+  // Activate tooltips
+  tippyInstances = tippy("[data-tippy-content]");
 }
 
 function toggleLangPicker() {
@@ -1090,9 +1119,6 @@ function whenMapAndDataReady() {
 }
 
 window.onload = function () {
-  // Enable tooltips
-  tippy("[data-tippy-content]");
-
   initDataTranslate();
   drawMap();
 
