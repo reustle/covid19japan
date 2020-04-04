@@ -17,6 +17,9 @@ import locI18next from "loc-i18next";
 import translationEn from "./i18n/en.json";
 import translationJa from "./i18n/ja.json";
 
+// import static data
+import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
+
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
 const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
@@ -52,154 +55,7 @@ let ddb = {
     tested: 0,
     critical: 0,
   },
-  travelRestrictions: {
-    japan: {
-      banned: [
-        // refer to the keys under "countries" in the i18n files for names
-        {
-          name: "andorra",
-          emoji: "🇦🇩",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "austria",
-          emoji: "🇦🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "belgium",
-          emoji: "🇧🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "china",
-          emoji: "🇨🇳",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "estonia",
-          emoji: "🇪🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "france",
-          emoji: "🇫🇷",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "germany",
-          emoji: "🇩🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "iceland",
-          emoji: "🇮🇸",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "iran",
-          emoji: "🇮🇷",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "ireland",
-          emoji: "🇮🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "italy",
-          emoji: "🇮🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "korea",
-          emoji: "🇰🇷",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "liechtenstein",
-          emoji: "🇱🇮",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "luxembourg",
-          emoji: "🇱🇺",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "malta",
-          emoji: "🇲🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "monaco",
-          emoji: "🇲🇨",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "netherlands",
-          emoji: "🇳🇱",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "norway",
-          emoji: "🇳🇴",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "portugal",
-          emoji: "🇵🇹",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "sanmarino",
-          emoji: "🇸🇲",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "slovenia",
-          emoji: "🇸🇮",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "spain",
-          emoji: "🇪🇸",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "sweden",
-          emoji: "🇸🇪",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "switzerland",
-          emoji: "🇨🇭",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "vatican",
-          emoji: "🇻🇦",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-        {
-          name: "westerdam",
-          emoji: "🛳",
-          link: "http://www.moj.go.jp/content/001316999.pdf",
-        },
-      ],
-      visaRequired: [],
-      selfQuarantine: [],
-      other: [],
-    },
-    foreignBorders: [
-      {
-        banned: [],
-        visaRequired: [],
-        selfQuarantine: [],
-        other: [],
-      },
-    ],
-  },
+  travelRestrictions,
 };
 let map = undefined;
 let tippyInstances;
@@ -620,53 +476,50 @@ function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
 }
 
 function drawPrefectureTrajectoryChart(prefectures) {
-  const minimumConfirmed = 50;
+  const minimumConfirmed = 100;
   const filteredPrefectures = _.filter(prefectures, function (prefecture) {
     return prefecture.confirmed >= minimumConfirmed;
   });
-  const trajectories = _.map(filteredPrefectures, function (prefecture) {
-    const cumulativeConfirmed = _.reduce(
-      prefecture.dailyConfirmedCount,
-      function (result, value) {
-        if (result.length > 0) {
-          const sum = result[result.length - 1] + value;
-          result.push(sum);
-          return result;
-        } else {
-          return [value];
+  const trajectories = _.reduce(
+    filteredPrefectures,
+    function (t, prefecture) {
+      const cumulativeConfirmed = _.reduce(
+        prefecture.dailyConfirmedCount,
+        function (result, value) {
+          if (result.length > 0) {
+            const sum = result[result.length - 1] + value;
+            result.push(sum);
+            return result;
+          } else {
+            return [value];
+          }
+        },
+        []
+      );
+      const cumulativeConfirmedFromMinimum = _.filter(
+        cumulativeConfirmed,
+        function (value) {
+          return value >= minimumConfirmed;
         }
-      },
-      []
-    );
-    const cumulativeConfirmedFromMinimum = _.filter(
-      cumulativeConfirmed,
-      function (value) {
-        return value >= minimumConfirmed;
-      }
-    );
-    return {
-      name: prefecture.name,
-      name_ja: prefecture.name_ja,
-      confirmed: prefecture.confirmed,
-      cumulativeConfirmed: cumulativeConfirmedFromMinimum,
-    };
-  });
-
-  const columns = _.map(trajectories, function (prefecture) {
-    return [prefecture.name].concat(prefecture.cumulativeConfirmed);
-  });
-
-  // Mapping of id (name) to the last index for each trajectory.
-  const lastIndex = _.reduce(
-    trajectories,
-    function (result, value) {
-      result[value.name] = value.cumulativeConfirmed.length - 1;
-      return result;
+      );
+      t[prefecture.name] = {
+        name: prefecture.name,
+        name_ja: prefecture.name_ja,
+        confirmed: prefecture.confirmed,
+        cumulativeConfirmed: cumulativeConfirmedFromMinimum,
+        lastIndex: cumulativeConfirmedFromMinimum.length - 1,
+      };
+      return t;
     },
     {}
   );
 
-  const regions = _.mapValues(lastIndex, function (value) {
+  const columns = _.map(Object.values(trajectories), function (prefecture) {
+    return [prefecture.name].concat(prefecture.cumulativeConfirmed);
+  });
+
+  const regions = _.mapValues(trajectories, function (prefecture) {
+    const value = prefecture.lastIndex;
     if (value > 0) {
       return [{ start: value - 1, end: value, style: "dashed" }];
     } else {
@@ -675,9 +528,9 @@ function drawPrefectureTrajectoryChart(prefectures) {
   });
 
   const maxDays = _.reduce(
-    _.values(lastIndex),
+    _.values(trajectories),
     function (a, b) {
-      return Math.max(a, b);
+      return Math.max(a, b.lastIndex);
     },
     0
   );
@@ -697,6 +550,9 @@ function drawPrefectureTrajectoryChart(prefectures) {
 
   c3.generate({
     bindto: "#prefecture-trajectory",
+    color: {
+      pattern: d3.schemeTableau10,
+    },
     axis: {
       y: {
         min: minimumConfirmed,
@@ -715,21 +571,32 @@ function drawPrefectureTrajectoryChart(prefectures) {
       labels: {
         format: function (v, id, i) {
           if (id) {
-            if (i === lastIndex[id]) {
+            const lastIndex = trajectories[id].lastIndex;
+            if (lastIndex === 0 || i === lastIndex - 1) {
               return id;
             }
           }
         },
       },
       names: nameMap,
-      color: function (color, d) {
-        if (d && d.index && d.index === lastIndex[d.id]) {
-          let newColor = d3.color(color);
-          newColor.opacity = 0.6;
-          return newColor;
-        } else {
+      color: function (originalColor, d) {
+        let color = d3.hsl(originalColor);
+        if (!d || !d.id) {
           return color;
         }
+        const lastIndex = trajectories[d.id].lastIndex;
+        // Grey out when less than 1 week over minimumConfirmed
+        if (lastIndex < 7) {
+          color.l = 0.8;
+          color.s = 0.1;
+        }
+
+        if (d.index === lastIndex) {
+          color.opacity = 0.4;
+        } else {
+          color.opacity = 1;
+        }
+        return color;
       },
       regions: regions,
     },
@@ -743,6 +610,23 @@ function drawPrefectureTrajectoryChart(prefectures) {
     },
     padding: {
       right: 24,
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id, index) {
+          const prefecture = trajectories[id];
+          if (index && prefecture.cumulativeConfirmed[index - 1]) {
+            const diff =
+              parseInt(value) - prefecture.cumulativeConfirmed[index - 1];
+            const annotation =
+              index === prefecture.lastIndex ? i18next.t("provisional") : "";
+            const diffText = diff >= 0 ? `+${diff}` : diff;
+            return `${value} (${diffText}) ${annotation}`;
+          } else {
+            return value;
+          }
+        },
+      },
     },
   });
 }
