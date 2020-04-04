@@ -8,7 +8,7 @@ import _ from "lodash";
 import tippy from "tippy.js";
 import * as d3 from "d3";
 import * as c3 from "c3";
-import { formatDistance, parse } from "date-fns";
+import { formatDistanceToNow, parse } from "date-fns";
 import { enUS, ja } from "date-fns/locale";
 
 // Localization deps
@@ -852,10 +852,12 @@ function drawLastUpdated(lastUpdated) {
     display.textContent = lastUpdated;
     return;
   }
-  const now = new Date();
   const relativeTime = {
-    en: formatDistance(lastUpdatedMoment, now, { local: enUS }),
-    ja: formatDistance(lastUpdatedMoment, now, { locale: ja }),
+    en: formatDistanceToNow(lastUpdatedMoment, {
+      local: enUS,
+      addSuffix: true,
+    }),
+    ja: formatDistanceToNow(lastUpdatedMoment, { locale: ja, addSuffix: true }),
   };
 
   display.textContent = relativeTime[LANG];
