@@ -479,49 +479,46 @@ function drawPrefectureTrajectoryChart(prefectures) {
   const filteredPrefectures = _.filter(prefectures, function (prefecture) {
     return prefecture.confirmed >= minimumConfirmed;
   });
-  const trajectories = _.map(filteredPrefectures, function (prefecture) {
-    const cumulativeConfirmed = _.reduce(
-      prefecture.dailyConfirmedCount,
-      function (result, value) {
-        if (result.length > 0) {
-          const sum = result[result.length - 1] + value;
-          result.push(sum);
-          return result;
-        } else {
-          return [value];
+  const trajectories = _.reduce(
+    filteredPrefectures,
+    function (t, prefecture) {
+      const cumulativeConfirmed = _.reduce(
+        prefecture.dailyConfirmedCount,
+        function (result, value) {
+          if (result.length > 0) {
+            const sum = result[result.length - 1] + value;
+            result.push(sum);
+            return result;
+          } else {
+            return [value];
+          }
+        },
+        []
+      );
+      const cumulativeConfirmedFromMinimum = _.filter(
+        cumulativeConfirmed,
+        function (value) {
+          return value >= minimumConfirmed;
         }
-      },
-      []
-    );
-    const cumulativeConfirmedFromMinimum = _.filter(
-      cumulativeConfirmed,
-      function (value) {
-        return value >= minimumConfirmed;
-      }
-    );
-    return {
-      name: prefecture.name,
-      name_ja: prefecture.name_ja,
-      confirmed: prefecture.confirmed,
-      cumulativeConfirmed: cumulativeConfirmedFromMinimum,
-    };
-  });
-
-  const columns = _.map(trajectories, function (prefecture) {
-    return [prefecture.name].concat(prefecture.cumulativeConfirmed);
-  });
-
-  // Mapping of id (name) to the last index for each trajectory.
-  const lastIndex = _.reduce(
-    trajectories,
-    function (result, value) {
-      result[value.name] = value.cumulativeConfirmed.length - 1;
-      return result;
+      );
+      t[prefecture.name] = {
+        name: prefecture.name,
+        name_ja: prefecture.name_ja,
+        confirmed: prefecture.confirmed,
+        cumulativeConfirmed: cumulativeConfirmedFromMinimum,
+        lastIndex: cumulativeConfirmedFromMinimum.length - 1,
+      };
+      return t;
     },
     {}
   );
 
-  const regions = _.mapValues(lastIndex, function (value) {
+  const columns = _.map(Object.values(trajectories), function (prefecture) {
+    return [prefecture.name].concat(prefecture.cumulativeConfirmed);
+  });
+
+  const regions = _.mapValues(trajectories, function (prefecture) {
+    const value = prefecture.lastIndex;
     if (value > 0) {
       return [{ start: value - 1, end: value, style: "dashed" }];
     } else {
@@ -530,9 +527,9 @@ function drawPrefectureTrajectoryChart(prefectures) {
   });
 
   const maxDays = _.reduce(
-    _.values(lastIndex),
+    _.values(trajectories),
     function (a, b) {
-      return Math.max(a, b);
+      return Math.max(a, b.lastIndex);
     },
     0
   );
@@ -573,7 +570,8 @@ function drawPrefectureTrajectoryChart(prefectures) {
       labels: {
         format: function (v, id, i) {
           if (id) {
-            if (lastIndex[id] === 0 || i === lastIndex[id] - 1) {
+            const lastIndex = trajectories[id].lastIndex;
+            if (lastIndex === 0 || i === lastIndex - 1) {
               return id;
             }
           }
@@ -582,13 +580,17 @@ function drawPrefectureTrajectoryChart(prefectures) {
       names: nameMap,
       color: function (originalColor, d) {
         let color = d3.hsl(originalColor);
+        if (!d || !d.id) {
+          return color;
+        }
+        const lastIndex = trajectories[d.id].lastIndex;
         // Grey out when less than 1 week over minimumConfirmed
-        if (d && d.id && lastIndex[d.id] < 7) {
+        if (lastIndex < 7) {
           color.l = 0.8;
           color.s = 0.1;
         }
 
-        if (d && d.index && d.index === lastIndex[d.id]) {
+        if (d.index === lastIndex) {
           color.opacity = 0.4;
         } else {
           color.opacity = 1;
@@ -607,6 +609,23 @@ function drawPrefectureTrajectoryChart(prefectures) {
     },
     padding: {
       right: 24,
+    },
+    tooltip: {
+      format: {
+        value: function (value, ratio, id, index) {
+          const prefecture = trajectories[id];
+          if (index && prefecture.cumulativeConfirmed[index - 1]) {
+            const diff =
+              parseInt(value) - prefecture.cumulativeConfirmed[index - 1];
+            const annotation =
+              index === prefecture.lastIndex ? i18next.t("provisional") : "";
+            const diffText = diff >= 0 ? `+${diff}` : diff;
+            return `${value} (${diffText}) ${annotation}`;
+          } else {
+            return value;
+          }
+        },
+      },
     },
   });
 }
