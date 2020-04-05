@@ -110,6 +110,7 @@ function calculateTotals(daily) {
     recovered: 0,
     deceased: 0,
     critical: 0,
+    active: 0,
     tested: 0,
   };
   let totalsDiff = {
@@ -117,6 +118,7 @@ function calculateTotals(daily) {
     recovered: 1,
     deceased: 1,
     critical: 1,
+    active: 1,
     tested: 1,
   };
 
@@ -150,6 +152,7 @@ function calculateTotals(daily) {
   pullLatestSumAndDiff("confirmedCumulative", "confirmed");
   pullLatestSumAndDiff("recoveredCumulative", "recovered");
   pullLatestSumAndDiff("deceasedCumulative", "deceased");
+  pullLatestSumAndDiff("activeCumulative", "active");
 
   return [totals, totalsDiff];
 }
@@ -671,6 +674,7 @@ function drawPrefectureTable(prefectures, totals) {
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
     pref.deceased = pref.deaths ? parseInt(pref.deaths) : 0;
+    pref.active = (pref.confirmed - ((pref.recovered || 0) + (pref.deceased || 0)));
   });
 
   // Iterate through and render table rows
@@ -693,8 +697,9 @@ function drawPrefectureTable(prefectures, totals) {
         )}</td>
         <td class="trend"><div id="Unspecified-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        <td class="count">${pref.recovered || ""}</td>
+        <td class="count">${pref.deceased || ""}</td>
+        <td class="count">${pref.active || ""}</td>
         </tr>`;
       drawPrefectureTrend(
         `#Unspecified-trend`,
@@ -712,8 +717,9 @@ function drawPrefectureTable(prefectures, totals) {
         )}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        <td class="count">${pref.recovered || ""}</td>
+        <td class="count">${pref.deceased || ""}</td>
+        <td class="count">${pref.active || ""}</td>
         </tr>`;
       drawPrefectureTrend(
         `#PortOfEntry-trend`,
@@ -731,8 +737,9 @@ function drawPrefectureTable(prefectures, totals) {
       )}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        <td class="count">${pref.recovered || ""}</td>
+        <td class="count">${pref.deceased || ""}</td>
+        <td class="count">${pref.active || ""}</td>
       `;
       drawPrefectureTrend(
         `#${pref.name}-trend`,
@@ -749,6 +756,7 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
         <td class="count">${totals.deceased}</td>
+        <td class="count">${totals.confirmed - totals.recovered - totals.deceased}</td>
         </tr>`;
 }
 

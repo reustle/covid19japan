@@ -18,6 +18,7 @@
   "confirmed": "感染者数",
   "recovered": "回復者数",
   "deaths": "死亡者数",
+  "active": "既存感染者数",
   "helpful-links": "有益な情報源",
   "primary-data-sources": "一次情報源",
   "confirmed-case-trajectories-by-prefecture": "都道府県別の患者数推移 (100例以上)",
