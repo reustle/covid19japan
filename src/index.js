@@ -184,6 +184,9 @@ function drawMap() {
   );
 }
 
+// Keep a reference around to destroy it if we redraw this.
+let trendChart = null;
+
 function drawTrendChart(sheetTrend) {
   var cols = {
     Date: ["Date"],
@@ -214,7 +217,10 @@ function drawTrendChart(sheetTrend) {
     cols.Tested.push(row.testedCumulative);
   }
 
-  var chart = c3.generate({
+  if (trendChart) {
+    trendChart.destroy();
+  }
+  trendChart = c3.generate({
     bindto: "#trend-chart",
     data: {
       x: "Date",
@@ -315,6 +321,9 @@ function drawTrendChart(sheetTrend) {
   });
 }
 
+// Keep reference to current chart in order to clean up when redrawing.
+let dailyIncreaseChart = null;
+
 function drawDailyIncreaseChart(sheetTrend) {
   var cols = {
     Date: ["Date"],
@@ -333,7 +342,11 @@ function drawDailyIncreaseChart(sheetTrend) {
     cols.Confirmed.push(row.confirmed);
   }
 
-  var chart = c3.generate({
+  if (dailyIncreaseChart) {
+    dailyIncreaseChart.destroy();
+  }
+
+  dailyIncreaseChart = c3.generate({
     bindto: "#daily-increase-chart",
     data: {
       color: function (color, d) {
@@ -431,49 +444,8 @@ function drawDailyIncreaseChart(sheetTrend) {
   });
 }
 
-function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
-  let yMax = maxConfirmedIncrease;
-  let prefectureMax = _.max(seriesData);
-  if (prefectureMax / maxConfirmedIncrease < 0.1) {
-    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
-  }
-
-  const period = 30; // days
-  let last30days = _.takeRight(seriesData, period);
-  c3.generate({
-    bindto: elementId,
-    interaction: { enabled: false },
-    data: {
-      type: "bar",
-      columns: [_.concat(["confirmed"], last30days)],
-      colors: { confirmed: COLOR_CONFIRMED },
-    },
-    bar: {
-      width: { ratio: 0.65 },
-      zerobased: true,
-    },
-    axis: {
-      x: {
-        show: false,
-        min: 0,
-        padding: 5,
-      },
-      y: {
-        show: false,
-        min: 0,
-        max: yMax,
-        padding: 1,
-      },
-    },
-    size: {
-      height: 40,
-    },
-
-    legend: { show: false },
-    tooltip: { show: false },
-    point: { show: false },
-  });
-}
+// Keep reference to chart in order to destroy it when redrawing.
+let prefectureTrajectoryChart = null;
 
 function drawPrefectureTrajectoryChart(prefectures) {
   const minimumConfirmed = 100;
@@ -548,7 +520,11 @@ function drawPrefectureTrajectoryChart(prefectures) {
     {}
   );
 
-  c3.generate({
+  if (prefectureTrajectoryChart) {
+    prefectureTrajectoryChart.destroy();
+  }
+
+  prefectureTrajectoryChart = c3.generate({
     bindto: "#prefecture-trajectory",
     color: {
       pattern: d3.schemeTableau10,
@@ -628,6 +604,57 @@ function drawPrefectureTrajectoryChart(prefectures) {
         },
       },
     },
+  });
+}
+
+// Dictionary of all the trend charts so that we can cleanup when redrawing.
+let prefectureTrendCharts = {};
+
+function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
+  let yMax = maxConfirmedIncrease;
+  let prefectureMax = _.max(seriesData);
+  if (prefectureMax / maxConfirmedIncrease < 0.1) {
+    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
+  }
+
+  const period = 30; // days
+  let last30days = _.takeRight(seriesData, period);
+
+  if (prefectureTrendCharts[elementId]) {
+    prefectureTrendCharts[elementId].destroy();
+  }
+  prefectureTrendCharts[elementId] = c3.generate({
+    bindto: elementId,
+    interaction: { enabled: false },
+    data: {
+      type: "bar",
+      columns: [_.concat(["confirmed"], last30days)],
+      colors: { confirmed: COLOR_CONFIRMED },
+    },
+    bar: {
+      width: { ratio: 0.65 },
+      zerobased: true,
+    },
+    axis: {
+      x: {
+        show: false,
+        min: 0,
+        padding: 5,
+      },
+      y: {
+        show: false,
+        min: 0,
+        max: yMax,
+        padding: 1,
+      },
+    },
+    size: {
+      height: 40,
+    },
+
+    legend: { show: false },
+    tooltip: { show: false },
+    point: { show: false },
   });
 }
 
@@ -1098,6 +1125,8 @@ function loadDataOnPage() {
     ddb.totalsDiff = newTotals[1];
     ddb.trend = jsonData.daily;
     ddb.lastUpdated = jsonData.updated;
+
+    console.log("load data");
 
     drawKpis(ddb.totals, ddb.totalsDiff);
     if (!document.body.classList.contains("embed-mode")) {
