@@ -8,7 +8,7 @@ import _ from "lodash";
 import tippy from "tippy.js";
 import * as d3 from "d3";
 import * as c3 from "c3";
-import { formatDistanceToNow, parse } from "date-fns";
+import { formatDistanceToNow, parse, parseISO } from "date-fns";
 import { enUS, ja } from "date-fns/locale";
 
 // Localization deps
@@ -824,9 +824,9 @@ function drawKpis(totals, totalsDiff) {
 }
 
 /**
- * @param {string} lastUpdated - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
+ * @param {string} lastUpdatedString - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
  */
-function drawLastUpdated(lastUpdated) {
+function drawLastUpdated(lastUpdatedString) {
   // Draw the last updated time
 
   const display = document.getElementById("last-updated");
@@ -835,34 +835,38 @@ function drawLastUpdated(lastUpdated) {
   }
 
   // If this is called before data is loaded, lastUpdated can be null.
-  if (!lastUpdated) {
+  if (!lastUpdatedString) {
     return;
   }
 
-  // TODO we should be parsing the date, but I
-  // don't trust the user input on the sheet
-  let lastUpdatedMoment;
+  let lastUpdated;
   try {
-    lastUpdatedMoment = parse(
-      lastUpdated.slice(0, -4),
-      "MMMM d yyyy, HH:mm",
-      new Date()
-    );
+    lastUpdated = parseISO(lastUpdatedString);
+
+    // If the timestamp is not ISO, fall back on the old date format
+    // TODO: remove after ISO time format is fully deployed
+    if (lastUpdated == "Invalid Date") {
+      lastUpdated = parse(
+        lastUpdatedString.slice(0, -4),
+        "MMMM d yyyy, HH:mm",
+        new Date()
+      );
+    }
   } catch (e) {
     // Fall back to raw value on failed parse
-    display.textContent = lastUpdated;
+    display.textContent = lastUpdatedString;
     return;
   }
   const relativeTime = {
-    en: formatDistanceToNow(lastUpdatedMoment, {
+    en: formatDistanceToNow(lastUpdated, {
       local: enUS,
       addSuffix: true,
     }),
-    ja: formatDistanceToNow(lastUpdatedMoment, { locale: ja, addSuffix: true }),
+    ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),
   };
 
   display.textContent = relativeTime[LANG];
-  display.setAttribute("title", lastUpdated);
+  display.setAttribute("title", lastUpdatedString);
   i18next.addResource(
     "en",
     "translation",
