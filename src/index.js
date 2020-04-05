@@ -8,7 +8,7 @@ import _ from "lodash";
 import tippy from "tippy.js";
 import * as d3 from "d3";
 import * as c3 from "c3";
-import { formatDistanceToNow, parse } from "date-fns";
+import { formatDistanceToNow, parse, parseISO } from "date-fns";
 import { enUS, ja } from "date-fns/locale";
 
 // Localization deps
@@ -187,6 +187,9 @@ function drawMap() {
   );
 }
 
+// Keep a reference around to destroy it if we redraw this.
+let trendChart = null;
+
 function drawTrendChart(sheetTrend) {
   var cols = {
     Date: ["Date"],
@@ -217,7 +220,10 @@ function drawTrendChart(sheetTrend) {
     cols.Tested.push(row.testedCumulative);
   }
 
-  var chart = c3.generate({
+  if (trendChart) {
+    trendChart.destroy();
+  }
+  trendChart = c3.generate({
     bindto: "#trend-chart",
     data: {
       x: "Date",
@@ -318,6 +324,9 @@ function drawTrendChart(sheetTrend) {
   });
 }
 
+// Keep reference to current chart in order to clean up when redrawing.
+let dailyIncreaseChart = null;
+
 function drawDailyIncreaseChart(sheetTrend) {
   var cols = {
     Date: ["Date"],
@@ -336,7 +345,11 @@ function drawDailyIncreaseChart(sheetTrend) {
     cols.Confirmed.push(row.confirmed);
   }
 
-  var chart = c3.generate({
+  if (dailyIncreaseChart) {
+    dailyIncreaseChart.destroy();
+  }
+
+  dailyIncreaseChart = c3.generate({
     bindto: "#daily-increase-chart",
     data: {
       color: function (color, d) {
@@ -434,49 +447,8 @@ function drawDailyIncreaseChart(sheetTrend) {
   });
 }
 
-function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
-  let yMax = maxConfirmedIncrease;
-  let prefectureMax = _.max(seriesData);
-  if (prefectureMax / maxConfirmedIncrease < 0.1) {
-    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
-  }
-
-  const period = 30; // days
-  let last30days = _.takeRight(seriesData, period);
-  c3.generate({
-    bindto: elementId,
-    interaction: { enabled: false },
-    data: {
-      type: "bar",
-      columns: [_.concat(["confirmed"], last30days)],
-      colors: { confirmed: COLOR_CONFIRMED },
-    },
-    bar: {
-      width: { ratio: 0.65 },
-      zerobased: true,
-    },
-    axis: {
-      x: {
-        show: false,
-        min: 0,
-        padding: 5,
-      },
-      y: {
-        show: false,
-        min: 0,
-        max: yMax,
-        padding: 1,
-      },
-    },
-    size: {
-      height: 40,
-    },
-
-    legend: { show: false },
-    tooltip: { show: false },
-    point: { show: false },
-  });
-}
+// Keep reference to chart in order to destroy it when redrawing.
+let prefectureTrajectoryChart = null;
 
 function drawPrefectureTrajectoryChart(prefectures) {
   const minimumConfirmed = 100;
@@ -551,7 +523,11 @@ function drawPrefectureTrajectoryChart(prefectures) {
     {}
   );
 
-  c3.generate({
+  if (prefectureTrajectoryChart) {
+    prefectureTrajectoryChart.destroy();
+  }
+
+  prefectureTrajectoryChart = c3.generate({
     bindto: "#prefecture-trajectory",
     color: {
       pattern: d3.schemeTableau10,
@@ -631,6 +607,57 @@ function drawPrefectureTrajectoryChart(prefectures) {
         },
       },
     },
+  });
+}
+
+// Dictionary of all the trend charts so that we can cleanup when redrawing.
+let prefectureTrendCharts = {};
+
+function drawPrefectureTrend(elementId, seriesData, maxConfirmedIncrease) {
+  let yMax = maxConfirmedIncrease;
+  let prefectureMax = _.max(seriesData);
+  if (prefectureMax / maxConfirmedIncrease < 0.1) {
+    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
+  }
+
+  const period = 30; // days
+  let last30days = _.takeRight(seriesData, period);
+
+  if (prefectureTrendCharts[elementId]) {
+    prefectureTrendCharts[elementId].destroy();
+  }
+  prefectureTrendCharts[elementId] = c3.generate({
+    bindto: elementId,
+    interaction: { enabled: false },
+    data: {
+      type: "bar",
+      columns: [_.concat(["confirmed"], last30days)],
+      colors: { confirmed: COLOR_CONFIRMED },
+    },
+    bar: {
+      width: { ratio: 0.65 },
+      zerobased: true,
+    },
+    axis: {
+      x: {
+        show: false,
+        min: 0,
+        padding: 5,
+      },
+      y: {
+        show: false,
+        min: 0,
+        max: yMax,
+        padding: 1,
+      },
+    },
+    size: {
+      height: 40,
+    },
+
+    legend: { show: false },
+    tooltip: { show: false },
+    point: { show: false },
   });
 }
 
@@ -832,9 +859,9 @@ function drawKpis(totals, totalsDiff) {
 }
 
 /**
- * @param {string} lastUpdated - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
+ * @param {string} lastUpdatedString - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
  */
-function drawLastUpdated(lastUpdated) {
+function drawLastUpdated(lastUpdatedString) {
   // Draw the last updated time
 
   const display = document.getElementById("last-updated");
@@ -843,34 +870,38 @@ function drawLastUpdated(lastUpdated) {
   }
 
   // If this is called before data is loaded, lastUpdated can be null.
-  if (!lastUpdated) {
+  if (!lastUpdatedString) {
     return;
   }
 
-  // TODO we should be parsing the date, but I
-  // don't trust the user input on the sheet
-  let lastUpdatedMoment;
+  let lastUpdated;
   try {
-    lastUpdatedMoment = parse(
-      lastUpdated.slice(0, -4),
-      "MMMM d yyyy, HH:mm",
-      new Date()
-    );
+    lastUpdated = parseISO(lastUpdatedString);
+
+    // If the timestamp is not ISO, fall back on the old date format
+    // TODO: remove after ISO time format is fully deployed
+    if (lastUpdated == "Invalid Date") {
+      lastUpdated = parse(
+        lastUpdatedString.slice(0, -4),
+        "MMMM d yyyy, HH:mm",
+        new Date()
+      );
+    }
   } catch (e) {
     // Fall back to raw value on failed parse
-    display.textContent = lastUpdated;
+    display.textContent = lastUpdatedString;
     return;
   }
   const relativeTime = {
-    en: formatDistanceToNow(lastUpdatedMoment, {
+    en: formatDistanceToNow(lastUpdated, {
       local: enUS,
       addSuffix: true,
     }),
-    ja: formatDistanceToNow(lastUpdatedMoment, { locale: ja, addSuffix: true }),
+    ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),
   };
 
   display.textContent = relativeTime[LANG];
-  display.setAttribute("title", lastUpdated);
+  display.setAttribute("title", lastUpdatedString);
   i18next.addResource(
     "en",
     "translation",
