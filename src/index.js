@@ -1126,8 +1126,6 @@ function loadDataOnPage() {
     ddb.trend = jsonData.daily;
     ddb.lastUpdated = jsonData.updated;
 
-    console.log("load data");
-
     drawKpis(ddb.totals, ddb.totalsDiff);
     if (!document.body.classList.contains("embed-mode")) {
       drawLastUpdated(ddb.lastUpdated);
