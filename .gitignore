@@ -1,6 +1,7 @@
 .DS_Store
 _site/
 *.sqlite3
+docs/
 
 node_modules
 .jekyll-cache/
