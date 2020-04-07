@@ -25,7 +25,7 @@ mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
 const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
 const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
-const TIME_FORMAT = "MMM DD YYYY, HH:mm";
+const TIME_FORMAT = "MMMM d yyyy, HH:mm";
 const COLOR_ACTIVE = "rgb(223,14,31)";
 const COLOR_CONFIRMED = "rgb(244,67,54)";
 const COLOR_RECOVERED = "rgb(25,118,210)";
@@ -865,7 +865,7 @@ const drawLastUpdated = (lastUpdatedString) => {
     if (lastUpdated === "Invalid Date") {
       lastUpdated = parse(
         lastUpdatedString.slice(0, -4),
-        "MMMM d yyyy, HH:mm",
+        TIME_FORMAT,
         new Date()
       );
     }
