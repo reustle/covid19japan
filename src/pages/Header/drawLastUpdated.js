@@ -8,7 +8,6 @@ import { TIME_FORMAT } from "../../data/constants";
  * @param {string} lastUpdatedString - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
  */
 export const drawLastUpdated = (lastUpdatedString, lang) => {
-  console.log("drawLastUpdated", lastUpdatedString, lang);
   // Draw the last updated time
   // If this is called before data is loaded, lastUpdated can be null.
   if (!lastUpdatedString) {

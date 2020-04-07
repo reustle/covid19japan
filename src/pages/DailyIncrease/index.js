@@ -4,7 +4,6 @@ import i18next from "i18next";
 import { COLOR_TESTED, COLOR_TESTED_DAILY } from "../../data/constants";
 
 export const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
-  console.log("drawDailyIncreaseChart", dailyIncreaseChart);
   const cols = {
     Date: ["Date"],
     Confirmed: ["New Cases"],

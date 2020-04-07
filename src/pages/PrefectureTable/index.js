@@ -64,7 +64,6 @@ export const drawPrefectureTable = (
   totals,
   prefectureTrendCharts
 ) => {
-  console.log("drawPrefectureTable", prefectureTrendCharts);
   // Draw the Cases By Prefecture table
   const dataTable = document.querySelector("#prefectures-table");
   const dataTableFoot = document.querySelector("#prefectures-table tfoot");

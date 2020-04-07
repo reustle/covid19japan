@@ -10,7 +10,6 @@ import {
 } from "../../data/constants";
 
 export const drawTrendChart = (sheetTrend, trendChart) => {
-  console.log("drawTrendChart", trendChart);
   const cols = {
     Date: ["Date"],
     Confirmed: ["Confirmed"],

@@ -2,7 +2,6 @@ import i18next from "i18next";
 import tippy from "tippy.js";
 
 export const updateTooltipLang = (tippyInstances) => {
-  console.log("tippyInstances", tippyInstances);
   // Destroy current tooltips
   if (Array.isArray(tippyInstances)) {
     tippyInstances.forEach((instance) => instance.destroy());

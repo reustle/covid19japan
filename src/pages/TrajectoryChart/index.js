@@ -8,7 +8,6 @@ export const drawPrefectureTrajectoryChart = (
   prefectureTrajectoryChart,
   lang
 ) => {
-  console.log("drawPrefectureTrajectoryChart", prefectureTrajectoryChart);
   const minimumConfirmed = 100;
   const filteredPrefectures = _.filter(prefectures, (prefecture) => {
     return prefecture.confirmed >= minimumConfirmed;
