@@ -347,6 +347,7 @@ window.onload = () => {
 
   map.once("style.load", () => {
     styleLoaded = true;
+
     map.getStyle().layers.forEach((thisLayer) => {
       if (thisLayer.type == "symbol") {
         map.setLayoutProperty(thisLayer.id, "text-field", [
