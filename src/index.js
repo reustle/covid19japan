@@ -108,6 +108,7 @@ const calculateTotals = (daily) => {
     recovered: 0,
     deceased: 0,
     critical: 0,
+    active: 0,
     tested: 0,
   };
   const totalsDiff = {
@@ -115,6 +116,7 @@ const calculateTotals = (daily) => {
     recovered: 1,
     deceased: 1,
     critical: 1,
+    active: 1,
     tested: 1,
   };
 
@@ -148,6 +150,7 @@ const calculateTotals = (daily) => {
   pullLatestSumAndDiff("confirmedCumulative", "confirmed");
   pullLatestSumAndDiff("recoveredCumulative", "recovered");
   pullLatestSumAndDiff("deceasedCumulative", "deceased");
+  pullLatestSumAndDiff("activeCumulative", "active");
 
   return [totals, totalsDiff];
 };
@@ -693,6 +696,8 @@ const drawPrefectureTable = (prefectures, totals) => {
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
     pref.deceased = pref.deaths ? parseInt(pref.deaths) : 0;
+    pref.active =
+      pref.confirmed - ((pref.recovered || 0) + (pref.deceased || 0));
   });
 
   // Iterate through and render table rows
@@ -717,6 +722,7 @@ const drawPrefectureTable = (prefectures, totals) => {
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        <td class="count">${pref.active || ""}</td>
         </tr>`;
       drawPrefectureTrend(
         `#Unspecified-trend`,
@@ -736,6 +742,7 @@ const drawPrefectureTable = (prefectures, totals) => {
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        <td class="count">${pref.active || ""}</td>
         </tr>`;
       drawPrefectureTrend(
         `#PortOfEntry-trend`,
@@ -755,6 +762,7 @@ const drawPrefectureTable = (prefectures, totals) => {
         <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
+        <td class="count">${pref.active || ""}</td>
       `;
       drawPrefectureTrend(
         `#${pref.name}-trend`,
@@ -771,6 +779,9 @@ const drawPrefectureTable = (prefectures, totals) => {
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
         <td class="count">${totals.deceased}</td>
+        <td class="count">${
+          totals.confirmed - totals.recovered - totals.deceased
+        }</td>
         </tr>`;
 };
 
