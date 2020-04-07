@@ -8,8 +8,9 @@ import _ from "lodash";
 import tippy from "tippy.js";
 import * as d3 from "d3";
 import * as c3 from "c3";
-import { formatDistanceToNow, parse, parseISO } from "date-fns";
-import { enUS, ja } from "date-fns/locale";
+// import { formatDistanceToNow, parse, parseISO } from "date-fns";
+// import { enUS, ja } from "date-fns/locale";
+import { drawLastUpdated } from "./Header/header";
 
 // Localization deps
 import i18next from "i18next";
@@ -701,7 +702,8 @@ function drawPrefectureTable(prefectures, totals) {
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
     pref.deceased = pref.deaths ? parseInt(pref.deaths) : 0;
-    pref.active = (pref.confirmed - ((pref.recovered || 0) + (pref.deceased || 0)));
+    pref.active =
+      pref.confirmed - ((pref.recovered || 0) + (pref.deceased || 0));
   });
 
   // Iterate through and render table rows
@@ -783,7 +785,9 @@ function drawPrefectureTable(prefectures, totals) {
         <td class="count">${totals.confirmed}</td>
         <td class="count">${totals.recovered}</td>
         <td class="count">${totals.deceased}</td>
-        <td class="count">${totals.confirmed - totals.recovered - totals.deceased}</td>
+        <td class="count">${
+          totals.confirmed - totals.recovered - totals.deceased
+        }</td>
         </tr>`;
 }
 
@@ -861,61 +865,61 @@ function drawKpis(totals, totalsDiff) {
 /**
  * @param {string} lastUpdatedString - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
  */
-function drawLastUpdated(lastUpdatedString) {
-  // Draw the last updated time
+// function drawLastUpdated(lastUpdatedString) {
+//   // Draw the last updated time
 
-  const display = document.getElementById("last-updated");
-  if (!display) {
-    return;
-  }
+//   const display = document.getElementById("last-updated");
+//   if (!display) {
+//     return;
+//   }
 
-  // If this is called before data is loaded, lastUpdated can be null.
-  if (!lastUpdatedString) {
-    return;
-  }
+//   // If this is called before data is loaded, lastUpdated can be null.
+//   if (!lastUpdatedString) {
+//     return;
+//   }
 
-  let lastUpdated;
-  try {
-    lastUpdated = parseISO(lastUpdatedString);
+//   let lastUpdated;
+//   try {
+//     lastUpdated = parseISO(lastUpdatedString);
 
-    // If the timestamp is not ISO, fall back on the old date format
-    // TODO: remove after ISO time format is fully deployed
-    if (lastUpdated == "Invalid Date") {
-      lastUpdated = parse(
-        lastUpdatedString.slice(0, -4),
-        "MMMM d yyyy, HH:mm",
-        new Date()
-      );
-    }
-  } catch (e) {
-    // Fall back to raw value on failed parse
-    display.textContent = lastUpdatedString;
-    return;
-  }
-  const relativeTime = {
-    en: formatDistanceToNow(lastUpdated, {
-      local: enUS,
-      addSuffix: true,
-    }),
-    ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),
-  };
+//     // If the timestamp is not ISO, fall back on the old date format
+//     // TODO: remove after ISO time format is fully deployed
+//     if (lastUpdated == "Invalid Date") {
+//       lastUpdated = parse(
+//         lastUpdatedString.slice(0, -4),
+//         "MMMM d yyyy, HH:mm",
+//         new Date()
+//       );
+//     }
+//   } catch (e) {
+//     // Fall back to raw value on failed parse
+//     display.textContent = lastUpdatedString;
+//     return;
+//   }
+//   const relativeTime = {
+//     en: formatDistanceToNow(lastUpdated, {
+//       local: enUS,
+//       addSuffix: true,
+//     }),
+//     ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),
+//   };
 
-  display.textContent = relativeTime[LANG];
-  display.setAttribute("title", lastUpdatedString);
-  i18next.addResource(
-    "en",
-    "translation",
-    "last-updated-time",
-    relativeTime["en"]
-  );
-  i18next.addResource(
-    "ja",
-    "translation",
-    "last-updated-time",
-    relativeTime["ja"]
-  );
-  display.setAttribute("data-i18n", "last-updated-time");
-}
+//   display.textContent = relativeTime[LANG];
+//   display.setAttribute("title", lastUpdatedString);
+//   i18next.addResource(
+//     "en",
+//     "translation",
+//     "last-updated-time",
+//     relativeTime["en"]
+//   );
+//   i18next.addResource(
+//     "ja",
+//     "translation",
+//     "last-updated-time",
+//     relativeTime["ja"]
+//   );
+//   display.setAttribute("data-i18n", "last-updated-time");
+// }
 
 function drawPageTitleCount(confirmed) {
   // Update the number of confirmed cases in the title
@@ -1136,7 +1140,7 @@ function loadDataOnPage() {
 
     drawKpis(ddb.totals, ddb.totalsDiff);
     if (!document.body.classList.contains("embed-mode")) {
-      drawLastUpdated(ddb.lastUpdated);
+      drawLastUpdated(ddb.lastUpdated, LANG);
       drawPageTitleCount(ddb.totals.confirmed);
       drawPrefectureTable(ddb.prefectures, ddb.totals);
       drawTravelRestrictions();
