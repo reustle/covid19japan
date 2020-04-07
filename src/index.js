@@ -5,10 +5,14 @@ import "classlist-polyfill";
 
 // Add all non-polyfill deps below.
 import _ from "lodash";
+import i18next from "i18next";
+import LanguageDetector from "i18next-browser-languagedetector";
+import locI18next from "loc-i18next";
 
 import { drawLastUpdated } from "./pages/Header/drawLastUpdated";
 import { toggleLangPicker } from "./pages/Header/toggleLangPicker";
 import { updateTooltipLang } from "./pages/Header/updateTooltipLang";
+import { drawPageTitleCount } from "./pages/Header/drawPageTitleCount";
 
 import { drawKpis } from "./pages/KPI";
 import { drawMap } from "./pages/OutebreakMap";
@@ -18,46 +22,30 @@ import { drawDailyIncreaseChart } from "./pages/DailyIncrease";
 import { drawPrefectureTrajectoryChart } from "./pages/TrajectoryChart";
 import { drawPrefectureTable } from "./pages/PrefectureTable";
 import { drawTravelRestrictions } from "./pages/TravelRestrictions";
+import { drawMapPrefectures } from "./pages/OutebreakMap/drawMapPrefectures";
+
+import {
+  LANG_CONFIG,
+  JSON_PATH,
+  SUPPORTED_LANGS,
+  DDB_COMMON,
+} from "./data/constants";
 
 // Localization deps
-import i18next from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
-import locI18next from "loc-i18next";
-import translationEn from "./i18n/en.json";
-import translationJa from "./i18n/ja.json";
 
 // import static data
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
-const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
-const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
-const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
-
-const SUPPORTED_LANGS = ["en", "ja"];
 let LANG = "en";
 
 // Global vars
 const ddb = {
-  prefectures: undefined,
-  trend: undefined,
-  totals: {
-    confirmed: 0,
-    recovered: 0,
-    deceased: 0,
-    tested: 0,
-    critical: 0,
-  },
-  totalsDiff: {
-    confirmed: 0,
-    recovered: 0,
-    deceased: 0,
-    tested: 0,
-    critical: 0,
-  },
+  ...DDB_COMMON,
   travelRestrictions,
 };
+
 let map = undefined;
 let tippyInstances;
 
@@ -114,140 +102,8 @@ let prefectureTrajectoryChart = null;
 // Dictionary of all the trend charts so that we can cleanup when redrawing.
 let prefectureTrendCharts = {};
 
-const drawPageTitleCount = (confirmed) => {
-  // Update the number of confirmed cases in the title
-
-  document.title = `(${confirmed}) ${PAGE_TITLE}`;
-};
-
-/**
- * drawMapPrefectures
- * @param {*} pageDraws - number of redraws to screen
- */
-const drawMapPrefectures = (pageDraws) => {
-  // Find the index of the first symbol layer
-  // in the map style so we can draw the
-  // prefecture colors behind it
-
-  let firstSymbolId;
-  const { layers = [] } = map.getStyle();
-  for (let i = 0; i < layers.length; i++) {
-    if (layers[i].type === "symbol") {
-      firstSymbolId = layers[i].id;
-      break;
-    }
-  }
-
-  // Start the Mapbox search expression
-  const prefecturePaint = ["match", ["get", "NAME_1"]];
-
-  // Go through all prefectures looking for cases
-  ddb.prefectures.map((prefecture) => {
-    let cases = parseInt(prefecture.confirmed);
-    if (cases > 0) {
-      prefecturePaint.push(prefecture.name);
-
-      if (cases <= 50) {
-        // 1-50 cases
-        prefecturePaint.push("rgb(253,234,203)");
-      } else if (cases <= 100) {
-        // 51-100 cases
-        prefecturePaint.push("rgb(251,155,127)");
-      } else if (cases <= 200) {
-        // 101-200 cases
-        prefecturePaint.push("rgb(244,67,54)");
-      } else {
-        // 201+ cases
-        prefecturePaint.push("rgb(186,0,13)");
-      }
-    }
-  });
-
-  // Add a final value to the list for the default color
-  prefecturePaint.push("rgba(0,0,0,0)");
-
-  if (pageDraws === 0) {
-    // If it is the first time drawing the map
-
-    map.addSource("prefectures", {
-      type: "geojson",
-      data: PREFECTURE_JSON_PATH,
-    });
-
-    // Add the prefecture color layer to the map
-    map.addLayer(
-      {
-        id: "prefecture-layer",
-        type: "fill",
-        source: "prefectures",
-        layout: {},
-        paint: {
-          "fill-color": prefecturePaint,
-          "fill-opacity": 0.8,
-        },
-      },
-      firstSymbolId
-    );
-
-    // Add another layer with type "line"
-    // to provide a styled prefecture border
-    let prefBorderLayer = map.addLayer(
-      {
-        id: "prefecture-outline-layer",
-        type: "line",
-        source: "prefectures",
-        layout: {},
-        paint: {
-          "line-width": 0.5,
-          "line-color": "#c0c0c0",
-          "line-opacity": 0.5,
-        },
-      },
-      firstSymbolId
-    );
-  } else {
-    // Update prefecture paint properties
-
-    map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
-  }
-};
-
 // localize must be accessible globally
 const localize = locI18next.init(i18next);
-
-const initDataTranslate = () => {
-  // load translation framework
-  i18next
-    .use(LanguageDetector)
-    .init({
-      fallbackLng: "en",
-      lowerCaseLng: true,
-      detection: {
-        order: ["querystring", "navigator"],
-      },
-      resources: {
-        en: {
-          translation: translationEn,
-        },
-        ja: {
-          translation: translationJa,
-        },
-      },
-    })
-    .then(() => {
-      setLang(i18next.language);
-    });
-
-  // Language selector event handler
-  if (document.querySelectorAll("[data-lang-picker]")) {
-    document.querySelectorAll("[data-lang-picker]").forEach((pick) => {
-      pick.addEventListener("click", (e) => {
-        e.preventDefault();
-        setLang(e.target.dataset.langPicker);
-      });
-    });
-  }
-};
 
 const setLang = (lng) => {
   if (lng && lng.length > 1) {
@@ -292,6 +148,38 @@ const setLang = (lng) => {
   });
 };
 
+const initDataTranslate = () => {
+  // load translation framework
+  i18next
+    .use(LanguageDetector)
+    .init(LANG_CONFIG)
+    .then(() => {
+      setLang(i18next.language);
+    });
+
+  // Language selector event handler
+  if (document.querySelectorAll("[data-lang-picker]")) {
+    document.querySelectorAll("[data-lang-picker]").forEach((pick) => {
+      pick.addEventListener("click", (e) => {
+        e.preventDefault();
+        setLang(e.target.dataset.langPicker);
+      });
+    });
+  }
+};
+
+let pageDraws = 0;
+let styleLoaded = false;
+let jsonData = undefined;
+const whenMapAndDataReady = (ddb, map) => {
+  // This runs drawMapPref only when
+  // both style and json data are ready
+  if (!styleLoaded || !jsonData) {
+    return;
+  }
+  drawMapPrefectures(pageDraws, ddb, map);
+};
+
 const loadDataOnPage = () => {
   loadData((data) => {
     jsonData = data;
@@ -325,24 +213,12 @@ const loadDataOnPage = () => {
       );
     }
 
-    whenMapAndDataReady();
+    whenMapAndDataReady(ddb, map);
   });
 };
 
-let pageDraws = 0;
-let styleLoaded = false;
-let jsonData = undefined;
-const whenMapAndDataReady = () => {
-  // This runs drawMapPref only when
-  // both style and json data are ready
-  if (!styleLoaded || !jsonData) {
-    return;
-  }
-  drawMapPrefectures(pageDraws);
-};
-
 window.onload = () => {
-  initDataTranslate();
+  initDataTranslate(setLang);
   map = drawMap(mapboxgl, map);
 
   map.once("style.load", () => {
@@ -356,7 +232,7 @@ window.onload = () => {
         ]);
       }
     });
-    whenMapAndDataReady();
+    whenMapAndDataReady(ddb, map);
   });
   loadDataOnPage();
 

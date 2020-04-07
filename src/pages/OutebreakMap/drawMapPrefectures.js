@@ -1,3 +1,12 @@
+import {
+  PREFECTURE_JSON_PATH,
+  PREFECTURE_PAINT,
+  COLOR_YELLOW,
+  COLOR_ORANGE,
+  COLOR_RED,
+  COLOR_BURGUNDY,
+  COLOR_BLACK,
+} from "../../data/constants";
 /**
  * drawMapPrefectures
  * @param {*} pageDraws - number of redraws to screen
@@ -17,7 +26,7 @@ export const drawMapPrefectures = (pageDraws, ddb, map) => {
   }
 
   // Start the Mapbox search expression
-  const prefecturePaint = ["match", ["get", "NAME_1"]];
+  const prefecturePaint = PREFECTURE_PAINT;
 
   // Go through all prefectures looking for cases
   ddb.prefectures.map((prefecture) => {
@@ -27,22 +36,22 @@ export const drawMapPrefectures = (pageDraws, ddb, map) => {
 
       if (cases <= 50) {
         // 1-50 cases
-        prefecturePaint.push("rgb(253,234,203)");
+        prefecturePaint.push(COLOR_YELLOW);
       } else if (cases <= 100) {
         // 51-100 cases
-        prefecturePaint.push("rgb(251,155,127)");
+        prefecturePaint.push(COLOR_ORANGE);
       } else if (cases <= 200) {
         // 101-200 cases
-        prefecturePaint.push("rgb(244,67,54)");
+        prefecturePaint.push(COLOR_RED);
       } else {
         // 201+ cases
-        prefecturePaint.push("rgb(186,0,13)");
+        prefecturePaint.push(COLOR_BURGUNDY);
       }
     }
   });
 
   // Add a final value to the list for the default color
-  prefecturePaint.push("rgba(0,0,0,0)");
+  prefecturePaint.push(COLOR_BLACK);
 
   if (pageDraws === 0) {
     // If it is the first time drawing the map
@@ -85,7 +94,6 @@ export const drawMapPrefectures = (pageDraws, ddb, map) => {
     );
   } else {
     // Update prefecture paint properties
-
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
   }
 
