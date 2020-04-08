@@ -9,14 +9,14 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
 
 import { calculateTotals } from "./data/helper";
-import header from "./pages/Header";
-import drawDailyIncreaseChart from "./pages/DailyIncreaseChart";
-import drawKpis from "./pages/Kpi";
-import mapDrawer from "./pages/OutbreakMap";
-import drawPrefectureTable from "./pages/PrefectureTable";
-import drawTrendChart from "./pages/SpreadTrendChart";
-import drawPrefectureTrajectoryChart from "./pages/TrajectoryChart";
-import drawTravelRestrictions from "./pages/TravelRestrictions";
+import header from "./components/Header";
+import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
+import drawKpis from "./components/Kpi";
+import mapDrawer from "./components/OutbreakMap";
+import drawPrefectureTable from "./components/PrefectureTable";
+import drawTrendChart from "./components/SpreadTrendChart";
+import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
+import drawTravelRestrictions from "./components/TravelRestrictions";
 
 const {
   toggleLangPicker,
