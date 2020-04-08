@@ -1,5 +1,9 @@
 import * as c3 from "c3";
-import _ from "lodash";
+import map from "lodash/map";
+import max from "lodash/max";
+import takeRight from "lodash/takeRight";
+import concat from "lodash/concat";
+import orderBy from "lodash/orderBy";
 import i18next from "i18next";
 
 import { COLOR_CONFIRMED } from "../../data/constants";
@@ -12,13 +16,13 @@ const drawPrefectureTrend = (
   prefectureTrendCharts
 ) => {
   let yMax = maxConfirmedIncrease;
-  let prefectureMax = _.max(seriesData);
+  let prefectureMax = max(seriesData);
   if (prefectureMax / maxConfirmedIncrease < 0.1) {
     yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
   }
 
   const period = 30; // days
-  let last30days = _.takeRight(seriesData, period);
+  let last30days = takeRight(seriesData, period);
 
   if (prefectureTrendCharts[elementId]) {
     prefectureTrendCharts[elementId].destroy();
@@ -28,7 +32,7 @@ const drawPrefectureTrend = (
     interaction: { enabled: false },
     data: {
       type: "bar",
-      columns: [_.concat(["confirmed"], last30days)],
+      columns: [concat(["confirmed"], last30days)],
       colors: { confirmed: COLOR_CONFIRMED },
     },
     bar: {
@@ -91,14 +95,14 @@ export const drawPrefectureTable = (
   dataTable.insertBefore(unspecifiedRows, dataTableFoot);
 
   // Work out the largest daily increase
-  const maxConfirmedIncrease = _.max(
-    _.map(prefectures, (pref) => {
-      return _.max(pref.dailyConfirmedCount);
+  const maxConfirmedIncrease = max(
+    map(prefectures, (pref) => {
+      return max(pref.dailyConfirmedCount);
     })
   );
 
   // Parse values so we can sort
-  _.map(prefectures, (pref) => {
+  map(prefectures, (pref) => {
     pref.confirmed = pref.confirmed ? parseInt(pref.confirmed) : 0;
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
@@ -108,7 +112,7 @@ export const drawPrefectureTable = (
   });
 
   // Iterate through and render table rows
-  _.orderBy(prefectures, "confirmed", "desc").map((pref) => {
+  orderBy(prefectures, "confirmed", "desc").map((pref) => {
     if (!pref.confirmed && !pref.recovered && !pref.deceased) {
       return;
     }

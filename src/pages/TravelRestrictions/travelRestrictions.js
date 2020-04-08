@@ -1,10 +1,10 @@
 import i18next from "i18next";
-import _ from "lodash";
+import orderBy from "lodash/orderBy";
 
 const travelRestrictionsHelper = (elementId, countries) => {
   const countryList = [];
   // Iterate through and render country links
-  _.orderBy(countries, "name", "desc").map((country) => {
+  orderBy(countries, "name", "desc").map((country) => {
     const name = i18next.t(`countries.${country.name}`);
     countryList.unshift(
       `<a href="${country.link}">${country.emoji}${name}</a>`

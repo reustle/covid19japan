@@ -1,6 +1,10 @@
 import * as c3 from "c3";
 import * as d3 from "d3";
-import _ from "lodash";
+import map from "lodash/map";
+import reduce from "lodash/reduce";
+import filter from "lodash/filter";
+import mapValues from "lodash/mapValues";
+import values from "lodash/values";
 import i18next from "i18next";
 
 export const drawPrefectureTrajectoryChart = (
@@ -9,13 +13,13 @@ export const drawPrefectureTrajectoryChart = (
   lang
 ) => {
   const minimumConfirmed = 100;
-  const filteredPrefectures = _.filter(prefectures, (prefecture) => {
+  const filteredPrefectures = filter(prefectures, (prefecture) => {
     return prefecture.confirmed >= minimumConfirmed;
   });
-  const trajectories = _.reduce(
+  const trajectories = reduce(
     filteredPrefectures,
     (t, prefecture) => {
-      const cumulativeConfirmed = _.reduce(
+      const cumulativeConfirmed = reduce(
         prefecture.dailyConfirmedCount,
         (result, value) => {
           if (result.length > 0) {
@@ -28,7 +32,7 @@ export const drawPrefectureTrajectoryChart = (
         },
         []
       );
-      const cumulativeConfirmedFromMinimum = _.filter(
+      const cumulativeConfirmedFromMinimum = filter(
         cumulativeConfirmed,
         (value) => value >= minimumConfirmed
       );
@@ -44,11 +48,11 @@ export const drawPrefectureTrajectoryChart = (
     {}
   );
 
-  const columns = _.map(Object.values(trajectories), (prefecture) =>
+  const columns = map(Object.values(trajectories), (prefecture) =>
     [prefecture.name].concat(prefecture.cumulativeConfirmed)
   );
 
-  const regions = _.mapValues(trajectories, (prefecture) => {
+  const regions = mapValues(trajectories, (prefecture) => {
     const value = prefecture.lastIndex;
     if (value > 0) {
       return [{ start: value - 1, end: value, style: "dashed" }];
@@ -57,13 +61,13 @@ export const drawPrefectureTrajectoryChart = (
     }
   });
 
-  const maxDays = _.reduce(
-    _.values(trajectories),
+  const maxDays = reduce(
+    values(trajectories),
     (a, b) => Math.max(a, b.lastIndex),
     0
   );
 
-  const nameMap = _.reduce(
+  const nameMap = reduce(
     trajectories,
     (result, value) => {
       if (lang === "en") {
