@@ -63,6 +63,10 @@ Build for production (minified):
 npm run build-prod
 ```
 
+### Testing
+
+When testing your changes locally, be sure to verify both the `/` and `/embed` pages are working properly.
+
 
 ### Localization
 
