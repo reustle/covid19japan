@@ -9,20 +9,44 @@ import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
 
-import { drawLastUpdated } from "./pages/Header/drawLastUpdated";
-import { toggleLangPicker } from "./pages/Header/toggleLangPicker";
-import { updateTooltipLang } from "./pages/Header/updateTooltipLang";
-import { drawPageTitleCount } from "./pages/Header/drawPageTitleCount";
+// import { drawLastUpdated } from "./pages/Header/drawLastUpdated";
+// import { toggleLangPicker } from "./pages/Header/toggleLangPicker";
+// import { updateTooltipLang } from "./pages/Header/updateTooltipLang";
+// import { drawPageTitleCount } from "./pages/Header/drawPageTitleCount";
 
-import { drawKpis } from "./pages/KPI";
-import { drawMap } from "./pages/OutebreakMap";
+// import { drawKpis } from "./pages/KPI";
+// import { drawMap } from "./pages/OutebreakMap";
 import { calculateTotals } from "./data/helper";
-import { drawTrendChart } from "./pages/SpreadTrend";
-import { drawDailyIncreaseChart } from "./pages/DailyIncrease";
-import { drawPrefectureTrajectoryChart } from "./pages/TrajectoryChart";
-import { drawPrefectureTable } from "./pages/PrefectureTable";
-import { drawTravelRestrictions } from "./pages/TravelRestrictions";
-import { drawMapPrefectures } from "./pages/OutebreakMap/drawMapPrefectures";
+// import { drawTrendChart } from "./pages/SpreadTrendChart";
+// import { drawDailyIncreaseChart } from "./pages/DailyIncrease";
+// import { drawPrefectureTrajectoryChart } from "./pages/TrajectoryChart";
+// import { drawPrefectureTable } from "./pages/PrefectureTable";
+// import { drawTravelRestrictions } from "./pages/TravelRestrictions";
+// import { drawMapPrefectures } from "./pages/OutebreakMap/drawMapPrefectures";
+
+// import {
+//   toggleLangPicker,
+//   updateTooltipLang,
+//   drawPageTitleCount,
+//   drawLastUpdated,
+// } from "./pages/Header";
+import header from "./pages/Header";
+import drawDailyIncreaseChart from "./pages/DailyIncreaseChart";
+import drawKpis from "./pages/Kpi";
+import mapDrawer from "./pages/OutbreakMap";
+// import { drawMap, drawMapPrefectures } from "./pages/OutbreakMap";
+import drawPrefectureTable from "./pages/PrefectureTable";
+import drawTrendChart from "./pages/SpreadTrendChart";
+import drawPrefectureTrajectoryChart from "./pages/TrajectoryChart";
+import drawTravelRestrictions from "./pages/TravelRestrictions";
+
+const {
+  toggleLangPicker,
+  updateTooltipLang,
+  drawPageTitleCount,
+  drawLastUpdated,
+} = header;
+const { drawMap, drawMapPrefectures } = mapDrawer;
 
 import {
   LANG_CONFIG,
@@ -32,7 +56,7 @@ import {
 } from "./data/constants";
 
 // Localization deps
-
+console.log("toggleLangPicker", toggleLangPicker);
 // import static data
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 
@@ -114,6 +138,8 @@ const setLang = (lng) => {
       LANG = proposedLng;
     }
   }
+
+  console.log("LANG", LANG);
 
   toggleLangPicker(LANG);
 

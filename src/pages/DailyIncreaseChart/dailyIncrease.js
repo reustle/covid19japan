@@ -1,7 +1,10 @@
 import * as c3 from "c3";
 import i18next from "i18next";
 
-import { COLOR_TESTED, COLOR_TESTED_DAILY } from "../../data/constants";
+const COLOR_TESTED = "rgb(164,173,192)";
+const COLOR_TESTED_DAILY = "rgb(209,214,223)";
+
+// import { COLOR_TESTED, COLOR_TESTED_DAILY } from "../../data/constants";
 
 export const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
   const cols = {
