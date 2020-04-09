@@ -1,3 +1,3 @@
-import { drawPrefectureTrajectoryChart } from "./TrajectoryChart";
+import drawPrefectureTrajectoryChart from "./TrajectoryChart";
 
 export default drawPrefectureTrajectoryChart;
