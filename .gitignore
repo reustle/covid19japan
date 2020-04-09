@@ -2,6 +2,7 @@
 _site/
 *.sqlite3
 
+.idea
 node_modules
 .jekyll-cache/
 
