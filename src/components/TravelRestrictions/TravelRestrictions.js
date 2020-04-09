@@ -36,3 +36,5 @@ export const drawTravelRestrictions = (ddb) => {
     ddb.travelRestrictions.japan.other
   );
 };
+
+export default drawTravelRestrictions;

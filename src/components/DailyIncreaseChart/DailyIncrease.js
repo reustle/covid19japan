@@ -6,7 +6,7 @@ const COLOR_TESTED_DAILY = "rgb(209,214,223)";
 
 // import { COLOR_TESTED, COLOR_TESTED_DAILY } from "../../data/constants";
 
-export const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
+const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
   const cols = {
     Date: ["Date"],
     Confirmed: ["New Cases"],
@@ -126,3 +126,5 @@ export const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
   });
   return dailyIncreaseChart;
 };
+
+export default drawDailyIncreaseChart;

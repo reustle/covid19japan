@@ -2,19 +2,14 @@ import * as c3 from "c3";
 import * as d3 from "d3";
 import i18next from "i18next";
 
-export const COLOR_ACTIVE = "rgb(223,14,31)";
-export const COLOR_CONFIRMED = "rgb(244,67,54)";
-export const COLOR_RECOVERED = "rgb(25,118,210)";
-export const COLOR_DECEASED = "rgb(55,71,79)";
+import {
+  COLOR_ACTIVE,
+  COLOR_CONFIRMED,
+  COLOR_RECOVERED,
+  COLOR_DECEASED,
+} from "../../data/constants";
 
-// import {
-//   COLOR_ACTIVE,
-//   COLOR_CONFIRMED,
-//   COLOR_RECOVERED,
-//   COLOR_DECEASED,
-// } from "../../data/constants";
-
-export const drawTrendChart = (sheetTrend, trendChart) => {
+const drawTrendChart = (sheetTrend, trendChart) => {
   const cols = {
     Date: ["Date"],
     Confirmed: ["Confirmed"],
@@ -149,3 +144,5 @@ export const drawTrendChart = (sheetTrend, trendChart) => {
   });
   return trendChart;
 };
+
+export default drawTrendChart;

@@ -8,7 +8,7 @@ const setKpiDiff = (key, value) => {
 const setKpi = (key, value) =>
   (document.querySelector(`#kpi-${key} .value`).innerHTML = value);
 
-export const drawKpis = (totals, totalsDiff) => {
+const drawKpis = (totals, totalsDiff) => {
   setKpi("confirmed", totals.confirmed);
   setKpiDiff("confirmed", totalsDiff.confirmed);
   setKpi("recovered", totals.recovered);
@@ -25,3 +25,5 @@ export const drawKpis = (totals, totalsDiff) => {
     totalsDiff.confirmed - totalsDiff.recovered - totalsDiff.deceased
   );
 };
+
+export default drawKpis;

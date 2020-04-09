@@ -1,3 +1,3 @@
-import { drawPrefectureTable } from "./PrefectureTable";
+import drawPrefectureTable from "./PrefectureTable";
 
 export default drawPrefectureTable;

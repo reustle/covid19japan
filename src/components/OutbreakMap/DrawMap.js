@@ -1,6 +1,6 @@
 import { MAP_CONFIG } from "../../data/constants";
 
-export const drawMap = (mapboxgl, map) => {
+const drawMap = (mapboxgl, map) => {
   // Initialize Map
   map = new mapboxgl.Map(MAP_CONFIG);
   map.dragRotate.disable();
@@ -14,3 +14,5 @@ export const drawMap = (mapboxgl, map) => {
   );
   return map;
 };
+
+export default drawMap;

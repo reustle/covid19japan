@@ -11,7 +11,7 @@ import {
  * drawMapPrefectures
  * @param {*} pageDraws - number of redraws to screen
  */
-export const drawMapPrefectures = (pageDraws, ddb, map) => {
+const drawMapPrefectures = (pageDraws, ddb, map) => {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
@@ -99,3 +99,5 @@ export const drawMapPrefectures = (pageDraws, ddb, map) => {
 
   return { map, ddb };
 };
+
+export default drawMapPrefectures;

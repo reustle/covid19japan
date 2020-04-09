@@ -63,7 +63,7 @@ const drawPrefectureTrend = (
   return prefectureTrendCharts;
 };
 
-export const drawPrefectureTable = (
+const drawPrefectureTable = (
   prefectures,
   totals,
   prefectureTrendCharts
@@ -200,3 +200,5 @@ export const drawPrefectureTable = (
 
   return prefectureTrendCharts;
 };
+
+export default drawPrefectureTable;

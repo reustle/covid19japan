@@ -1,3 +1,3 @@
-import { drawTravelRestrictions } from "./travelRestrictions";
+import drawTravelRestrictions from "./TravelRestrictions";
 
 export default drawTravelRestrictions;

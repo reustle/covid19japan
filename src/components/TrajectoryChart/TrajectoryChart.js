@@ -7,7 +7,7 @@ import mapValues from "lodash/mapValues";
 import values from "lodash/values";
 import i18next from "i18next";
 
-export const drawPrefectureTrajectoryChart = (
+const drawPrefectureTrajectoryChart = (
   prefectures,
   prefectureTrajectoryChart,
   lang
@@ -167,3 +167,5 @@ export const drawPrefectureTrajectoryChart = (
   });
   return prefectureTrajectoryChart;
 };
+
+export default drawPrefectureTrajectoryChart;

@@ -1,4 +1,4 @@
-export const toggleLangPicker = (lang) => {
+const toggleLangPicker = (lang) => {
   // Toggle the lang picker
   if (document.querySelectorAll("a[data-lang-picker]")) {
     document.querySelectorAll("a[data-lang-picker]").forEach((el) => {
@@ -13,3 +13,5 @@ export const toggleLangPicker = (lang) => {
     }
   }
 };
+
+export default toggleLangPicker;

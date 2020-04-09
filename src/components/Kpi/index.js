@@ -1,3 +1,3 @@
-import { drawKpis } from "./DrawKpis";
+import drawKpis from "./DrawKpis";
 
 export default drawKpis;
