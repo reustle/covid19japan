@@ -26,8 +26,7 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
   }
 
   // Start the Mapbox search expression
-  const prefecturePaint = PREFECTURE_PAINT;
-
+  const prefecturePaint = [...PREFECTURE_PAINT];
   // Go through all prefectures looking for cases
   ddb.prefectures.map((prefecture) => {
     let cases = parseInt(prefecture.confirmed);
