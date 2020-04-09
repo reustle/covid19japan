@@ -1,7 +1,7 @@
-import { toggleLangPicker } from "./toggleLangPicker";
-import { updateTooltipLang } from "./updateTooltipLang";
-import { drawPageTitleCount } from "./drawPageTitleCount";
-import { drawLastUpdated } from "./drawLastUpdated";
+import { toggleLangPicker } from "./ToggleLangPicker";
+import { updateTooltipLang } from "./UpdateTooltipLang";
+import { drawPageTitleCount } from "./DrawPageTitleCount";
+import { drawLastUpdated } from "./DrawLastUpdated";
 
 export default {
   toggleLangPicker,

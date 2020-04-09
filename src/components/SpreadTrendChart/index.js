@@ -1,3 +1,3 @@
-import { drawTrendChart } from "./spreadTrend";
+import { drawTrendChart } from "./SpreadTrend";
 
 export default drawTrendChart;

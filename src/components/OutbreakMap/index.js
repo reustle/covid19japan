@@ -1,5 +1,5 @@
-import { drawMap } from "./drawMap";
-import { drawMapPrefectures } from "./drawMapPrefectures";
+import { drawMap } from "./DrawMap";
+import { drawMapPrefectures } from "./DrawMapPrefectures";
 
 export default {
   drawMap,
