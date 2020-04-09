@@ -1,3 +1,3 @@
-import { drawDailyIncreaseChart } from "./dailyIncrease";
+import { drawDailyIncreaseChart } from "./DailyIncrease";
 
 export default drawDailyIncreaseChart;
