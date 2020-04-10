@@ -9,7 +9,10 @@ import twemoji from "twemoji";
  */
 const parseEmoji = (emoji) => {
   if (navigator.oscpu.toLowerCase().includes("windows")) {
-    return twemoji.parse(emoji);
+    return twemoji.parse(emoji, {
+      folder: "svg",
+      ext: ".svg",
+    });
   }
   return emoji;
 };
