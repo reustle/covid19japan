@@ -3,9 +3,9 @@ import orderBy from "lodash/orderBy";
 import twemoji from "twemoji";
 
 /**
- * Parse the string for one emoji for OS compatibility
+ * Parse the string for one emoji and convert if necessary for OS compatibility
  * @param {string} emoji Emoji
- * @returns {string|HTMLElement}
+ * @returns {string|HTMLImageElement}
  */
 const parseEmoji = (emoji) => {
   if (navigator.oscpu.toLowerCase().includes("windows")) {
