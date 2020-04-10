@@ -20,7 +20,9 @@ const travelRestrictionsHelper = (elementId, countries) => {
   orderBy(countries, "name", "desc").map((country) => {
     const name = i18next.t(`countries.${country.name}`);
     countryList.unshift(
-      `<a href="${country.link}">${parseEmoji(country.emoji)}${name}</a>`
+      `<a href="${country.link}" class="country-link">${parseEmoji(
+        country.emoji
+      )}${name}</a>`
     );
     return true;
   });
