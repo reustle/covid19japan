@@ -216,6 +216,16 @@ const loadDataOnPage = () => {
   });
 };
 
+const startReloadTimer = () => {
+  const params = new URLSearchParams(location.search);
+  let reloadInterval = parseInt(params.get("refreshInHours"));
+  if (isNaN(reloadInterval) || reloadInterval < 1) {
+    // default timeout of 3 hours
+    reloadInterval = 3;
+  }
+  setTimeout(() => location.reload(), reloadInterval * 60 * 60 * 1000);
+};
+
 window.onload = () => {
   initDataTranslate(setLang);
   map = drawMap(mapboxgl, map);
@@ -244,4 +254,6 @@ window.onload = () => {
   };
 
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
+
+  startReloadTimer();
 };
