@@ -1,5 +1,6 @@
 import i18next from "i18next";
 import orderBy from "lodash/orderBy";
+import twemoji from "twemoji";
 
 const travelRestrictionsHelper = (elementId, countries) => {
   const countryList = [];
@@ -35,6 +36,10 @@ export const drawTravelRestrictions = (ddb) => {
     "#other-restrictions",
     ddb.travelRestrictions.japan.other
   );
+  // replace emoji with twemoji on windows
+  if (navigator.oscpu.toLowerCase().contains("windows")) {
+    twemoji.parse("#travel-restrictions");
+  }
 };
 
 export default drawTravelRestrictions;
