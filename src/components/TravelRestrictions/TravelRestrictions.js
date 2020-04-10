@@ -3,18 +3,15 @@ import orderBy from "lodash/orderBy";
 import twemoji from "twemoji";
 
 /**
- * Parse the string for one emoji and convert if necessary for OS compatibility
+ * Parse the string for an emoji and convert to image
  * @param {string} emoji Emoji
- * @returns {string|HTMLImageElement}
+ * @returns {HTMLImageElement}
  */
 const parseEmoji = (emoji) => {
-  if (navigator.oscpu.toLowerCase().includes("windows")) {
-    return twemoji.parse(emoji, {
-      folder: "svg",
-      ext: ".svg",
-    });
-  }
-  return emoji;
+  return twemoji.parse(emoji, {
+    folder: "svg",
+    ext: ".svg",
+  });
 };
 
 const travelRestrictionsHelper = (elementId, countries) => {
