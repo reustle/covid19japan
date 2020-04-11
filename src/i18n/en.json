@@ -1,5 +1,5 @@
 {
-  "covid-19-tracker": "Japan COVID-19 Coronavirus Tracker",
+  "covid-19-tracker": "Japan COVID-19 Tracker",
   "last-updated": "Last Updated:",
   "kpi-active": "Active",
   "kpi-active-tooltip": "Confirmed cases minus recovered minus deceased",

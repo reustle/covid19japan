@@ -89,6 +89,9 @@ const drawPrefectureTrajectoryChart = (
     color: {
       pattern: d3.schemeTableau10,
     },
+    point: {
+      r: 2.25,
+    },
     axis: {
       y: {
         min: minimumConfirmed,

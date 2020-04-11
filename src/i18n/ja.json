@@ -1,5 +1,5 @@
 {
-  "covid-19-tracker": "日本国内の新型コロナウイルス (COVID-19) 感染状況追跡",
+  "covid-19-tracker": "日本新型コロナウイルス感染状況追跡",
   "last-updated": "最終更新:",
   "kpi-active": "既存感染者数",
   "kpi-active-tooltip": "感染者数から回復者数と死亡者数を引いた数",
