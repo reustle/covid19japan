@@ -57,7 +57,8 @@ header {
       a {
         text-decoration: none;
         &.active {
-          text-decoration: underline;
+          padding-bottom: 4px;
+          border-bottom: solid 2px black;
           font-weight: 700;
         }
       }
