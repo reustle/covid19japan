@@ -18,6 +18,7 @@
   "confirmed": "Confirmed",
   "recovered": "Recovered",
   "deaths": "Deaths",
+  "active": "Active",
   "helpful-links": "Helpful Links",
   "primary-data-sources": "Primary Data Sources",
   "confirmed-case-trajectories-by-prefecture": "Confirmed Case Trajectories by Prefecture (> 100 Cases)",

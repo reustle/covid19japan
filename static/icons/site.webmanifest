@@ -1,0 +1,19 @@
+{
+    "name": "Japan COVID-19",
+    "short_name": "Japan COVID-19",
+    "icons": [
+        {
+            "src": "/static/icons/android-chrome-192x192.png?v=1586005472",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/static/icons/android-chrome-512x512.png?v=1586005472",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#8ecafb",
+    "background_color": "#8ecafb",
+    "display": "standalone"
+}
