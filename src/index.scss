@@ -193,66 +193,72 @@ h1 {
   }
 }
 
-#prefectures-table {
+#prefectures-table-container {
+  overflow-x: auto;
   width: 100%;
-  border-collapse: separate;
-  border-spacing: 0px;
-  font-size: 14px;
-  background: #fff;
-  border-radius: 8px;
-  padding-top: 10px;
-  box-shadow: 0px 0px 6px -4px rgba(0,0,0,0.75);
+  
+  #prefectures-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0px;
+    font-size: 14px;
+    background: #fff;
+    border-radius: 8px;
+    padding-top: 10px;
+    box-shadow: 0px 0px 6px -4px rgba(0,0,0,0.75);
+    
+    tr:nth-child(even), tbody#unspecified-rows tr {
+      background-color: rgb(244,247,248);
+    }
 
-  tr:nth-child(even), tbody#unspecified-rows tr {
-    background-color: rgb(244,247,248);
-  }
+    tfoot tr {
+      background-color: rgb(235, 238, 239);
 
-  tfoot tr {
-    background-color: rgb(235, 238, 239);
+    }
 
-  }
+    th {
+      text-align: left;
+      font-size: 11px;
+      min-width: 7em;
+    }
+    td {
+      padding: 5px 0px;
+    }
+    td:first-child, th:first-child {
+      padding: 5px;
+      padding-left: 15px;
+    }
+    .totals {
+      font-weight: bold;
+    }
+    .loading td {
+      text-align: center;
+      padding: 30px 0px;
+    }
 
-  th {
-    text-align: left;
-    font-size: 11px;
-    min-width: 7em;
-  }
-  td {
-    padding: 5px 0px;
-  }
-  td:first-child, th:first-child {
-    padding: 5px;
-    padding-left: 15px;
-  }
-  .totals {
-    font-weight: bold;
-  }
-  .loading td {
-    text-align: center;
-    padding: 30px 0px;
-  }
-
-  th.prefecture, td.prefecture {
-    min-width: 60px;
-    max-width: 100px;
-    white-space: nowrap;
-  }
+    th.prefecture, td.prefecture {
+      min-width: 60px;
+      max-width: 100px;
+      white-space: nowrap;
+    }
 
 
-  th.trend, td.trend {
-    width: 180px;
-    min-width: 180px;
-    max-width: 240px;
-    padding: 0 4px;
-  }
+    th.trend, td.trend {
+      width: 180px;
+      min-width: 180px;
+      max-width: 240px;
+      padding: 0 4px;
+    }
 
-  th.count, td.count {
-    width: 7em;
-  }
+    th.count, td.count {
+      width: 7em;
+    }
 
-  span.increment {
-    color: rgb(244,67,54);
-    font-size: 10px;
+    span.increment {
+      color: rgb(244,67,54);
+      font-size: 10px;
+    }
+
   }
 
 }
@@ -317,10 +323,6 @@ body {
   }
 }
 
-.table-wrapper {
-  overflow-x: auto;
-  width: 100%
-}
 
 img.emoji {
   height: 1em;
