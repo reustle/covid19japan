@@ -84,7 +84,7 @@ const drawTrendChart = (sheetTrend, trendChart) => {
       pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED],
     },
     point: {
-      r: 3,
+      r: 2.25,
     },
     axis: {
       x: {
