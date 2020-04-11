@@ -1,3 +1,0 @@
-/* @license C3.js v0.7.15 | (c) C3 Team and other contributors | http://c3js.org/ */
-
-/*! @source http://purl.eligrey.com/github/classList.js/blob/master/classList.js */

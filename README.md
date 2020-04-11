@@ -57,11 +57,6 @@ Start Server:
 npm run start
 ```
 
-Build for production (minified):
-
-```
-npm run build-prod
-```
 
 ### Testing
 
