@@ -215,6 +215,7 @@ h1 {
   th {
     text-align: left;
     font-size: 11px;
+    min-width: 7em;
   }
   td {
     padding: 5px 0px;
@@ -314,4 +315,20 @@ body {
       display: none;
     }
   }
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%
+}
+
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .1em 0 .1em;
+  vertical-align: -0.1em;
+}
+
+.country-link {
+  white-space: nowrap;
 }

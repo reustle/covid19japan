@@ -26,6 +26,7 @@
     "loc-i18next": "^0.1.4",
     "lodash": "^4.17.15",
     "tippy.js": "^6.1.0",
+    "twemoji": "^12.1.5",
     "whatwg-fetch": "^3.0.0"
   },
   "devDependencies": {
