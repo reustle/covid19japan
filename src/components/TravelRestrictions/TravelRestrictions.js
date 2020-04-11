@@ -1,5 +1,18 @@
 import i18next from "i18next";
 import orderBy from "lodash/orderBy";
+import twemoji from "twemoji";
+
+/**
+ * Parse the string for an emoji and convert to image
+ * @param {string} emoji Emoji
+ * @returns {HTMLImageElement}
+ */
+const parseEmoji = (emoji) => {
+  return twemoji.parse(emoji, {
+    folder: "svg",
+    ext: ".svg",
+  });
+};
 
 const travelRestrictionsHelper = (elementId, countries) => {
   const countryList = [];
@@ -7,7 +20,9 @@ const travelRestrictionsHelper = (elementId, countries) => {
   orderBy(countries, "name", "desc").map((country) => {
     const name = i18next.t(`countries.${country.name}`);
     countryList.unshift(
-      `<a href="${country.link}">${country.emoji}${name}</a>`
+      `<a href="${country.link}" class="country-link">${parseEmoji(
+        country.emoji
+      )}${name}</a>`
     );
     return true;
   });
