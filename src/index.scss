@@ -305,3 +305,14 @@ body {
   overflow-x: auto;
   width: 100%
 }
+
+img.emoji {
+  height: 1em;
+  width: 1em;
+  margin: 0 .1em 0 .1em;
+  vertical-align: -0.1em;
+}
+
+.country-link {
+  white-space: nowrap;
+}
