@@ -51,6 +51,7 @@
     property="og:description"
     content="Live updates of the Coronavirus COVID-19 outbreak in Japan"
   />
+  <script src="https://twemoji.maxcdn.com/v/latest/twemoji.min.js" crossorigin="anonymous"></script>
 </head>
 <body class="<%= htmlWebpackPlugin.options.bodyClass %>">
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
@@ -270,6 +271,7 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
     gtag('config', 'UA-2580539-41');
+    twemoji.parse(document.body);
   </script>
 
 </body>

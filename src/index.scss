@@ -56,10 +56,17 @@ header {
       display: inline;
       a {
         text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        
         &.active {
           padding-bottom: 4px;
           border-bottom: solid 2px black;
           font-weight: 700;
+        }
+        .emoji {
+          height: 16px;
+          margin-left: 4px;
         }
       }
     }
