@@ -252,6 +252,14 @@ footer {
   a, a:active {
     color: #1976d2 !important;
   }
+  .avatar {
+    text-decoration: none;
+    img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+    }
+  }
 }
 
 // Loading Icon
