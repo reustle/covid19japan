@@ -1,5 +1,4 @@
-import translationEn from "../i18n/en.json";
-import translationJa from "../i18n/ja.json";
+import languageResources from "../i18n";
 
 export const TIME_FORMAT = "MMMM d yyyy, HH:mm";
 export const COLOR_ACTIVE = "rgb(223,14,31)";
@@ -40,14 +39,7 @@ export const LANG_CONFIG = {
   detection: {
     order: ["querystring", "navigator"],
   },
-  resources: {
-    en: {
-      translation: translationEn,
-    },
-    ja: {
-      translation: translationJa,
-    },
-  },
+  resources: languageResources,
 };
 
 export const DDB_COMMON = {
