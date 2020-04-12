@@ -7,6 +7,7 @@ import {
   COLOR_CONFIRMED,
   COLOR_RECOVERED,
   COLOR_DECEASED,
+  CHART_TIME_PERIOD,
 } from "../../data/constants";
 
 const drawTrendChart = (sheetTrend, trendChart) => {
@@ -20,7 +21,11 @@ const drawTrendChart = (sheetTrend, trendChart) => {
     Tested: ["Tested"],
   };
 
-  for (let i = 0; i < sheetTrend.length; i++) {
+  for (
+    let i = sheetTrend.length - CHART_TIME_PERIOD;
+    i < sheetTrend.length;
+    i++
+  ) {
     const row = sheetTrend[i];
 
     if (i === 0) {

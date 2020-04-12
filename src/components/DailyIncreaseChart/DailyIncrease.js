@@ -1,7 +1,11 @@
 import * as c3 from "c3";
 import i18next from "i18next";
 
-import { COLOR_TESTED, COLOR_TESTED_DAILY } from "../../data/constants";
+import {
+  COLOR_TESTED,
+  COLOR_TESTED_DAILY,
+  CHART_TIME_PERIOD,
+} from "../../data/constants";
 
 const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
   const cols = {
@@ -9,7 +13,11 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
     Confirmed: ["New Cases"],
   };
 
-  for (let i = 0; i < sheetTrend.length; i++) {
+  for (
+    let i = sheetTrend.length - CHART_TIME_PERIOD;
+    i < sheetTrend.length;
+    i++
+  ) {
     const row = sheetTrend[i];
 
     if (i === 0) {
@@ -75,18 +83,7 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
       },
       y: {
         tick: {
-          values: [
-            100,
-            200,
-            300,
-            400,
-            500,
-            600,
-            700,
-            800,
-            900,
-            1000
-          ],
+          values: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
         },
       },
     },
