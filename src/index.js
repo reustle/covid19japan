@@ -15,6 +15,7 @@ import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import drawPrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
+import drawTestingTrendChart from "./components/TestingTrendChart";
 import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
 
@@ -94,6 +95,9 @@ let trendChart = null;
 
 // Keep reference to current chart in order to clean up when redrawing.
 let dailyIncreaseChart = null;
+
+// Keep reference to current chart in order to clean up when redrawing.
+let testingTrendChart = null;
 
 // Keep reference to chart in order to destroy it when redrawing.
 let prefectureTrajectoryChart = null;
@@ -205,6 +209,7 @@ const loadDataOnPage = () => {
         ddb.trend,
         dailyIncreaseChart
       );
+      testingTrendChart = drawTestingTrendChart(ddb.trend, testingTrendChart);
       prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
         ddb.prefectures,
         prefectureTrajectoryChart,
