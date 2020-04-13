@@ -28,11 +28,6 @@ const drawTrendChart = (sheetTrend, trendChart) => {
   ) {
     const row = sheetTrend[i];
 
-    if (i === 0) {
-      // Skip early feb data point
-      continue;
-    }
-
     cols.Date.push(row.date);
     cols.Confirmed.push(row.confirmedCumulative);
     cols.Critical.push(row.criticalCumulative);
