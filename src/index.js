@@ -15,6 +15,7 @@ import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import drawPrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
+import drawTrendChartLog from "./components/SpreadTrendChartLog";
 import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
 
@@ -91,6 +92,9 @@ const loadData = (callback) => {
 
 // Keep a reference around to destroy it if we redraw this.
 let trendChart = null;
+
+// Keep a reference around to destroy it if we redraw this.
+let trendChartLog = null;
 
 // Keep reference to current chart in order to clean up when redrawing.
 let dailyIncreaseChart = null;
@@ -201,6 +205,7 @@ const loadDataOnPage = () => {
       );
       drawTravelRestrictions(ddb);
       trendChart = drawTrendChart(ddb.trend, trendChart);
+      trendChartLog = drawTrendChartLog(ddb.trend, trendChartLog);
       dailyIncreaseChart = drawDailyIncreaseChart(
         ddb.trend,
         dailyIncreaseChart
