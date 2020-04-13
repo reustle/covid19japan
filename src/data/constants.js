@@ -2,6 +2,7 @@ import translationEn from "../i18n/en.json";
 import translationJa from "../i18n/ja.json";
 
 export const TIME_FORMAT = "MMMM d yyyy, HH:mm";
+export const CHART_TIME_PERIOD = 60;
 export const COLOR_ACTIVE = "rgb(223,14,31)";
 export const COLOR_CONFIRMED = "rgb(244,67,54)";
 export const COLOR_RECOVERED = "rgb(25,118,210)";
