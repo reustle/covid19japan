@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import {
   PREFECTURE_JSON_PATH,
   PREFECTURE_PAINT,
@@ -117,7 +118,19 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
       const active =
         thisPrefecture[0].confirmed -
         ((thisPrefecture[0].recovered || 0) + (thisPrefecture[0].deaths || 0));
-      const html = `<h3>${name}</h3>Confirmed: ${confirmed}<br />Recovered: ${recovered}<br />Deaths: ${deaths}<br />Active: ${active}`;
+      const html = `<h3 data-i18n="prefectures.${name}">${i18next.t(
+        "prefectures." + name
+      )}</h3>
+          <span data-i18n="confirmed">${i18next.t(
+            "confirmed"
+          )}</span>: ${confirmed}<br />
+          <span data-i18n="recovered">${i18next.t(
+            "recovered"
+          )}</span>: ${recovered}<br />
+          <span data-i18n="deaths">${i18next.t(
+            "deaths"
+          )}</span>: ${deaths}<br />
+          <span data-i18n="active">${i18next.t("active")}</span>: ${active}`;
       popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
     } else {
       popup.remove();
