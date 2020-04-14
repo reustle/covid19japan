@@ -114,7 +114,10 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
       const confirmed = thisPrefecture[0].confirmed;
       const deaths = thisPrefecture[0].deaths;
       const recovered = thisPrefecture[0].recovered;
-      const html = `<h3>${name}</h3>Confirmed: ${confirmed}<br />Deaths: ${deaths}<br />Recovered: ${recovered}`;
+      const active =
+        thisPrefecture[0].confirmed -
+        ((thisPrefecture[0].recovered || 0) + (thisPrefecture[0].deaths || 0));
+      const html = `<h3>${name}</h3>Confirmed: ${confirmed}<br />Deaths: ${deaths}<br />Recovered: ${recovered}<br />Active: ${active}`;
       popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
     } else {
       popup.remove();
