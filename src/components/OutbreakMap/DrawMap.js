@@ -12,6 +12,7 @@ const drawMap = (mapboxgl, map) => {
       showZoom: true,
     })
   );
+
   return map;
 };
 

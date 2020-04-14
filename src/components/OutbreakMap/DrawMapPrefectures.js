@@ -96,6 +96,31 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
   }
 
+  // Map popup for prefectures
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
+
+  map.on("mousemove", function (e) {
+    const feature = map.queryRenderedFeatures(e.point, {
+      layers: ["prefecture-layer"],
+    })[0];
+    if (feature) {
+      const thisPrefecture = ddb.prefectures.filter((p) => {
+        return p.name === feature.properties.NAME_1;
+      });
+      const name = thisPrefecture[0].name;
+      const confirmed = thisPrefecture[0].confirmed;
+      const deaths = thisPrefecture[0].deaths;
+      const recovered = thisPrefecture[0].recovered;
+      const html = `<h3>${name}</h3>Confirmed: ${confirmed}<br />Deaths: ${deaths}<br />Recovered: ${recovered}`;
+      popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
+    } else {
+      popup.remove();
+    }
+  });
+
   return { map, ddb };
 };
 
