@@ -250,3 +250,4 @@ window.onload = () => {
 
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
 };
+

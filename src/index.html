@@ -68,7 +68,15 @@
       })
     }
   </script>
+  <script>
+  function myFunction() {
+    document.getElementById("trend-chart").hidden = !document.getElementById("trend-chart").hidden;
+    document.getElementById("log-dec-log").hidden = !document.getElementById("log-dec-log").hidden;
+    document.getElementById("log-dec-dec").hidden = !document.getElementById("log-dec-dec").hidden;
+    document.getElementById("trend-chart-log").hidden = !document.getElementById("trend-chart-log").hidden;
+};
 
+  </script>
   <header class="embed-hide">
     <div class="lang-picker">
       <a href="#" data-lang-picker='ja'>🇯🇵 日本語</a>
@@ -134,13 +142,16 @@
   <p class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></p>
 
   <section id="trend-chart-container" class="embed-hide">
+
+
     <h4 data-i18n="outbreak-spread-trend">Outbreak Spread Trend</h4>
-    <h5 data-i18n="decimal-scale">Decimal Scale</h4>
+    <button id="log-dec-log" onclick="myFunction()">Logarithmic</button><button id="log-dec-dec" onclick="myFunction()" hidden=True>Decimal</button>
+    <!--<h5 data-i18n="decimal-scale">Decimal Scale</h4>-->
     <div id="trend-chart">
         <div class="text-center"><div class="lds-dual-ring"></div></div>
     </div>
-    <h5 data-i18n="logarithmic-scale">Logarithmic Scale</h4>
-    <div id="trend-chart-log">
+    <!--<h5 data-i18n="logarithmic-scale">Logarithmic Scale</h4>-->
+    <div id="trend-chart-log" hidden=True>
         <div class="text-center"><div class="lds-dual-ring"></div></div>
     </div>
   </section>
