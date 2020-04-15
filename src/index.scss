@@ -248,6 +248,13 @@ table {
   }
 }
 
+#english-news {
+  li {
+    margin-bottom: 20px;
+    word-wrap: break-word;
+  }
+}
+
 footer {
   line-height: 34px;
   a, a:active {
