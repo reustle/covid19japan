@@ -6,7 +6,10 @@ import concat from "lodash/concat";
 import orderBy from "lodash/orderBy";
 import i18next from "i18next";
 
-import { COLOR_CONFIRMED } from "../../data/constants";
+import {
+  COLOR_CONFIRMED,
+  PREFECTURE_POPULATION_IN_CHUMAN,
+} from "../../data/constants";
 
 // TODO not sure about prefectureTrendCharts, it never changes
 const drawPrefectureTrend = (
@@ -130,6 +133,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
+        <td class="count">-</td>
         </tr>`;
       prefectureTrendCharts = drawPrefectureTrend(
         `#Unspecified-trend`,
@@ -151,6 +155,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
+        <td class="count">-</td>
         </tr>`;
       prefectureTrendCharts = drawPrefectureTrend(
         `#PortOfEntry-trend`,
@@ -172,6 +177,9 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
+        <td class="count">${(
+          pref.confirmed / PREFECTURE_POPULATION_IN_CHUMAN[pref.name]
+        ).toFixed(2)}</td>
       `;
       prefectureTrendCharts = drawPrefectureTrend(
         `#${pref.name}-trend`,
@@ -192,6 +200,9 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${
           totals.confirmed - totals.recovered - totals.deceased
         }</td>
+        <td class="count">${(
+          totals.confirmed / PREFECTURE_POPULATION_IN_CHUMAN["Japan"]
+        ).toFixed(2)}</td>
         </tr>`;
 
   return prefectureTrendCharts;
