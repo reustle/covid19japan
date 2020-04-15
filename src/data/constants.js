@@ -1,4 +1,4 @@
-import languageResources from "../i18n";
+import languageResources, { LANGUAGES } from "../i18n";
 
 export const TIME_FORMAT = "MMMM d yyyy, HH:mm";
 export const COLOR_ACTIVE = "rgb(223,14,31)";
@@ -7,7 +7,7 @@ export const COLOR_RECOVERED = "rgb(25,118,210)";
 export const COLOR_DECEASED = "rgb(55,71,79)";
 export const COLOR_TESTED = "rgb(164,173,192)";
 export const COLOR_TESTED_DAILY = "rgb(209,214,223)";
-export const SUPPORTED_LANGS = ["en", "ja"];
+export const SUPPORTED_LANGS = LANGUAGES;
 export const COLOR_YELLOW = "rgb(253,234,203)";
 export const COLOR_ORANGE = "rgb(251,155,127)";
 export const COLOR_RED = "rgb(244,67,54)";
@@ -37,7 +37,7 @@ export const LANG_CONFIG = {
   fallbackLng: "en",
   lowerCaseLng: true,
   detection: {
-    order: ["querystring", "localStorage", "navigator"],
+    order: ["querystring", "cookie", "navigator"],
   },
   resources: languageResources,
 };
