@@ -47,11 +47,21 @@ section, header, footer {
 header {
   padding-top: 10px;
 
-  .lang-picker {
-    text-align: right;
-
-    a {
-      text-decoration: none;
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    
+    .lang-picker {
+      display: inline;
+      a {
+        text-decoration: none;
+        &.active {
+          padding-bottom: 4px;
+          border-bottom: solid 2px black;
+          font-weight: 700;
+        }
+      }
     }
   }
 }
