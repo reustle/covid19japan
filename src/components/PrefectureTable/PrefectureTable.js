@@ -178,7 +178,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
         <td class="count">${(
-          pref.confirmed / PREFECTURE_POPULATION_IN_CHUMAN[pref.name]
+          (pref.active || 0) / PREFECTURE_POPULATION_IN_CHUMAN[pref.name]
         ).toFixed(2)}</td>
       `;
       prefectureTrendCharts = drawPrefectureTrend(
@@ -201,7 +201,8 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
           totals.confirmed - totals.recovered - totals.deceased
         }</td>
         <td class="count">${(
-          totals.confirmed / PREFECTURE_POPULATION_IN_CHUMAN["Japan"]
+          (totals.confirmed - totals.recovered - totals.deceased) /
+          PREFECTURE_POPULATION_IN_CHUMAN["Japan"]
         ).toFixed(2)}</td>
         </tr>`;
 
