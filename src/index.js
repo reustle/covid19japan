@@ -216,6 +216,11 @@ const loadDataOnPage = () => {
   });
 };
 
+const startReloadTimer = () => {
+  let reloadInterval = 3;
+  setTimeout(() => location.reload(), reloadInterval * 60 * 60 * 1000);
+};
+
 window.onload = () => {
   initDataTranslate(setLang);
   map = drawMap(mapboxgl, map);
@@ -244,4 +249,6 @@ window.onload = () => {
   };
 
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
+
+  startReloadTimer();
 };
