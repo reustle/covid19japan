@@ -111,6 +111,7 @@ const setLang = (lng) => {
     // Don't set the lang if it's not the supported languages.
     if (SUPPORTED_LANGS.includes(proposedLng)) {
       LANG = proposedLng;
+      document.cookie = `i18next=${LANG};`;
     }
   }
 
