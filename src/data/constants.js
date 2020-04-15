@@ -38,6 +38,8 @@ export const LANG_CONFIG = {
   lowerCaseLng: true,
   detection: {
     order: ["querystring", "cookie", "navigator"],
+    caches: ["cookie"],
+    cookieMinutes: 60 * 24 * 365,
   },
   resources: languageResources,
 };
