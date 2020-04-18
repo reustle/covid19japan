@@ -146,7 +146,7 @@ const setLang = (lng) => {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions(ddb);
       }
-      if (!ddb.isLoaded()) {
+      if (ddb.isLoaded()) {
         prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
           ddb.prefectures,
           prefectureTrajectoryChart,
@@ -196,36 +196,18 @@ const loadDataOnPage = () => {
   loadData((data) => {
     jsonData = data;
 
-    ddb.prefectures = jsonData.prefectures;
-    let newTotals = calculateTotals(jsonData.daily);
-    ddb.totals = newTotals[0];
-    ddb.totalsDiff = newTotals[1];
-    ddb.trend = jsonData.daily;
-    ddb.lastUpdated = jsonData.updated;
+    if (!ddb.isLoaded() || jsonData.updated > ddb.lastUpdated) {
+      ddb.previouslyUpdated = ddb.lastUpdated;
+      ddb.lastUpdated = jsonData.updated;
+      ddb.prefectures = jsonData.prefectures;
+      let newTotals = calculateTotals(jsonData.daily);
+      ddb.totals = newTotals[0];
+      ddb.totalsDiff = newTotals[1];
+      ddb.trend = jsonData.daily;
 
-    drawKpis(ddb.totals, ddb.totalsDiff);
-    if (!document.body.classList.contains("embed-mode")) {
-      drawLastUpdated(ddb.lastUpdated, LANG);
-      drawPageTitleCount(ddb.totals.confirmed);
-      prefectureTrendCharts = drawPrefectureTable(
-        ddb.prefectures,
-        ddb.totals,
-        prefectureTrendCharts
-      );
-      drawTravelRestrictions(ddb);
-      trendChart = drawTrendChart(ddb.trend, trendChart);
-      dailyIncreaseChart = drawDailyIncreaseChart(
-        ddb.trend,
-        dailyIncreaseChart
-      );
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
-        LANG
-      );
+      let event = new Event("covid19japan-redraw");
+      document.dispatchEvent(event);
     }
-
-    whenMapAndDataReady(ddb, map);
   });
 };
 
@@ -259,10 +241,52 @@ const recursiveDataLoad = () => {
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
 };
 
-window.addEventListener("DOMContentLoaded", () => {
-  initDataTranslate(setLang);
+// Call only if ddb is updated.
+// Uses a setTimeout to queue a new macrotask
+const callIfUpdated = (callback) => {
+  if (ddb.isUpdated()) {
+    setTimeout(callback, 0);
+  }
+};
+
+document.addEventListener("covid19japan-redraw", () => {
+  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff));
+  if (!document.body.classList.contains("embed-mode")) {
+    callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
+    callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
+    callIfUpdated(() => {
+      prefectureTrendCharts = drawPrefectureTable(
+        ddb.prefectures,
+        ddb.totals,
+        prefectureTrendCharts
+      );
+    });
+    callIfUpdated(() => drawTravelRestrictions(ddb));
+    callIfUpdated(() => {
+      trendChart = drawTrendChart(ddb.trend, trendChart);
+    });
+    callIfUpdated(() => {
+      dailyIncreaseChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyIncreaseChart
+      );
+    });
+    callIfUpdated(() => {
+      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
+        ddb.prefectures,
+        prefectureTrajectoryChart,
+        LANG
+      );
+    });
+  }
+
+  whenMapAndDataReady(ddb, map);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
   initMap();
   loadDataOnPage();
+  initDataTranslate();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
 });
