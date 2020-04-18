@@ -255,14 +255,6 @@ document.addEventListener("covid19japan-redraw", () => {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
     callIfUpdated(() => {
-      prefectureTrendCharts = drawPrefectureTable(
-        ddb.prefectures,
-        ddb.totals,
-        prefectureTrendCharts
-      );
-    });
-    callIfUpdated(() => drawTravelRestrictions(ddb));
-    callIfUpdated(() => {
       trendChart = drawTrendChart(ddb.trend, trendChart);
     });
     callIfUpdated(() => {
@@ -278,6 +270,14 @@ document.addEventListener("covid19japan-redraw", () => {
         LANG
       );
     });
+    callIfUpdated(() => {
+      prefectureTrendCharts = drawPrefectureTable(
+        ddb.prefectures,
+        ddb.totals,
+        prefectureTrendCharts
+      );
+    });
+    callIfUpdated(() => drawTravelRestrictions(ddb));
   }
 
   whenMapAndDataReady(ddb, map);
