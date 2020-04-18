@@ -131,12 +131,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
         </tr>`;
-      prefectureTrendCharts = drawPrefectureTrend(
-        `#Unspecified-trend`,
-        pref.dailyConfirmedCount,
-        maxConfirmedIncrease,
-        prefectureTrendCharts
-      );
+      setTimeout(() => {
+        prefectureTrendCharts = drawPrefectureTrend(
+          `#Unspecified-trend`,
+          pref.dailyConfirmedCount,
+          maxConfirmedIncrease,
+          prefectureTrendCharts
+        );
+      }, 0);
     } else if (pref.name == "Port Quarantine" || pref.name == "Port of Entry") {
       // Override Port Quartantine name as "Port of Entry". The name in the spreadsheet is
       //  confusing.
@@ -152,12 +154,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
         </tr>`;
-      prefectureTrendCharts = drawPrefectureTrend(
-        `#PortOfEntry-trend`,
-        pref.dailyConfirmedCount,
-        maxConfirmedIncrease,
-        prefectureTrendCharts
-      );
+      setTimeout(() => {
+        prefectureTrendCharts = drawPrefectureTrend(
+          `#PortOfEntry-trend`,
+          pref.dailyConfirmedCount,
+          maxConfirmedIncrease,
+          prefectureTrendCharts
+        );
+      }, 0);
     } else if (pref.name == "Total") {
       // Skip
     } else {
@@ -173,12 +177,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
       `;
-      prefectureTrendCharts = drawPrefectureTrend(
-        `#${pref.name}-trend`,
-        pref.dailyConfirmedCount,
-        maxConfirmedIncrease,
-        prefectureTrendCharts
-      );
+      setTimeout(() => {
+        prefectureTrendCharts = drawPrefectureTrend(
+          `#${pref.name}-trend`,
+          pref.dailyConfirmedCount,
+          maxConfirmedIncrease,
+          prefectureTrendCharts
+        );
+      }, 0);
     }
     return true;
   });
