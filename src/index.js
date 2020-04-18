@@ -45,6 +45,16 @@ const ddb = {
   travelRestrictions,
 };
 
+ddb.isLoaded = function () {
+  return !!ddb.lastUpdated;
+};
+ddb.isUpdated = function () {
+  return (
+    ddb.isLoaded() &&
+    (!ddb.previouslyUpdated || ddb.lastUpdated > ddb.previouslyUpdated)
+  );
+};
+
 let map = undefined;
 let tippyInstances;
 
@@ -136,11 +146,13 @@ const setLang = (lng) => {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions(ddb);
       }
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
-        LANG
-      );
+      if (!ddb.isLoaded()) {
+        prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
+          ddb.prefectures,
+          prefectureTrajectoryChart,
+          LANG
+        );
+      }
     }
 
     tippyInstances = updateTooltipLang(tippyInstances);
