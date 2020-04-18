@@ -221,7 +221,7 @@ const startReloadTimer = () => {
   setTimeout(() => location.reload(), reloadInterval * 60 * 60 * 1000);
 };
 
-window.onload = () => {
+window.addEventListener("DOMContentLoaded", () => {
   initDataTranslate(setLang);
   map = drawMap(mapboxgl, map);
 
@@ -251,4 +251,4 @@ window.onload = () => {
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
 
   startReloadTimer();
-};
+});
