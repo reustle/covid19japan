@@ -157,8 +157,9 @@ const initDataTranslate = () => {
     });
 
   // Language selector event handler
-  if (document.querySelectorAll("[data-lang-picker]")) {
-    document.querySelectorAll("[data-lang-picker]").forEach((pick) => {
+  const langPickers = document.querySelectorAll("[data-lang-picker]");
+  if (langPickers) {
+    langPickers.forEach((pick) => {
       pick.addEventListener("click", (e) => {
         e.preventDefault();
         setLang(e.target.dataset.langPicker);
