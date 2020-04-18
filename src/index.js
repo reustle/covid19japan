@@ -243,9 +243,9 @@ const recursiveDataLoad = () => {
 
 // Call only if ddb is updated.
 // Uses a setTimeout to queue a new macrotask
-const callIfUpdated = (callback) => {
+const callIfUpdated = (callback, delay = 0) => {
   if (ddb.isUpdated()) {
-    setTimeout(callback, 0);
+    setTimeout(callback, delay);
   }
 };
 
@@ -269,18 +269,18 @@ document.addEventListener("covid19japan-redraw", () => {
         prefectureTrajectoryChart,
         LANG
       );
-    });
+    }, 32);
     callIfUpdated(() => {
       prefectureTrendCharts = drawPrefectureTable(
         ddb.prefectures,
         ddb.totals,
         prefectureTrendCharts
       );
-    });
+    }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }
 
-  whenMapAndDataReady(ddb, map);
+  callIfUpdated(() => whenMapAndDataReady(ddb, map));
 });
 
 document.addEventListener("DOMContentLoaded", () => {
