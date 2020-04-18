@@ -221,8 +221,7 @@ const startReloadTimer = () => {
   setTimeout(() => location.reload(), reloadInterval * 60 * 60 * 1000);
 };
 
-window.addEventListener("DOMContentLoaded", () => {
-  initDataTranslate(setLang);
+const initMap = () => {
   map = drawMap(mapboxgl, map);
 
   map.once("style.load", () => {
@@ -236,19 +235,21 @@ window.addEventListener("DOMContentLoaded", () => {
         ]);
       }
     });
-    whenMapAndDataReady(ddb, map);
   });
+};
+
+// Reload data every five minutes
+const FIVE_MINUTES_IN_MS = 300000;
+const recursiveDataLoad = () => {
+  pageDraws++;
   loadDataOnPage();
-
-  // Reload data every five minutes
-  const FIVE_MINUTES_IN_MS = 300000;
-  const recursiveDataLoad = () => {
-    pageDraws++;
-    loadDataOnPage();
-    setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
-  };
-
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
+};
 
+window.addEventListener("DOMContentLoaded", () => {
+  initDataTranslate(setLang);
+  initMap();
+  loadDataOnPage();
+  setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
 });
