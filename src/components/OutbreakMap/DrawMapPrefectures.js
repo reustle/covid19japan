@@ -33,17 +33,17 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
     if (cases > 0) {
       prefecturePaint.push(prefecture.name);
 
-      if (cases <= 50) {
-        // 1-50 cases
+      if (cases <= 100) {
+        // 1-100 cases
         prefecturePaint.push(COLOR_YELLOW);
-      } else if (cases <= 100) {
-        // 51-100 cases
+      } else if (cases <= 500) {
+        // 101-500 cases
         prefecturePaint.push(COLOR_ORANGE);
-      } else if (cases <= 200) {
-        // 101-200 cases
+      } else if (cases <= 1000) {
+        // 501-1000 cases
         prefecturePaint.push(COLOR_RED);
       } else {
-        // 201+ cases
+        // 1001+ cases
         prefecturePaint.push(COLOR_BURGUNDY);
       }
     }
