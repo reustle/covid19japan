@@ -63,6 +63,11 @@ const drawPrefectureTrend = (
   return prefectureTrendCharts;
 };
 
+// Run CPU intensive processing in a separate macrotask
+const enqueueMacrotask = (callback, delay = 0) => {
+  setTimeout(callback, delay);
+};
+
 const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
   // Draw the Cases By Prefecture table
   const dataTable = document.querySelector("#prefectures-table");
@@ -131,12 +136,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
         </tr>`;
-      prefectureTrendCharts = drawPrefectureTrend(
-        `#Unspecified-trend`,
-        pref.dailyConfirmedCount,
-        maxConfirmedIncrease,
-        prefectureTrendCharts
-      );
+      enqueueMacrotask(() => {
+        prefectureTrendCharts = drawPrefectureTrend(
+          `#Unspecified-trend`,
+          pref.dailyConfirmedCount,
+          maxConfirmedIncrease,
+          prefectureTrendCharts
+        );
+      });
     } else if (pref.name == "Port Quarantine" || pref.name == "Port of Entry") {
       // Override Port Quartantine name as "Port of Entry". The name in the spreadsheet is
       //  confusing.
@@ -152,12 +159,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
         </tr>`;
-      prefectureTrendCharts = drawPrefectureTrend(
-        `#PortOfEntry-trend`,
-        pref.dailyConfirmedCount,
-        maxConfirmedIncrease,
-        prefectureTrendCharts
-      );
+      enqueueMacrotask(() => {
+        prefectureTrendCharts = drawPrefectureTrend(
+          `#PortOfEntry-trend`,
+          pref.dailyConfirmedCount,
+          maxConfirmedIncrease,
+          prefectureTrendCharts
+        );
+      });
     } else if (pref.name == "Total") {
       // Skip
     } else {
@@ -173,12 +182,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count">${pref.deceased ? pref.deceased : ""}</td>
         <td class="count">${pref.active || ""}</td>
       `;
-      prefectureTrendCharts = drawPrefectureTrend(
-        `#${pref.name}-trend`,
-        pref.dailyConfirmedCount,
-        maxConfirmedIncrease,
-        prefectureTrendCharts
-      );
+      enqueueMacrotask(() => {
+        prefectureTrendCharts = drawPrefectureTrend(
+          `#${pref.name}-trend`,
+          pref.dailyConfirmedCount,
+          maxConfirmedIncrease,
+          prefectureTrendCharts
+        );
+      });
     }
     return true;
   });
