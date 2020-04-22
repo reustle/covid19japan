@@ -69,6 +69,19 @@
     }
   </script>
 
+  <script>
+  function prefmoreless() {
+    var elements = document.getElementsByClassName("pref-reveal");
+    for(var i = 0; i < elements.length; i++){
+        elements[i].hidden = !elements[i].hidden;
+    }
+    document.getElementById("prefec-more").hidden = !document.getElementById("prefec-more").hidden
+    document.getElementById("prefec-less").hidden = !document.getElementById("prefec-less").hidden
+
+};
+
+  </script>
+
   <header class="embed-hide">
     <div class="lang-picker">
       <a href="#" data-lang-picker='ja'>🇯🇵 日本語</a>
@@ -168,11 +181,14 @@
           <th data-i18n="active">Active</th>
         </tr>
       </thead>
+      <thead id="prefectures-table-total-header">
+      </thead>
       <tbody>
         <tr class="loading"><td colspan="5"><div class="lds-dual-ring"></div></td></tr>
       </tbody>
-      <tfoot></tfoot>
+      <tfoot hidden=True></tfoot>
     </table>
+     <button id="prefec-more" onclick="prefmoreless()">More</button><button id="prefec-less" onclick="prefmoreless()" hidden=True>Less</button>
     </div>
   </section>
 

@@ -108,6 +108,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
   });
 
   // Iterate through and render table rows
+  let pref_ctr=0
   orderBy(prefectures, "confirmed", "desc").map((pref) => {
     if (!pref.confirmed && !pref.recovered && !pref.deceased) {
       return;
@@ -121,7 +122,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
     }
 
     if (pref.name == "Unspecified") {
-      unspecifiedRows.innerHTML = `<tr>
+      unspecifiedRows.innerHTML = `<tr hidden=${pref_ctr > 10 ? true :false} class=${pref_ctr > 10 ? "pref-reveal" : "pref-keep"}>
         <td class="prefecture" data-i18n="unspecified">${i18next.t(
           "unspecified"
         )}</td>
@@ -142,7 +143,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
       //  confusing.
       //
       // TODO(liquidx): move this hack into covid19japan-data.
-      portOfEntryRows.innerHTML = `<tr>
+      portOfEntryRows.innerHTML = `<tr hidden=${pref_ctr > 10 ? true :false} class=${pref_ctr > 10 ? "pref-reveal" : "pref-keep"}>
         <td class="prefecture" data-i18n="port-of-entry">${i18next.t(
           "port-of-entry"
         )}</td>
@@ -163,6 +164,8 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
     } else {
       let row = document.createElement("tr");
       prefectureRows.appendChild(row);
+      row.hidden = pref_ctr > 10 ? true :false;
+      row.className = pref_ctr > 10 ? "pref-reveal" : "pref-keep"
       row.innerHTML = `
         <td class="prefecture" data-i18n="prefectures.${pref.name}">${i18next.t(
         "prefectures." + pref.name
@@ -180,10 +183,11 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         prefectureTrendCharts
       );
     }
+    pref_ctr += 1;
     return true;
   });
 
-  dataTableFoot.innerHTML = `<tr class='totals'>
+  document.getElementById("prefectures-table-total-header").innerHTML = `<tr class='totals'>
         <td data-i18n="total">${i18next.t("total")}</td>
         <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
