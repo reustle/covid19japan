@@ -108,26 +108,40 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
       layers: ["prefecture-layer"],
     })[0];
     if (feature) {
-      const thisPrefecture = ddb.prefectures.filter((p) => {
+      const matchingPrefectures = ddb.prefectures.filter((p) => {
         return p.name === feature.properties.NAME_1;
       });
-      const increment =
-        thisPrefecture[0].dailyConfirmedCount[
-          thisPrefecture[0].dailyConfirmedCount.length - 1
-        ];
+
+      if (!matchingPrefectures || matchingPrefectures.length < 1) {
+        return;
+      }
+
+      const thisPrefecture = matchingPrefectures[0];
+      let increment = 0;
+
+      if (typeof thisPrefecture === "undefined") {
+        return; // This happens if prefecture doesn't have any stats (e.g. Iwate)
+      }
+
+      if (thisPrefecture.dailyConfirmedCount) {
+        increment =
+          thisPrefecture.dailyConfirmedCount[
+            thisPrefecture.dailyConfirmedCount.length - 1
+          ];
+      }
 
       if (increment > 0) {
         var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
       } else {
         var popupIncrementSpan = "";
       }
-      const name = thisPrefecture[0].name;
-      const confirmed = thisPrefecture[0].confirmed;
-      const deaths = thisPrefecture[0].deaths;
-      const recovered = thisPrefecture[0].recovered;
+      const name = thisPrefecture.name;
+      const confirmed = thisPrefecture.confirmed;
+      const deaths = thisPrefecture.deaths;
+      const recovered = thisPrefecture.recovered;
       const active =
-        thisPrefecture[0].confirmed -
-        ((thisPrefecture[0].recovered || 0) + (thisPrefecture[0].deaths || 0));
+        thisPrefecture.confirmed -
+        ((thisPrefecture.recovered || 0) + (thisPrefecture.deaths || 0));
       const html = `<div class="map-popup">
       <h3 data-i18n="prefectures.${name}">${i18next.t(
         "prefectures." + name
