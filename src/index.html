@@ -83,13 +83,12 @@
   </script>
 
   <header class="embed-hide">
-    <div class="lang-picker">
-      <a href="#" data-lang-picker='ja'>🇯🇵 日本語</a>
-      <a href="#" data-lang-picker='en' style="display:none">🇺🇸 English</a>
-    </div>
-    
     <h1 data-i18n="covid-19-tracker">Japan COVID-19 Coronavirus Tracker</h1>
-    <div>
+    <div class="toolbar">
+      <div class="lang-picker">
+        <a href="#" data-lang-picker='en'>EN 🇺🇸</a> |
+        <a href="#" data-lang-picker='ja'>JP 🇯🇵</a>
+      </div>
       <em>
         <span data-i18n="last-updated">Last Updated:</span> <strong id="last-updated">-</strong>
       </em>
@@ -239,6 +238,9 @@
           Active relevant Twitter accounts
         </a>
       </li>
+      <li>
+        English language news sources: <a href="https://www.japantimes.co.jp/">Japan Times</a>, <a href="https://english.kyodonews.net/">Kyodo News</a>, <a href="http://www.asahi.com/ajw/">Asahi Shimbun</a>, <a href="https://mainichi.jp/english/">Mainichi Shimbun</a>
+      </li>
     </ul>
   </section>
 
@@ -248,26 +250,26 @@
     </p>
     <p>
       <a href="https://twitter.com/reustle" title="Shane" target="_blank" class="avatar">
-        <img src="/static/avatars/shane.jpg">
+        <img src="/static/avatars/shane.jpg" alt="Shane">
       </a>
       <a href="https://twitter.com/kayzjh" title="Kay" target="_blank" class="avatar">
-        <img src="/static/avatars/kay.png">
+        <img src="/static/avatars/kay.png" alt="Kay">
       </a>
       <a href="https://twitter.com/guchagucha" title="Mark" target="_blank" class="avatar">
-        <img src="/static/avatars/mark.jpg">
+        <img src="/static/avatars/mark.jpg" alt="Mark">
       </a>
       <a href="https://twitter.com/liquidx" title="Alastair" target="_blank" class="avatar">
-        <img src="/static/avatars/alastair.png">
+        <img src="/static/avatars/alastair.png" alt="Alastair">
       </a>
       <a href="https://twitter.com/lchin" title="Leonard" target="_blank" class="avatar">
-        <img src="/static/avatars/leonard.jpg">
+        <img src="/static/avatars/leonard.jpg" alt="Leonard">
       </a>
       <a href="https://github.com/reustle/covid19japan/graphs/contributors" title="Other Contributors" target="_blank" class="avatar">
-        <img src="https://ui-avatars.com/api/?background=1876D3&size=50&bold=true&color=fff&name=%2B">
+        <img src="https://ui-avatars.com/api/?background=1876D3&size=50&bold=true&color=fff&name=%2B" alt="Other Contributors">
       </a>
     </p>
     <p>
-      Supported by <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, <a href="https://mapbox.com/community/" target="_blank">Mapbox</a>, and <a href="https://sentry.io" target="_blank">Sentry.io</a><br/>
+      Supported by <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, <a href="https://mapbox.com/community/" target="_blank">Mapbox</a>, <a href="https://sentry.io" target="_blank">Sentry.io</a>, and <a href="https://netlify.com/" target="_blank">Netlify</a><br/>
       Contribute to <a href="https://github.com/reustle/covid19japan">covid19japan on GitHub</a><br/>
       Data sourced from Prefectural Governments and MHLW (<a href="https://github.com/reustle/covid19japan-data/">Full Details</a>)
     </p>

@@ -45,6 +45,16 @@ const ddb = {
   travelRestrictions,
 };
 
+ddb.isLoaded = function () {
+  return !!ddb.lastUpdated;
+};
+ddb.isUpdated = function () {
+  return (
+    ddb.isLoaded() &&
+    (!ddb.previouslyUpdated || ddb.lastUpdated > ddb.previouslyUpdated)
+  );
+};
+
 let map = undefined;
 let tippyInstances;
 
@@ -136,11 +146,13 @@ const setLang = (lng) => {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions(ddb);
       }
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
-        LANG
-      );
+      if (ddb.isLoaded()) {
+        prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
+          ddb.prefectures,
+          prefectureTrajectoryChart,
+          LANG
+        );
+      }
     }
 
     tippyInstances = updateTooltipLang(tippyInstances);
@@ -157,8 +169,9 @@ const initDataTranslate = () => {
     });
 
   // Language selector event handler
-  if (document.querySelectorAll("[data-lang-picker]")) {
-    document.querySelectorAll("[data-lang-picker]").forEach((pick) => {
+  const langPickers = document.querySelectorAll("[data-lang-picker]");
+  if (langPickers) {
+    langPickers.forEach((pick) => {
       pick.addEventListener("click", (e) => {
         e.preventDefault();
         setLang(e.target.dataset.langPicker);
@@ -183,41 +196,27 @@ const loadDataOnPage = () => {
   loadData((data) => {
     jsonData = data;
 
-    ddb.prefectures = jsonData.prefectures;
-    let newTotals = calculateTotals(jsonData.daily);
-    ddb.totals = newTotals[0];
-    ddb.totalsDiff = newTotals[1];
-    ddb.trend = jsonData.daily;
-    ddb.lastUpdated = jsonData.updated;
+    if (!ddb.isLoaded() || jsonData.updated > ddb.lastUpdated) {
+      ddb.previouslyUpdated = ddb.lastUpdated;
+      ddb.lastUpdated = jsonData.updated;
+      ddb.prefectures = jsonData.prefectures;
+      let newTotals = calculateTotals(jsonData.daily);
+      ddb.totals = newTotals[0];
+      ddb.totalsDiff = newTotals[1];
+      ddb.trend = jsonData.daily;
 
-    drawKpis(ddb.totals, ddb.totalsDiff);
-    if (!document.body.classList.contains("embed-mode")) {
-      drawLastUpdated(ddb.lastUpdated, LANG);
-      drawPageTitleCount(ddb.totals.confirmed);
-      prefectureTrendCharts = drawPrefectureTable(
-        ddb.prefectures,
-        ddb.totals,
-        prefectureTrendCharts
-      );
-      drawTravelRestrictions(ddb);
-      trendChart = drawTrendChart(ddb.trend, trendChart);
-      dailyIncreaseChart = drawDailyIncreaseChart(
-        ddb.trend,
-        dailyIncreaseChart
-      );
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
-        LANG
-      );
+      let event = new Event("covid19japan-redraw");
+      document.dispatchEvent(event);
     }
-
-    whenMapAndDataReady(ddb, map);
   });
 };
 
-window.onload = () => {
-  initDataTranslate(setLang);
+const startReloadTimer = () => {
+  let reloadInterval = 3;
+  setTimeout(() => location.reload(), reloadInterval * 60 * 60 * 1000);
+};
+
+const initMap = () => {
   map = drawMap(mapboxgl, map);
 
   map.once("style.load", () => {
@@ -231,17 +230,63 @@ window.onload = () => {
         ]);
       }
     });
-    whenMapAndDataReady(ddb, map);
   });
+};
+
+// Reload data every five minutes
+const FIVE_MINUTES_IN_MS = 300000;
+const recursiveDataLoad = () => {
+  pageDraws++;
   loadDataOnPage();
-
-  // Reload data every five minutes
-  const FIVE_MINUTES_IN_MS = 300000;
-  const recursiveDataLoad = () => {
-    pageDraws++;
-    loadDataOnPage();
-    setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
-  };
-
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
 };
+
+// Call only if ddb is updated.
+// Uses a setTimeout to queue a new macrotask
+const callIfUpdated = (callback, delay = 0) => {
+  if (ddb.isUpdated()) {
+    setTimeout(callback, delay);
+  }
+};
+
+document.addEventListener("covid19japan-redraw", () => {
+  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff));
+  if (!document.body.classList.contains("embed-mode")) {
+    callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
+    callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
+    callIfUpdated(() => {
+      trendChart = drawTrendChart(ddb.trend, trendChart);
+    });
+    callIfUpdated(() => {
+      dailyIncreaseChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyIncreaseChart
+      );
+    });
+    callIfUpdated(() => {
+      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
+        ddb.prefectures,
+        prefectureTrajectoryChart,
+        LANG
+      );
+    }, 32);
+    callIfUpdated(() => {
+      prefectureTrendCharts = drawPrefectureTable(
+        ddb.prefectures,
+        ddb.totals,
+        prefectureTrendCharts
+      );
+    }, 32);
+    callIfUpdated(() => drawTravelRestrictions(ddb));
+  }
+
+  callIfUpdated(() => whenMapAndDataReady(ddb, map));
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  initMap();
+  loadDataOnPage();
+  initDataTranslate();
+  setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
+  startReloadTimer();
+});
