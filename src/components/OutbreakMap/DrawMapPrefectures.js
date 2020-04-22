@@ -117,10 +117,17 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
       }
 
       const thisPrefecture = matchingPrefectures[0];
-      const increment =
-        thisPrefecture.dailyConfirmedCount[
-          thisPrefecture.dailyConfirmedCount.length - 1
-        ];
+      if (typeof thisPrefecture === "undefined") {
+        return;
+      }
+
+      let increment = 0;
+      if (thisPrefecture.dailyConfirmedCount) {
+        increment =
+          thisPrefecture.dailyConfirmedCount[
+            thisPrefecture.dailyConfirmedCount.length - 1
+          ];
+      }
 
       if (increment > 0) {
         var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
