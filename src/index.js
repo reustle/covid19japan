@@ -205,7 +205,14 @@ const loadDataOnPage = () => {
       ddb.totalsDiff = newTotals[1];
       ddb.trend = jsonData.daily;
 
-      let event = new Event("covid19japan-redraw");
+      let event;
+      if (typeof Event === "function") {
+        event = new Event("covid19japan-redraw");
+      } else {
+        // Fall back to deprecated methods for IE11 etc
+        event = document.createEvent("Event");
+        event.initEvent("covid19japan-redraw");
+      }
       document.dispatchEvent(event);
     }
   });
