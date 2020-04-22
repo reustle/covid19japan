@@ -36,26 +36,27 @@ const drawPrefectureTrend = (
       colors: { confirmed: COLOR_CONFIRMED },
     },
     bar: {
-      width: { ratio: 0.65 },
+      width: { ratio: 1 },
       zerobased: true,
     },
     axis: {
       x: {
         show: false,
         min: 0,
+        padding: { left: 0, right: 0 },
         padding: 5,
       },
       y: {
         show: false,
         min: 0,
         max: yMax,
-        padding: 1,
+        padding: { top: 0, bottom: 0 },
       },
     },
     size: {
       height: 40,
     },
-
+    padding: { left: 0, right: 0, top: 0, bottom: 0 },
     legend: { show: false },
     tooltip: { show: false },
     point: { show: false },
@@ -108,8 +109,6 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
     pref.deceased = pref.deaths ? parseInt(pref.deaths) : 0;
-    pref.active =
-      pref.confirmed - ((pref.recovered || 0) + (pref.deceased || 0));
   });
 
   // Iterate through and render table rows
@@ -118,11 +117,12 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
       return;
     }
 
-    let increment =
-      pref.dailyConfirmedCount[pref.dailyConfirmedCount.length - 1];
     let incrementString = "";
-    if (increment > 0) {
-      incrementString = `<span class='increment'>(+${increment})</span>`;
+    if (pref.newlyConfirmed > 0) {
+      incrementString += `&nbsp;<span class='increment'>+${pref.newlyConfirmed}</span>`;
+    }
+    if (pref.yesterdayConfirmed > 0) {
+      incrementString += `&nbsp;<span class='increment yesterday'>+${pref.yesterdayConfirmed}</span>`;
     }
 
     if (pref.name == "Unspecified") {
@@ -130,11 +130,10 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="prefecture" data-i18n="unspecified">${i18next.t(
           "unspecified"
         )}</td>
-        <td class="trend"><div id="Unspecified-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
-        <td class="count">${pref.active || ""}</td>
+        <td class="trend"><div id="Unspecified-trend"></div></td>
+        <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
+        <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
         </tr>`;
       enqueueMacrotask(() => {
         prefectureTrendCharts = drawPrefectureTrend(
@@ -153,11 +152,10 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="prefecture" data-i18n="port-of-entry">${i18next.t(
           "port-of-entry"
         )}</td>
-        <td class="trend"><div id="PortOfEntry-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
-        <td class="count">${pref.active || ""}</td>
+        <td class="trend"><div id="PortOfEntry-trend"></div></td>
+        <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
+        <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
         </tr>`;
       enqueueMacrotask(() => {
         prefectureTrendCharts = drawPrefectureTrend(
@@ -176,11 +174,10 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="prefecture" data-i18n="prefectures.${pref.name}">${i18next.t(
         "prefectures." + pref.name
       )}</td>
-        <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count">${pref.confirmed} ${incrementString}</td>
-        <td class="count">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count">${pref.deceased ? pref.deceased : ""}</td>
-        <td class="count">${pref.active || ""}</td>
+        <td class="trend"><div id="${pref.name}-trend"></div></td>
+        <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
+        <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
       `;
       enqueueMacrotask(() => {
         prefectureTrendCharts = drawPrefectureTrend(
@@ -196,13 +193,10 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
 
   dataTableFoot.innerHTML = `<tr class='totals'>
         <td data-i18n="total">${i18next.t("total")}</td>
-        <td class="trend"></td>
         <td class="count">${totals.confirmed}</td>
-        <td class="count">${totals.recovered}</td>
-        <td class="count">${totals.deceased}</td>
-        <td class="count">${
-          totals.confirmed - totals.recovered - totals.deceased
-        }</td>
+        <td class="trend"></td>
+        <td class="count recovered">${totals.recovered}</td>
+        <td class="count deceased">${totals.deceased}</td>
         </tr>`;
 
   return prefectureTrendCharts;

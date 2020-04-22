@@ -32,6 +32,8 @@
   "total": "計",
   "port-of-entry": "入国港",
   "unspecified": "不明",
+  "increment-today": "+今日",
+  "increment-yesterday": "+昨日",
   "prefectures": {
     "Aichi": "愛知県",
     "Akita": "秋田県",

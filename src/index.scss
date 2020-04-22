@@ -3,6 +3,9 @@
 
 
 $primary-black: #000a12;
+$color-confirmed: rgb(244,67,52);
+$color-recovered: rgb(24,118,211);
+$color-deceased:  rgb(54,72,79);
 
 body {
   margin: 0px;
@@ -93,7 +96,7 @@ h1 {
       font-weight: 700;
     }
     .value {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 800;
       margin-bottom: 14px;
     }
@@ -104,13 +107,13 @@ h1 {
   }
 
   #kpi-confirmed {
-    color: rgb(244,67,52);
+    color: $color-confirmed;
   }
   #kpi-recovered {
-    color: rgb(24,118,211);
+    color: $color-recovered;
   }
   #kpi-deceased {
-    color: rgb(54,72,79);
+    color: $color-deceased;
   }
   #kpi-critical {
     color:  rgb(114,4,5);
@@ -130,7 +133,7 @@ h1 {
   }
 
   .kpi-metrics {
-    font-size: 28px;
+    font-size: 24px;
    font-weight: 800;
   }
 
@@ -204,7 +207,6 @@ table {
 
   tfoot tr {
     background-color: rgb(235, 238, 239);
-
   }
 
   th {
@@ -212,10 +214,10 @@ table {
     font-size: 11px;
     min-width: 7em;
   }
-  td {
+  th, td {
     padding: 5px 0px;
   }
-  td:first-child {
+  th.prefecture, td.prefecture {
     padding: 5px;
   }
   .totals {
@@ -234,18 +236,26 @@ table {
 
 
   th.trend, td.trend {
-    width: 180px;
-    min-width: 180px;
-    max-width: 240px;
-    padding: 0 4px;
+    min-width: 120px;
+    max-width: 180px;
   }
 
   th.count, td.count {
-    width: 7em;
+    min-width: 3em;
+    line-height: 1em;
+  }
+
+  th.recovered, td.recovered {
+    color: $color-recovered;
   }
 
   span.increment {
-    color: rgb(244,67,54);
+    color: $color-confirmed;
+    font-size: 10px;
+  }
+
+  span.increment.yesterday {
+    color: rgb(128, 122, 122);
     font-size: 10px;
   }
 

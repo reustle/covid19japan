@@ -170,11 +170,13 @@
       <thead>
         <tr>
           <th data-i18n="prefecture" class="prefecture">Prefecture</th>
-          <th class="trend"><div id="sparkline-chart"></div></th>
-          <th data-i18n="confirmed">Confirmed</th>
-          <th data-i18n="recovered">Recovered</th>
-          <th data-i18n="deaths">Deaths</th>
-          <th data-i18n="active">Active</th>
+          <th class="trend" colspan="2">
+            <span data-i18n="confirmed">Confirmed</span> 
+            <span class="increment"><span data-i18n="increment-today">＋Today</span>
+            <span class="increment yesterday"><span data-i18n="increment-yesterday">＋Yesterday</span></span>
+          </th>
+          <th data-i18n="recovered" class="recovered">Recovered</th>
+          <th data-i18n="deaths" class="deceased">Deaths</th>
         </tr>
       </thead>
       <tbody>
