@@ -211,7 +211,7 @@ const loadDataOnPage = () => {
       } else {
         // Fall back to deprecated methods for IE11 etc
         event = document.createEvent("Event");
-        event.initEvent("covid19japan-redraw");
+        event.initEvent("covid19japan-redraw", true, false);
       }
       document.dispatchEvent(event);
     }
