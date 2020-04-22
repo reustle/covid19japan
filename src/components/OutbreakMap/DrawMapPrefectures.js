@@ -112,22 +112,17 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
         return p.name === feature.properties.NAME_1;
       });
 
-      if (!matchingPrefectures || matchingPrefectures.length < 1) {
+      if (!matchingPrefectures || !matchingPrefectures.length < 1) {
         return;
       }
 
       const thisPrefecture = matchingPrefectures[0];
-      if (typeof thisPrefecture === "undefined") {
-        return; // This happens if prefecture doesn't have any stats (e.g. Iwate)
-      }
-
-      const increment = thisPrefecture[0].newlyConfirmed;
+      const increment = thisPrefecture.newlyConfirmed;
       if (increment > 0) {
         var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
       } else {
         var popupIncrementSpan = "";
       }
-      
       const name = thisPrefecture.name;
       const confirmed = thisPrefecture.confirmed;
       const deaths = thisPrefecture.deaths;
