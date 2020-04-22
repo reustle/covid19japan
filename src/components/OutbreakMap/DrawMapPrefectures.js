@@ -112,7 +112,7 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
         return p.name === feature.properties.NAME_1;
       });
 
-      if (!matchingPrefectures || !matchingPrefectures.length < 1) {
+      if (!matchingPrefectures || matchingPrefectures.length < 1) {
         return;
       }
 
