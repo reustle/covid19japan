@@ -117,11 +117,12 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
       }
 
       const thisPrefecture = matchingPrefectures[0];
+      let increment = 0;
+
       if (typeof thisPrefecture === "undefined") {
-        return;
+        return; // This happens if prefecture doesn't have any stats (e.g. Iwate)
       }
 
-      let increment = 0;
       if (thisPrefecture.dailyConfirmedCount) {
         increment =
           thisPrefecture.dailyConfirmedCount[
