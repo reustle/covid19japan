@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import {
   PREFECTURE_JSON_PATH,
   PREFECTURE_PAINT,
@@ -95,6 +96,58 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
     // Update prefecture paint properties
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
   }
+
+  // Map popup for prefectures
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
+
+  map.on("mousemove", function (e) {
+    const feature = map.queryRenderedFeatures(e.point, {
+      layers: ["prefecture-layer"],
+    })[0];
+    if (feature) {
+      const thisPrefecture = ddb.prefectures.filter((p) => {
+        return p.name === feature.properties.NAME_1;
+      });
+      const increment =
+        thisPrefecture[0].dailyConfirmedCount[
+          thisPrefecture[0].dailyConfirmedCount.length - 1
+        ];
+
+      if (increment > 0) {
+        var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
+      } else {
+        var popupIncrementSpan = "";
+      }
+      const name = thisPrefecture[0].name;
+      const confirmed = thisPrefecture[0].confirmed;
+      const deaths = thisPrefecture[0].deaths;
+      const recovered = thisPrefecture[0].recovered;
+      const active =
+        thisPrefecture[0].confirmed -
+        ((thisPrefecture[0].recovered || 0) + (thisPrefecture[0].deaths || 0));
+      const html = `<div class="map-popup">
+      <h3 data-i18n="prefectures.${name}">${i18next.t(
+        "prefectures." + name
+      )}</h3>
+          <span data-i18n="confirmed">${i18next.t(
+            "confirmed"
+          )}</span>: ${confirmed} ${popupIncrementSpan}<br />
+          <span data-i18n="recovered">${i18next.t(
+            "recovered"
+          )}</span>: ${recovered}<br />
+          <span data-i18n="deaths">${i18next.t(
+            "deaths"
+          )}</span>: ${deaths}<br />
+          <span data-i18n="active">${i18next.t("active")}</span>: ${active}
+          </div>`;
+      popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
+    } else {
+      popup.remove();
+    }
+  });
 
   return { map, ddb };
 };
