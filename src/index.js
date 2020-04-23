@@ -2,6 +2,7 @@
 import "core-js/stable";
 import "whatwg-fetch";
 import "classlist-polyfill";
+import "custom-event-polyfill";
 
 // Add all non-polyfill deps below.
 import i18next from "i18next";
@@ -205,14 +206,7 @@ const loadDataOnPage = () => {
       ddb.totalsDiff = newTotals[1];
       ddb.trend = jsonData.daily;
 
-      let event;
-      if (typeof Event === "function") {
-        event = new Event("covid19japan-redraw");
-      } else {
-        // Fall back to deprecated methods for IE11 etc
-        event = document.createEvent("Event");
-        event.initEvent("covid19japan-redraw");
-      }
+      const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
     }
   });
