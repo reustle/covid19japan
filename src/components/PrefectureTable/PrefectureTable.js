@@ -214,7 +214,7 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
   dataTableFoot.innerHTML = `<tr class='totals'>
         <td data-i18n="total">${i18next.t("total")}</td>
         <td class="trend"></td>
-        <td class="count" colspan="3">${totals.confirmed}</td>
+        <td class="count" colspan="2">${totals.confirmed}</td>
         <td class="count recovered">${totals.recovered}</td>
         <td class="count deceased">${totals.deceased}</td>
         </tr>`;
