@@ -32,8 +32,8 @@
   "total": "Total",
   "port-of-entry": "Port of Entry",
   "unspecified": "Unspecified",
-  "increment-today": "+Today",
-  "increment-yesterday": "+Yesterday",
+  "increment-today": "(Today)",
+  "increment-yesterday": "(Yesterday)",
   "prefectures": {
     "Aichi": "Aichi",
     "Akita": "Akita",

@@ -29,6 +29,7 @@ const drawPrefectureTrend = (
   }
   prefectureTrendCharts[elementId] = c3.generate({
     bindto: elementId,
+    padding: { left: 0, right: 0, top: 0, bottom: 0 },
     interaction: { enabled: false },
     data: {
       type: "bar",
@@ -44,7 +45,6 @@ const drawPrefectureTrend = (
         show: false,
         min: 0,
         padding: { left: 0, right: 0 },
-        padding: 5,
       },
       y: {
         show: false,
@@ -54,9 +54,9 @@ const drawPrefectureTrend = (
       },
     },
     size: {
-      height: 40,
+      height: 30,
+      width: 120,
     },
-    padding: { left: 0, right: 0, top: 0, bottom: 0 },
     legend: { show: false },
     tooltip: { show: false },
     point: { show: false },
@@ -118,11 +118,13 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
     }
 
     let incrementString = "";
+    let todayConfirmedString = "";
+    let yesterdayConfirmedString = "";
     if (pref.newlyConfirmed > 0) {
-      incrementString += `&nbsp;<span class='increment'>+${pref.newlyConfirmed}</span>`;
+      todayConfirmedString = `(&nbsp;+${pref.newlyConfirmed}&nbsp;)`;
     }
     if (pref.yesterdayConfirmed > 0) {
-      incrementString += `&nbsp;<span class='increment yesterday'>+${pref.yesterdayConfirmed}</span>`;
+      yesterdayConfirmedString = `(&nbsp;+${pref.yesterdayConfirmed}&nbsp;)`;
     }
 
     if (pref.name == "Unspecified") {
@@ -130,8 +132,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="prefecture" data-i18n="unspecified">${i18next.t(
           "unspecified"
         )}</td>
-        <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="trend"><div id="Unspecified-trend"></div></td>
+        <td class="count confirmed">${pref.confirmed}</td>
+        <td class="delta">
+          <div class="increment">
+            <span class="today">${todayConfirmedString}</span>
+            <span class="yesterday">${yesterdayConfirmedString}</span>
+          </div>
+        </td>
         <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
         </tr>`;
@@ -152,8 +160,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="prefecture" data-i18n="port-of-entry">${i18next.t(
           "port-of-entry"
         )}</td>
-        <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="trend"><div id="PortOfEntry-trend"></div></td>
+        <td class="count confirmed">${pref.confirmed} ${incrementString}</td>
+        <td class="delta">
+          <div class="increment">
+            <span class="today">${todayConfirmedString}</span>
+            <span class="yesterday">${yesterdayConfirmedString}</span>
+          </div>
+        </td>
         <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
         </tr>`;
@@ -174,8 +188,14 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="prefecture" data-i18n="prefectures.${pref.name}">${i18next.t(
         "prefectures." + pref.name
       )}</td>
-        <td class="count">${pref.confirmed} ${incrementString}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
+        <td class="count confirmed">${pref.confirmed} ${incrementString}</td>
+        <td class="delta">
+          <div class="increment">
+            <span class="today">${todayConfirmedString}</span>
+            <span class="yesterday">${yesterdayConfirmedString}</span>
+          </div>
+       </td>
         <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
       `;
@@ -193,8 +213,8 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
 
   dataTableFoot.innerHTML = `<tr class='totals'>
         <td data-i18n="total">${i18next.t("total")}</td>
-        <td class="count">${totals.confirmed}</td>
         <td class="trend"></td>
+        <td class="count" colspan="3">${totals.confirmed}</td>
         <td class="count recovered">${totals.recovered}</td>
         <td class="count deceased">${totals.deceased}</td>
         </tr>`;

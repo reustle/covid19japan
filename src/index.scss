@@ -127,7 +127,6 @@ h1 {
 
 
   table {
-    text-align: center;
     width: 100%;
     border-spacing: 0px 10px;
   }
@@ -213,13 +212,29 @@ table {
     text-align: left;
     font-size: 11px;
     min-width: 7em;
+    vertical-align: baseline;
   }
+
   th, td {
-    padding: 5px 0px;
+    padding: 5px 5px;
+    line-height: 1.0em;
   }
-  th.prefecture, td.prefecture {
-    padding: 5px;
+
+  thead th {
+    min-height: 40px;
+    border-bottom: 2px solid rgb(219, 219, 219);
   }
+
+  thead tr {
+    padding-bottom: 10px;
+  }
+
+  tbody td {
+    vertical-align: middle;
+    height: 40px;
+    min-height: 40px;
+  }
+
   .totals {
     font-weight: bold;
   }
@@ -229,34 +244,43 @@ table {
   }
 
   th.prefecture, td.prefecture {
+    padding: 5px;
     min-width: 60px;
     max-width: 100px;
     white-space: nowrap;
   }
 
-
   th.trend, td.trend {
-    min-width: 120px;
-    max-width: 180px;
+    width: 120px;
+    padding: 0 10px;
   }
 
-  th.count, td.count {
-    min-width: 3em;
-    line-height: 1em;
+  td.confirmed {
+    width: 2em;
   }
 
   th.recovered, td.recovered {
     color: $color-recovered;
   }
 
-  span.increment {
+  div.increment {
+    display: block;
+  }
+
+  .today {
     color: $color-confirmed;
     font-size: 10px;
   }
 
-  span.increment.yesterday {
+  .yesterday {
     color: rgb(128, 122, 122);
     font-size: 10px;
+  }
+
+  td.delta {
+    width: 40px;
+    padding-left: 2px;
+    text-align: left;
   }
 
 }

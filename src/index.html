@@ -170,11 +170,15 @@
       <thead>
         <tr>
           <th data-i18n="prefecture" class="prefecture">Prefecture</th>
-          <th class="trend" colspan="2">
+          <th class="trend"></th>
+          <th class="" colspan="2">
             <span data-i18n="confirmed">Confirmed</span> 
-            <span class="increment"><span data-i18n="increment-today">＋Today</span>
-            <span class="increment yesterday"><span data-i18n="increment-yesterday">＋Yesterday</span></span>
+            <div class="increment">
+              <span class="delta today"><span data-i18n="increment-today">(Today)</span>
+              <span class="delta yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></span>
+            </div>
           </th>
+
           <th data-i18n="recovered" class="recovered">Recovered</th>
           <th data-i18n="deaths" class="deceased">Deaths</th>
         </tr>
