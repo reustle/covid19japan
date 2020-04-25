@@ -6,7 +6,7 @@ import {
   COLOR_ORANGE,
   COLOR_RED,
   COLOR_BURGUNDY,
-  COLOR_BLACK,
+  COLOR_NONE,
 } from "../../data/constants";
 /**
  * drawMapPrefectures
@@ -51,7 +51,7 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
   });
 
   // Add a final value to the list for the default color
-  prefecturePaint.push(COLOR_BLACK);
+  prefecturePaint.push(COLOR_NONE);
 
   if (pageDraws === 0) {
     // If it is the first time drawing the map
