@@ -10,6 +10,15 @@ For all information regarding the data powering this site, please visit the [cov
 
 Our data is sourced from a variety of sources, primarily Japanese news outlets like NHK, prefectural governments, and the Ministry of Health, Labour and Welfare.
 
+## Embed
+
+To embed an [abridged version](https://covid19japan.com/embed) of the app, add the following to your HTML:
+
+```HTML
+<script src="https://covid19japan.com/embed.js"></script>
+<div id="covid19japan-embed"></div>
+```
+
 ## Contributing Code
 
 If you would like to contribute features, refactor code, etc., please create or comment on an issue on this repo, and one of the core contributors listed below.
