@@ -1,6 +1,8 @@
 import * as c3 from "c3";
 import * as d3 from "d3";
 import i18next from "i18next";
+import { format as dateFormat } from "date-fns";
+import { enUS, ja } from "date-fns/locale";
 
 import {
   COLOR_ACTIVE,
@@ -10,7 +12,12 @@ import {
   CHART_TIME_PERIOD,
 } from "../../data/constants";
 
-const drawTrendChart = (sheetTrend, trendChart) => {
+const drawTrendChart = (sheetTrend, trendChart, lang) => {
+  let dateLocale = enUS;
+  if (lang == "ja") {
+    dateLocale = ja;
+  }
+
   const cols = {
     Date: ["Date"],
     Confirmed: ["Confirmed"],
@@ -64,6 +71,12 @@ const drawTrendChart = (sheetTrend, trendChart) => {
         cols.Deceased,
         //cols.Tested
       ],
+      names: {
+        Confirmed: i18next.t("kpi-confirmed"),
+        Active: i18next.t("kpi-active"),
+        Recovered: i18next.t("kpi-recovered"),
+        Deceased: i18next.t("kpi-deceased"),
+      },
       regions: {
         [cols.Confirmed[0]]: [
           { start: cols.Date[cols.Date.length - 2], style: "dashed" },
@@ -90,8 +103,17 @@ const drawTrendChart = (sheetTrend, trendChart) => {
       x: {
         type: "timeseries",
         tick: {
-          format: "%b %d",
           count: 6,
+          format: (x) => {
+            if (isNaN(x)) {
+              return "";
+            }
+            const xDate = Date.parse(x);
+            return dateFormat(xDate, "MMM d", {
+              locale: dateLocale,
+              addSuffix: true,
+            });
+          },
         },
       },
       y: {

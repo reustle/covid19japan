@@ -38,11 +38,10 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
     dailyIncreaseChart.destroy();
   }
 
-  console.log([cols.Confirmed, cols.ConfirmedAvg]);
-
   dailyIncreaseChart = c3.generate({
     bindto: "#daily-increase-chart",
     data: {
+      x: "Date",
       colors: {
         Confirmed: (color, d) => {
           if (d && d.index === cols.Date.length - 2) {
@@ -55,7 +54,7 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
           return COLOR_CONFIRMED;
         },
       },
-      columns: [cols.Confirmed, cols.ConfirmedAvg],
+      columns: [cols.Date, cols.Confirmed, cols.ConfirmedAvg],
       names: {
         Confirmed: i18next.t("daily"),
         ConfirmedAvg: i18next.t("7-day-average"),
@@ -81,10 +80,13 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
     },
     axis: {
       x: {
+        type: "timeseries",
         tick: {
           format: (x) => {
-            // x+1 because the list is prefixed with the label
-            const xDate = new Date(cols.Date[x + 1]);
+            if (isNaN(x)) {
+              return "";
+            }
+            const xDate = Date.parse(x);
             return format(xDate, "MMM d", {
               locale: dateLocale,
               addSuffix: true,
