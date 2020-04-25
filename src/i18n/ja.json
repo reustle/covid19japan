@@ -34,6 +34,8 @@
   "unspecified": "不明",
   "increment-today": "(今日)",
   "increment-yesterday": "(昨日)",
+  "daily": "毎日の数",
+  "7-day-average": "7日間の平均",
   "prefectures": {
     "Aichi": "愛知県",
     "Akita": "秋田県",

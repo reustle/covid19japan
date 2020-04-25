@@ -1,16 +1,25 @@
 import * as c3 from "c3";
 import i18next from "i18next";
+import { format } from "date-fns";
+import { enUS, ja } from "date-fns/locale";
 
 import {
   COLOR_TESTED,
   COLOR_TESTED_DAILY,
   CHART_TIME_PERIOD,
+  COLOR_CONFIRMED,
 } from "../../data/constants";
 
-const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
+const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
+  let dateLocale = enUS;
+  if (lang == "ja") {
+    dateLocale = ja;
+  }
+
   const cols = {
     Date: ["Date"],
-    Confirmed: ["New Cases"],
+    Confirmed: ["Confirmed"],
+    ConfirmedAvg: ["ConfirmedAvg"],
   };
 
   for (
@@ -22,29 +31,48 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
 
     cols.Date.push(row.date);
     cols.Confirmed.push(row.confirmed);
+    cols.ConfirmedAvg.push(row.confirmedAvg7d);
   }
 
   if (dailyIncreaseChart) {
     dailyIncreaseChart.destroy();
   }
 
+  console.log([cols.Confirmed, cols.ConfirmedAvg]);
+
   dailyIncreaseChart = c3.generate({
     bindto: "#daily-increase-chart",
     data: {
-      color: (color, d) => {
-        if (d && d.index === cols.Date.length - 2) {
-          return COLOR_TESTED_DAILY;
-        } else {
-          return COLOR_TESTED;
-        }
+      colors: {
+        Confirmed: (color, d) => {
+          if (d && d.index === cols.Date.length - 2) {
+            return COLOR_TESTED_DAILY;
+          } else {
+            return COLOR_TESTED;
+          }
+        },
+        ConfirmedAvg: (color, d) => {
+          return COLOR_CONFIRMED;
+        },
       },
-      columns: [cols.Confirmed],
+      columns: [cols.Confirmed, cols.ConfirmedAvg],
+      names: {
+        Confirmed: i18next.t("daily"),
+        ConfirmedAvg: i18next.t("7-day-average"),
+      },
       type: "bar",
+      types: {
+        Confirmed: "bar",
+        ConfirmedAvg: "spline",
+      },
       regions: {
-        [cols.Confirmed[0]]: [
+        Confirmed: [
           { start: cols.Date[cols.Date.length - 2], style: "dashed" },
         ],
       },
+    },
+    point: {
+      r: 0,
     },
     bar: {
       width: {
@@ -55,24 +83,12 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
       x: {
         tick: {
           format: (x) => {
-            const months = [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ];
-
             // x+1 because the list is prefixed with the label
             const xDate = new Date(cols.Date[x + 1]);
-            return `${months[xDate.getMonth()]} ${xDate.getDate()}`;
+            return format(xDate, "MMM d", {
+              locale: dateLocale,
+              addSuffix: true,
+            });
           },
         },
       },
@@ -98,9 +114,6 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
       y: {
         show: true,
       },
-    },
-    legend: {
-      hide: true,
     },
     padding: {
       right: 24,
