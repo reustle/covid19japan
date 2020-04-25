@@ -148,6 +148,12 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
+        trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+        dailyIncreaseChart = drawDailyIncreaseChart(
+          ddb.trend,
+          dailyIncreaseChart,
+          LANG
+        );
         prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
           ddb.prefectures,
           prefectureTrajectoryChart,
@@ -256,7 +262,7 @@ document.addEventListener("covid19japan-redraw", () => {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
     callIfUpdated(() => {
-      trendChart = drawTrendChart(ddb.trend, trendChart);
+      trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
     });
     callIfUpdated(() => {
       dailyIncreaseChart = drawDailyIncreaseChart(
