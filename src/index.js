@@ -261,7 +261,8 @@ document.addEventListener("covid19japan-redraw", () => {
     callIfUpdated(() => {
       dailyIncreaseChart = drawDailyIncreaseChart(
         ddb.trend,
-        dailyIncreaseChart
+        dailyIncreaseChart,
+        LANG
       );
     });
     callIfUpdated(() => {

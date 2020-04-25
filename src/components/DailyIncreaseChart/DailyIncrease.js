@@ -1,5 +1,7 @@
 import * as c3 from "c3";
 import i18next from "i18next";
+import { format } from "date-fns";
+import { enUS, ja } from "date-fns/locale";
 
 import {
   COLOR_TESTED,
@@ -8,7 +10,12 @@ import {
   COLOR_CONFIRMED,
 } from "../../data/constants";
 
-const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
+const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
+  let dateLocale = enUS;
+  if (lang == "ja") {
+    dateLocale = ja;
+  }
+
   const cols = {
     Date: ["Date"],
     Confirmed: ["Confirmed"],
@@ -50,8 +57,8 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
       },
       columns: [cols.Confirmed, cols.ConfirmedAvg],
       names: {
-        Confirmed: "Daily",
-        ConfirmedAvg: "7 day average",
+        Confirmed: i18next.t("daily"),
+        ConfirmedAvg: i18next.t("7-day-average"),
       },
       type: "bar",
       types: {
@@ -76,24 +83,12 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart) => {
       x: {
         tick: {
           format: (x) => {
-            const months = [
-              "Jan",
-              "Feb",
-              "Mar",
-              "Apr",
-              "May",
-              "Jun",
-              "Jul",
-              "Aug",
-              "Sep",
-              "Oct",
-              "Nov",
-              "Dec",
-            ];
-
             // x+1 because the list is prefixed with the label
             const xDate = new Date(cols.Date[x + 1]);
-            return `${months[xDate.getMonth()]} ${xDate.getDate()}`;
+            return format(xDate, "MMM d", {
+              locale: dateLocale,
+              addSuffix: true,
+            });
           },
         },
       },
