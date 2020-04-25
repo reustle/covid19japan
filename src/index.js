@@ -131,7 +131,7 @@ const setLang = (lng) => {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    if (styleLoaded) {
+    if (styleLoaded && map) {
       map.getStyle().layers.forEach((thisLayer) => {
         if (thisLayer.type == "symbol") {
           map.setLayoutProperty(thisLayer.id, "text-field", [
@@ -193,7 +193,7 @@ let jsonData = undefined;
 const whenMapAndDataReady = (ddb, map) => {
   // This runs drawMapPref only when
   // both style and json data are ready
-  if (!styleLoaded || !jsonData) {
+  if (!styleLoaded || !jsonData || !map) {
     return;
   }
   drawMapPrefectures(pageDraws, ddb, map);
@@ -224,20 +224,30 @@ const startReloadTimer = () => {
 };
 
 const initMap = () => {
-  map = drawMap(mapboxgl, map);
+  if (mapboxgl.supported()) {
+    map = drawMap(mapboxgl, map);
+  } else {
+    // Hide the outbreak map.
+    let mapContainer = document.querySelector("#outbreak-map-container");
+    if (mapContainer) {
+      mapContainer.style.display = "none";
+    }
+  }
 
-  map.once("style.load", () => {
-    styleLoaded = true;
+  if (map) {
+    map.once("style.load", () => {
+      styleLoaded = true;
 
-    map.getStyle().layers.forEach((thisLayer) => {
-      if (thisLayer.type == "symbol") {
-        map.setLayoutProperty(thisLayer.id, "text-field", [
-          "get",
-          `name_${LANG}`,
-        ]);
-      }
+      map.getStyle().layers.forEach((thisLayer) => {
+        if (thisLayer.type == "symbol") {
+          map.setLayoutProperty(thisLayer.id, "text-field", [
+            "get",
+            `name_${LANG}`,
+          ]);
+        }
+      });
     });
-  });
+  }
 };
 
 // Reload data every five minutes
