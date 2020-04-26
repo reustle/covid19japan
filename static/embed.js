@@ -21,9 +21,9 @@ element.innerHTML = `<iframe id="covid19japan-iframe" src="${src}" style="${styl
 window.addEventListener(
   "message",
   function (e) {
-    let frame = document.getElementById("covid19japan-iframe");
-    let message = e.data[0];
-    let data = e.data[1];
+    const frame = document.getElementById("covid19japan-iframe");
+    const message = e.data[0];
+    const data = e.data[1];
     switch (message) {
       case "setHeight":
         frame.height(data);
