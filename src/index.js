@@ -8,6 +8,7 @@ import "custom-event-polyfill";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
+import twemoji from "twemoji";
 
 import { calculateTotals } from "./data/helper";
 import header from "./components/Header";
@@ -175,7 +176,7 @@ const populateLanguageSelector = () => {
       parent.innerHTML +
       `<a href="#" data-lang-picker='${LANGUAGES[i].toLowerCase()}'>${LANGUAGES[
         i
-      ].toUpperCase()} ${FLAGS[i]}</a> `;
+      ].toUpperCase()} ${twemoji.parse(FLAGS[i])}</a> `;
     if (i <= LANGUAGES.length - 2) parent.innerHTML = parent.innerHTML + `| `;
   }
 };
