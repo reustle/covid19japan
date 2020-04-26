@@ -35,6 +35,7 @@ import {
   DDB_COMMON,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
+import { FLAGS, LANGUAGES } from "./i18n";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
@@ -166,6 +167,18 @@ const setLang = (lng) => {
   });
 };
 
+const populateLanguageSelector = () => {
+  const parent = document.getElementsByClassName("lang-picker")[0];
+  for (let i in LANGUAGES) {
+    parent.innerHTML =
+      parent.innerHTML +
+      `<a href="#" data-lang-picker='${LANGUAGES[i].toLowerCase()}'>${LANGUAGES[
+        i
+      ].toUpperCase()} ${FLAGS[i]}</a> `;
+    if (i <= LANGUAGES.length - 2) parent.innerHTML = parent.innerHTML + `| `;
+  }
+};
+
 const initDataTranslate = () => {
   // load translation framework
   i18next
@@ -174,6 +187,8 @@ const initDataTranslate = () => {
     .then(() => {
       setLang(i18next.language);
     });
+
+  populateLanguageSelector();
 
   // Language selector event handler
   const langPickers = document.querySelectorAll("[data-lang-picker]");
