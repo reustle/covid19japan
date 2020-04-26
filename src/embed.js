@@ -11,7 +11,7 @@ const style = `
 `;
 const src =
   window.location.hostname === "" || window.location.hostname === "localhost"
-    ? "http://localhost:4000/"
+    ? "http://localhost:4000/embed.html"
     : "https://covid19japan.com/embed";
 
 // populate embed html
