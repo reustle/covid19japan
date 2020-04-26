@@ -75,7 +75,7 @@ To add a new language
 
 1. Make a copy of an existing localization file (recommended: `src/i18n/en.json`), name it to match the new language (e.g. `ja.json`)
 2. Replace the translations in the file you just created
-3. Add the new language to the array of `LANGUAGES` in `src/i18n/index.js`
+3. Add the new language to the array of `LANGUAGES` and a fitting flag emoji to the array of `FLAGS` at the same index in `src/i18n/index.js`
 
 ## License & Code Re-use
 
