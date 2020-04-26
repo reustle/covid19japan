@@ -147,7 +147,6 @@ const drawPrefectureTable = (prefectures, totals) => {
     let isPseudoPrefecture = pseudoPrefectures[pref.name];
     if (isPseudoPrefecture) {
       if (isPseudoPrefecture.stringId) {
-        console.log(isPseudoPrefecture.stringId, pref.name);
         let stringId = isPseudoPrefecture.stringId;
         let trendElementId = `${isPseudoPrefecture.className}-trend`;
         let row = document.createElement("tr");
