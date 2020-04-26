@@ -26,9 +26,10 @@ window.addEventListener(
     const data = e.data[1];
     switch (message) {
       case "setHeight":
-        frame.height(data);
+        frame.style.height = data;
         break;
     }
+    console.log("Resized covid19japan-iframe: " + data);
   },
   false
 );
