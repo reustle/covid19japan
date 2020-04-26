@@ -29,7 +29,7 @@ window.addEventListener(
         frame.style.height = data;
         break;
     }
-    console.log("Resized covid19japan-iframe: " + data);
+    console.log("Resized covid19japan-iframe to a height of " + data + "px");
   },
   false
 );
