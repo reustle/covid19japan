@@ -8,6 +8,7 @@ module.exports = {
   mode: "development",
   entry: {
     index: ["./src/index.js", "./src/index.scss"],
+    embed: ["./src/embed.js"],
   },
   output: {
     path: path.resolve(__dirname, "docs"),
