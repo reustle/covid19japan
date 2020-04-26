@@ -163,6 +163,7 @@ const setLang = (lng) => {
     }
 
     tippyInstances = updateTooltipLang(tippyInstances);
+    sendResizeMessage();
   });
 };
 
