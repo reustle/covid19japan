@@ -289,11 +289,7 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      prefectureTrendCharts = drawPrefectureTable(
-        ddb.prefectures,
-        ddb.totals,
-        prefectureTrendCharts
-      );
+      drawPrefectureTable(ddb.prefectures, ddb.totals);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }

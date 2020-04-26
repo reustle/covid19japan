@@ -8,13 +8,10 @@ import i18next from "i18next";
 
 import { COLOR_CONFIRMED } from "../../data/constants";
 
-// TODO not sure about prefectureTrendCharts, it never changes
-const drawPrefectureTrend = (
-  elementId,
-  seriesData,
-  maxConfirmedIncrease,
-  prefectureTrendCharts
-) => {
+// Global that ensures we clean up any prefectureTrend charts on redraw.
+let prefectureTrendCharts = {};
+
+const drawPrefectureTrend = (elementId, seriesData, maxConfirmedIncrease) => {
   let yMax = maxConfirmedIncrease;
   let prefectureMax = max(seriesData);
   if (prefectureMax / maxConfirmedIncrease < 0.1) {
@@ -61,7 +58,6 @@ const drawPrefectureTrend = (
     tooltip: { show: false },
     point: { show: false },
   });
-  return prefectureTrendCharts;
 };
 
 // Run CPU intensive processing in a separate macrotask
@@ -69,7 +65,7 @@ const enqueueMacrotask = (callback, delay = 0) => {
   setTimeout(callback, delay);
 };
 
-const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
+const drawPrefectureTable = (prefectures, totals) => {
   // Draw the Cases By Prefecture table
   const dataTable = document.querySelector("#prefectures-table");
   const dataTableFoot = document.querySelector("#prefectures-table tfoot");
@@ -88,9 +84,9 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
   prefectureRows.id = "prefecture-rows";
   dataTable.insertBefore(prefectureRows, dataTableFoot);
 
-  const portOfEntryRows = document.createElement("tbody");
-  portOfEntryRows.id = "portofentry-rows";
-  dataTable.insertBefore(portOfEntryRows, dataTableFoot);
+  const pseudoPrefectureRows = document.createElement("tbody");
+  pseudoPrefectureRows.id = "pseudoPrefecture-rows";
+  dataTable.insertBefore(pseudoPrefectureRows, dataTableFoot);
 
   const unspecifiedRows = document.createElement("tbody");
   unspecifiedRows.id = "unspecified-rows";
@@ -102,6 +98,27 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
       return max(pref.dailyConfirmedCount);
     })
   );
+
+  // Special prefectures to handle when we iterate through them.
+  const pseudoPrefectures = {
+    Unspecified: {
+      stringId: "pseudo-prefectures.unspecified",
+      className: "Unspecified",
+    },
+    "Port Quarantine": {
+      stringId: "pseudo-prefectures.port-of-entry",
+      className: "PortOfEntry",
+    },
+    "Diamond Princess Cruise Ship": {
+      stringId: "pseudo-prefectures.diamond-princess",
+      className: "DiamondPrincess",
+    },
+    "Nagasaki Cruise Ship": {
+      stringId: "pseudo-prefectures.nagasaki-cruise",
+      className: "NagasakiCruise",
+    },
+    Total: {}, // Left blank so we can ignore it.
+  };
 
   // Parse values so we can sort
   map(prefectures, (pref) => {
@@ -127,66 +144,51 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
       yesterdayConfirmedString = `(&nbsp;+${pref.yesterdayConfirmed}&nbsp;)`;
     }
 
-    if (pref.name == "Unspecified") {
-      unspecifiedRows.innerHTML = `<tr>
-        <td class="prefecture" data-i18n="unspecified">${i18next.t(
-          "unspecified"
+    let isPseudoPrefecture = pseudoPrefectures[pref.name];
+    if (isPseudoPrefecture) {
+      if (isPseudoPrefecture.stringId) {
+        console.log(isPseudoPrefecture.stringId, pref.name);
+        let stringId = isPseudoPrefecture.stringId;
+        let trendElementId = `${isPseudoPrefecture.className}-trend`;
+        let row = document.createElement("tr");
+        row.innerHTML = `<td class="prefecture" data-i18n="${stringId}">${i18next.t(
+          stringId
         )}</td>
-        <td class="trend"><div id="Unspecified-trend"></div></td>
-        <td class="count confirmed">${pref.confirmed}</td>
-        <td class="delta">
-          <div class="increment">
-            <span class="today">${todayConfirmedString}</span>
-            <span class="yesterday">${yesterdayConfirmedString}</span>
-          </div>
-        </td>
-        <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
-        </tr>`;
-      enqueueMacrotask(() => {
-        prefectureTrendCharts = drawPrefectureTrend(
-          `#Unspecified-trend`,
-          pref.dailyConfirmedCount,
-          maxConfirmedIncrease,
-          prefectureTrendCharts
-        );
-      });
-    } else if (pref.name == "Port Quarantine" || pref.name == "Port of Entry") {
-      // Override Port Quartantine name as "Port of Entry". The name in the spreadsheet is
-      //  confusing.
-      //
-      // TODO(liquidx): move this hack into covid19japan-data.
-      portOfEntryRows.innerHTML = `<tr>
-        <td class="prefecture" data-i18n="port-of-entry">${i18next.t(
-          "port-of-entry"
-        )}</td>
-        <td class="trend"><div id="PortOfEntry-trend"></div></td>
-        <td class="count confirmed">${pref.confirmed} ${incrementString}</td>
-        <td class="delta">
-          <div class="increment">
-            <span class="today">${todayConfirmedString}</span>
-            <span class="yesterday">${yesterdayConfirmedString}</span>
-          </div>
-        </td>
-        <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
-        </tr>`;
-      enqueueMacrotask(() => {
-        prefectureTrendCharts = drawPrefectureTrend(
-          `#PortOfEntry-trend`,
-          pref.dailyConfirmedCount,
-          maxConfirmedIncrease,
-          prefectureTrendCharts
-        );
-      });
-    } else if (pref.name == "Total") {
-      // Skip
+          <td class="trend"><div id="${trendElementId}"></div></td>
+          <td class="count confirmed">${pref.confirmed}</td>
+          <td class="delta">
+            <div class="increment">
+              <span class="today">${todayConfirmedString}</span>
+              <span class="yesterday">${yesterdayConfirmedString}</span>
+            </div>
+          </td>
+          <td class="count recovered">${
+            pref.recovered ? pref.recovered : ""
+          }</td>
+          <td class="count deceased">${
+            pref.deceased ? pref.deceased : ""
+          }</td>`;
+
+        if (pref.name == "Unspecified") {
+          unspecifiedRows.appendChild(row);
+        } else {
+          pseudoPrefectureRows.appendChild(row);
+        }
+        enqueueMacrotask(() => {
+          drawPrefectureTrend(
+            "#" + trendElementId,
+            pref.dailyConfirmedCount,
+            maxConfirmedIncrease
+          );
+        });
+      }
     } else {
+      let stringId = `prefectures.${pref.name}`;
       let row = document.createElement("tr");
       prefectureRows.appendChild(row);
       row.innerHTML = `
-        <td class="prefecture" data-i18n="prefectures.${pref.name}">${i18next.t(
-        "prefectures." + pref.name
+        <td class="prefecture" data-i18n="${stringId}">${i18next.t(
+        stringId
       )}</td>
         <td class="trend"><div id="${pref.name}-trend"></div></td>
         <td class="count confirmed">${pref.confirmed} ${incrementString}</td>
@@ -195,16 +197,15 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
             <span class="today">${todayConfirmedString}</span>
             <span class="yesterday">${yesterdayConfirmedString}</span>
           </div>
-       </td>
+        </td>
         <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
       `;
       enqueueMacrotask(() => {
-        prefectureTrendCharts = drawPrefectureTrend(
+        drawPrefectureTrend(
           `#${pref.name}-trend`,
           pref.dailyConfirmedCount,
-          maxConfirmedIncrease,
-          prefectureTrendCharts
+          maxConfirmedIncrease
         );
       });
     }
@@ -218,8 +219,6 @@ const drawPrefectureTable = (prefectures, totals, prefectureTrendCharts) => {
         <td class="count recovered">${totals.recovered}</td>
         <td class="count deceased">${totals.deceased}</td>
         </tr>`;
-
-  return prefectureTrendCharts;
 };
 
 export default drawPrefectureTable;

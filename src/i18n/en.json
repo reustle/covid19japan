@@ -30,12 +30,16 @@
   "other-limitations": "Other Limitations:",
   "provisional": "Provisional",
   "total": "Total",
-  "port-of-entry": "Port of Entry",
-  "unspecified": "Unspecified",
   "increment-today": "(Today)",
   "increment-yesterday": "(Yesterday)",
   "daily": "Daily",
   "7-day-average": "7-day average",
+  "pseudo-prefectures": {
+    "port-of-entry": "Port of Entry",
+    "unspecified": "Unspecified",
+    "diamond-princess": "Diamond Princess Cruise Ship",
+    "nagasaki-cruise": "Nagasaki Cruise Ship"
+  },
   "prefectures": {
     "Aichi": "Aichi",
     "Akita": "Akita",
