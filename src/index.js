@@ -272,7 +272,13 @@ const callIfUpdated = (callback, delay = 0) => {
  */
 const sendResizeMessage = () => {
   const height = document.getElementsByTagName("html")[0].scrollHeight;
-  window.parent.postMessage(["setHeight", height], "*");
+  window.parent.postMessage(
+    {
+      name: "setHeight",
+      payload: height,
+    },
+    "*"
+  );
 };
 
 document.addEventListener("covid19japan-redraw", () => {

@@ -22,11 +22,10 @@ window.addEventListener(
   "message",
   function (e) {
     const frame = document.getElementById("covid19japan-iframe");
-    const message = e.data[0];
-    const data = e.data[1];
-    switch (message) {
+    const message = e.data;
+    switch (message.name) {
       case "setHeight":
-        frame.style.height = data;
+        frame.style.height = message.payload;
         break;
     }
   },
