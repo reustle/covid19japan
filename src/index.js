@@ -169,6 +169,7 @@ const setLang = (lng) => {
 
 const populateLanguageSelector = () => {
   const parent = document.getElementsByClassName("lang-picker")[0];
+  parent.innerHTML = "";
   for (let i in LANGUAGES) {
     parent.innerHTML =
       parent.innerHTML +
