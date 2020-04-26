@@ -10,7 +10,7 @@ import {
   COLOR_CONFIRMED,
 } from "../../data/constants";
 
-const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
+const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
   let dateLocale = enUS;
   if (lang == "ja") {
     dateLocale = ja;
@@ -22,16 +22,16 @@ const drawDailyIncreaseChart = (sheetTrend, dailyIncreaseChart, lang) => {
     ConfirmedAvg: ["ConfirmedAvg"],
   };
 
-  for (
-    let i = sheetTrend.length - CHART_TIME_PERIOD;
-    i < sheetTrend.length;
-    i++
-  ) {
-    const row = sheetTrend[i];
+  for (let i = trends.length - CHART_TIME_PERIOD; i < trends.length; i++) {
+    const row = trends[i];
 
     cols.Date.push(row.date);
     cols.Confirmed.push(row.confirmed);
-    cols.ConfirmedAvg.push(row.confirmedAvg7d);
+    if (i < trends.length - 1) {
+      // Omit the last data point since it's provisional
+      // and will always point downwards for the average.
+      cols.ConfirmedAvg.push(row.confirmedAvg7d);
+    }
   }
 
   if (dailyIncreaseChart) {
