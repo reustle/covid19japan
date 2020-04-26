@@ -38,7 +38,7 @@ const drawLastUpdated = (lastUpdatedString, lang) => {
   }
   const relativeTime = {
     en: formatDistanceToNow(lastUpdated, {
-      local: enUS,
+      locale: enUS,
       addSuffix: true,
     }),
     ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),

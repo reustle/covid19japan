@@ -2,6 +2,7 @@
 import "core-js/stable";
 import "whatwg-fetch";
 import "classlist-polyfill";
+import "custom-event-polyfill";
 
 // Add all non-polyfill deps below.
 import i18next from "i18next";
@@ -43,6 +44,16 @@ let LANG = "en";
 const ddb = {
   ...DDB_COMMON,
   travelRestrictions,
+};
+
+ddb.isLoaded = function () {
+  return !!ddb.lastUpdated;
+};
+ddb.isUpdated = function () {
+  return (
+    ddb.isLoaded() &&
+    (!ddb.previouslyUpdated || ddb.lastUpdated > ddb.previouslyUpdated)
+  );
 };
 
 let map = undefined;
@@ -120,7 +131,7 @@ const setLang = (lng) => {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    if (styleLoaded) {
+    if (styleLoaded && map) {
       map.getStyle().layers.forEach((thisLayer) => {
         if (thisLayer.type == "symbol") {
           map.setLayoutProperty(thisLayer.id, "text-field", [
@@ -136,11 +147,19 @@ const setLang = (lng) => {
       if (document.getElementById("travel-restrictions")) {
         drawTravelRestrictions(ddb);
       }
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
-        LANG
-      );
+      if (ddb.isLoaded()) {
+        trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+        dailyIncreaseChart = drawDailyIncreaseChart(
+          ddb.trend,
+          dailyIncreaseChart,
+          LANG
+        );
+        prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
+          ddb.prefectures,
+          prefectureTrajectoryChart,
+          LANG
+        );
+      }
     }
 
     tippyInstances = updateTooltipLang(tippyInstances);
@@ -157,8 +176,9 @@ const initDataTranslate = () => {
     });
 
   // Language selector event handler
-  if (document.querySelectorAll("[data-lang-picker]")) {
-    document.querySelectorAll("[data-lang-picker]").forEach((pick) => {
+  const langPickers = document.querySelectorAll("[data-lang-picker]");
+  if (langPickers) {
+    langPickers.forEach((pick) => {
       pick.addEventListener("click", (e) => {
         e.preventDefault();
         setLang(e.target.dataset.langPicker);
@@ -173,7 +193,7 @@ let jsonData = undefined;
 const whenMapAndDataReady = (ddb, map) => {
   // This runs drawMapPref only when
   // both style and json data are ready
-  if (!styleLoaded || !jsonData) {
+  if (!styleLoaded || !jsonData || !map) {
     return;
   }
   drawMapPrefectures(pageDraws, ddb, map);
@@ -183,65 +203,104 @@ const loadDataOnPage = () => {
   loadData((data) => {
     jsonData = data;
 
-    ddb.prefectures = jsonData.prefectures;
-    let newTotals = calculateTotals(jsonData.daily);
-    ddb.totals = newTotals[0];
-    ddb.totalsDiff = newTotals[1];
-    ddb.trend = jsonData.daily;
-    ddb.lastUpdated = jsonData.updated;
+    if (!ddb.isLoaded() || jsonData.updated > ddb.lastUpdated) {
+      ddb.previouslyUpdated = ddb.lastUpdated;
+      ddb.lastUpdated = jsonData.updated;
+      ddb.prefectures = jsonData.prefectures;
+      let newTotals = calculateTotals(jsonData.daily);
+      ddb.totals = newTotals[0];
+      ddb.totalsDiff = newTotals[1];
+      ddb.trend = jsonData.daily;
 
-    drawKpis(ddb.totals, ddb.totalsDiff);
-    if (!document.body.classList.contains("embed-mode")) {
-      drawLastUpdated(ddb.lastUpdated, LANG);
-      drawPageTitleCount(ddb.totals.confirmed);
-      prefectureTrendCharts = drawPrefectureTable(
-        ddb.prefectures,
-        ddb.totals,
-        prefectureTrendCharts
-      );
-      drawTravelRestrictions(ddb);
-      trendChart = drawTrendChart(ddb.trend, trendChart);
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
+    }
+  });
+};
+
+const startReloadTimer = () => {
+  let reloadInterval = 3;
+  setTimeout(() => location.reload(), reloadInterval * 60 * 60 * 1000);
+};
+
+const initMap = () => {
+  if (mapboxgl.supported()) {
+    map = drawMap(mapboxgl, map);
+  } else {
+    // Hide the outbreak map.
+    let mapContainer = document.querySelector("#outbreak-map-container");
+    if (mapContainer) {
+      mapContainer.style.display = "none";
+    }
+  }
+
+  if (map) {
+    map.once("style.load", () => {
+      styleLoaded = true;
+
+      map.getStyle().layers.forEach((thisLayer) => {
+        if (thisLayer.type == "symbol") {
+          map.setLayoutProperty(thisLayer.id, "text-field", [
+            "get",
+            `name_${LANG}`,
+          ]);
+        }
+      });
+    });
+  }
+};
+
+// Reload data every five minutes
+const FIVE_MINUTES_IN_MS = 300000;
+const recursiveDataLoad = () => {
+  pageDraws++;
+  loadDataOnPage();
+  setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
+};
+
+// Call only if ddb is updated.
+// Uses a setTimeout to queue a new macrotask
+const callIfUpdated = (callback, delay = 0) => {
+  if (ddb.isUpdated()) {
+    setTimeout(callback, delay);
+  }
+};
+
+document.addEventListener("covid19japan-redraw", () => {
+  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff));
+  if (!document.body.classList.contains("embed-mode")) {
+    callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
+    callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
+    callIfUpdated(() => {
+      trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+    });
+    callIfUpdated(() => {
       dailyIncreaseChart = drawDailyIncreaseChart(
         ddb.trend,
-        dailyIncreaseChart
+        dailyIncreaseChart,
+        LANG
       );
+    });
+    callIfUpdated(() => {
       prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
         ddb.prefectures,
         prefectureTrajectoryChart,
         LANG
       );
-    }
+    }, 32);
+    callIfUpdated(() => {
+      drawPrefectureTable(ddb.prefectures, ddb.totals);
+    }, 32);
+    callIfUpdated(() => drawTravelRestrictions(ddb));
+  }
 
-    whenMapAndDataReady(ddb, map);
-  });
-};
+  callIfUpdated(() => whenMapAndDataReady(ddb, map));
+});
 
-window.onload = () => {
-  initDataTranslate(setLang);
-  map = drawMap(mapboxgl, map);
-
-  map.once("style.load", () => {
-    styleLoaded = true;
-
-    map.getStyle().layers.forEach((thisLayer) => {
-      if (thisLayer.type == "symbol") {
-        map.setLayoutProperty(thisLayer.id, "text-field", [
-          "get",
-          `name_${LANG}`,
-        ]);
-      }
-    });
-    whenMapAndDataReady(ddb, map);
-  });
+document.addEventListener("DOMContentLoaded", () => {
+  initMap();
   loadDataOnPage();
-
-  // Reload data every five minutes
-  const FIVE_MINUTES_IN_MS = 300000;
-  const recursiveDataLoad = () => {
-    pageDraws++;
-    loadDataOnPage();
-    setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
-  };
-
+  initDataTranslate();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
-};
+  startReloadTimer();
+});

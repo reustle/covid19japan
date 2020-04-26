@@ -3,6 +3,9 @@
 
 
 $primary-black: #000a12;
+$color-confirmed: rgb(244,67,52);
+$color-recovered: rgb(24,118,211);
+$color-deceased:  rgb(54,72,79);
 
 body {
   margin: 0px;
@@ -47,11 +50,21 @@ section, header, footer {
 header {
   padding-top: 10px;
 
-  .lang-picker {
-    text-align: right;
-
-    a {
-      text-decoration: none;
+  .toolbar {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    
+    .lang-picker {
+      display: inline;
+      a {
+        text-decoration: none;
+        &.active {
+          padding-bottom: 4px;
+          border-bottom: solid 2px black;
+          font-weight: 700;
+        }
+      }
     }
   }
 }
@@ -83,7 +96,7 @@ h1 {
       font-weight: 700;
     }
     .value {
-      font-size: 32px;
+      font-size: 28px;
       font-weight: 800;
       margin-bottom: 14px;
     }
@@ -94,13 +107,13 @@ h1 {
   }
 
   #kpi-confirmed {
-    color: rgb(244,67,52);
+    color: $color-confirmed;
   }
   #kpi-recovered {
-    color: rgb(24,118,211);
+    color: $color-recovered;
   }
   #kpi-deceased {
-    color: rgb(54,72,79);
+    color: $color-deceased;
   }
   #kpi-critical {
     color:  rgb(114,4,5);
@@ -114,13 +127,12 @@ h1 {
 
 
   table {
-    text-align: center;
     width: 100%;
     border-spacing: 0px 10px;
   }
 
   .kpi-metrics {
-    font-size: 28px;
+    font-size: 24px;
    font-weight: 800;
   }
 
@@ -199,20 +211,35 @@ table {
 
   tfoot tr {
     background-color: rgb(235, 238, 239);
-
   }
 
   th {
     text-align: left;
     font-size: 11px;
     min-width: 7em;
+    vertical-align: baseline;
   }
-  td {
-    padding: 5px 0px;
+
+  th, td {
+    padding: 5px 5px;
+    line-height: 1.2em;
   }
-  td:first-child {
-    padding: 5px;
+
+  thead th {
+    min-height: 40px;
+    border-bottom: 2px solid rgb(219, 219, 219);
   }
+
+  thead tr {
+    padding-bottom: 10px;
+  }
+
+  tbody td {
+    vertical-align: middle;
+    height: 40px;
+    min-height: 40px;
+  }
+
   .totals {
     font-weight: bold;
   }
@@ -222,26 +249,39 @@ table {
   }
 
   th.prefecture, td.prefecture {
+    padding: 5px;
     min-width: 60px;
     max-width: 100px;
     white-space: nowrap;
   }
 
-
   th.trend, td.trend {
-    width: 180px;
-    min-width: 180px;
-    max-width: 240px;
-    padding: 0 4px;
+    width: 120px;
+    padding: 0 10px;
   }
 
-  th.count, td.count {
-    width: 7em;
+  td.confirmed {
+    width: 2em;
   }
 
-  span.increment {
-    color: rgb(244,67,54);
+  div.increment {
+    display: block;
+  }
+
+  .today {
+    color: $color-confirmed;
     font-size: 10px;
+  }
+
+  .yesterday {
+    color: rgb(128, 122, 122);
+    font-size: 10px;
+  }
+
+  td.delta {
+    width: 40px;
+    padding-left: 2px;
+    text-align: left;
   }
 
 }
@@ -252,6 +292,7 @@ table {
     word-wrap: break-word;
   }
 }
+
 
 footer {
   line-height: 34px;
@@ -320,4 +361,14 @@ img.emoji {
 
 .country-link {
   white-space: nowrap;
+}
+
+.map-popup {
+  font-size: 12px;
+
+  span.popup-increment {
+    color: rgb(244,67,54);
+    font-size: 10px;
+  }
+
 }

@@ -1,3 +1,4 @@
+import i18next from "i18next";
 import {
   PREFECTURE_JSON_PATH,
   PREFECTURE_PAINT,
@@ -8,6 +9,7 @@ import {
   COLOR_BURGUNDY,
   COLOR_DARK_BURGUNDY,
   COLOR_BLACK,
+  COLOR_NONE,
 } from "../../data/constants";
 /**
  * drawMapPrefectures
@@ -55,7 +57,7 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
   });
 
   // Add a final value to the list for the default color
-  prefecturePaint.push(COLOR_BLACK);
+  prefecturePaint.push(COLOR_NONE);
 
   if (pageDraws === 0) {
     // If it is the first time drawing the map
@@ -100,6 +102,65 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
     // Update prefecture paint properties
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
   }
+
+  // Map popup for prefectures
+  const popup = new mapboxgl.Popup({
+    closeButton: false,
+    closeOnClick: false,
+  });
+
+  map.on("mousemove", function (e) {
+    const feature = map.queryRenderedFeatures(e.point, {
+      layers: ["prefecture-layer"],
+    })[0];
+    if (feature) {
+      const matchingPrefectures = ddb.prefectures.filter((p) => {
+        return p.name === feature.properties.NAME_1;
+      });
+
+      if (!matchingPrefectures || matchingPrefectures.length < 1) {
+        return;
+      }
+
+      const thisPrefecture = matchingPrefectures[0];
+      if (typeof thisPrefecture === "undefined") {
+        return; // This happens if prefecture doesn't have any stats (e.g. Iwate)
+      }
+
+      let increment = thisPrefecture.newlyConfirmed;
+      if (increment > 0) {
+        var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
+      } else {
+        var popupIncrementSpan = "";
+      }
+
+      const name = thisPrefecture.name;
+      const confirmed = thisPrefecture.confirmed;
+      const deaths = thisPrefecture.deaths;
+      const recovered = thisPrefecture.recovered;
+      const active =
+        thisPrefecture.confirmed -
+        ((thisPrefecture.recovered || 0) + (thisPrefecture.deaths || 0));
+      const html = `<div class="map-popup">
+      <h3 data-i18n="prefectures.${name}">${i18next.t(
+        "prefectures." + name
+      )}</h3>
+          <span data-i18n="confirmed">${i18next.t(
+            "confirmed"
+          )}</span>: ${confirmed} ${popupIncrementSpan}<br />
+          <span data-i18n="recovered">${i18next.t(
+            "recovered"
+          )}</span>: ${recovered}<br />
+          <span data-i18n="deaths">${i18next.t(
+            "deaths"
+          )}</span>: ${deaths}<br />
+          <span data-i18n="active">${i18next.t("active")}</span>: ${active}
+          </div>`;
+      popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
+    } else {
+      popup.remove();
+    }
+  });
 
   return { map, ddb };
 };
