@@ -30,12 +30,16 @@
   "other-limitations": "その他",
   "provisional": "暫定",
   "total": "計",
-  "port-of-entry": "入国港",
-  "unspecified": "不明",
   "increment-today": "(今日)",
   "increment-yesterday": "(昨日)",
   "daily": "毎日の数",
   "7-day-average": "7日間の平均",
+  "pseudo-prefectures": {
+    "port-of-entry": "入国港",
+    "unspecified": "不明",
+    "diamond-princess": "ダイヤモンド・プリンセス",
+    "nagasaki-cruise": "長崎のクルーズ船"
+  },
   "prefectures": {
     "Aichi": "愛知県",
     "Akita": "秋田県",

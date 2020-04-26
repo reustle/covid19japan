@@ -14,7 +14,9 @@ const drawPrefectureTrajectoryChart = (
 ) => {
   const minimumConfirmed = 100;
   const filteredPrefectures = filter(prefectures, (prefecture) => {
-    return prefecture.confirmed >= minimumConfirmed;
+    return (
+      prefecture.confirmed >= minimumConfirmed && !prefecture.pseudoPrefecture
+    );
   });
   const trajectories = reduce(
     filteredPrefectures,
