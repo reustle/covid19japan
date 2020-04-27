@@ -5,7 +5,10 @@ import {
   COLOR_YELLOW,
   COLOR_ORANGE,
   COLOR_RED,
+  COLOR_DARK_RED,
   COLOR_BURGUNDY,
+  COLOR_DARK_BURGUNDY,
+  COLOR_BLACK,
   COLOR_NONE,
 } from "../../data/constants";
 /**
@@ -34,18 +37,21 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
     if (cases > 0) {
       prefecturePaint.push(prefecture.name);
 
-      if (cases <= 50) {
-        // 1-50 cases
+      if (cases <= 49) {
+        // 1-49 cases
         prefecturePaint.push(COLOR_YELLOW);
-      } else if (cases <= 100) {
-        // 51-100 cases
+      } else if (cases <= 99) {
+        // 50-99 cases
         prefecturePaint.push(COLOR_ORANGE);
-      } else if (cases <= 200) {
-        // 101-200 cases
+      } else if (cases <= 499) {
+        // 100-499 cases
         prefecturePaint.push(COLOR_RED);
+      } else if (cases <= 999) {
+        // 500-999 cases
+        prefecturePaint.push(COLOR_DARK_RED);
       } else {
-        // 201+ cases
-        prefecturePaint.push(COLOR_BURGUNDY);
+        // 1000+ cases
+        prefecturePaint.push(COLOR_DARK_BURGUNDY);
       }
     }
   });
