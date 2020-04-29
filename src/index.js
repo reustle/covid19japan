@@ -321,7 +321,7 @@ document.addEventListener("covid19japan-redraw", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  if (window.location.href.indexOf("nomap")) {
+  if (window.location.href.indexOf("nomap") != -1) {
     PAGE_STATE.mapShouldLoad = false;
   }
   initMap();
