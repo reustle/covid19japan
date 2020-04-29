@@ -1,5 +1,4 @@
 import i18next from "i18next";
-import orderBy from "lodash/orderBy";
 import twemoji from "twemoji";
 
 /**
@@ -17,9 +16,12 @@ const parseEmoji = (emoji) => {
 const travelRestrictionsHelper = (elementId, countries) => {
   const countryList = [];
   // Iterate through and render country links
-  orderBy(countries, "name", "desc").map((country) => {
+  countries.sort((a, b) => {
+    a["name"] < b["name"] ? 1 : b["name"] > a["name"] ? -1 : 0;
+  });
+  countries.map((country) => {
     const name = i18next.t(`countries.${country.name}`);
-    countryList.unshift(
+    countryList.push(
       `<a href="${country.link}" class="country-link">${parseEmoji(
         country.emoji
       )}${name}</a>`
