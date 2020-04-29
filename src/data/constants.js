@@ -17,25 +17,9 @@ export const COLOR_BURGUNDY = "rgb(186,0,13)";
 export const COLOR_DARK_BURGUNDY = "rgb(114,4,5)";
 export const COLOR_BLACK = "rgba(0,0,0,1)";
 export const COLOR_NONE = "rgba(255, 255, 255, 0)";
-export const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
 export const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
 export const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
 export const PREFECTURE_PAINT = ["match", ["get", "NAME_1"]];
-export const MAP_CONFIG = {
-  container: "map-container",
-  style: "mapbox://styles/mapbox/light-v10",
-  zoom: 4,
-  minZoom: 3.5,
-  maxZoom: 7,
-  center: {
-    lng: 139.11792973051274,
-    lat: 38.52245616545571,
-  },
-  maxBounds: [
-    { lat: 12.118318014416644, lng: 100.01240618330542 }, // SW
-    { lat: 59.34721256263214, lng: 175.3273570446982 }, // NE
-  ],
-};
 
 export const LANG_CONFIG = {
   fallbackLng: "en",

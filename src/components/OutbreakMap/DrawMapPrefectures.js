@@ -1,6 +1,5 @@
 import i18next from "i18next";
 import {
-  PREFECTURE_JSON_PATH,
   PREFECTURE_PAINT,
   COLOR_YELLOW,
   COLOR_ORANGE,
@@ -11,6 +10,9 @@ import {
   COLOR_BLACK,
   COLOR_NONE,
 } from "../../data/constants";
+
+const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
+
 /**
  * drawMapPrefectures
  * @param {*} pageDraws - number of redraws to screen
