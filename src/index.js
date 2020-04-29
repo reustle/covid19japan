@@ -1,5 +1,14 @@
 // Injects required polyfills for IE11
-import "core-js/stable";
+// For optimizing build size, individually import required polyfills.
+import "core-js/es/object/assign";
+import "core-js/es/symbol";
+import "core-js/es/symbol/async-iterator";
+import "core-js/es/symbol/iterator";
+import "core-js/es/promise";
+import "core-js/es/map";
+import "core-js/es/array/includes";
+import "core-js/web/dom-collections";
+
 import "whatwg-fetch";
 import "classlist-polyfill";
 import "custom-event-polyfill";
@@ -58,16 +67,6 @@ ddb.isUpdated = function () {
 
 let map = undefined;
 let tippyInstances;
-
-// IE11 forEach Polyfill
-if ("NodeList" in window && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = (callback, thisArg) => {
-    thisArg = thisArg || window;
-    for (let i = 0; i < this.length; i++) {
-      callback.call(thisArg, this[i], i, this);
-    }
-  };
-}
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
@@ -238,14 +237,16 @@ const initMap = () => {
     map.once("style.load", () => {
       styleLoaded = true;
 
-      map.getStyle().layers.forEach((thisLayer) => {
-        if (thisLayer.type == "symbol") {
-          map.setLayoutProperty(thisLayer.id, "text-field", [
-            "get",
-            `name_${LANG}`,
-          ]);
-        }
-      });
+      if (map.getStyle().layers) {
+        map.getStyle().layers.forEach((thisLayer) => {
+          if (thisLayer.type == "symbol") {
+            map.setLayoutProperty(thisLayer.id, "text-field", [
+              "get",
+              `name_${LANG}`,
+            ]);
+          }
+        });
+      }
     });
   }
 };
