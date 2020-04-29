@@ -1,5 +1,8 @@
-// Injects required polyfills for IE11
-// For optimizing build size, individually import required polyfills.
+// Polyfills for IE11.
+// Do not include core-js/stable in it's entirety to minimize bundle size.
+//
+// Instead, individually import required core-js polyfills below.
+// See: https://github.com/zloirock/core-js#usage
 import "core-js/es/object/assign";
 import "core-js/es/symbol";
 import "core-js/es/symbol/async-iterator";
