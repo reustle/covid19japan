@@ -22,6 +22,10 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
 
   let firstSymbolId;
   const { layers = [] } = map.getStyle();
+  if (!layers) {
+    return;
+  }
+
   for (let i = 0; i < layers.length; i++) {
     if (layers[i].type === "symbol") {
       firstSymbolId = layers[i].id;

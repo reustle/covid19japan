@@ -7,6 +7,9 @@ import mapValues from "lodash/mapValues";
 import values from "lodash/values";
 import i18next from "i18next";
 
+// Inject IE11 polyfill (not used in index.js).
+import "core-js/es/object/values";
+
 const drawPrefectureTrajectoryChart = (
   prefectures,
   prefectureTrajectoryChart,
