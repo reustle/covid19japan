@@ -1,6 +1,8 @@
+const MAPBOX_API_KEY =
+  "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
 const MAP_CONFIG = {
   container: "map-container",
-  style: "mapbox://styles/mapbox/light-v10",
+  style: "mapbox://styles/mapbox/light-v10?optimize=true",
   zoom: 4,
   minZoom: 3.5,
   maxZoom: 7,
@@ -16,9 +18,10 @@ const MAP_CONFIG = {
     "'Meiryo', 'Hiragino Kaku Gothic Pro', 'Noto Sans', 'Noto Sans CJK JP', sans-serif",
 };
 
-const drawMap = (mapboxgl, map) => {
-  // Initialize Map
-  map = new mapboxgl.Map(MAP_CONFIG);
+// Create and initializes the map.
+const drawMap = () => {
+  mapboxgl.accessToken = MAPBOX_API_KEY;
+  let map = new mapboxgl.Map(MAP_CONFIG);
   map.dragRotate.disable();
   map.touchZoomRotate.disableRotation();
   map.scrollZoom.disable();
@@ -28,7 +31,6 @@ const drawMap = (mapboxgl, map) => {
       showZoom: true,
     })
   );
-
   return map;
 };
 

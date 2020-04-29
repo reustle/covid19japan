@@ -49,11 +49,19 @@ import {
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
+//
+// Globals
+//
+
 let LANG = "en";
 
-// Global vars
+const PAGE_STATE = {
+  map: null,
+  mapLoaded: false,
+  styleLoaded: false,
+  dataLoaded: false,
+};
+
 const ddb = {
   ...DDB_COMMON,
   travelRestrictions,
@@ -68,9 +76,6 @@ ddb.isUpdated = function () {
     (!ddb.previouslyUpdated || ddb.lastUpdated > ddb.previouslyUpdated)
   );
 };
-
-let map = undefined;
-let tippyInstances;
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
@@ -134,7 +139,8 @@ const setLang = (lng) => {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    if (styleLoaded && map) {
+    if (PAGE_STATE.styleLoaded && PAGE_STATE.map) {
+      let map = PAGE_STATE.map;
       map.getStyle().layers.forEach((thisLayer) => {
         if (thisLayer.type == "symbol") {
           map.setLayoutProperty(thisLayer.id, "text-field", [
@@ -165,7 +171,7 @@ const setLang = (lng) => {
       }
     }
 
-    tippyInstances = updateTooltipLang(tippyInstances);
+    updateTooltipLang();
   });
 };
 
@@ -190,30 +196,27 @@ const initDataTranslate = () => {
   }
 };
 
-let pageDraws = 0;
-let styleLoaded = false;
-let jsonData = undefined;
-const whenMapAndDataReady = (ddb, map) => {
+const whenMapAndDataReady = () => {
   // This runs drawMapPref only when
   // both style and json data are ready
-  if (!styleLoaded || !jsonData || !map) {
+  if (!PAGE_STATE.styleLoaded || !PAGE_STATE.dataLoaded || !PAGE_STATE.map) {
     return;
   }
-  drawMapPrefectures(pageDraws, ddb, map);
+  drawMapPrefectures(ddb, PAGE_STATE.map);
 };
 
 const loadDataOnPage = () => {
-  loadData((data) => {
-    jsonData = data;
-
-    if (!ddb.isLoaded() || jsonData.updated > ddb.lastUpdated) {
+  loadData((summaryData) => {
+    if (!ddb.isLoaded() || summaryData.updated > ddb.lastUpdated) {
       ddb.previouslyUpdated = ddb.lastUpdated;
-      ddb.lastUpdated = jsonData.updated;
-      ddb.prefectures = jsonData.prefectures;
-      let newTotals = calculateTotals(jsonData.daily);
+      ddb.lastUpdated = summaryData.updated;
+      ddb.prefectures = summaryData.prefectures;
+      let newTotals = calculateTotals(summaryData.daily);
       ddb.totals = newTotals[0];
       ddb.totalsDiff = newTotals[1];
-      ddb.trend = jsonData.daily;
+      ddb.trend = summaryData.daily;
+
+      PAGE_STATE.dataLoaded = ddb.isLoaded();
 
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
@@ -227,8 +230,22 @@ const startReloadTimer = () => {
 };
 
 const initMap = () => {
-  if (mapboxgl.supported()) {
-    map = drawMap(mapboxgl, map);
+  if (typeof window.mapboxgl === "undefined") {
+    // mapbox js hasn't loaded yet, defer initializing the map after 3s
+    console.log("Mapbox not loaded. Defering initialization for 3s.");
+    setTimeout(initMap, 3000);
+    return;
+  }
+  console.log("Initializing map.");
+  doInitMap();
+};
+
+const doInitMap = () => {
+  let map = PAGE_STATE.map;
+
+  if (window.mapboxgl.supported()) {
+    map = drawMap();
+    PAGE_STATE.map = map;
   } else {
     // Hide the outbreak map.
     let mapContainer = document.querySelector("#outbreak-map-container");
@@ -239,10 +256,10 @@ const initMap = () => {
 
   if (map) {
     map.once("style.load", () => {
-      styleLoaded = true;
-
-      if (map.getStyle().layers) {
-        map.getStyle().layers.forEach((thisLayer) => {
+      PAGE_STATE.styleLoaded = true;
+      let layers = map.getStyle().layers;
+      if (layers) {
+        layers.forEach((thisLayer) => {
           if (thisLayer.type == "symbol") {
             map.setLayoutProperty(thisLayer.id, "text-field", [
               "get",
@@ -251,6 +268,7 @@ const initMap = () => {
           }
         });
       }
+      whenMapAndDataReady();
     });
   }
 };
@@ -258,7 +276,6 @@ const initMap = () => {
 // Reload data every five minutes
 const FIVE_MINUTES_IN_MS = 300000;
 const recursiveDataLoad = () => {
-  pageDraws++;
   loadDataOnPage();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
 };
@@ -299,7 +316,7 @@ document.addEventListener("covid19japan-redraw", () => {
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }
 
-  callIfUpdated(() => whenMapAndDataReady(ddb, map));
+  callIfUpdated(() => whenMapAndDataReady());
 });
 
 document.addEventListener("DOMContentLoaded", () => {
