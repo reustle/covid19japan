@@ -58,6 +58,7 @@ let LANG = "en";
 const PAGE_STATE = {
   map: null,
   mapLoaded: false,
+  mapShouldLoad: true,
   styleLoaded: false,
   dataLoaded: false,
 };
@@ -320,7 +321,12 @@ document.addEventListener("covid19japan-redraw", () => {
 });
 
 document.addEventListener("DOMContentLoaded", () => {
-  initMap();
+  if (window.location.href.search(/nomap/)) {
+    PAGE_STATE.mapShouldLoad = false;
+  }
+  if (PAGE_STATE.mapShouldLoad) {
+    initMap();
+  }
   loadDataOnPage();
   initDataTranslate();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
