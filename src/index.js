@@ -244,7 +244,7 @@ const initMap = () => {
 const doInitMap = () => {
   let map = PAGE_STATE.map;
 
-  if (window.mapboxgl.supported()) {
+  if (window.mapboxgl.supported() && PAGE_STATE.mapShouldLoad) {
     map = drawMap();
     PAGE_STATE.map = map;
   } else {
@@ -324,9 +324,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (window.location.href.indexOf("nomap")) {
     PAGE_STATE.mapShouldLoad = false;
   }
-  if (PAGE_STATE.mapShouldLoad) {
-    initMap();
-  }
+  initMap();
   loadDataOnPage();
   initDataTranslate();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
