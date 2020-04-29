@@ -25,7 +25,6 @@
     "i18next": "^19.3.4",
     "i18next-browser-languagedetector": "^4.0.2",
     "loc-i18next": "^0.1.4",
-    "lodash": "^4.17.15",
     "tippy.js": "^6.1.0",
     "twemoji": "^12.1.5",
     "whatwg-fetch": "^3.0.0"
@@ -35,7 +34,6 @@
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.0.5",
     "babel-plugin-date-fns": "^2.0.0",
-    "babel-plugin-lodash": "^3.3.4",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.1",
