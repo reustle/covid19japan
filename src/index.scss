@@ -365,6 +365,11 @@ img.emoji {
 
 .map-popup {
   font-size: 12px;
+  margin-bottom: -5px;
+
+  h3 {
+    margin: 0;
+  }
 
   span.popup-increment {
     color: rgb(244,67,54);
