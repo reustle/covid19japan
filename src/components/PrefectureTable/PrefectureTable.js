@@ -1,9 +1,4 @@
 import * as c3 from "c3";
-import map from "lodash/map";
-import max from "lodash/max";
-import takeRight from "lodash/takeRight";
-import concat from "lodash/concat";
-import orderBy from "lodash/orderBy";
 import i18next from "i18next";
 
 import { COLOR_CONFIRMED } from "../../data/constants";
@@ -13,13 +8,15 @@ let prefectureTrendCharts = {};
 
 const drawPrefectureTrend = (elementId, seriesData, maxConfirmedIncrease) => {
   let yMax = maxConfirmedIncrease;
-  let prefectureMax = max(seriesData);
+  let prefectureMax = seriesData.reduce((max, value) =>
+    max > value ? max : value
+  );
   if (prefectureMax / maxConfirmedIncrease < 0.1) {
     yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
   }
 
   const period = 30; // days
-  let last30days = takeRight(seriesData, period);
+  let last30days = seriesData.slice(-period);
 
   if (prefectureTrendCharts[elementId]) {
     prefectureTrendCharts[elementId].destroy();
@@ -30,7 +27,7 @@ const drawPrefectureTrend = (elementId, seriesData, maxConfirmedIncrease) => {
     interaction: { enabled: false },
     data: {
       type: "bar",
-      columns: [concat(["confirmed"], last30days)],
+      columns: [["confirmed"].concat(last30days)],
       colors: { confirmed: COLOR_CONFIRMED },
     },
     bar: {
@@ -93,11 +90,13 @@ const drawPrefectureTable = (prefectures, totals) => {
   dataTable.insertBefore(unspecifiedRows, dataTableFoot);
 
   // Work out the largest daily increase
-  const maxConfirmedIncrease = max(
-    map(prefectures, (pref) => {
-      return max(pref.dailyConfirmedCount);
+  const maxConfirmedIncrease = prefectures
+    .map((pref) => {
+      return pref.dailyConfirmedCount.reduce((max, value) =>
+        max > value ? max : value
+      );
     })
-  );
+    .reduce((max, value) => (max > value ? max : value));
 
   // Special prefectures to handle when we iterate through them.
   const pseudoPrefectures = {
@@ -121,7 +120,7 @@ const drawPrefectureTable = (prefectures, totals) => {
   };
 
   // Parse values so we can sort
-  map(prefectures, (pref) => {
+  prefectures.map((pref) => {
     pref.confirmed = pref.confirmed ? parseInt(pref.confirmed) : 0;
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
     // TODO change to deceased
@@ -129,7 +128,10 @@ const drawPrefectureTable = (prefectures, totals) => {
   });
 
   // Iterate through and render table rows
-  orderBy(prefectures, "confirmed", "desc").map((pref) => {
+  const sortedPrefectures = prefectures
+    .concat()
+    .sort((a, b) => b["confirmed"] - a["confirmed"]);
+  sortedPrefectures.map((pref) => {
     if (!pref.confirmed && !pref.recovered && !pref.deceased) {
       return;
     }
