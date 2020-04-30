@@ -15,7 +15,7 @@ const MAP_CONFIG = {
     { lat: 59.34721256263214, lng: 175.3273570446982 }, // NE
   ],
   localIdeographFontFamily:
-    "'Meiryo', 'Hiragino Kaku Gothic Pro', 'Noto Sans', 'Noto Sans CJK JP', sans-serif",
+    "'Meiryo', 'Hiragino Kaku Gothic Pro W6', 'Noto Sans', 'Noto Sans CJK JP', sans-serif",
 };
 
 // Create and initializes the map.
