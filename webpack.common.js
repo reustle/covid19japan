@@ -33,7 +33,6 @@ module.exports = {
       template: "src/index.html",
       chunks: ["index"],
     }),
-    new CopyPlugin([{ from: "CNAME", to: ".", flatten: false }]),
     new CopyPlugin([{ from: "static/**", to: ".", flatten: false }]),
     new MiniCssExtractPlugin({
       filename: "[name].css",

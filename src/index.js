@@ -1,5 +1,18 @@
-// Injects required polyfills for IE11
-import "core-js/stable";
+// Polyfills for IE11.
+// Avoid including core-js/stable in it's entirety to minimize bundle size.
+// Instead, individually import required core-js polyfills below.
+//
+// See: https://github.com/zloirock/core-js#usage for list of features.
+import "core-js/es/object/assign";
+import "core-js/es/array/find";
+import "core-js/es/symbol";
+import "core-js/es/symbol/async-iterator";
+import "core-js/es/symbol/iterator";
+import "core-js/es/promise";
+import "core-js/es/map";
+import "core-js/es/array/includes";
+import "core-js/web/dom-collections";
+
 import "whatwg-fetch";
 import "classlist-polyfill";
 import "custom-event-polyfill";
@@ -8,6 +21,7 @@ import "custom-event-polyfill";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
+import twemoji from "twemoji";
 
 import { calculateTotals } from "./data/helper";
 import header from "./components/Header";
@@ -35,12 +49,22 @@ import {
   DDB_COMMON,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
+import { FLAGS, LANGUAGES } from "./i18n";
 
-mapboxgl.accessToken =
-  "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
+//
+// Globals
+//
+
 let LANG = "en";
 
-// Global vars
+const PAGE_STATE = {
+  map: null,
+  mapLoaded: false,
+  mapShouldLoad: true,
+  styleLoaded: false,
+  dataLoaded: false,
+};
+
 const ddb = {
   ...DDB_COMMON,
   travelRestrictions,
@@ -55,19 +79,6 @@ ddb.isUpdated = function () {
     (!ddb.previouslyUpdated || ddb.lastUpdated > ddb.previouslyUpdated)
   );
 };
-
-let map = undefined;
-let tippyInstances;
-
-// IE11 forEach Polyfill
-if ("NodeList" in window && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = (callback, thisArg) => {
-    thisArg = thisArg || window;
-    for (let i = 0; i < this.length; i++) {
-      callback.call(thisArg, this[i], i, this);
-    }
-  };
-}
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
@@ -131,7 +142,8 @@ const setLang = (lng) => {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    if (styleLoaded && map) {
+    if (PAGE_STATE.styleLoaded && PAGE_STATE.map) {
+      let map = PAGE_STATE.map;
       map.getStyle().layers.forEach((thisLayer) => {
         if (thisLayer.type == "symbol") {
           map.setLayoutProperty(thisLayer.id, "text-field", [
@@ -162,9 +174,22 @@ const setLang = (lng) => {
       }
     }
 
-    tippyInstances = updateTooltipLang(tippyInstances);
     sendResizeMessage();
+    updateTooltipLang();
   });
+};
+
+const populateLanguageSelector = () => {
+  const parent = document.getElementsByClassName("lang-picker")[0];
+  parent.innerHTML = "";
+  for (let i in LANGUAGES) {
+    parent.innerHTML =
+      parent.innerHTML +
+      `<a href="#" data-lang-picker='${LANGUAGES[i].toLowerCase()}'>${LANGUAGES[
+        i
+      ].toUpperCase()} ${twemoji.parse(FLAGS[i])}</a> `;
+    if (i <= LANGUAGES.length - 2) parent.innerHTML = parent.innerHTML + `| `;
+  }
 };
 
 const initDataTranslate = () => {
@@ -175,6 +200,8 @@ const initDataTranslate = () => {
     .then(() => {
       setLang(i18next.language);
     });
+
+  populateLanguageSelector();
 
   // Language selector event handler
   const langPickers = document.querySelectorAll("[data-lang-picker]");
@@ -188,30 +215,27 @@ const initDataTranslate = () => {
   }
 };
 
-let pageDraws = 0;
-let styleLoaded = false;
-let jsonData = undefined;
-const whenMapAndDataReady = (ddb, map) => {
+const whenMapAndDataReady = () => {
   // This runs drawMapPref only when
   // both style and json data are ready
-  if (!styleLoaded || !jsonData || !map) {
+  if (!PAGE_STATE.styleLoaded || !PAGE_STATE.dataLoaded || !PAGE_STATE.map) {
     return;
   }
-  drawMapPrefectures(pageDraws, ddb, map);
+  drawMapPrefectures(ddb, PAGE_STATE.map);
 };
 
 const loadDataOnPage = () => {
-  loadData((data) => {
-    jsonData = data;
-
-    if (!ddb.isLoaded() || jsonData.updated > ddb.lastUpdated) {
+  loadData((summaryData) => {
+    if (!ddb.isLoaded() || summaryData.updated > ddb.lastUpdated) {
       ddb.previouslyUpdated = ddb.lastUpdated;
-      ddb.lastUpdated = jsonData.updated;
-      ddb.prefectures = jsonData.prefectures;
-      let newTotals = calculateTotals(jsonData.daily);
+      ddb.lastUpdated = summaryData.updated;
+      ddb.prefectures = summaryData.prefectures;
+      let newTotals = calculateTotals(summaryData.daily);
       ddb.totals = newTotals[0];
       ddb.totalsDiff = newTotals[1];
-      ddb.trend = jsonData.daily;
+      ddb.trend = summaryData.daily;
+
+      PAGE_STATE.dataLoaded = ddb.isLoaded();
 
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
@@ -225,8 +249,22 @@ const startReloadTimer = () => {
 };
 
 const initMap = () => {
-  if (mapboxgl.supported()) {
-    map = drawMap(mapboxgl, map);
+  if (typeof window.mapboxgl === "undefined") {
+    // mapbox js hasn't loaded yet, defer initializing the map after 3s
+    console.log("Mapbox not loaded. Defering initialization for 3s.");
+    setTimeout(initMap, 3000);
+    return;
+  }
+  console.log("Initializing map.");
+  doInitMap();
+};
+
+const doInitMap = () => {
+  let map = PAGE_STATE.map;
+
+  if (window.mapboxgl.supported() && PAGE_STATE.mapShouldLoad) {
+    map = drawMap();
+    PAGE_STATE.map = map;
   } else {
     // Hide the outbreak map.
     let mapContainer = document.querySelector("#outbreak-map-container");
@@ -237,16 +275,19 @@ const initMap = () => {
 
   if (map) {
     map.once("style.load", () => {
-      styleLoaded = true;
-
-      map.getStyle().layers.forEach((thisLayer) => {
-        if (thisLayer.type == "symbol") {
-          map.setLayoutProperty(thisLayer.id, "text-field", [
-            "get",
-            `name_${LANG}`,
-          ]);
-        }
-      });
+      PAGE_STATE.styleLoaded = true;
+      let layers = map.getStyle().layers;
+      if (layers) {
+        layers.forEach((thisLayer) => {
+          if (thisLayer.type == "symbol") {
+            map.setLayoutProperty(thisLayer.id, "text-field", [
+              "get",
+              `name_${LANG}`,
+            ]);
+          }
+        });
+      }
+      whenMapAndDataReady();
     });
   }
 };
@@ -254,7 +295,6 @@ const initMap = () => {
 // Reload data every five minutes
 const FIVE_MINUTES_IN_MS = 300000;
 const recursiveDataLoad = () => {
-  pageDraws++;
   loadDataOnPage();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
 };
@@ -304,19 +344,18 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      prefectureTrendCharts = drawPrefectureTable(
-        ddb.prefectures,
-        ddb.totals,
-        prefectureTrendCharts
-      );
+      drawPrefectureTable(ddb.prefectures, ddb.totals);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }
 
-  callIfUpdated(() => whenMapAndDataReady(ddb, map));
+  callIfUpdated(() => whenMapAndDataReady());
 });
 
 document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.href.indexOf("nomap") != -1) {
+    PAGE_STATE.mapShouldLoad = false;
+  }
   initMap();
   loadDataOnPage();
   initDataTranslate();

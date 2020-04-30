@@ -1,5 +1,5 @@
 import * as c3 from "c3";
-import * as d3 from "d3";
+import { color as d3_color } from "d3-color";
 import i18next from "i18next";
 import { format as dateFormat } from "date-fns";
 import { enUS, ja } from "date-fns/locale";
@@ -56,7 +56,7 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
       x: "Date",
       color: (color, d) => {
         if (d && d.index === cols.Date.length - 2) {
-          const newColor = d3.color(color);
+          const newColor = d3_color(color);
           newColor.opacity = 0.6;
           return newColor;
         } else {

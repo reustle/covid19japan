@@ -1,17 +1,15 @@
-module.exports = function(api) {
+module.exports = function (api) {
   api.cache(false);
   return {
-    plugins: [
-      "lodash"  // transforms/strips unused lodash deps.
-    ],
+    plugins: ["date-fns"],
     presets: [
       [
         "@babel/preset-env",
         {
-          useBuiltIns: "entry",
-          targets: { chrome: "58", ie: "11" }
-        }
-      ]
-    ]
-  }
-}
+          useBuiltIns: "usage",
+          targets: { chrome: "58", ie: "11" },
+        },
+      ],
+    ],
+  };
+};

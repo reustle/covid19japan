@@ -83,6 +83,7 @@
     <h1 data-i18n="covid-19-tracker">Japan COVID-19 Coronavirus Tracker</h1>
     <div class="toolbar">
       <div class="lang-picker">
+        <!-- will be populated from supported language list -->
         <a href="#" data-lang-picker='en'>EN 🇺🇸</a> |
         <a href="#" data-lang-picker='ja'>JP 🇯🇵</a>
       </div>
@@ -134,12 +135,13 @@
     <div class="center-offset">
       <h4><span data-i18n="covid-19" class="embed-show">COVID-19</span> <span data-i18n="outbreak-map">Outbreak Map</span></h4>
     </div>
-    <section id="map-legend">
-      <div><span class="one">▉</span> 1-50 <span data-i18n="cases">cases</span></div>
-      <div><span class="two">▉</span> 51-100 <span data-i18n="cases">cases</span></div>
-      <div><span class="three">▉</span> 101-200 <span data-i18n="cases">cases</span></div>
-      <div><span class="four">▉</span> 201+ <span data-i18n="cases">cases</span></div>
-    </section>
+  <section id="map-legend">
+    <div><span class="one">▉</span> 1-49 <span data-i18n="cases">cases</span></div>
+    <div><span class="two">▉</span> 50-99 <span data-i18n="cases">cases</span></div>
+    <div><span class="three">▉</span> 100-499 <span data-i18n="cases">cases</span></div>
+    <div><span class="four">▉</span> 500-999 <span data-i18n="cases">cases</span></div>
+    <div><span class="five">▉</span> 1000+ <span data-i18n="cases">cases</span></div>    
+  </section>
     <div id="map-container"></div>
     <p class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></p>
   </section>    
@@ -176,7 +178,7 @@
           <th class="" colspan="2">
             <span data-i18n="confirmed">Confirmed</span> 
             <div class="increment">
-              <span class="delta today"><span data-i18n="increment-today">(Today)</span>
+              <span class="delta today"><span data-i18n="increment-today">(Today)</span></span>
               <span class="delta yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></span>
             </div>
           </th>
@@ -197,10 +199,10 @@
     <h4 data-i18n="traveling-into-japan">Traveling into Japan</h4>
     <p data-i18n="about-travel-restriction">Below are the travel restrictions that have been put in place regarding traveling into Japan.
       Click on the link for more details on the restrictions.</p>
-    <h5 data-i18n="banned-from-entering-japan">Banned From Entering Japan:</h5><span id="banned-entry"></span>
-    <h5 data-i18n="existing-visa-required">Existing Visa Required:</h5><span id="visa-required"></span>
-    <h5 data-i18n="14-day-self-quarantine-required">14-day Self-Quarantine Required:</h5><span id="self-quarantine"></span>
-    <h5 data-i18n="other-limitations">Other Limitations:</h5><span id="other-restrictions"></span>
+    <h5 data-i18n="banned-from-entering-japan" id="banned-entry-title">Banned From Entering Japan:</h5><span id="banned-entry"></span>
+    <h5 data-i18n="existing-visa-required" id="visa-required-title">Existing Visa Required:</h5><span id="visa-required"></span>
+    <h5 data-i18n="14-day-self-quarantine-required" id="self-quarantine-title">14-day Self-Quarantine Required:</h5><span id="self-quarantine"></span>
+    <h5 data-i18n="other-limitations" id="other-restrictions-title">Other Limitations:</h5><span id="other-restrictions"></span>
 
     <!--<h4>Traveling out of Japan</h4>
     <p>Below are the travel restrictions that have been put in place regarding traveling from Japan into
@@ -255,19 +257,22 @@
         <img src="/static/avatars/shane.jpg" alt="Shane">
       </a>
       <a href="https://twitter.com/kayzjh" title="Kay" target="_blank" class="avatar">
-        <img src="/static/avatars/kay.png" alt="Kay">
+        <img src="/static/avatars/kay.jpg" alt="Kay">
       </a>
       <a href="https://twitter.com/guchagucha" title="Mark" target="_blank" class="avatar">
         <img src="/static/avatars/mark.jpg" alt="Mark">
       </a>
       <a href="https://twitter.com/liquidx" title="Alastair" target="_blank" class="avatar">
-        <img src="/static/avatars/alastair.png" alt="Alastair">
+        <img src="/static/avatars/alastair.jpg" alt="Alastair">
       </a>
       <a href="https://twitter.com/lchin" title="Leonard" target="_blank" class="avatar">
         <img src="/static/avatars/leonard.jpg" alt="Leonard">
       </a>
+      <a href="https://github.com/mertd" title="Mert" target="_blank" class="avatar">
+        <img src="/static/avatars/mert.jpg" alt="Mert">
+      </a>
       <a href="https://github.com/reustle/covid19japan/graphs/contributors" title="Other Contributors" target="_blank" class="avatar">
-        <img src="https://ui-avatars.com/api/?background=1876D3&size=50&bold=true&color=fff&name=%2B" alt="Other Contributors">
+        <img src="https://ui-avatars.com/api/?background=1876D3&size=80&bold=true&color=fff&name=%2B" alt="Other Contributors">
       </a>
     </p>
     <p>
@@ -278,8 +283,8 @@
   </footer>
 
   <!-- JS -->
-  <script src="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.js"></script>
-  <link href="https://api.mapbox.com/mapbox-gl-js/v0.53.1/mapbox-gl.css" rel="stylesheet" />
+  <script async src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
+  <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>
   <script>
     window.dataLayer = window.dataLayer || [];

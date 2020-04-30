@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npx webpack --config webpack.dev.js",
     "build-prod": "npx webpack --config webpack.prod.js",
-    "watch": "npx webpack --watch --config webpack.dev.js",
+    "watch": "npx webpack --config webpack.dev.js && npx webpack --watch --config webpack.dev.js",
     "start": "node server.js",
     "start-webpack": "node server.webpack.js",
     "deploy-firebase": "npx webpack --config webpack.prod.js && firebase deploy"
@@ -25,7 +25,6 @@
     "i18next": "^19.3.4",
     "i18next-browser-languagedetector": "^4.0.2",
     "loc-i18next": "^0.1.4",
-    "lodash": "^4.17.15",
     "tippy.js": "^6.1.0",
     "twemoji": "^12.1.5",
     "whatwg-fetch": "^3.0.0"
@@ -34,7 +33,7 @@
     "@babel/cli": "^7.8.4",
     "@babel/preset-env": "^7.9.0",
     "babel-loader": "^8.0.5",
-    "babel-plugin-lodash": "^3.3.4",
+    "babel-plugin-date-fns": "^2.0.0",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.1",
@@ -50,9 +49,12 @@
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.2",
     "sass-loader": "^8.0.0",
+    "simplify-geojson": "^1.0.3",
+    "source-map-explorer": "^2.4.2",
     "style-loader": "^1.1.2",
     "terser-webpack-plugin": "^2.3.1",
     "webpack": "^4.41.5",
+    "webpack-bundle-analyzer": "^3.7.0",
     "webpack-cli": "^3.3.8",
     "webpack-dev-middleware": "^3.7.1",
     "webpack-merge": "^4.2.2"

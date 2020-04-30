@@ -12,6 +12,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "antiguaandbarbuda",
+        "emoji": "🇦🇬",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
         "name": "australia",
         "emoji": "🇦🇺",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -25,6 +30,16 @@
         "name": "bahrain",
         "emoji": "🇧🇭",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "barbados",
+        "emoji": "🇧🇧",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
+        "name": "belarus",
+        "emoji": "🇧🇾",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
       },
       {
         "name": "belgium",
@@ -102,9 +117,19 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "djibouti",
+        "emoji": "🇩🇯",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
         "name": "dominica",
         "emoji": "🇩🇲",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "dominicanrepublic",
+        "emoji": "🇩🇴",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
       },
       {
         "name": "ecuador",
@@ -187,6 +212,11 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "kuwait",
+        "emoji": "🇰🇼",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
         "name": "latvia",
         "emoji": "🇱🇻",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
@@ -262,9 +292,19 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "oman",
+        "emoji": "🇴🇲",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
         "name": "panama",
         "emoji": "🇵🇦",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "peru",
+        "emoji": "🇵🇪",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
       },
       {
         "name": "philippines",
@@ -282,14 +322,34 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "qatar",
+        "emoji": "🇶🇦",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
         "name": "romania",
         "emoji": "🇷🇴",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "name": "russia",
+        "emoji": "🇷🇺",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
         "name": "sanmarino",
         "emoji": "🇸🇲",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "saintkittsandnevis",
+        "emoji": "🇰🇳",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
+        "name": "saudiarabia",
+        "emoji": "🇸🇦",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
       },
       {
         "name": "serbia",
@@ -345,6 +405,16 @@
         "name": "uk",
         "emoji": "🇬🇧",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "ukraine",
+        "emoji": "🇺🇦",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+      },
+      {
+        "name": "unitedarabemirates",
+        "emoji": "🇦🇪",
+        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
       },
       {
         "name": "usa",

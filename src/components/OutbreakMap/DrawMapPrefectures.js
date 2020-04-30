@@ -1,24 +1,34 @@
 import i18next from "i18next";
 import {
-  PREFECTURE_JSON_PATH,
   PREFECTURE_PAINT,
   COLOR_YELLOW,
   COLOR_ORANGE,
   COLOR_RED,
+  COLOR_DARK_RED,
   COLOR_BURGUNDY,
+  COLOR_DARK_BURGUNDY,
+  COLOR_BLACK,
   COLOR_NONE,
 } from "../../data/constants";
+
+const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
+let pageDrawCount = 0;
+
 /**
  * drawMapPrefectures
  * @param {*} pageDraws - number of redraws to screen
  */
-const drawMapPrefectures = (pageDraws, ddb, map) => {
+const drawMapPrefectures = (ddb, map) => {
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
 
   let firstSymbolId;
   const { layers = [] } = map.getStyle();
+  if (!layers) {
+    return;
+  }
+
   for (let i = 0; i < layers.length; i++) {
     if (layers[i].type === "symbol") {
       firstSymbolId = layers[i].id;
@@ -34,18 +44,21 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
     if (cases > 0) {
       prefecturePaint.push(prefecture.name);
 
-      if (cases <= 50) {
-        // 1-50 cases
+      if (cases <= 49) {
+        // 1-49 cases
         prefecturePaint.push(COLOR_YELLOW);
-      } else if (cases <= 100) {
-        // 51-100 cases
+      } else if (cases <= 99) {
+        // 50-99 cases
         prefecturePaint.push(COLOR_ORANGE);
-      } else if (cases <= 200) {
-        // 101-200 cases
+      } else if (cases <= 499) {
+        // 100-499 cases
         prefecturePaint.push(COLOR_RED);
+      } else if (cases <= 999) {
+        // 500-999 cases
+        prefecturePaint.push(COLOR_DARK_RED);
       } else {
-        // 201+ cases
-        prefecturePaint.push(COLOR_BURGUNDY);
+        // 1000+ cases
+        prefecturePaint.push(COLOR_DARK_BURGUNDY);
       }
     }
   });
@@ -53,9 +66,9 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
   // Add a final value to the list for the default color
   prefecturePaint.push(COLOR_NONE);
 
-  if (pageDraws === 0) {
+  if (pageDrawCount === 0) {
+    pageDrawCount++;
     // If it is the first time drawing the map
-
     map.addSource("prefectures", {
       type: "geojson",
       data: PREFECTURE_JSON_PATH,
@@ -101,6 +114,8 @@ const drawMapPrefectures = (pageDraws, ddb, map) => {
   const popup = new mapboxgl.Popup({
     closeButton: false,
     closeOnClick: false,
+    offset: 25,
+    className: "popup-content",
   });
 
   map.on("mousemove", function (e) {
