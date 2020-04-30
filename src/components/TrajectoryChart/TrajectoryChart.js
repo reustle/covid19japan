@@ -1,11 +1,9 @@
 import * as c3 from "c3";
 import * as d3 from "d3";
-import map from "lodash/map";
-import reduce from "lodash/reduce";
-import filter from "lodash/filter";
-import mapValues from "lodash/mapValues";
-import values from "lodash/values";
 import i18next from "i18next";
+
+// Inject IE11 polyfill (not used in index.js).
+import "core-js/es/object/values";
 
 const drawPrefectureTrajectoryChart = (
   prefectures,
@@ -13,48 +11,43 @@ const drawPrefectureTrajectoryChart = (
   lang
 ) => {
   const minimumConfirmed = 100;
-  const filteredPrefectures = filter(prefectures, (prefecture) => {
+  const filteredPrefectures = prefectures.filter((prefecture) => {
     return (
       prefecture.confirmed >= minimumConfirmed && !prefecture.pseudoPrefecture
     );
   });
-  const trajectories = reduce(
-    filteredPrefectures,
-    (t, prefecture) => {
-      const cumulativeConfirmed = reduce(
-        prefecture.dailyConfirmedCount,
-        (result, value) => {
-          if (result.length > 0) {
-            const sum = result[result.length - 1] + value;
-            result.push(sum);
-            return result;
-          } else {
-            return [value];
-          }
-        },
-        []
-      );
-      const cumulativeConfirmedFromMinimum = filter(
-        cumulativeConfirmed,
-        (value) => value >= minimumConfirmed
-      );
-      t[prefecture.name] = {
-        name: prefecture.name,
-        name_ja: prefecture.name_ja,
-        confirmed: prefecture.confirmed,
-        cumulativeConfirmed: cumulativeConfirmedFromMinimum,
-        lastIndex: cumulativeConfirmedFromMinimum.length - 1,
-      };
-      return t;
-    },
-    {}
-  );
+  const trajectories = filteredPrefectures.reduce((t, prefecture) => {
+    const cumulativeConfirmed = prefecture.dailyConfirmedCount.reduce(
+      (result, value) => {
+        if (result.length > 0) {
+          const sum = result[result.length - 1] + value;
+          result.push(sum);
+          return result;
+        } else {
+          return [value];
+        }
+      },
+      []
+    );
+    const cumulativeConfirmedFromMinimum = cumulativeConfirmed.filter(
+      (value) => value >= minimumConfirmed
+    );
+    t[prefecture.name] = {
+      name: prefecture.name,
+      name_ja: prefecture.name_ja,
+      confirmed: prefecture.confirmed,
+      cumulativeConfirmed: cumulativeConfirmedFromMinimum,
+      lastIndex: cumulativeConfirmedFromMinimum.length - 1,
+    };
+    return t;
+  }, {});
 
-  const columns = map(Object.values(trajectories), (prefecture) =>
+  const trajectoryValues = Object.values(trajectories);
+  const columns = trajectoryValues.map((prefecture) =>
     [prefecture.name].concat(prefecture.cumulativeConfirmed)
   );
 
-  const regions = mapValues(trajectories, (prefecture) => {
+  const regions = trajectoryValues.map((prefecture) => {
     const value = prefecture.lastIndex;
     if (value > 0) {
       return [{ start: value - 1, end: value, style: "dashed" }];
@@ -63,24 +56,19 @@ const drawPrefectureTrajectoryChart = (
     }
   });
 
-  const maxDays = reduce(
-    values(trajectories),
+  const maxDays = trajectoryValues.reduce(
     (a, b) => Math.max(a, b.lastIndex),
     0
   );
 
-  const nameMap = reduce(
-    trajectories,
-    (result, value) => {
-      if (lang === "en") {
-        result[value.name] = value.name;
-      } else {
-        result[value.name] = value.name_ja;
-      }
-      return result;
-    },
-    {}
-  );
+  const nameMap = trajectoryValues.reduce((result, prefecture) => {
+    if (lang === "en") {
+      result[prefecture.name] = prefecture.name;
+    } else {
+      result[prefecture.name] = prefecture.name_ja;
+    }
+    return result;
+  }, {});
 
   if (prefectureTrajectoryChart) {
     prefectureTrajectoryChart.destroy();

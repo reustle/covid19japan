@@ -1,5 +1,18 @@
-// Injects required polyfills for IE11
-import "core-js/stable";
+// Polyfills for IE11.
+// Avoid including core-js/stable in it's entirety to minimize bundle size.
+// Instead, individually import required core-js polyfills below.
+//
+// See: https://github.com/zloirock/core-js#usage for list of features.
+import "core-js/es/object/assign";
+import "core-js/es/array/find";
+import "core-js/es/symbol";
+import "core-js/es/symbol/async-iterator";
+import "core-js/es/symbol/iterator";
+import "core-js/es/promise";
+import "core-js/es/map";
+import "core-js/es/array/includes";
+import "core-js/web/dom-collections";
+
 import "whatwg-fetch";
 import "classlist-polyfill";
 import "custom-event-polyfill";
@@ -8,6 +21,7 @@ import "custom-event-polyfill";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
+import twemoji from "twemoji";
 
 import { calculateTotals } from "./data/helper";
 import header from "./components/Header";
@@ -35,6 +49,7 @@ import {
   DDB_COMMON,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
+import { FLAGS, LANGUAGES } from "./i18n";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
@@ -58,16 +73,6 @@ ddb.isUpdated = function () {
 
 let map = undefined;
 let tippyInstances;
-
-// IE11 forEach Polyfill
-if ("NodeList" in window && !NodeList.prototype.forEach) {
-  NodeList.prototype.forEach = (callback, thisArg) => {
-    thisArg = thisArg || window;
-    for (let i = 0; i < this.length; i++) {
-      callback.call(thisArg, this[i], i, this);
-    }
-  };
-}
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
@@ -166,6 +171,19 @@ const setLang = (lng) => {
   });
 };
 
+const populateLanguageSelector = () => {
+  const parent = document.getElementsByClassName("lang-picker")[0];
+  parent.innerHTML = "";
+  for (let i in LANGUAGES) {
+    parent.innerHTML =
+      parent.innerHTML +
+      `<a href="#" data-lang-picker='${LANGUAGES[i].toLowerCase()}'>${LANGUAGES[
+        i
+      ].toUpperCase()} ${twemoji.parse(FLAGS[i])}</a> `;
+    if (i <= LANGUAGES.length - 2) parent.innerHTML = parent.innerHTML + `| `;
+  }
+};
+
 const initDataTranslate = () => {
   // load translation framework
   i18next
@@ -174,6 +192,8 @@ const initDataTranslate = () => {
     .then(() => {
       setLang(i18next.language);
     });
+
+  populateLanguageSelector();
 
   // Language selector event handler
   const langPickers = document.querySelectorAll("[data-lang-picker]");
@@ -238,14 +258,16 @@ const initMap = () => {
     map.once("style.load", () => {
       styleLoaded = true;
 
-      map.getStyle().layers.forEach((thisLayer) => {
-        if (thisLayer.type == "symbol") {
-          map.setLayoutProperty(thisLayer.id, "text-field", [
-            "get",
-            `name_${LANG}`,
-          ]);
-        }
-      });
+      if (map.getStyle().layers) {
+        map.getStyle().layers.forEach((thisLayer) => {
+          if (thisLayer.type == "symbol") {
+            map.setLayoutProperty(thisLayer.id, "text-field", [
+              "get",
+              `name_${LANG}`,
+            ]);
+          }
+        });
+      }
     });
   }
 };
