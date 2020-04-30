@@ -1,5 +1,5 @@
-const MAPBOX_API_KEY =
-  "pk.eyJ1IjoicmV1c3RsZSIsImEiOiJjazZtaHE4ZnkwMG9iM3BxYnFmaDgxbzQ0In0.nOiHGcSCRNa9MD9WxLIm7g";
+import { MAPBOX_API_KEY } from "./ApiKey";
+
 const MAP_CONFIG = {
   container: "map-container",
   style: "mapbox://styles/mapbox/light-v10?optimize=true",
