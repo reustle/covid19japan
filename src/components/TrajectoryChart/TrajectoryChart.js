@@ -62,10 +62,10 @@ const drawPrefectureTrajectoryChart = (
   );
 
   const nameMap = trajectoryValues.reduce((result, prefecture) => {
-    if (lang === "en") {
-      result[prefecture.name] = prefecture.name;
-    } else {
+    if (lang === "ja") {
       result[prefecture.name] = prefecture.name_ja;
+    } else {
+      result[prefecture.name] = prefecture.name;
     }
     return result;
   }, {});
