@@ -114,6 +114,8 @@ const drawMapPrefectures = (ddb, map) => {
   const popup = new mapboxgl.Popup({
     closeButton: false,
     closeOnClick: false,
+    offset: 25,
+    className: "popup-content",
   });
 
   map.on("mousemove", function (e) {
