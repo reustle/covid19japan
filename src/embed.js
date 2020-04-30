@@ -9,10 +9,7 @@ const style = `
     width: 100%;
     height: 100%;
 `;
-const src =
-  window.location.hostname === "" || window.location.hostname === "localhost"
-    ? "http://localhost:4000/embed.html"
-    : "https://covid19japan.com/embed";
+const src = "https://covid19japan.com/embed";
 
 // populate embed html
 element.innerHTML = `<iframe id="covid19japan-iframe" src="${src}" style="${style}" />`;
