@@ -258,6 +258,10 @@ table {
   th.trend, td.trend {
     width: 120px;
     padding: 0 10px;
+
+    img {
+      width: 120px;  
+    }
   }
 
   td.confirmed {
