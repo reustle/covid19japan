@@ -70,7 +70,6 @@ const drawPrefectureTable = (prefectures, totals) => {
     let isPseudoPrefecture = pseudoPrefectures[pref.name];
     let trendURL = prefectureTrendChartURL(pref.name);
 
-    let incrementString = "";
     let todayConfirmedString = "";
     let yesterdayConfirmedString = "";
     if (pref.newlyConfirmed > 0) {
@@ -85,6 +84,9 @@ const drawPrefectureTable = (prefectures, totals) => {
     }
 
     existingRow.querySelector("td.prefecture").innerHTML = i18next.t(stringId);
+    existingRow
+      .querySelector("td.prefecture")
+      .setAttribute("data-i18n", stringId);
     existingRow.querySelector("td.confirmed").innerHTML = pref.confirmed;
     existingRow.querySelector(
       "td.delta .increment .today"
