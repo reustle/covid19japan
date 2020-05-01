@@ -1,65 +1,8 @@
-import * as c3 from "c3";
 import i18next from "i18next";
 
-import { COLOR_CONFIRMED } from "../../data/constants";
-
-// Global that ensures we clean up any prefectureTrend charts on redraw.
-let prefectureTrendCharts = {};
-
-const drawPrefectureTrend = (elementId, seriesData, maxConfirmedIncrease) => {
-  let yMax = maxConfirmedIncrease;
-  let prefectureMax = seriesData.reduce((max, value) =>
-    max > value ? max : value
-  );
-  if (prefectureMax / maxConfirmedIncrease < 0.1) {
-    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
-  }
-
-  const period = 30; // days
-  let last30days = seriesData.slice(-period);
-
-  if (prefectureTrendCharts[elementId]) {
-    prefectureTrendCharts[elementId].destroy();
-  }
-  prefectureTrendCharts[elementId] = c3.generate({
-    bindto: elementId,
-    padding: { left: 0, right: 0, top: 0, bottom: 0 },
-    interaction: { enabled: false },
-    data: {
-      type: "bar",
-      columns: [["confirmed"].concat(last30days)],
-      colors: { confirmed: COLOR_CONFIRMED },
-    },
-    bar: {
-      width: { ratio: 1 },
-      zerobased: true,
-    },
-    axis: {
-      x: {
-        show: false,
-        min: 0,
-        padding: { left: 0, right: 0 },
-      },
-      y: {
-        show: false,
-        min: 0,
-        max: yMax,
-        padding: { top: 0, bottom: 0 },
-      },
-    },
-    size: {
-      height: 30,
-      width: 120,
-    },
-    legend: { show: false },
-    tooltip: { show: false },
-    point: { show: false },
-  });
-};
-
-// Run CPU intensive processing in a separate macrotask
-const enqueueMacrotask = (callback, delay = 0) => {
-  setTimeout(callback, delay);
+const prefectureTrendChartURL = (prefectureName) => {
+  let filename = prefectureName.toLowerCase().replace(/[\s]+/g, "_");
+  return `https://data.covid19japan.com/charts/${filename}.svg`;
 };
 
 const drawPrefectureTable = (prefectures, totals) => {
@@ -151,11 +94,12 @@ const drawPrefectureTable = (prefectures, totals) => {
       if (isPseudoPrefecture.stringId) {
         let stringId = isPseudoPrefecture.stringId;
         let trendElementId = `${isPseudoPrefecture.className}-trend`;
+        let trendURL = prefectureTrendChartURL(pref.name);
         let row = document.createElement("tr");
         row.innerHTML = `<td class="prefecture" data-i18n="${stringId}">${i18next.t(
           stringId
         )}</td>
-          <td class="trend"><div id="${trendElementId}"></div></td>
+          <td class="trend"><div id="${trendElementId}"><img src="${trendURL}"></div></td>
           <td class="count confirmed">${pref.confirmed}</td>
           <td class="delta">
             <div class="increment">
@@ -175,23 +119,19 @@ const drawPrefectureTable = (prefectures, totals) => {
         } else {
           pseudoPrefectureRows.appendChild(row);
         }
-        enqueueMacrotask(() => {
-          drawPrefectureTrend(
-            "#" + trendElementId,
-            pref.dailyConfirmedCount,
-            maxConfirmedIncrease
-          );
-        });
       }
     } else {
       let stringId = `prefectures.${pref.name}`;
       let row = document.createElement("tr");
+      let trendURL = prefectureTrendChartURL(pref.name);
       prefectureRows.appendChild(row);
       row.innerHTML = `
         <td class="prefecture" data-i18n="${stringId}">${i18next.t(
         stringId
       )}</td>
-        <td class="trend"><div id="${pref.name}-trend"></div></td>
+        <td class="trend"><div id="${
+          pref.name
+        }-trend"><img src="${trendURL}"></div></td>
         <td class="count confirmed">${pref.confirmed} ${incrementString}</td>
         <td class="delta">
           <div class="increment">
@@ -202,13 +142,6 @@ const drawPrefectureTable = (prefectures, totals) => {
         <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
         <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
       `;
-      enqueueMacrotask(() => {
-        drawPrefectureTrend(
-          `#${pref.name}-trend`,
-          pref.dailyConfirmedCount,
-          maxConfirmedIncrease
-        );
-      });
     }
     return true;
   });
