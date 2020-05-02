@@ -210,7 +210,14 @@ table {
   }
 
   tfoot tr {
-    background-color: rgb(235, 238, 239);
+    background-color: rgb(230, 230, 230);
+  }
+
+  tfoot {
+    td {
+      height: 30px;
+      padding: 10px;
+    }
   }
 
   th {
@@ -234,6 +241,11 @@ table {
     padding-bottom: 10px;
   }
 
+  tbody#pseudo-prefecture-rows tr:first-child td,
+  tfoot tr td {
+    border-top: 2px solid rgb(219, 219, 219);
+  }
+
   tbody td {
     vertical-align: middle;
     height: 40px;
@@ -252,7 +264,8 @@ table {
     padding: 5px;
     min-width: 60px;
     max-width: 100px;
-    white-space: nowrap;
+    overflow: hidden;
+    text-align: right;
   }
 
   th.trend, td.trend {
