@@ -205,56 +205,58 @@ table {
   border-spacing: 0px;
   font-size: 14px;
 
-  tr:nth-child(even), tbody#unspecified-rows tr {
-    background-color: rgb(244,247,248);
-  }
-
-  tfoot tr {
-    background-color: rgb(230, 230, 230);
-  }
-
-  tfoot {
-    td {
-      height: 30px;
-      padding: 10px;
-    }
-  }
-
-  th {
-    text-align: left;
-    font-size: 11px;
-    min-width: 7em;
-    vertical-align: baseline;
-  }
-
   th, td {
     padding: 5px 5px;
     line-height: 1.2em;
   }
 
-  thead th {
-    min-height: 40px;
-    border-bottom: 2px solid rgb(219, 219, 219);
+
+  thead {
+    tr {
+      padding-bottom: 10px;
+    }
+    th {
+      min-height: 40px;
+      border-bottom: 2px solid rgb(219, 219, 219);
+      text-align: left;
+      font-size: 11px;
+      min-width: 7em;
+      vertical-align: baseline;
+    }
   }
 
-  thead tr {
-    padding-bottom: 10px;
+  tbody {
+    tr:nth-child(even) {
+      background-color: rgb(244,247,248);
+    }  
+    td {
+      vertical-align: middle;
+      height: 40px;
+      min-height: 40px;
+    }
   }
 
-  tbody#pseudo-prefecture-rows tr:first-child td,
-  tfoot tr td {
-    border-top: 2px solid rgb(219, 219, 219);
+
+  tbody#total-rows {
+    tr {
+      background-color: rgb(230, 230, 230);
+    }
+    td {
+      height: 30px;
+      padding: 10px;
+    }
+
+    .totals {
+      font-weight: bold;
+    }
+    border-bottom: 30px solid rgba(255, 255, 255, 0);
   }
 
-  tbody td {
-    vertical-align: middle;
-    height: 40px;
-    min-height: 40px;
+  tbody#cruise-header {
+    color: rgba(200, 200, 200, 1);
   }
 
-  .totals {
-    font-weight: bold;
-  }
+
   .loading td {
     text-align: center;
     padding: 30px 0px;

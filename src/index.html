@@ -788,8 +788,8 @@
           </tr>
         </tbody>
         <tbody id="pseudo-prefecture-rows">
-          <tr id="row-diamond_princess_cruise_ship">
-            <td class="prefecture" data-i18n="pseudo-prefectures.diamond-princess">Diamond Princess Cruise Ship</td>
+          <tr id="row-port_quarantine">
+            <td class="prefecture" data-i18n="pseudo-prefectures.port-of-entry">Port of Entry</td>
             <td class="trend"></td>
             <td class="count confirmed"></td>
             <td class="delta">
@@ -801,8 +801,37 @@
             <td class="count recovered"></td>
             <td class="count deceased"></td>
           </tr>
-          <tr id="row-port_quarantine">
-            <td class="prefecture" data-i18n="pseudo-prefectures.port-of-entry">Port of Entry</td>
+          <tr id="row-unspecified">
+            <td class="prefecture" data-i18n="pseudo-prefectures.unspecified">Unspecified</td>
+            <td class="trend"></td>
+            <td class="count confirmed"></td>
+            <td class="delta">
+              <div class="increment">
+                <span class="today"></span>
+                <span class="yesterday"></span>
+              </div>
+            </td>
+            <td class="count recovered"></td>
+            <td class="count deceased"></td>
+          </tr>
+        </tbody>
+        <tbody id="total-rows">
+          <tr class="totals">
+            <td class="prefecture" data-i18n="total">Total</td>
+            <td class="trend"></td>
+            <td class="count confirmed" colspan="2"></td>
+            <td class="count recovered"></td>
+            <td class="count deceased"></td>
+          </tr>
+        </tbody>
+        <tbody id="cruise-header">
+          <tr>
+            <td colspan="4" data-i18n="cruise-passengers-explanation">Cruise crew and passengers are not included in totals.</td>
+          </tr>
+        </tbody>
+        <tbody id="cruise-rows">
+          <tr id="row-diamond_princess_cruise_ship">
+            <td class="prefecture" data-i18n="pseudo-prefectures.diamond-princess">Diamond Princess Cruise Ship</td>
             <td class="trend"></td>
             <td class="count confirmed"></td>
             <td class="delta">
@@ -828,31 +857,8 @@
             <td class="count recovered"></td>
             <td class="count deceased"></td>
           </tr>
-        </tbody>
-        <tbody id="unspecified-rows">
-          <tr id="row-unspecified">
-            <td class="prefecture" data-i18n="pseudo-prefectures.unspecified">Unspecified</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr class="totals">
-            <td class="prefecture" data-i18n="total">Total</td>
-            <td class="trend"></td>
-            <td class="count confirmed" colspan="2"></td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
         </tfoot>
+       
       </table>
     </div>
   </section>

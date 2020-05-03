@@ -34,6 +34,7 @@
   "increment-yesterday": "(Yesterday)",
   "daily": "Daily",
   "7-day-average": "7-day average",
+  "cruise-passengers-explanation": "Cruise crew and passengers are not included in totals.",
   "pseudo-prefectures": {
     "port-of-entry": "Port of Entry",
     "unspecified": "Unspecified",
