@@ -108,7 +108,8 @@ const drawPrefectureTable = (prefectures, totals) => {
     existingRow.querySelector("td.deceased").innerHTML = pref.deceased;
 
     let trendCell = existingRow.querySelector("td.trend");
-    trendCell.innerHTML = `<img src="${trendURL}">`;
+    //trendCell.innerHTML = `<object type="image/svg+xml" class="trend-svg" data="${trendURL}"></object>`;
+    trendCell.innerHTML = `<img class="trend-svg" src="${trendURL}">`;
 
     if (isPseudoPrefecture) {
       rowGroups[isPseudoPrefecture.rowGroup].appendChild(existingRow);
