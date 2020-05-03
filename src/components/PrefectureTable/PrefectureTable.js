@@ -13,7 +13,6 @@ const prefectureTrendChartURL = (prefectureName) => {
 const drawPrefectureTable = (prefectures, totals) => {
   // Draw the Cases By Prefecture table
   const dataTable = document.querySelector("#prefectures-table");
-
   // Abort if dataTable is not accessible.
   if (!dataTable) {
     return;
@@ -135,10 +134,12 @@ const drawPrefectureTable = (prefectures, totals) => {
     dataTable.replaceChild(cruiseRows, existingCruiseRows);
   }
 
-  totalRows.querySelector(".prefecture").innerHTML = i18next.t("total");
-  totalRows.querySelector(".confirmed").innerHTML = totals.confirmed;
-  totalRows.querySelector(".recovered").innerHTML = totals.recovered;
-  totalRows.querySelector(".deceased").innerHTML = totals.deceased;
+  if (totalRows) {
+    totalRows.querySelector(".prefecture").innerHTML = i18next.t("total");
+    totalRows.querySelector(".confirmed").innerHTML = totals.confirmed;
+    totalRows.querySelector(".recovered").innerHTML = totals.recovered;
+    totalRows.querySelector(".deceased").innerHTML = totals.deceased;
+  }
 };
 
 export default drawPrefectureTable;
