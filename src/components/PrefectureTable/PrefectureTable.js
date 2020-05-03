@@ -11,11 +11,8 @@ const prefectureTrendChartURL = (prefectureName) => {
 };
 
 const drawPrefectureTable = (prefectures, totals) => {
-  console.log("Running drawPrefectureTable");
-
   // Draw the Cases By Prefecture table
   const dataTable = document.querySelector("#prefectures-table");
-  console.log(dataTable);
   // Abort if dataTable is not accessible.
   if (!dataTable) {
     return;
