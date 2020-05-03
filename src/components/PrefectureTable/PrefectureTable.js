@@ -1,65 +1,13 @@
-import * as c3 from "c3";
 import i18next from "i18next";
+import { is } from "date-fns/esm/locale";
 
-import { COLOR_CONFIRMED } from "../../data/constants";
-
-// Global that ensures we clean up any prefectureTrend charts on redraw.
-let prefectureTrendCharts = {};
-
-const drawPrefectureTrend = (elementId, seriesData, maxConfirmedIncrease) => {
-  let yMax = maxConfirmedIncrease;
-  let prefectureMax = seriesData.reduce((max, value) =>
-    max > value ? max : value
-  );
-  if (prefectureMax / maxConfirmedIncrease < 0.1) {
-    yMax = prefectureMax * 5; // artificially scale up low values to make it look ok.
-  }
-
-  const period = 30; // days
-  let last30days = seriesData.slice(-period);
-
-  if (prefectureTrendCharts[elementId]) {
-    prefectureTrendCharts[elementId].destroy();
-  }
-  prefectureTrendCharts[elementId] = c3.generate({
-    bindto: elementId,
-    padding: { left: 0, right: 0, top: 0, bottom: 0 },
-    interaction: { enabled: false },
-    data: {
-      type: "bar",
-      columns: [["confirmed"].concat(last30days)],
-      colors: { confirmed: COLOR_CONFIRMED },
-    },
-    bar: {
-      width: { ratio: 1 },
-      zerobased: true,
-    },
-    axis: {
-      x: {
-        show: false,
-        min: 0,
-        padding: { left: 0, right: 0 },
-      },
-      y: {
-        show: false,
-        min: 0,
-        max: yMax,
-        padding: { top: 0, bottom: 0 },
-      },
-    },
-    size: {
-      height: 30,
-      width: 120,
-    },
-    legend: { show: false },
-    tooltip: { show: false },
-    point: { show: false },
-  });
+const prefectureId = (prefectureName) => {
+  return prefectureName.toLowerCase().replace(/[\s]+/g, "_");
 };
 
-// Run CPU intensive processing in a separate macrotask
-const enqueueMacrotask = (callback, delay = 0) => {
-  setTimeout(callback, delay);
+const prefectureTrendChartURL = (prefectureName) => {
+  let filename = prefectureId(prefectureName);
+  return `https://data.covid19japan.com/charts/${filename}.svg`;
 };
 
 const drawPrefectureTable = (prefectures, totals) => {
@@ -71,32 +19,6 @@ const drawPrefectureTable = (prefectures, totals) => {
   if (!dataTable || !dataTableFoot) {
     return;
   }
-
-  // Remove any tbody elements (including the loading indicator).
-  for (let tbody of document.querySelectorAll("#prefectures-table tbody")) {
-    tbody.parentNode.removeChild(tbody);
-  }
-
-  const prefectureRows = document.createElement("tbody");
-  prefectureRows.id = "prefecture-rows";
-  dataTable.insertBefore(prefectureRows, dataTableFoot);
-
-  const pseudoPrefectureRows = document.createElement("tbody");
-  pseudoPrefectureRows.id = "pseudoPrefecture-rows";
-  dataTable.insertBefore(pseudoPrefectureRows, dataTableFoot);
-
-  const unspecifiedRows = document.createElement("tbody");
-  unspecifiedRows.id = "unspecified-rows";
-  dataTable.insertBefore(unspecifiedRows, dataTableFoot);
-
-  // Work out the largest daily increase
-  const maxConfirmedIncrease = prefectures
-    .map((pref) => {
-      return pref.dailyConfirmedCount.reduce((max, value) =>
-        max > value ? max : value
-      );
-    })
-    .reduce((max, value) => (max > value ? max : value));
 
   // Special prefectures to handle when we iterate through them.
   const pseudoPrefectures = {
@@ -119,24 +41,35 @@ const drawPrefectureTable = (prefectures, totals) => {
     Total: {}, // Left blank so we can ignore it.
   };
 
-  // Parse values so we can sort
+  // Ensure data is present.
   prefectures.map((pref) => {
     pref.confirmed = pref.confirmed ? parseInt(pref.confirmed) : 0;
     pref.recovered = pref.recovered ? parseInt(pref.recovered) : 0;
-    // TODO change to deceased
-    pref.deceased = pref.deaths ? parseInt(pref.deaths) : 0;
+    pref.deceased = pref.deceased ? parseInt(pref.deceased) : 0;
   });
 
-  // Iterate through and render table rows
-  const sortedPrefectures = prefectures
-    .concat()
-    .sort((a, b) => b["confirmed"] - a["confirmed"]);
-  sortedPrefectures.map((pref) => {
-    if (!pref.confirmed && !pref.recovered && !pref.deceased) {
+  const prefectureRows = document.createElement("tbody");
+  prefectureRows.id = "prefecture-rows";
+
+  const pseudoPrefectureRows = document.createElement("tbody");
+  pseudoPrefectureRows.id = "pseudo-prefecture-rows";
+
+  const unspecifiedRows = document.createElement("tbody");
+  unspecifiedRows.id = "unspecified-rows";
+
+  prefectures.map((pref) => {
+    let prefId = prefectureId(pref.name);
+    let rowId = `row-${prefId}`;
+    let existingRow = document.querySelector(`#${rowId}`);
+    if (!existingRow) {
+      console.log("Could not find row " + rowId);
       return;
     }
 
-    let incrementString = "";
+    let stringId = `prefectures.${pref.name}`;
+    let isPseudoPrefecture = pseudoPrefectures[pref.name];
+    let trendURL = prefectureTrendChartURL(pref.name);
+
     let todayConfirmedString = "";
     let yesterdayConfirmedString = "";
     if (pref.newlyConfirmed > 0) {
@@ -146,80 +79,54 @@ const drawPrefectureTable = (prefectures, totals) => {
       yesterdayConfirmedString = `(&nbsp;+${pref.yesterdayConfirmed}&nbsp;)`;
     }
 
-    let isPseudoPrefecture = pseudoPrefectures[pref.name];
     if (isPseudoPrefecture) {
-      if (isPseudoPrefecture.stringId) {
-        let stringId = isPseudoPrefecture.stringId;
-        let trendElementId = `${isPseudoPrefecture.className}-trend`;
-        let row = document.createElement("tr");
-        row.innerHTML = `<td class="prefecture" data-i18n="${stringId}">${i18next.t(
-          stringId
-        )}</td>
-          <td class="trend"><div id="${trendElementId}"></div></td>
-          <td class="count confirmed">${pref.confirmed}</td>
-          <td class="delta">
-            <div class="increment">
-              <span class="today">${todayConfirmedString}</span>
-              <span class="yesterday">${yesterdayConfirmedString}</span>
-            </div>
-          </td>
-          <td class="count recovered">${
-            pref.recovered ? pref.recovered : ""
-          }</td>
-          <td class="count deceased">${
-            pref.deceased ? pref.deceased : ""
-          }</td>`;
-
-        if (pref.name == "Unspecified") {
-          unspecifiedRows.appendChild(row);
-        } else {
-          pseudoPrefectureRows.appendChild(row);
-        }
-        enqueueMacrotask(() => {
-          drawPrefectureTrend(
-            "#" + trendElementId,
-            pref.dailyConfirmedCount,
-            maxConfirmedIncrease
-          );
-        });
-      }
-    } else {
-      let stringId = `prefectures.${pref.name}`;
-      let row = document.createElement("tr");
-      prefectureRows.appendChild(row);
-      row.innerHTML = `
-        <td class="prefecture" data-i18n="${stringId}">${i18next.t(
-        stringId
-      )}</td>
-        <td class="trend"><div id="${pref.name}-trend"></div></td>
-        <td class="count confirmed">${pref.confirmed} ${incrementString}</td>
-        <td class="delta">
-          <div class="increment">
-            <span class="today">${todayConfirmedString}</span>
-            <span class="yesterday">${yesterdayConfirmedString}</span>
-          </div>
-        </td>
-        <td class="count recovered">${pref.recovered ? pref.recovered : ""}</td>
-        <td class="count deceased">${pref.deceased ? pref.deceased : ""}</td>
-      `;
-      enqueueMacrotask(() => {
-        drawPrefectureTrend(
-          `#${pref.name}-trend`,
-          pref.dailyConfirmedCount,
-          maxConfirmedIncrease
-        );
-      });
+      stringId = isPseudoPrefecture.stringId;
     }
-    return true;
+
+    existingRow.querySelector("td.prefecture").innerHTML = i18next.t(stringId);
+    existingRow
+      .querySelector("td.prefecture")
+      .setAttribute("data-i18n", stringId);
+    existingRow.querySelector("td.confirmed").innerHTML = pref.confirmed;
+    existingRow.querySelector(
+      "td.delta .increment .today"
+    ).innerHTML = todayConfirmedString;
+    existingRow.querySelector(
+      "td.delta .increment .yesterday"
+    ).innerHTML = yesterdayConfirmedString;
+
+    existingRow.querySelector("td.recovered").innerHTML = pref.recovered;
+    existingRow.querySelector("td.deceased").innerHTML = pref.deceased;
+
+    let trendCell = existingRow.querySelector("td.trend");
+    trendCell.innerHTML = `<img src="${trendURL}">`;
+
+    if (isPseudoPrefecture && pref.name == "Unspecified") {
+      unspecifiedRows.appendChild(existingRow);
+    } else if (isPseudoPrefecture) {
+      pseudoPrefectureRows.appendChild(existingRow);
+    } else {
+      prefectureRows.appendChild(existingRow);
+    }
   });
 
-  dataTableFoot.innerHTML = `<tr class='totals'>
-        <td data-i18n="total">${i18next.t("total")}</td>
-        <td class="trend"></td>
-        <td class="count" colspan="2">${totals.confirmed}</td>
-        <td class="count recovered">${totals.recovered}</td>
-        <td class="count deceased">${totals.deceased}</td>
-        </tr>`;
+  dataTable.replaceChild(
+    prefectureRows,
+    dataTable.querySelector("#prefecture-rows")
+  );
+  dataTable.replaceChild(
+    pseudoPrefectureRows,
+    dataTable.querySelector("#pseudo-prefecture-rows")
+  );
+  dataTable.replaceChild(
+    unspecifiedRows,
+    dataTable.querySelector("#unspecified-rows")
+  );
+
+  dataTableFoot.querySelector(".prefecture").innerHTML = i18next.t("total");
+  dataTableFoot.querySelector(".confirmed").innerHTML = totals.confirmed;
+  dataTableFoot.querySelector(".recovered").innerHTML = totals.recovered;
+  dataTableFoot.querySelector(".deceased").innerHTML = totals.deceased;
 };
 
 export default drawPrefectureTable;
