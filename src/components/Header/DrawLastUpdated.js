@@ -1,6 +1,6 @@
 import i18next from "i18next";
 import { formatDistanceToNow, parse, parseISO } from "date-fns";
-import { enUS, ja, de } from "date-fns/locale";
+import { enUS, ja, es, de } from "date-fns/locale";
 
 import { TIME_FORMAT } from "../../data/constants";
 
@@ -42,6 +42,7 @@ const drawLastUpdated = (lastUpdatedString, lang) => {
       addSuffix: true,
     }),
     ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),
+    es: formatDistanceToNow(lastUpdated, { locale: es, addSuffix: true }),
     de: formatDistanceToNow(lastUpdated, { locale: de, addSuffix: true }),
   };
 
@@ -58,6 +59,12 @@ const drawLastUpdated = (lastUpdatedString, lang) => {
     "translation",
     "last-updated-time",
     relativeTime["ja"]
+  );
+  i18next.addResource(
+    "es",
+    "translation",
+    "last-updated-time",
+    relativeTime["es"]
   );
   i18next.addResource(
     "de",
