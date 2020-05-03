@@ -118,15 +118,22 @@ const drawPrefectureTable = (prefectures, totals) => {
     }
   });
 
-  dataTable.replaceChild(
-    prefectureRows,
-    dataTable.querySelector("#prefecture-rows")
+  const existingPrefectureRows = document.querySelector("#prefecture-rows");
+  if (existingPrefectureRows) {
+    dataTable.replaceChild(prefectureRows, existingPrefectureRows);
+  }
+
+  const existingPseudoPrefectureRows = document.querySelector(
+    "#pseudo-prefecture-rows"
   );
-  dataTable.replaceChild(
-    pseudoPrefectureRows,
-    dataTable.querySelector("#pseudo-prefecture-rows")
-  );
-  dataTable.replaceChild(cruiseRows, dataTable.querySelector("#cruise-rows"));
+  if (existingPseudoPrefectureRows) {
+    dataTable.replaceChild(pseudoPrefectureRows, existingPseudoPrefectureRows);
+  }
+
+  const existingCruiseRows = document.querySelector("#cruise-rows");
+  if (existingCruiseRows) {
+    dataTable.replaceChild(cruiseRows, existingCruiseRows);
+  }
 
   totalRows.querySelector(".prefecture").innerHTML = i18next.t("total");
   totalRows.querySelector(".confirmed").innerHTML = totals.confirmed;
