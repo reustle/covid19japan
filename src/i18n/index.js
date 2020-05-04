@@ -1,6 +1,6 @@
 // Add new languages and their emoji flag here. Make sure the array indices line up.
-export const LANGUAGES = ["en", "ja", "es"];
-export const FLAGS = ["🇺🇸", "🇯🇵", "🇪🇸"];
+export const LANGUAGES = ["en", "ja", "es", "id"];
+export const FLAGS = ["🇺🇸", "🇯🇵", "🇪🇸", "🇮🇩"];
 
 const generateExport = () => {
   const resources = {};
