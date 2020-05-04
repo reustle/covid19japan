@@ -3,25 +3,93 @@
 
 
 $primary-black: #000a12;
-$color-confirmed: rgb(244,67,52);
-$color-recovered: rgb(24,118,211);
-$color-deceased:  rgb(54,72,79);
+$color-confirmed: rgba(244,67,52, 1);
+$color-confirmed-light: rgba(244,67,52, 0.4);
+$color-active: rgba(223,14,31, 1);
+$color-active-light: rgba(223,14,31, 0.4);
+$color-recovered: rgba(24,118,211, 1);
+$color-recovered-light: rgba(24,118,211, 0.4);
+$color-deceased:  rgba(54,72,79, 1);
+$color-deceased-light:  rgba(54,72,79, 0.4);
+$color-tested: rgb(164,173,192);
+$color-tested-light: rgba(164,173,192, 0.4);
+$color-critical: rgb(114,4,5);
+$color-critical-light: rgba(114,4,5, 0.4);
+
+
+// Use border-box override for more simple box-sizing.
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0px;
   font-family: 'Open Sans', helvetica, sans-serif;
-  line-height: 25px;
-  color: $primary-black;
   font-size: 16px;
+  line-height: 1.4rem;
+  color: $primary-black;
 }
+
+// Responsize page layouts
+// -----------------------
+
+// KPI layout defaults.
+$min-page-margins: 20px;
+$box-margin: 5px;
+
+// KPI 5-up layout
+$breakpoint-1200: 1200px;
+$breakpoint-1200-less-than: 1199px;
+$breakpoint-1200-page-width: $breakpoint-1200 - $min-page-margins;
+$breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) / 5;
+
+// KPI 4-up layout
+$breakpoint-960: 960px;
+$breakpoint-960-less-than: 959px;
+$breakpoint-960-page-width: $breakpoint-960 - $min-page-margins;
+$breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 4;
+$breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
+
+// KPI 3-up layout
+$breakpoint-600: 600px;
+$breakpoint-600-less-than: 599px;
+$breakpoint-600-page-width: $breakpoint-600 - $min-page-margins;
+$breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
+
+// Below 500px, using 90% width.
+$breakpoint-500: 500px;
+$breakpoint-500-page-width: $breakpoint-500 - $min-page-margins;
+
+#page  {
+  max-width: $breakpoint-1200-page-width;
+  margin: 0 auto;
+}
+
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  #page { max-width: $breakpoint-960-page-width; }
+}
+@media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
+  #page { max-width: $breakpoint-600-page-width; }
+}
+@media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
+  #page { max-width: $breakpoint-500-page-width; }
+}
+@media (max-width: $breakpoint-500) {
+  #page { max-width: 90%;  }
+}
+
+// Title styles
+
 h1 {
-  font-size: 48px;
+  font-size: 1.8rem;
+  line-height: 1.2em;
   font-weight: 800;
 }
 h4 {
   font-size: 21px;
   margin-bottom: 20px;
 }
+
 h5 {
   font-weight: 600;
   font-size: 16px;
@@ -35,18 +103,12 @@ h5 {
   font-style: italic;
   text-align: right;
   margin: 5px auto 0px auto;
-  max-width: 650px;
 }
 section, header, footer {
-  padding: 30px 10px;
-  max-width: 650px;
+  padding: 30px 0;
   margin: 0px auto;
 }
-.center-offset {
-  max-width: 650px;
-  margin: 0px auto;
-  padding: 0px 10px;
-}
+
 header {
   padding-top: 10px;
 
@@ -72,81 +134,333 @@ header {
 a, a:hover, a:visited {
   color: #000a12;
 }
-h1 {
-  font-size: 24px;
-}
+
 .text-center {
   text-align: center;
 }
+
+// KPI layout
+// ----------
 
 #kpi {
   padding-top: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  text-align: center;
 
-
-  >div {
-    width: 30%;
-    margin-bottom: 35px;
-
-    .diff {
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-    .value {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
+  .kpi-box {
+    border: 1px solid rgb(200, 209, 228);
+    border-radius: 8px;
+    margin: 5px 5px;
+    
     .label {
       color: $primary-black;
+      font-size: 0.9rem;
       font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .diff {
+      font-size: 1rem;
+      line-height: 1em;
+      font-weight: 700;
+      display: inline;
+      word-wrap: none;
+    }
+    .value {
+      font-size: 1.4rem;
+      font-weight: 800;
+      display: inline;
+    }
+
+    .chart {
+      padding-bottom: 0;
+      width: 100%;
+      height: 60px; /* needed for IE11 */
+
+      svg {
+        width: 100%;
+        height: 60px; /* needed for IE11 */
+      }
+    }
+
+    .description {
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+      line-height: 1.2em;
+      min-height: 1.2rem;
+    }
+
+    .chart-caption {
+      font-size: 0.6rem;
+      margin-top: 0.2rem;
+      line-height: 1em;
+    }
+
+  }
+
+  // Box layouts.
+
+  .kpi-box {
+    padding: 0.8rem;
+    width: $breakpoint-1200-box-width;
+    line-height: 1.3rem;
+    /* height uses rem to ensure it scales to text height sizes */
+    height: 11rem;
+  }
+
+  .kpi-box#kpi-critical-short {
+    display: none;
+    height: 6rem;
+  }
+
+  .kpi-box#kpi-critical-tested-combo {
+    display: none;
+  }
+
+  @media (min-width: $breakpoint-1200) {
+    .kpi-box#kpi-critical {
+      display: none;
+    }
+    .kpi-box#kpi-tested {
+      display: none;
+    }
+    .kpi-box#kpi-critical-tested-combo {
+      display: block;
+    }  
+  }
+
+
+  @media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+    .kpi-box {
+      width: $breakpoint-960-box-width;
+      height: 11rem;
+    }
+
+    .kpi-box#kpi-critical-short {
+      display: block;
+    }
+
+    .kpi-box#kpi-critical {
+      display: none;
+    }
+
+    .kpi-box#kpi-tested {
+      height: 6rem;
+      width: $breakpoint-960-box-width-double;
+      display: flex;
+      flex-direction: row;
+      .vitals {
+        width: $breakpoint-960-box-width-double / 2;
+      }
+      .chart-container {
+        width: 200px;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
+    .kpi-box {
+      width: $breakpoint-600-box-width;
+      height: 10rem;
+      .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+      }
+      .diff {
+        font-size: 0.7rem;
+      }
+      .description {
+        font-size: 0.7em;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
+    .kpi-box {
+      width: 30%; /* 3 in a row */
+      height: 10rem;
+      .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+      }
+      .diff {
+        font-size: 0.7rem;
+        line-height: 1.2em;
+        margin-top: 0.2rem;
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .description {
+        font-size: 0.7rem;
+      }
+      .chart {
+        height: 40px;
+      }
+      .chart-caption {
+        display: none;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-500) {
+    .kpi-box {
+      padding: 10px;      
+      width: 45%;
+      height: 10rem;
+      .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.1rem;
+      }
+      .value {
+        font-size: 1.3rem;
+        display: block;
+      }
+      .diff {
+        font-size: 0.7rem;
+        line-height: 0.9rem;
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .description {
+        font-size: 0.7rem;
+      }
+
+      .chart-caption {
+        display: none;
+      }
+
     }
   }
 
   #kpi-confirmed {
     color: $color-confirmed;
+    .chart-caption {
+      color: $color-confirmed-light;
+    }
   }
+
   #kpi-recovered {
     color: $color-recovered;
+    .chart-caption {
+      color: $color-recovered-light;
+    }
   }
+
   #kpi-deceased {
     color: $color-deceased;
+    .chart-caption {
+      color: $color-deceased-light;
+    }
   }
-  #kpi-critical {
-    color:  rgb(114,4,5);
+
+  #kpi-critical, #kpi-critical-short {
+    color:  $color-critical;
+    .chart-caption {
+      color: $color-critical-light;
+    }
   }
+
   #kpi-tested {
-    color: rgb(164,173,192);
+    color: $color-tested;
+    .chart-caption {
+      color: $color-tested-light;
+    }
   }
+
   #kpi-active {
-    color: rgb(223,14,31);
+    color: $color-active;
+    .chart-caption {
+      color: $color-active-light;
+    }
+  }
+
+  #kpi-critical-tested-combo {
+    .critical {
+      color: $color-critical;
+    }
+    .tested {
+      color: $color-tested;
+    }
+  }
+
+  #kpi-active-chart {
+    path.line {
+      stroke: $color-active;
+      stroke-width: 2px;
+    }
+
+    path.area {
+      fill: url(#kpi-active-chart-gradient) $color-active-light !important;
+    }
   }
 
 
-  table {
-    width: 100%;
-    border-spacing: 0px 10px;
+  #kpi-confirmed-chart {
+    path.line {
+      stroke: $color-confirmed;
+      stroke-width: 2px;
+    }
+    path.area {
+      fill: url(#kpi-confirmed-chart-gradient) $color-confirmed-light !important;
+    }
   }
 
-  .kpi-metrics {
-    font-size: 24px;
-   font-weight: 800;
+  #kpi-recovered-chart {
+    path.line {
+      stroke: $color-recovered;
+      stroke-width: 2px;
+    }
+    path.area {
+      fill: url(#kpi-recovered-chart-gradient) $color-recovered-light !important;
+    }
   }
 
-  .kpi-labels {
-    font-size: 18px;
-    font-weight: 700;
+  #kpi-critical-chart {
+    path.line {
+      stroke: $color-critical;
+      stroke-width: 2px;
+    }
+    path.area {
+      fill: url(#kpi-critical-chart-gradient) $color-critical-light !important;
+    }
+  }
+
+
+  #kpi-deceased-chart {
+    path.line {
+      stroke: $color-deceased;
+      stroke-width: 2px;
+    }
+    path.area {
+      fill: url(#kpi-deceased-chart-gradient) $color-deceased-light !important;
+    }
+  }
+
+  #kpi-tested-chart {
+    path.line {
+      stroke: $color-tested;
+      stroke-width: 2px;
+    }
+    path.area {
+      fill: url(#kpi-tested-chart-gradient) $color-tested-light !important;
+    }
   }
 }
+
+#kpi.loading {
+  .chart-caption {
+    display: none;
+  }
+}
+
+// Map Layout
+// ----------
+
 
 #map-container {
   width: 100%;
   height: 400px;
   background: #cad2d3;
-  max-width: 650px;
   margin: 0px auto;
   border-radius: 6px;
 }
@@ -314,7 +628,7 @@ table {
 
 
 footer {
-  line-height: 34px;
+  line-height: 2rem;
   a, a:active {
     color: #1976d2 !important;
   }
