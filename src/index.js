@@ -160,6 +160,7 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
+        drawKpis(ddb.totals, ddb.totalsDiff);
         trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
         dailyIncreaseChart = drawDailyIncreaseChart(
           ddb.trend,
