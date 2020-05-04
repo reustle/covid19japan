@@ -46,12 +46,12 @@ const drawKpis = (totals, totalsDiff) => {
     document.querySelector("#kpi-confirmed-chart")
   );
 
-  let activePercent = parseInt((totals.active / totals.confirmed) * 100);
+  let criticalPercentage = parseInt((totals.critical / totals.active) * 100);
   setKpi("active", totals.active);
   setKpiDiff("active", totalsDiff.active);
   setKpiDescription(
     "active",
-    i18next.t("active-percentage", { percent: activePercent })
+    i18next.t("active-critical-percentage", { percent: criticalPercentage })
   );
   drawKpiConfirmedTrend(
     "active_daily_avg.svg",
@@ -91,20 +91,6 @@ const drawKpis = (totals, totalsDiff) => {
 
   setKpi("critical-short", totals.critical);
   setKpiDiff("critical-short", totalsDiff.critical);
-
-  setKpiWithSelector(
-    "#kpi-critical-tested-combo .value.critical",
-    totals.critical
-  );
-  setKpiWithSelector("#kpi-critical-tested-combo .value.tested", totals.tested);
-  setKpiDiffWithSelector(
-    "#kpi-critical-tested-combo .diff.critical",
-    totalsDiff.critical
-  );
-  setKpiDiffWithSelector(
-    "#kpi-critical-tested-combo .diff.tested",
-    totalsDiff.tested
-  );
 
   let testedPercentage = parseInt((totals.confirmed / totals.tested) * 100);
   setKpi("tested", totals.tested);

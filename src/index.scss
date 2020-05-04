@@ -213,35 +213,21 @@ a, a:hover, a:visited {
     height: 6rem;
   }
 
-  .kpi-box#kpi-critical-tested-combo {
+  .kpi-box#kpi-critical {
     display: none;
   }
+
 
   @media (min-width: $breakpoint-1200) {
     .kpi-box#kpi-critical {
       display: none;
     }
-    .kpi-box#kpi-tested {
-      display: none;
-    }
-    .kpi-box#kpi-critical-tested-combo {
-      display: block;
-    }  
   }
-
 
   @media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
     .kpi-box {
       width: $breakpoint-960-box-width;
       height: 11rem;
-    }
-
-    .kpi-box#kpi-critical-short {
-      display: block;
-    }
-
-    .kpi-box#kpi-critical {
-      display: none;
     }
 
     .kpi-box#kpi-tested {
@@ -371,15 +357,6 @@ a, a:hover, a:visited {
     color: $color-active;
     .chart-caption {
       color: $color-active-light;
-    }
-  }
-
-  #kpi-critical-tested-combo {
-    .critical {
-      color: $color-critical;
-    }
-    .tested {
-      color: $color-tested;
     }
   }
 
