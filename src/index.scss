@@ -193,6 +193,7 @@ a, a:hover, a:visited {
     .chart-caption {
       font-size: 0.6rem;
       margin-top: 0.2rem;
+      margin-left: 0.5rem;
       line-height: 1em;
     }
 
@@ -257,6 +258,9 @@ a, a:hover, a:visited {
       }
       .description {
         font-size: 0.7em;
+      }
+      .chart-caption {
+        margin-left: 0
       }
     }
   }
