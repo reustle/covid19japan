@@ -1,3 +1,5 @@
+import i18next from "i18next";
+
 const drawKpiConfirmedTrend = (chartName, element) => {
   let svgURL = `https://data.covid19japan.com/charts/${chartName}`;
   fetch(svgURL)
@@ -47,7 +49,10 @@ const drawKpis = (totals, totalsDiff) => {
   let activePercent = parseInt((totals.active / totals.confirmed) * 100);
   setKpi("active", totals.active);
   setKpiDiff("active", totalsDiff.active);
-  setKpiDescription("active", `${activePercent}% of total cases`);
+  setKpiDescription(
+    "active",
+    i18next.t("active-percentage", { percent: activePercent })
+  );
   drawKpiConfirmedTrend(
     "active_daily_avg.svg",
     document.querySelector("#kpi-active-chart")
@@ -56,7 +61,10 @@ const drawKpis = (totals, totalsDiff) => {
   let recoveredPercent = parseInt((totals.recovered / totals.confirmed) * 100);
   setKpi("recovered", totals.recovered);
   setKpiDiff("recovered", totalsDiff.recovered);
-  setKpiDescription("recovered", `${recoveredPercent}% of total cases`);
+  setKpiDescription(
+    "recovered",
+    i18next.t("recovered-percentage", { percent: recoveredPercent })
+  );
   drawKpiConfirmedTrend(
     "recovered_daily_avg.svg",
     document.querySelector("#kpi-recovered-chart")
@@ -65,7 +73,10 @@ const drawKpis = (totals, totalsDiff) => {
   let deceasedPercent = parseInt((totals.deceased / totals.confirmed) * 100);
   setKpi("deceased", totals.deceased);
   setKpiDiff("deceased", totalsDiff.deceased);
-  setKpiDescription("deceased", `${deceasedPercent}% of total cases`);
+  setKpiDescription(
+    "deceased",
+    i18next.t("deceased-percentage", { percent: deceasedPercent })
+  );
   drawKpiConfirmedTrend(
     "deceased_daily_avg.svg",
     document.querySelector("#kpi-deceased-chart")
@@ -98,7 +109,10 @@ const drawKpis = (totals, totalsDiff) => {
   let testedPercentage = parseInt((totals.confirmed / totals.tested) * 100);
   setKpi("tested", totals.tested);
   setKpiDiff("tested", totalsDiff.tested);
-  setKpiDescription("tested", `${testedPercentage}% of results are positive.`);
+  setKpiDescription(
+    "tested",
+    i18next.t("tested-percentage", { percent: testedPercentage })
+  );
   drawKpiConfirmedTrend(
     "tested_daily_avg.svg",
     document.querySelector("#kpi-tested-chart")
