@@ -308,7 +308,7 @@ const callIfUpdated = (callback, delay = 0) => {
 
 document.addEventListener("covid19japan-redraw", () => {
   callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff));
-  if (!document.body.classList.contains("embed-mode")) {
+  if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
     callIfUpdated(() => {
