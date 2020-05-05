@@ -1,5 +1,4 @@
 import i18next from "i18next";
-import { is } from "date-fns/esm/locale";
 
 const prefectureId = (prefectureName) => {
   return prefectureName.toLowerCase().replace(/[\s]+/g, "_");
@@ -10,7 +9,7 @@ const prefectureTrendChartURL = (prefectureName) => {
   return `https://data.covid19japan.com/charts/${filename}.svg`;
 };
 
-const drawPrefectureTable = (prefectures, totals) => {
+export const drawPrefectureTable = (prefectures, totals) => {
   // Draw the Cases By Prefecture table
   const dataTable = document.querySelector("#prefectures-table");
   // Abort if dataTable is not accessible.
@@ -143,4 +142,29 @@ const drawPrefectureTable = (prefectures, totals) => {
   }
 };
 
-export default drawPrefectureTable;
+export const initPrefectureTableToggle = () => {
+  let showMoreRows = document.querySelector("#show-more-rows");
+  if (showMoreRows) {
+    showMoreRows.addEventListener("click", (e) => {
+      const table = document.querySelector("#prefectures-table");
+      if (table) {
+        table.classList.add("show-more");
+      }
+      e.preventDefault();
+      return false;
+    });
+  }
+
+  let hideMoreRows = document.querySelector("#hide-more-rows");
+  if (hideMoreRows) {
+    hideMoreRows.addEventListener("click", (e) => {
+      const table = document.querySelector("#prefectures-table");
+      if (table) {
+        table.classList.remove("show-more");
+        window.scrollTo(0, table.offsetTop - 60); // 60 = fuzz
+      }
+      e.preventDefault();
+      return false;
+    });
+  }
+};

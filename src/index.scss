@@ -43,24 +43,25 @@ h1 {
   font-weight: 800;
 }
 h4 {
-  font-size: 21px;
-  margin-bottom: 20px;
+  font-size: 1.5rem;
+  line-height: 1.2em;
+  margin-bottom: 1rem;
 }
 
 h5 {
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 1rem;
 }
+
 .footnote {
   display: block;
-  font-weight: 400;
-  font-size: 15px;
-  padding-left: 5px;
+  font-size: 0.9em;
   font-style: italic;
   text-align: right;
-  margin: 5px auto 0px auto;
+  margin: 5px 10px 0px 10px;
 }
+
 section, header, footer {
   padding: 30px 0;
 }
@@ -76,7 +77,7 @@ header {
   .toolbar {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 0.8em;
     
     .lang-picker {
       display: inline;
@@ -119,39 +120,73 @@ a, a:hover, a:visited {
     padding: 0;
     margin: 0;
     flex-grow: 2;
-    max-width: 49%;
+    max-width: 48%;
   }
   #daily-increase-container { 
     padding: 0;
     margin: 0;
     flex-grow: 2;
-    max-width: 49%;
+    max-width: 48%;
   }
 }
 
+#prefecture-sections {
+}
+@media (min-width: $breakpoint-960) {
+  #prefecture-sections {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
 
+    #prefecture-map-container { 
+      padding: 10px;
+      margin: 0;
+      flex-grow: 2;
+    }
+
+    #prefecture-table-container { 
+      padding: 10px;
+      margin: 0;
+      flex-grow: 2;
+      min-width: 48%;
+    }  
+  }
+}
+
+#prefecture-trajectory-container {
+  max-width: 800px;
+  min-height: 500px;
+  margin: 0 auto;
+}
 
 // Map Layout
 // ----------
 
+#prefecture-map-contents {
+  border-radius: 10px;
+  border: $color-box-border;
+}
+
 #map-container {
   width: 100%;
-  height: 400px;
+  height: 500px;
   background: #cad2d3;
-  margin: 0px auto;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 #map-legend {
-  padding-top: 0px;
-  padding-bottom: 10px;
-  font-size: 16px;
+  padding: 20px 10px;
+  font-size: 0.8em;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   > div {
-    display: inline-block;
+    display: block;
+    height: 2em;
+    padding: 0 1rem;
+    width: 30%;
   }
 
   span.one {
@@ -173,58 +208,67 @@ a, a:hover, a:visited {
   span.five {
     color: #720405;
   }
-
 }
 
-#trend-chart-container,
-#daily-increase-container,
-#prefecture-trajectory-container {
-  //padding: 0px 10px;
-
-  path.c3-line {
-    stroke-width: 2px;
-  }
-  line.c3-xgrid, line.c3-ygrid {
-    stroke-dasharray: 0 0;
-    stroke: #f0f0f0 !important;
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  #map-legend { 
+    > div {
+      width: 45%;
+    }
   }
 }
 
-table {
+@media (max-width: $breakpoint-500) {
+  #map-legend { 
+    > div {
+      width: 45%;
+    }
+  }
+}
+
+
+// Prefecture outbreak table.
+
+table#prefectures-table {
   width: 100%;
   border-collapse: separate;
   border-spacing: 0px;
-  font-size: 14px;
+  border-radius: 10px;
+  border: $color-box-border;
 
   th, td {
     padding: 5px 5px;
-    line-height: 1.2em;
+    line-height: 1.2rem;
+    padding: 1rem 1rem;
   }
-
 
   thead {
     tr {
       padding-bottom: 10px;
     }
     th {
-      min-height: 40px;
-      border-bottom: 2px solid rgb(219, 219, 219);
+      font-weight: bold;
       text-align: left;
-      font-size: 11px;
-      min-width: 7em;
-      vertical-align: baseline;
+      min-width: 7rem;
+      min-height: 1.5rem;
+      vertical-align: middle;
     }
   }
 
   tbody {
-    tr:nth-child(even) {
-      background-color: rgb(244,247,248);
-    }  
     td {
       vertical-align: middle;
-      height: 40px;
-      min-height: 40px;
+      padding: 0.5rem 1rem;
+      height: 3rem;  
     }
+  }
+
+  tbody#prefecture-rows,
+  tbody#pseudo-prefecture-rows,
+  tbody#cruise-rows {
+    tr:nth-child(odd) {
+      background-color: rgb(244,247,248);
+    }  
   }
 
 
@@ -253,7 +297,6 @@ table {
   }
 
   th.prefecture, td.prefecture {
-    padding: 5px;
     min-width: 60px;
     max-width: 100px;
     overflow: hidden;
@@ -261,7 +304,10 @@ table {
   }
 
   th.trend, td.trend {
-    width: 120px;
+    min-width: 160px;
+  }
+
+  td.trend {
     padding: 0 10px;
 
     .trend-svg {
@@ -276,27 +322,96 @@ table {
 
   div.increment {
     display: block;
+    .delta {
+      display: block;
+    }
+  }
+
+  th.recovered, td.recovered, th.deceased, td.deceased {
+    display: none;
   }
 
   .today {
-    color: $color-confirmed;
-    font-size: 10px;
+    color: $color-increment-today;
+    font-size: 0.8rem;
+    display: block;
   }
 
   .yesterday {
-    color: rgb(128, 122, 122);
-    font-size: 10px;
+    color: $color-increment-yesterday;
+    font-size: 0.8rem;
+    display: block;
   }
 
-  td.delta {
-    width: 40px;
-    padding-left: 2px;
-    text-align: left;
+  tbody#more-rows {
+    tr {
+    }
+    a#show-more-rows,  a#hide-more-rows {
+      text-align: right;
+    }
   }
-
 }
 
-#helpful-links {
+// Hide trend line if it's too narrow.
+@media (max-width: $breakpoint-500) {
+  .trend {
+    display: none;
+  }
+}
+
+// Collapsed/Expanded rows
+
+table {
+  tbody#prefecture-rows {
+    // Only display the first 10 rows by default
+    tr:nth-child(n+11) {
+      display: none;
+    }
+  }
+
+  tbody#total-rows,
+  tbody#pseudo-prefecture-rows,
+  tbody#cruise-header,
+  tbody#cruise-rows  {
+    display: none;
+  }
+
+  tbody#more-rows {
+    a#show-more-rows {
+      display: inline;
+    }
+    a#hide-more-rows {
+      display: none;
+    }
+  }
+}
+
+table.show-more {
+  tbody#prefecture-rows tr {
+    display: table-row;
+  }
+
+  tbody#total-rows,
+  tbody#pseudo-prefecture-rows,
+  tbody#cruise-header,
+  tbody#cruise-rows  {
+    display: table-row-group;
+  }
+
+  tbody#more-rows {
+    a#show-more-rows {
+      display: none;
+    }
+    a#hide-more-rows {
+      display: inline;
+    }
+  }
+}
+
+#helpful-links,
+#travel-restrictions, {
+  max-width: 800px;
+  margin: 0 auto;
   li {
     margin-bottom: 20px;
     word-wrap: break-word;
@@ -306,6 +421,9 @@ table {
 
 footer {
   line-height: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+
   a, a:active {
     color: #1976d2 !important;
   }
@@ -374,7 +492,7 @@ img.emoji {
 }
 
 .map-popup {
-  font-size: 12px;
+  font-size: 0.8rem;
   margin-bottom: -5px;
 
   h3 {
@@ -383,11 +501,26 @@ img.emoji {
 
   span.popup-increment {
     color: rgb(244,67,54);
-    font-size: 10px;
+    font-size: 0.7rem;
   }
 
 }
 
 .popup-content:hover {
   visibility: hidden;
+}
+
+
+// c3 chart styling
+
+#trend-chart-container,
+#daily-increase-container,
+#prefecture-trajectory-container {
+  path.c3-line {
+    stroke-width: 2px;
+  }
+  line.c3-xgrid, line.c3-ygrid {
+    stroke-dasharray: 0 0;
+    stroke: #f0f0f0 !important;
+  }
 }

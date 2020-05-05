@@ -76,6 +76,9 @@ const drawPrefectureTrajectoryChart = (
 
   prefectureTrajectoryChart = c3.generate({
     bindto: "#prefecture-trajectory",
+    size: {
+      height: 500,
+    },
     color: {
       pattern: d3.schemeTableau10,
     },
