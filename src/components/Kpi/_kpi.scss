@@ -10,8 +10,10 @@ $breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) 
 $breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 4;
 $breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
 
-// KPI 3-up layout (below $breakpoint-500, use 90% width)
+// KPI 3-up layout 
 $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
+
+// (below $breakpoint-500, using 2-up layout by relative to screen width)
 
 #kpi {
   padding-top: 20px;
@@ -162,7 +164,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   @media (max-width: $breakpoint-500) {
     .kpi-box {
       padding: 10px;      
-      width: 45%;
+      width: 45%;  /* 2 in a row */
       height: 11rem;
       .label {
         font-size: 0.8rem;
