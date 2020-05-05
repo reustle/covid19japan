@@ -182,20 +182,24 @@
     <section id="national-charts" class="embed-hide">
       <section id="trend-chart-container" class="embed-hide">
         <h4 data-i18n="outbreak-spread-trend">Outbreak Spread Trend</h4>
-        <div id="trend-chart">
-            <div class="text-center"><div class="lds-dual-ring"></div></div>
+        <div id="trend-chart-box">
+          <div id="trend-chart">
+              <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
         </div>
       </section>
     
       <section id="daily-increase-container" class="embed-hide">
         <h4 data-i18n="new-cases-by-day">New Cases By Day</h4>
-        <div id="daily-increase-chart">
-            <div class="text-center"><div class="lds-dual-ring"></div></div>
+        <div id="daily-increase-chart-box">
+          <div id="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
         </div>
       </section>
     </section>
 
-    <div id="prefecture-sections">
+    <section id="prefecture-sections">
       <section id="prefecture-map-container">       
         <a name="map"><h4><span data-i18n="covid-19" class="embed-show">COVID-19</span> <span data-i18n="outbreak-map">Outbreak Map</span></h4></a>
         <div id="prefecture-map-contents">
@@ -213,8 +217,7 @@
 
       <section id="prefecture-top-table-container" class="embed-hide">
         <h4 data-i18n="top-prefectures">Top 10 Prefectures</h4>
-        <div class="table-wrapper">
-          <table id="top-prefectures-table">
+          <table id="top-prefectures-table" class="loading">
             <thead>
               <tr>
                 <th data-i18n="prefecture" class="prefecture">Prefecture</th>
@@ -234,23 +237,27 @@
             </thead>
             <tbody class="prefecture-rows">
             </tbody>
-            <tbody id="more-rows">
+            <tbody class="more-rows">
               <tr>
                 <td colspan="5">
                   <a id="show-more-rows" href="#all-prefectures" data-i18n="see-all-prefectures">See all prefectures</a>
                 </td>
               </tr>
             </tbody>
+            <tbody class="loading-rows">
+              <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
+            </tbody>
+  
           </table>
-        </div>
       </section>
-
-    </div>
+    </section>
     
     <section id="prefecture-trajectory-container" class="embed-hide">
       <h4 data-i18n="confirmed-case-trajectories-by-prefecture">Confirmed Case Trajectories by Prefecture (> 100 Cases)</h4>
-      <div id="prefecture-trajectory">
-          <div class="text-center"><div class="lds-dual-ring"></div></div>
+      <div id="prefecture-trajectory-chart-box">
+        <div id="prefecture-trajectory">
+          <div class="loader"><div class="lds-dual-ring"></div></div>
+        </div>
       </div>
     </section>
   
@@ -259,7 +266,7 @@
     <section id="all-prefectures-table-container" class="embed-hide">
       <a name="all-prefectures"><h4 data-i18n="prefecture-data">Cases by Prefecture</h4></a>
       <div class="table-wrapper">
-        <table id="prefectures-table">
+        <table id="prefectures-table" class="loading">
           <thead>
             <tr>
               <th data-i18n="prefecture" class="prefecture">Prefecture</th>
@@ -287,7 +294,9 @@
               <td class="deceased"></td>
             </tr>
           </tbody>
-          <tbody class="prefecture-rows"></tbody>
+          <tbody class="prefecture-rows">
+            
+          </tbody>
           <tbody class="pseudo-prefecture-rows"></tbody>
          
           <tbody class="cruise-header">
@@ -296,6 +305,9 @@
             </tr>
           </tbody>
           <tbody class="cruise-rows"></tbody>
+          <tbody class="loading-rows">
+            <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
+          </tbody>
         </table>
       </div>
     </section>

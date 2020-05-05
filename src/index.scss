@@ -104,61 +104,83 @@ a, a:hover, a:visited {
 @import 'src/components/Kpi/kpi';
 
 // National charts
-#national-charts {
-  padding: 0;
-}
+#national-charts { width: 100%; }
 
 @media (min-width: $breakpoint-960) {
   #national-charts {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: stretch;
+    //align-items: stretch;
   }
   #trend-chart-container { 
-    flex-grow: 2;
-    max-width: 48%;
+    margin: 10px;
+    flex: 1;
+    width: 50%;
   }
   #daily-increase-container { 
-    flex-grow: 2;
-    max-width: 48%;
+    margin: 10px;
+    flex: 1;
+    width: 50%;
   }
+}
+
+#daily-increase-chart, #trend-chart {
+  min-height: 320px;
+}
+
+#daily-increase-chart-box, #trend-chart-box {
+  padding: 10px 10px 5px 10px;
+  border-radius: 10px;
+  border: $color-box-border;
 }
 
 // Prefectural section
 
-#prefecture-sections {
-}
+#prefecture-sections { width: 100%; }
 @media (min-width: $breakpoint-960) {
   #prefecture-sections {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: stretch;
-    justify-content: space-between;
+    //align-items: stretch;
 
     #prefecture-map-container { 
       margin: 10px;
       flex: 1;
+      width: 50%;
     }
 
     #prefecture-top-table-container { 
       margin: 10px;
       flex: 1;
+      width: 50%;
     }  
   }
 }
 
+
 #prefecture-trajectory-container {
   max-width: 800px;
-  min-height: 500px;
   margin: 0 auto;
+}
+
+
+#prefecture-trajectory-chart {
+  min-height: 500px;
+}
+
+#prefecture-trajectory-chart-box {
+  padding: 10px 10px 5px 10px;
+  border-radius: 10px;
+  border: $color-box-border;
 }
 
 // Map Layout
 // ----------
 
 #prefecture-map-contents {
+  width: 100%;
   border-radius: 10px;
   border: $color-box-border;
 }
@@ -239,9 +261,9 @@ table#prefectures-table, table#top-prefectures-table {
   border: $color-box-border;
 
   th, td {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     line-height: 1.2rem;
-    padding: 1rem 1rem;
+    padding: 0.8rem 0.8rem;
   }
 
   thead {
@@ -294,10 +316,6 @@ table#prefectures-table, table#top-prefectures-table {
     text-align: right;
   }
 
-  th.trend, td.trend {
-    min-width: 160px;
-  }
-
   td.trend {
     padding: 0 10px;
 
@@ -332,11 +350,51 @@ table#prefectures-table, table#top-prefectures-table {
     display: block;
   }
 
+
 }
+
+// Table loading state
+
+table#prefectures-table, 
+table#top-prefectures-table {
+  // Loading state (loaded)
+  tbody.loading-rows {
+    display: none;
+    tr {
+      td { padding: 20px;}
+    }
+  }
+
+  thead,
+  tbody.cruise-header,
+  tbody.more-rows,
+  tbody.total-rows {
+    display: table-row-group;
+  }
+}
+
+
+table#prefectures-table.loading, 
+table#top-prefectures-table.loading {
+  tbody.loading-rows {
+    display: table-row-group;
+  }
+
+  thead,
+  tbody.cruise-header,
+  tbody.more-rows,
+  tbody.total-rows {
+    display: none;
+  }
+}
+
 
 table#top-prefectures-table {
   th.recovered, td.recovered, th.deceased, td.deceased {
     display: none;
+  }
+  td.trend, th.trend {
+    width: 120px;
   }
   tbody.prefecture-rows {
     // Only display the first 10 rows by default
@@ -351,7 +409,18 @@ table#top-prefectures-table {
   }
 }
 
-// Hide trend line if it's too narrow.
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200) {
+  table#top-prefectures-table {
+    td.trend, th.trend {
+      width: 100px;
+      .trend-svg {
+        width: 100px;
+      }
+    }
+  }
+}
+
+// Hide top prefecture table when it gets below this breakpoint.
 @media (max-width: $breakpoint-960) {
   #prefecture-top-table-container {
     display: none;
@@ -451,6 +520,11 @@ footer {
 }
 
 // Loading Icon
+.loader {
+  padding: 20px;
+  text-align: center;
+}
+
 .lds-dual-ring {
   display: inline-block;
   width: 24px;

@@ -166,6 +166,9 @@ export const drawPrefectureTable = (prefectureTable, prefectures, totals) => {
     existingTotalRows.querySelector(".recovered").innerHTML = totals.recovered;
     existingTotalRows.querySelector(".deceased").innerHTML = totals.deceased;
   }
+
+  // Remove any loaders
+  prefectureTable.classList.remove("loading");
 };
 
 export const drawAllPrefectureTable = (prefectures, totals) => {
