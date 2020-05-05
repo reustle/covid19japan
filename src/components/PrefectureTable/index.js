@@ -1,6 +1,6 @@
 import {
-  drawPrefectureTable,
-  initPrefectureTableToggle,
+  drawAllPrefectureTable,
+  drawTopPrefectureTable,
 } from "./PrefectureTable";
 
-export default { drawPrefectureTable, initPrefectureTableToggle };
+export default { drawAllPrefectureTable, drawTopPrefectureTable };

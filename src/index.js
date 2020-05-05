@@ -330,7 +330,8 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      PrefectureTable.drawPrefectureTable(ddb.prefectures, ddb.totals);
+      PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals);
+      PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }
@@ -345,7 +346,6 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
   loadDataOnPage();
   initDataTranslate();
-  PrefectureTable.initPrefectureTableToggle();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
 });

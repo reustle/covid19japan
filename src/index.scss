@@ -138,18 +138,20 @@ a, a:hover, a:visited {
     flex-direction: row;
     flex-wrap: nowrap;
     align-items: stretch;
+    justify-content: space-between;
 
     #prefecture-map-container { 
       padding: 10px;
       margin: 0;
-      flex-grow: 2;
+      flex: 1;
+      //min-width: 48%;
     }
 
-    #prefecture-table-container { 
+    #prefecture-top-table-container { 
       padding: 10px;
       margin: 0;
-      flex-grow: 2;
-      min-width: 48%;
+      flex: 1;
+      //min-width: 48%;
     }  
   }
 }
@@ -229,15 +231,20 @@ a, a:hover, a:visited {
 
 // Prefecture outbreak table.
 
-table#prefectures-table {
-  width: 100%;
+#all-prefectures-table-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
+table#prefectures-table, table#top-prefectures-table {
+  width: 100%;  
   border-collapse: separate;
   border-spacing: 0px;
   border-radius: 10px;
   border: $color-box-border;
 
   th, td {
-    padding: 5px 5px;
     line-height: 1.2rem;
     padding: 1rem 1rem;
   }
@@ -249,7 +256,6 @@ table#prefectures-table {
     th {
       font-weight: bold;
       text-align: left;
-      min-width: 7rem;
       min-height: 1.5rem;
       vertical-align: middle;
     }
@@ -263,16 +269,15 @@ table#prefectures-table {
     }
   }
 
-  tbody#prefecture-rows,
-  tbody#pseudo-prefecture-rows,
-  tbody#cruise-rows {
+  tbody.prefecture-rows,
+  tbody.pseudo-prefecture-rows,
+  tbody.cruise-rows {
     tr:nth-child(odd) {
       background-color: rgb(244,247,248);
     }  
   }
 
-
-  tbody#total-rows {
+  tbody.total-rows {
     tr {
       background-color: rgb(230, 230, 230);
     }
@@ -286,10 +291,9 @@ table#prefectures-table {
     }
   }
 
-  tbody#cruise-header {
+  tbody.cruise-header {
     color: rgba(200, 200, 200, 1);
   }
-
 
   .loading td {
     text-align: center;
@@ -320,6 +324,10 @@ table#prefectures-table {
     width: 2em;
   }
 
+  td.delta {
+    font-size: 0.8em;
+  }
+
   div.increment {
     display: block;
     .delta {
@@ -327,86 +335,104 @@ table#prefectures-table {
     }
   }
 
-  th.recovered, td.recovered, th.deceased, td.deceased {
-    display: none;
-  }
-
   .today {
     color: $color-increment-today;
-    font-size: 0.8rem;
     display: block;
   }
 
   .yesterday {
     color: $color-increment-yesterday;
-    font-size: 0.8rem;
     display: block;
   }
 
-  tbody#more-rows {
-    tr {
+}
+
+table#top-prefectures-table {
+  th.recovered, td.recovered, th.deceased, td.deceased {
+    display: none;
+  }
+  tbody.prefecture-rows {
+    // Only display the first 10 rows by default
+    tr:nth-child(n+11) {
+      display: none;
     }
-    a#show-more-rows,  a#hide-more-rows {
+  }
+  tbody.more-rows {
+    td a#show-more-rows {
       text-align: right;
     }
   }
 }
 
 // Hide trend line if it's too narrow.
+@media (max-width: $breakpoint-960) {
+  #prefecture-top-table-container {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-960) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th {
+        font-size: 0.8rem;
+      }
+      th.delta {
+        font-size: 0.7rem;
+      }
+      th, td {
+        line-height: 1.1rem;
+        padding: 0.5rem 0.5rem;
+      }
+    }
+  }
+}
+
+@media (max-width: $breakpoint-600) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th, th.delta {
+        font-size: 0.7rem;
+      }
+      td {
+        font-size: 0.9rem;
+      }
+      .trend {
+        min-width: 80px;
+        max-width: 80px;
+        .trend-svg {
+          width: 100%;
+        }
+      }
+
+    }
+  }
+}
+
 @media (max-width: $breakpoint-500) {
-  .trend {
-    display: none;
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th, th.delta {
+        font-size: 0.6rem;
+        line-height: 1.05em;
+      }
+      .trend {
+        .trend-svg {
+          width: 100%;
+        }
+      }
+      .deceased {
+        display: none;
+      }
+
+    }
   }
+
 }
 
-// Collapsed/Expanded rows
 
-table {
-  tbody#prefecture-rows {
-    // Only display the first 10 rows by default
-    tr:nth-child(n+11) {
-      display: none;
-    }
-  }
+//
 
-  tbody#total-rows,
-  tbody#pseudo-prefecture-rows,
-  tbody#cruise-header,
-  tbody#cruise-rows  {
-    display: none;
-  }
-
-  tbody#more-rows {
-    a#show-more-rows {
-      display: inline;
-    }
-    a#hide-more-rows {
-      display: none;
-    }
-  }
-}
-
-table.show-more {
-  tbody#prefecture-rows tr {
-    display: table-row;
-  }
-
-  tbody#total-rows,
-  tbody#pseudo-prefecture-rows,
-  tbody#cruise-header,
-  tbody#cruise-rows  {
-    display: table-row-group;
-  }
-
-  tbody#more-rows {
-    a#show-more-rows {
-      display: none;
-    }
-    a#hide-more-rows {
-      display: inline;
-    }
-  }
-}
 
 #helpful-links,
 #travel-restrictions, {
