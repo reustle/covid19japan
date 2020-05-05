@@ -13,7 +13,8 @@ $breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 
 // KPI 3-up layout 
 $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
 
-// (below $breakpoint-500, using 2-up layout by relative to screen width)
+// KPI 2-up layout for below $breakpoint-500 (box-width is not fixed, but 
+// relative to screen width.)
 
 #kpi {
   padding-top: 20px;
@@ -47,12 +48,14 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
 
     .chart {
       padding-bottom: 0;
-      width: 100%;
-      height: 60px; /* needed for IE11 */
 
       svg {
-        width: 100%;
-        height: 60px; /* needed for IE11 */
+        width: 100%;  // Width needed for Chrome, Firefox.
+
+        // Height only needed for IE11, but breaks Chrome/Firefox (so sad to need to use this hack)
+        @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+          height: 3em;  
+        }
       }
     }
 
@@ -93,7 +96,6 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   @media (min-width: $breakpoint-1200) {
     .kpi-box {
       .chart-caption {
-        margin-left: 0.5rem;
         margin-top: 0.2rem;
       }
     }
@@ -104,13 +106,12 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       width: $breakpoint-960-box-width;
       height: 11rem;
       .chart-caption {
-        margin-left: 0.5rem;
         margin-top: 0.2rem;
       }
     }
 
     .kpi-box#kpi-tested {
-      height: 6rem;
+      height: 7rem;
       width: $breakpoint-960-box-width-double;
       display: flex;
       flex-direction: row;
@@ -143,7 +144,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   @media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
     .kpi-box {
       width: 30%; /* 3 in a row */
-      height: 12rem;
+      height: 11rem;
       .label {
         font-size: 0.8rem;
         margin-bottom: 0.2rem;
@@ -240,7 +241,6 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
     }
 
     text, circle { fill: $color-active; }
-
 
     path.area {
       fill: url(#kpi-active-chart-gradient) $color-active-light !important;
