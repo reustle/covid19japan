@@ -82,6 +82,7 @@ const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
       x: {
         type: "timeseries",
         tick: {
+          culling: { max: 6 },
           format: (x) => {
             if (isNaN(x)) {
               return "";
