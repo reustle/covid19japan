@@ -16,7 +16,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
 // (below $breakpoint-500, using 2-up layout by relative to screen width)
 
 #kpi {
-  padding-top: 20px;
+  padding: 10px 0;
   display: flex;
   flex-wrap: wrap;
 
