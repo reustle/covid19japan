@@ -3,7 +3,6 @@
 
 @import 'src/colors';
 @import 'src/layout';
-@import 'src/components/Kpi/kpi';
 
 // Use border-box override for more simple box-sizing.
 * {
@@ -102,6 +101,9 @@ a, a:hover, a:visited {
 .text-center {
   text-align: center;
 }
+
+// Include KPI styles. 
+@import 'src/components/Kpi/kpi';
 
 
 // Map Layout
