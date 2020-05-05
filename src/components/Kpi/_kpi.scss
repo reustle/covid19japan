@@ -235,6 +235,13 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       stroke-width: 2px;
     }
 
+    path.axis-ceiling {
+      stroke: $color-active;
+    }
+
+    text, circle { fill: $color-active; }
+
+
     path.area {
       fill: url(#kpi-active-chart-gradient) $color-active-light !important;
     }
@@ -246,6 +253,13 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       stroke: $color-confirmed;
       stroke-width: 2px;
     }
+
+    path.axis-ceiling {
+      stroke: $color-confirmed;
+    }
+
+    text, circle { fill: $color-confirmed; }
+
     path.area {
       fill: url(#kpi-confirmed-chart-gradient) $color-confirmed-light !important;
     }
@@ -256,6 +270,13 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       stroke: $color-recovered;
       stroke-width: 2px;
     }
+
+    path.axis-ceiling {
+      stroke: $color-recovered;
+    }
+
+    text, circle { fill: $color-recovered; }
+
     path.area {
       fill: url(#kpi-recovered-chart-gradient) $color-recovered-light !important;
     }
@@ -266,6 +287,13 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       stroke: $color-critical;
       stroke-width: 2px;
     }
+
+    path.axis-ceiling {
+      stroke: $color-critical;
+    }
+
+    text, circle { fill: $color-critical; }
+
     path.area {
       fill: url(#kpi-critical-chart-gradient) $color-critical-light !important;
     }
@@ -277,6 +305,13 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       stroke: $color-deceased;
       stroke-width: 2px;
     }
+
+    path.axis-ceiling {
+      stroke: $color-deceased;
+    }
+
+    text, circle { fill: $color-deceased; }
+
     path.area {
       fill: url(#kpi-deceased-chart-gradient) $color-deceased-light !important;
     }
@@ -287,6 +322,13 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
       stroke: $color-tested;
       stroke-width: 2px;
     }
+    
+    path.axis-ceiling {
+      stroke: $color-tested;
+    }
+
+    text, circle { fill: $color-tested; }
+
     path.area {
       fill: url(#kpi-tested-chart-gradient) $color-tested-light !important;
     }
