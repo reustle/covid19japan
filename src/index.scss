@@ -320,9 +320,7 @@ a, a:hover, a:visited {
       }
       .description {
         font-size: 0.7rem;
-      }
-      .chart-caption {
-        margin-top: 0.2rem;
+        min-height: 2.2em; /* reserve space for two lines */
       }
     }
   }
