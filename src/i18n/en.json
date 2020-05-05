@@ -35,6 +35,8 @@
   "increment-yesterday": "(Yesterday)",
   "daily": "Daily",
   "7-day-average": "7-day average",
+  "daily-trend": "Daily trend",
+  "see-all-prefectures": "See all prefectures",
   "cruise-passengers-explanation": "Cruise crew and passengers are not included in totals.",
   "confirmed-chart-caption": "Daily new cases",
   "active-chart-caption": "Total active cases",

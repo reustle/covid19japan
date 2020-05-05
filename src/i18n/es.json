@@ -32,6 +32,8 @@
   "total": "Total",
   "port-of-entry": "Puerto de entrada",
   "unspecified": "Sin especificar",
+  "daily-trend": "Daily trend",
+  "see-all-prefectures": "See all prefectures",
   "cruise-passengers-explanation": "Cruise crew and passengers are not included in totals.",
   "confirmed-chart-caption": "Daily new cases",
   "active-chart-caption": "Total active cases",
