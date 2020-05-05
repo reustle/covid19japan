@@ -86,21 +86,6 @@
         <div class="chart-caption" data-i18n="confirmed-chart-caption">Confirmed cases per day</div>
       </div>
   
-      <div class="kpi-box" id="kpi-active" data-tippy-i18n="kpi-active-tooltip" data-tippy-placement="bottom" >
-        <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>     
-        <div class="value"><div class="lds-dual-ring"></div></div>
-        <div class="diff">&nbsp;</div>
-        <div class="description"></div>
-        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
-          <linearGradient id="kpi-active-chart-gradient" x2="0" y2="1">
-            <stop offset="0%" stop-color="rgba(223,14,31, 0.6)" />
-            <stop offset="90%" stop-color="rgba(223,14,31, 0)" />
-            <stop offset="100%" stop-color="rgba(223,14,31, 0)" />
-          </linearGradient>
-        </svg>
-        <div class="chart" id="kpi-active-chart"></div>
-        <div class="chart-caption" data-i18n="active-chart-caption">Active cases per day</div>
-      </div>
   
       <div class="kpi-box" id="kpi-recovered">
         <div class="label" data-i18n="kpi-recovered">Recovered</div>
@@ -148,6 +133,22 @@
         </svg>
         <div class="chart" id="kpi-deceased-chart"></div>
         <div class="chart-caption" data-i18n="deceased-chart-caption">Deaths per day</div>
+      </div>
+
+      <div class="kpi-box" id="kpi-active" data-tippy-i18n="kpi-active-tooltip" data-tippy-placement="bottom" >
+        <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>     
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-active-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(223,14,31, 0.6)" />
+            <stop offset="90%" stop-color="rgba(223,14,31, 0)" />
+            <stop offset="100%" stop-color="rgba(223,14,31, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-active-chart"></div>
+        <div class="chart-caption" data-i18n="active-chart-caption">Active cases per day</div>
       </div>
     
       <div class="kpi-box" id="kpi-tested">
