@@ -3,18 +3,24 @@
 
 
 $primary-black: #000a12;
-$color-confirmed: rgba(244,67,52, 1);
-$color-confirmed-light: rgba(244,67,52, 0.4);
-$color-active: rgba(223,14,31, 1);
-$color-active-light: rgba(223,14,31, 0.4);
-$color-recovered: rgba(24,118,211, 1);
+$color-confirmed: rgba(244, 67, 52, 1);
+$color-confirmed-caption: rgba(244, 67, 52, 0.8);
+$color-confirmed-light: rgba(244, 67, 52, 0.4);
+$color-active: rgba(223, 14, 31, 1);
+$color-active-caption: rgba(223, 14, 31, 0.8);
+$color-active-light: rgba(223, 14, 31, 0.4);
+$color-recovered: rgba(24, 118, 211, 1);
+$color-recovered-caption: rgba(24, 118, 211, 0.8);
 $color-recovered-light: rgba(24,118,211, 0.4);
-$color-deceased:  rgba(54,72,79, 1);
+$color-deceased:  rgba(54, 72, 79, 1);
+$color-deceased-caption:  rgba(54, 72, 79, 0.8);
 $color-deceased-light:  rgba(54,72,79, 0.4);
-$color-tested: rgb(164,173,192);
+$color-tested: rgba(164, 173, 192, 1);
+$color-tested-caption: rgba(164, 173, 192, 1);
 $color-tested-light: rgba(164,173,192, 0.4);
-$color-critical: rgb(114,4,5);
-$color-critical-light: rgba(114,4,5, 0.4);
+$color-critical: rgb(114, 4, 5);
+$color-critical-caption: rgba(114, 4, 5, 0.8);
+$color-critical-light: rgba(114, 4, 5, 0.4);
 
 
 // Use border-box override for more simple box-sizing.
@@ -109,6 +115,11 @@ section, header, footer {
   margin: 0px auto;
 }
 
+@media (max-width: $breakpoint-500) {
+  section, header, footer { padding: 10px 0;  }
+}
+
+
 header {
   padding-top: 10px;
 
@@ -192,8 +203,6 @@ a, a:hover, a:visited {
 
     .chart-caption {
       font-size: 0.6rem;
-      margin-top: 0.2rem;
-      margin-left: 0.5rem;
       line-height: 1em;
     }
 
@@ -220,8 +229,11 @@ a, a:hover, a:visited {
 
 
   @media (min-width: $breakpoint-1200) {
-    .kpi-box#kpi-critical {
-      display: none;
+    .kpi-box {
+      .chart-caption {
+        margin-left: 0.5rem;
+        margin-top: 0.2rem;
+      }
     }
   }
 
@@ -229,6 +241,10 @@ a, a:hover, a:visited {
     .kpi-box {
       width: $breakpoint-960-box-width;
       height: 11rem;
+      .chart-caption {
+        margin-left: 0.5rem;
+        margin-top: 0.2rem;
+      }
     }
 
     .kpi-box#kpi-tested {
@@ -259,16 +275,13 @@ a, a:hover, a:visited {
       .description {
         font-size: 0.7em;
       }
-      .chart-caption {
-        margin-left: 0
-      }
     }
   }
 
   @media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
     .kpi-box {
       width: 30%; /* 3 in a row */
-      height: 11rem;
+      height: 12rem;
       .label {
         font-size: 0.8rem;
         margin-bottom: 0.2rem;
@@ -283,12 +296,6 @@ a, a:hover, a:visited {
       .description {
         font-size: 0.7rem;
       }
-      .chart {
-        height: 40px;
-      }
-      .chart-caption {
-        display: none;
-      }
     }
   }
 
@@ -296,7 +303,7 @@ a, a:hover, a:visited {
     .kpi-box {
       padding: 10px;      
       width: 45%;
-      height: 10rem;
+      height: 11rem;
       .label {
         font-size: 0.8rem;
         margin-bottom: 0.1rem;
@@ -313,54 +320,50 @@ a, a:hover, a:visited {
       }
       .description {
         font-size: 0.7rem;
+        min-height: 2.2em; /* reserve space for two lines */
       }
-
-      .chart-caption {
-        display: none;
-      }
-
     }
   }
 
   #kpi-confirmed {
     color: $color-confirmed;
     .chart-caption {
-      color: $color-confirmed-light;
+      color: $color-confirmed-caption;
     }
   }
 
   #kpi-recovered {
     color: $color-recovered;
     .chart-caption {
-      color: $color-recovered-light;
+      color: $color-recovered-caption;
     }
   }
 
   #kpi-deceased {
     color: $color-deceased;
     .chart-caption {
-      color: $color-deceased-light;
+      color: $color-deceased-caption;
     }
   }
 
   #kpi-critical, #kpi-critical-short {
     color:  $color-critical;
     .chart-caption {
-      color: $color-critical-light;
+      color: $color-critical-caption;
     }
   }
 
   #kpi-tested {
     color: $color-tested;
     .chart-caption {
-      color: $color-tested-light;
+      color: $color-tested-caption;
     }
   }
 
   #kpi-active {
     color: $color-active;
     .chart-caption {
-      color: $color-active-light;
+      color: $color-active-caption;
     }
   }
 

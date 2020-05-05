@@ -18,7 +18,7 @@ const drawKpiTrend = (chartName, element) => {
 
 const setKpiDiffWithSelector = (selector, value) => {
   const diffDir = value >= 0 ? "+" : "";
-  let kpiDiffElement =  document.querySelector(selector)
+  let kpiDiffElement = document.querySelector(selector);
   if (kpiDiffElement) {
     kpiDiffElement.innerHTML = `(&nbsp;${diffDir}${value}&nbsp;)`;
   }
@@ -27,7 +27,7 @@ const setKpiDiff = (key, value) =>
   setKpiDiffWithSelector(`#kpi-${key} .diff`, value);
 
 const setKpiWithSelector = (selector, value) => {
-  let kpiValueElement = document.querySelector(selector)
+  let kpiValueElement = document.querySelector(selector);
   if (kpiValueElement) {
     kpiValueElement.innerHTML = value;
   }
@@ -60,7 +60,7 @@ const drawKpis = (totals, totalsDiff) => {
     i18next.t("active-critical-percentage", { percent: criticalPercentage })
   );
   drawKpiTrend(
-    "active_daily_avg.svg",
+    "active_cumulative_avg.svg",
     document.querySelector("#kpi-active-chart")
   );
 
