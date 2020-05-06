@@ -14,7 +14,7 @@ const drawLastUpdated = (lastUpdatedString, lang) => {
     return;
   }
 
-  const display = document.getElementById("last-updated");
+  const display = document.getElementById("last-updated-time");
   if (!display) {
     return;
   }
