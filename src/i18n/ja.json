@@ -43,7 +43,7 @@
   "recovered-chart-caption": "日別回復者数",
   "deceased-chart-caption": "日別死亡者数",
   "tested-chart-caption": "日別検査実施人数",
-  "active-critical-percentage": "{{percent}}%は重症患者",
+  "active-critical-percentage": "{{percent}}%は<b>重症</b>患者",
   "recovered-percentage": "累計感染者数の{{percent}}%",
   "deceased-percentage": "累計感染者数の{{percent}}%",
   "tested-percentage": "検査結果の{{percent}}%が陽性",

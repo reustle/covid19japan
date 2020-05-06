@@ -2,6 +2,7 @@
 @import '../node_modules/c3/c3.min.css';
 
 @import 'src/colors';
+@import 'src/type';
 @import 'src/layout';
 @import 'src/loader';
 
@@ -41,17 +42,19 @@ body {
 h1 {
   font-size: 1.8rem;
   line-height: 1.2em;
-  font-weight: 800;
+  font-weight: $font-weight-extra-bold;
 }
+
 h4 {
   font-size: 1.4rem;
   line-height: 1.2em;
   margin-bottom: 1rem;
+  font-weight: $font-weight-bold;
 }
 
 h5 {
   font-size: 1.1rem;
-  font-weight: 600;
+  font-weight: $font-weight-bold;
   margin-bottom: 1rem;
 }
 
@@ -63,16 +66,9 @@ h5 {
   margin: 5px 10px 0px 10px;
 }
 
-header {
-  padding: 30px 0;
-}
-
-@media (max-width: $breakpoint-500) {
-  header { padding: 10px 0;  }
-}
 
 header {
-  padding-top: 10px;
+  padding: 10px 0;
 
   .toolbar {
     display: flex;
@@ -88,7 +84,7 @@ header {
         &.active {
           padding-bottom: 4px;
           border-bottom: solid 2px black;
-          font-weight: 700;
+          font-weight: $font-weight-bold;
         }
       }
     }
@@ -142,7 +138,7 @@ a, a:hover, a:visited {
 
 #daily-increase-chart-box, #trend-chart-box {
   padding: 10px 10px 5px 10px;
-  border-radius: 10px;
+  border-radius: $box-border-radius;
   background: $color-box-background;
   box-shadow: $color-box-shadow;
 }
@@ -183,14 +179,14 @@ a, a:hover, a:visited {
 
 #prefecture-trajectory-chart-box {
   padding: 10px 10px 5px 10px;
-  border-radius: 10px;
+  border-radius: $box-border-radius;
   background: $color-box-background;
   box-shadow: $color-box-shadow;
 }
 
 #prefecture-map-contents {
   width: 100%;
-  border-radius: 10px;
+  border-radius: $box-border-radius;
   background: $color-box-background;
   box-shadow: $color-box-shadow;
 }

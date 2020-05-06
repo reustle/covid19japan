@@ -1,4 +1,5 @@
 @import 'src/colors';
+@import 'src/type';
 @import 'src/layout';
 
 $box-margin: 5px;
@@ -24,26 +25,26 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   .kpi-box {
     background: $color-box-background;
     box-shadow: $color-box-shadow;
-    border-radius: 8px;
+    border-radius: $box-border-radius;
     margin: 5px 5px;
     
     .label {
       color: $primary-black;
       font-size: 0.9rem;
-      font-weight: 700;
+      font-weight: $font-weight-extra-bold;
       margin-bottom: 0.5rem;
     }
 
     .diff {
       font-size: 1rem;
       line-height: 1em;
-      font-weight: 700;
+      font-weight: $font-weight-bold;
       display: inline;
       word-wrap: none;
     }
     .value {
       font-size: 1.4rem;
-      font-weight: 800;
+      font-weight: $font-weight-extra-bold;
       display: inline;
     }
 
@@ -214,6 +215,9 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
     color:  $color-critical;
     .chart-caption {
       color: $color-critical-caption;
+    }
+    b {
+      font-weight: $font-weight-bold;
     }
   }
 
