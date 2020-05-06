@@ -22,7 +22,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   flex-wrap: wrap;
 
   .kpi-box {
-    border: 1px solid rgb(200, 209, 228);
+    border: $color-box-border;
     border-radius: 8px;
     margin: 5px 5px;
     

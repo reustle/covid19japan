@@ -1,5 +1,5 @@
 
-$primary-black: #000a12;
+$primary-black: rgb(0, 10, 18);
 $color-confirmed: rgba(244, 67, 52, 1);
 $color-confirmed-caption: rgba(244, 67, 52, 0.8);
 $color-confirmed-light: rgba(244, 67, 52, 0.4);
@@ -18,3 +18,8 @@ $color-tested-light: rgba(164,173,192, 0.4);
 $color-critical: rgb(114, 4, 5);
 $color-critical-caption: rgba(114, 4, 5, 0.8);
 $color-critical-light: rgba(114, 4, 5, 0.4);
+
+$color-increment-today: $color-active;
+$color-increment-yesterday:  rgb(128, 122, 122);
+
+$color-box-border: 1px solid rgba(164, 173, 192, 0.5);

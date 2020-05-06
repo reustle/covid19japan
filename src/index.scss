@@ -17,7 +17,6 @@ body {
   color: $primary-black;
 }
 
-
 #page  {
   max-width: $breakpoint-1200-page-width;
   margin: 0 auto;
@@ -43,30 +42,31 @@ h1 {
   font-weight: 800;
 }
 h4 {
-  font-size: 21px;
-  margin-bottom: 20px;
+  font-size: 1.4rem;
+  line-height: 1.2em;
+  margin-bottom: 1rem;
 }
 
 h5 {
+  font-size: 1.1rem;
   font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 5px;
+  margin-bottom: 1rem;
 }
+
 .footnote {
   display: block;
-  font-weight: 400;
-  font-size: 15px;
-  padding-left: 5px;
+  font-size: 0.9em;
   font-style: italic;
   text-align: right;
-  margin: 5px auto 0px auto;
+  margin: 5px 10px 0px 10px;
 }
-section, header, footer {
+
+header, footer {
   padding: 30px 0;
 }
 
 @media (max-width: $breakpoint-500) {
-  section, header, footer { padding: 10px 0;  }
+  header, footer { padding: 10px 0;  }
 }
 
 
@@ -76,7 +76,7 @@ header {
   .toolbar {
     display: flex;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 0.8em;
     
     .lang-picker {
       display: inline;
@@ -104,54 +104,107 @@ a, a:hover, a:visited {
 @import 'src/components/Kpi/kpi';
 
 // National charts
-#national-charts {
-  padding: 0;
-}
+#national-charts { width: 100%; }
 
 @media (min-width: $breakpoint-960) {
   #national-charts {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
-    align-items: stretch;
+    //align-items: stretch;
   }
   #trend-chart-container { 
-    padding: 0;
-    margin: 0;
-    flex-grow: 2;
-    max-width: 49%;
+    margin: 10px;
+    flex: 1;
+    width: 50%;
   }
   #daily-increase-container { 
-    padding: 0;
-    margin: 0;
-    flex-grow: 2;
-    max-width: 49%;
+    margin: 10px;
+    flex: 1;
+    width: 50%;
+  }
+}
+
+#daily-increase-chart, #trend-chart {
+  min-height: 320px;
+}
+
+#daily-increase-chart-box, #trend-chart-box {
+  padding: 10px 10px 5px 10px;
+  border-radius: 10px;
+  border: $color-box-border;
+}
+
+// Prefectural section
+
+#prefecture-sections { width: 100%; }
+@media (min-width: $breakpoint-960) {
+  #prefecture-sections {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    //align-items: stretch;
+
+    #prefecture-map-container { 
+      margin: 10px;
+      flex: 1;
+      width: 50%;
+    }
+
+    #prefecture-top-table-container { 
+      margin: 10px;
+      flex: 1;
+      width: 50%;
+    }  
   }
 }
 
 
+#prefecture-trajectory-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
+#prefecture-trajectory-chart {
+  min-height: 500px;
+}
+
+#prefecture-trajectory-chart-box {
+  padding: 10px 10px 5px 10px;
+  border-radius: 10px;
+  border: $color-box-border;
+}
 
 // Map Layout
 // ----------
 
+#prefecture-map-contents {
+  width: 100%;
+  border-radius: 10px;
+  border: $color-box-border;
+}
+
 #map-container {
   width: 100%;
-  height: 400px;
+  height: 500px;
   background: #cad2d3;
-  margin: 0px auto;
-  border-radius: 6px;
+  border-radius: 10px;
 }
 
 #map-legend {
-  padding-top: 0px;
-  padding-bottom: 10px;
-  font-size: 16px;
+  padding: 20px 10px;
+  font-size: 0.9em;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 
   > div {
-    display: inline-block;
+    display: block;
+    height: 2em;
+    padding: 0 1rem;
+    white-space: nowrap;
+    width: 30%;
   }
 
   span.one {
@@ -173,130 +226,248 @@ a, a:hover, a:visited {
   span.five {
     color: #720405;
   }
-
 }
 
-#trend-chart-container,
-#daily-increase-container,
-#prefecture-trajectory-container {
-  //padding: 0px 10px;
-
-  path.c3-line {
-    stroke-width: 2px;
-  }
-  line.c3-xgrid, line.c3-ygrid {
-    stroke-dasharray: 0 0;
-    stroke: #f0f0f0 !important;
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  #map-legend { 
+    > div {
+      width: 45%;
+    }
   }
 }
 
-table {
-  width: 100%;
+@media (max-width: $breakpoint-500) {
+  #map-legend { 
+    > div {
+      width: 45%;
+    }
+  }
+}
+
+
+// Prefecture outbreak table.
+
+#all-prefectures-table-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+table#prefectures-table, table#top-prefectures-table {
+  width: 100%;  
   border-collapse: separate;
   border-spacing: 0px;
-  font-size: 14px;
+  border-radius: 10px;
+  border: $color-box-border;
 
   th, td {
-    padding: 5px 5px;
-    line-height: 1.2em;
+    font-size: 0.85rem;
+    line-height: 1.2rem;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+    height: 3rem;  
   }
 
-
-  thead {
-    tr {
-      padding-bottom: 10px;
-    }
-    th {
-      min-height: 40px;
-      border-bottom: 2px solid rgb(219, 219, 219);
-      text-align: left;
-      font-size: 11px;
-      min-width: 7em;
-      vertical-align: baseline;
-    }
+  th, tbody.total-rows td {
+    font-weight: bold;
   }
 
-  tbody {
-    tr:nth-child(even) {
+  th {
+    word-wrap: break-word;
+  }
+
+  tbody.prefecture-rows,
+  tbody.pseudo-prefecture-rows,
+  tbody.cruise-rows {
+    tr:nth-child(odd) {
       background-color: rgb(244,247,248);
     }  
-    td {
-      vertical-align: middle;
-      height: 40px;
-      min-height: 40px;
-    }
   }
 
-
-  tbody#total-rows {
-    tr {
-      background-color: rgb(230, 230, 230);
-    }
-    td {
-      height: 30px;
-      padding: 10px;
-    }
-
-    .totals {
-      font-weight: bold;
-    }
-  }
-
-  tbody#cruise-header {
+  tbody.cruise-header {
     color: rgba(200, 200, 200, 1);
   }
 
-
-  .loading td {
-    text-align: center;
-    padding: 30px 0px;
-  }
-
-  th.prefecture, td.prefecture {
-    padding: 5px;
-    min-width: 60px;
-    max-width: 100px;
-    overflow: hidden;
-    text-align: right;
-  }
-
-  th.trend, td.trend {
-    width: 120px;
-    padding: 0 10px;
-
-    .trend-svg {
-      width: 120px;
-      height: 40px;
-    }
-  }
-
-  td.confirmed {
-    width: 2em;
-  }
-
-  div.increment {
-    display: block;
-  }
-
   .today {
-    color: $color-confirmed;
-    font-size: 10px;
+    color: $color-increment-today;
   }
 
   .yesterday {
-    color: rgb(128, 122, 122);
-    font-size: 10px;
+    color: $color-increment-yesterday;
   }
 
-  td.delta {
-    width: 40px;
-    padding-left: 2px;
-    text-align: left;
+  .prefecture {
+    text-align: right;
+  }
+}
+
+// Column layouts
+table#prefectures-table {
+  .prefecture {
+    width: 20%;
+  }
+
+  .trend {
+    width: 20%;
+
+    // Not setting the width helps it properly horizontally
+    // layout within the cell. Otherwise it tries to center the image.
+    .trend-svg {
+      height: 40px;
+    }
+  }
+  
+  .delta, .confirmed, .deceased, .recovered {
+    width: 15%;
+  }
+}
+
+table#top-prefectures-table {
+  .prefecture { width: 30% }
+  .trend { width: 30%; }
+  .delta, .confirmed { width: 20%; }
+  .recovered, .deceased {
+    display: none;
+    width: 0;
+  }
+
+  // Not setting the width helps it properly horizontally
+  // layout within the cell. Otherwise it tries to center the image.
+  .trend-svg { height: 30px; }
+
+  tbody.prefecture-rows {
+    // Only display the first 10 rows by default
+    tr:nth-child(n+11) {
+      display: none;
+    }
+  }
+
+  tbody.more-rows {
+    td a#show-more-rows {
+      text-align: right;
+    }
+  }
+}
+
+// Hide top prefecture table when it gets below this breakpoint.
+@media (max-width: $breakpoint-960) {
+  #prefecture-top-table-container {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-960) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th {
+        font-size: 0.8rem;
+      }
+      th.delta {
+        font-size: 0.7rem;
+      }
+      th, td {
+        line-height: 1.1rem;
+        padding: 0.5rem 0.5rem;
+      }
+      .trend .trend-svg {
+        height: 30px;
+      }
+
+    }
+  }
+}
+
+@media (max-width: $breakpoint-600) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th, th.delta {
+        font-size: 0.7rem;
+      }
+      td {
+        font-size: 0.9rem;
+      }
+      .trend {
+        // min-width: 80px;
+        // max-width: 80px;
+        .trend-svg {
+          height: 25px;
+        }
+      }
+      .deceased {
+        display: none;
+      }
+
+    }
+  }
+}
+
+@media (max-width: $breakpoint-500) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th, th.delta {
+        font-size: 0.6rem;
+        line-height: 1.05em;
+      }
+      td {
+        font-size: 0.8rem;
+      }
+
+      .trend .trend-svg {
+        height: 25px;
+      }
+      .deceased {
+        display: none;
+      }
+
+    }
   }
 
 }
 
-#helpful-links {
+
+// Table loading state
+
+table#prefectures-table, 
+table#top-prefectures-table {
+  // Loading state (loaded)
+  tbody.loading-rows {
+    display: none;
+    tr {
+      td { padding: 20px;}
+    }
+  }
+
+  thead,
+  tbody.cruise-header,
+  tbody.more-rows,
+  tbody.total-rows {
+    display: table-row-group;
+  }
+}
+
+
+table#prefectures-table.loading, 
+table#top-prefectures-table.loading {
+  tbody.loading-rows {
+    display: table-row-group;
+  }
+
+  thead,
+  tbody.cruise-header,
+  tbody.more-rows,
+  tbody.total-rows {
+    display: none;
+  }
+}
+
+
+//
+
+
+#helpful-links,
+#travel-restrictions, {
+  max-width: 800px;
+  margin: 0 auto;
   li {
     margin-bottom: 20px;
     word-wrap: break-word;
@@ -306,6 +477,9 @@ table {
 
 footer {
   line-height: 2rem;
+  max-width: 800px;
+  margin: 0 auto;
+
   a, a:active {
     color: #1976d2 !important;
   }
@@ -320,6 +494,11 @@ footer {
 }
 
 // Loading Icon
+.loader {
+  padding: 20px;
+  text-align: center;
+}
+
 .lds-dual-ring {
   display: inline-block;
   width: 24px;
@@ -374,7 +553,7 @@ img.emoji {
 }
 
 .map-popup {
-  font-size: 12px;
+  font-size: 0.8rem;
   margin-bottom: -5px;
 
   h3 {
@@ -383,11 +562,32 @@ img.emoji {
 
   span.popup-increment {
     color: rgb(244,67,54);
-    font-size: 10px;
+    font-size: 0.7rem;
   }
 
 }
 
 .popup-content:hover {
   visibility: hidden;
+}
+
+
+// c3 chart styling
+
+#trend-chart-container,
+#daily-increase-container,
+#prefecture-trajectory-container {
+  path.c3-line {
+    stroke-width: 2px;
+  }
+  line.c3-xgrid, line.c3-ygrid {
+    stroke-dasharray: 0 0;
+    stroke: #f0f0f0 !important;
+  }
+}
+
+#daily-increase-chart {
+  .c3-axis-x .tick line {
+    display: none;
+  }
 }
