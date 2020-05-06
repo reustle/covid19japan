@@ -4,6 +4,24 @@ import { formatDistanceToNow, parse, parseISO } from "date-fns";
 import { LANGUAGES, LOCALES } from "../../i18n";
 import { TIME_FORMAT } from "../../data/constants";
 
+const addRelativeTimeLocalization = (lastUpdated, language) => {
+  const relativeTime = getLocalizedRelativeTime(lastUpdated, language);
+  i18next.addResource(
+    language,
+    "translation",
+    "last-updated-time",
+    relativeTime
+  );
+};
+
+const getLocalizedRelativeTime = (lastUpdated, language) => {
+  const locale = LOCALES[language];
+  return formatDistanceToNow(lastUpdated, {
+    locale,
+    addSuffix: true,
+  });
+};
+
 /**
  * @param {string} lastUpdatedString - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
  */
@@ -49,23 +67,5 @@ const drawLastUpdated = (lastUpdatedString, currentLanguage) => {
     "last-updated-time"
   );
 };
-
-function addRelativeTimeLocalization(lastUpdated, language) {
-  const relativeTime = getLocalizedRelativeTime(lastUpdated, language);
-  i18next.addResource(
-    language,
-    "translation",
-    "last-updated-time",
-    relativeTime
-  );
-}
-
-function getLocalizedRelativeTime(lastUpdated, language) {
-  const locale = LOCALES[language];
-  return formatDistanceToNow(lastUpdated, {
-    locale,
-    addSuffix: true,
-  });
-}
 
 export default drawLastUpdated;
