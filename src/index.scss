@@ -15,6 +15,7 @@ body {
   font-size: 16px;
   line-height: 1.4rem;
   color: $primary-black;
+  background: $color-background;
 }
 
 #page  {
@@ -132,7 +133,8 @@ a, a:hover, a:visited {
 #daily-increase-chart-box, #trend-chart-box {
   padding: 10px 10px 5px 10px;
   border-radius: 10px;
-  border: $color-box-border;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
 }
 
 // Prefectural section
@@ -173,7 +175,8 @@ a, a:hover, a:visited {
 #prefecture-trajectory-chart-box {
   padding: 10px 10px 5px 10px;
   border-radius: 10px;
-  border: $color-box-border;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
 }
 
 // Map Layout
@@ -182,7 +185,8 @@ a, a:hover, a:visited {
 #prefecture-map-contents {
   width: 100%;
   border-radius: 10px;
-  border: $color-box-border;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
 }
 
 #map-container {
@@ -252,12 +256,21 @@ a, a:hover, a:visited {
   margin: 0 auto;
 }
 
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  border-radius: 10px;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+}
+
 table#prefectures-table, table#top-prefectures-table {
   width: 100%;  
   border-collapse: separate;
   border-spacing: 0px;
   border-radius: 10px;
-  border: $color-box-border;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
 
   th, td {
     font-size: 0.85rem;
@@ -534,12 +547,20 @@ body {
       display: none;
     }
   }
+
+  // Disable box shadow and grey background for embeds.
+  &.embed {
+    background: $color-embed-background;
+
+    #prefecture-map-contents,
+    #kpi .kpi-box
+     {
+      box-shadow: none;
+      border: $color-box-border;
+    }
+  }
 }
 
-.table-wrapper {
-  overflow-x: auto;
-  width: 100%
-}
 
 img.emoji {
   height: 1em;
