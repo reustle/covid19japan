@@ -19,21 +19,21 @@ body {
   background: $color-background;
 }
 
-#page  {
+#page, footer  {
   max-width: $breakpoint-1200-page-width;
   margin: 0 auto;
 }
 @media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
-  #page { max-width: $breakpoint-960-page-width; }
+  #page, footer { max-width: $breakpoint-960-page-width; }
 }
 @media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
-  #page { max-width: $breakpoint-600-page-width; }
+  #page, footer { max-width: $breakpoint-600-page-width; }
 }
 @media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
-  #page { max-width: $breakpoint-500-page-width; }
+  #page, footer { max-width: $breakpoint-500-page-width; }
 }
 @media (max-width: $breakpoint-500) {
-  #page { max-width: 90%;  }
+  #page, footer { max-width: 90%;  }
 }
 
 // Title styles
@@ -63,12 +63,12 @@ h5 {
   margin: 5px 10px 0px 10px;
 }
 
-header, footer {
+header {
   padding: 30px 0;
 }
 
 @media (max-width: $breakpoint-500) {
-  header, footer { padding: 10px 0;  }
+  header { padding: 10px 0;  }
 }
 
 header {
@@ -76,12 +76,14 @@ header {
 
   .toolbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     font-size: 0.8em;
     
     .lang-picker {
-      display: inline;
+      padding: 0.5rem 1em 0.5em 0;
       a {
+        white-space: nowrap;
         text-decoration: none;
         &.active {
           padding-bottom: 4px;
@@ -90,6 +92,14 @@ header {
         }
       }
     }
+
+    #last-updated {
+      padding: 0.5rem 0 0.5em 1em;
+      flex-grow: 1;
+      font-style: italic;
+      text-align: right;
+    }
+
   }
 }
 
@@ -185,18 +195,15 @@ a, a:hover, a:visited {
   box-shadow: $color-box-shadow;
 }
 
-@import 'src/components/OutbreakMap/map';
-
-
-// Prefecture outbreak table.
 
 #all-prefectures-table-container {
   max-width: 800px;
   margin: 0 auto;
 }
 
-@import 'src/components/PrefectureTable/prefectureTable';
 
+@import 'src/components/OutbreakMap/map';
+@import 'src/components/PrefectureTable/prefectureTable';
 
 #helpful-links,
 #travel-restrictions, {
@@ -208,11 +215,23 @@ a, a:hover, a:visited {
   }
 }
 
+#travel-restrictions {
+  margin-bottom: 5em;
+  .country-link {
+    white-space: nowrap;
+  }
+}
+
+
+#footer-container {
+  background: white;
+  margin: 0;
+}
 
 footer {
-  line-height: 2rem;
-  max-width: 800px;
   margin: 0 auto;
+  line-height: 2rem;
+  padding: 1rem;
 
   a, a:active {
     color: #1976d2 !important;
@@ -252,7 +271,6 @@ body {
   }
 }
 
-
 img.emoji {
   height: 1em;
   width: 1em;
@@ -260,13 +278,7 @@ img.emoji {
   vertical-align: -0.1em;
 }
 
-.country-link {
-  white-space: nowrap;
-}
-
-
 // c3 chart styling
-
 #trend-chart-container,
 #daily-increase-container,
 #prefecture-trajectory-container {
