@@ -62,11 +62,12 @@ const drawPrefectureTrajectoryChart = (
   );
 
   const nameMap = trajectoryValues.reduce((result, prefecture) => {
-    if (lang === "en") {
-      result[prefecture.name] = prefecture.name;
-    } else {
-      result[prefecture.name] = prefecture.name_ja;
-    }
+    result[prefecture.name] =
+      i18next.getResource(
+        lang,
+        "translation",
+        `prefectures.${prefecture.name}`
+      ) || prefecture.name;
     return result;
   }, {});
 

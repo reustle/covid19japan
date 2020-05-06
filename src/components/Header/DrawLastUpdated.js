@@ -1,13 +1,13 @@
 import i18next from "i18next";
 import { formatDistanceToNow, parse, parseISO } from "date-fns";
-import { enUS, ja, es } from "date-fns/locale";
 
+import { LANGUAGES, LOCALES } from "../../i18n";
 import { TIME_FORMAT } from "../../data/constants";
 
 /**
  * @param {string} lastUpdatedString - MMM DD YYYY, HH:mm JST (e.g. Mar 29 2020, 15:53 JST)
  */
-const drawLastUpdated = (lastUpdatedString, lang) => {
+const drawLastUpdated = (lastUpdatedString, currentLanguage) => {
   // Draw the last updated time
   // If this is called before data is loaded, lastUpdated can be null.
   if (!lastUpdatedString) {
@@ -36,36 +36,36 @@ const drawLastUpdated = (lastUpdatedString, lang) => {
     display.textContent = lastUpdatedString;
     return;
   }
-  const relativeTime = {
-    en: formatDistanceToNow(lastUpdated, {
-      locale: enUS,
-      addSuffix: true,
-    }),
-    ja: formatDistanceToNow(lastUpdated, { locale: ja, addSuffix: true }),
-    es: formatDistanceToNow(lastUpdated, { locale: es, addSuffix: true }),
-  };
 
-  display.textContent = relativeTime[lang];
+  for (const language of LANGUAGES) {
+    addRelativeTimeLocalization(lastUpdated, language);
+  }
+
   display.setAttribute("title", lastUpdatedString);
-  i18next.addResource(
-    "en",
-    "translation",
-    "last-updated-time",
-    relativeTime["en"]
-  );
-  i18next.addResource(
-    "ja",
-    "translation",
-    "last-updated-time",
-    relativeTime["ja"]
-  );
-  i18next.addResource(
-    "es",
-    "translation",
-    "last-updated-time",
-    relativeTime["es"]
-  );
   display.setAttribute("data-i18n", "last-updated-time");
+  display.textContent = i18next.getResource(
+    currentLanguage,
+    "translation",
+    "last-updated-time"
+  );
 };
+
+function addRelativeTimeLocalization(lastUpdated, language) {
+  const relativeTime = getLocalizedRelativeTime(lastUpdated, language);
+  i18next.addResource(
+    language,
+    "translation",
+    "last-updated-time",
+    relativeTime
+  );
+}
+
+function getLocalizedRelativeTime(lastUpdated, language) {
+  const locale = LOCALES[language];
+  return formatDistanceToNow(lastUpdated, {
+    locale,
+    addSuffix: true,
+  });
+}
 
 export default drawLastUpdated;
