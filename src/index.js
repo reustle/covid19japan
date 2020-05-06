@@ -209,7 +209,14 @@ const initDataTranslate = () => {
     langPickers.forEach((pick) => {
       pick.addEventListener("click", (e) => {
         e.preventDefault();
-        setLang(e.target.dataset.langPicker);
+        // Go up the DOM tree until we find the langPicker
+        let elem = e.target;
+        while (elem && (!elem.dataset || !elem.dataset.langPicker)) {
+          elem = elem.parentElement;
+        }
+        if (elem) {
+          setLang(elem.dataset.langPicker);
+        }
       });
     });
   }
