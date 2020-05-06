@@ -30,7 +30,7 @@ const prefectureTableRow = (id) => {
   let deltaCell = row.querySelector(".delta");
   if (deltaCell) {
     deltaCell.innerHTML =
-      '<div class="increment"><span class="today"></span><span class="yesterday"></span></div>';
+      '<div class="increment"><div class="today"></div><div class="yesterday"></div></div>';
   }
   return row;
 };
