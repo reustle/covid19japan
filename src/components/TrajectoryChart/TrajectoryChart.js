@@ -10,7 +10,7 @@ const drawPrefectureTrajectoryChart = (
   prefectureTrajectoryChart,
   lang
 ) => {
-  const minimumConfirmed = 100;
+  const minimumConfirmed = 500;
   const filteredPrefectures = prefectures.filter((prefecture) => {
     return (
       prefecture.confirmed >= minimumConfirmed && !prefecture.pseudoPrefecture
@@ -92,7 +92,9 @@ const drawPrefectureTrajectoryChart = (
       x: {
         // Set max x value to be 2 greater to avoid label cutoff
         max: maxDays + 2,
-        label: `Number of Days since ${minimumConfirmed}th case`,
+        label: i18next.t("trajectory-description", {
+          minimumConfirmed: minimumConfirmed,
+        }),
       },
     },
     data: {
