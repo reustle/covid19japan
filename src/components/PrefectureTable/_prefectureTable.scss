@@ -1,4 +1,4 @@
-
+@import "src/type";
 
 .table-wrapper {
   overflow-x: auto;
@@ -26,7 +26,7 @@ table#prefectures-table, table#top-prefectures-table {
   }
 
   th, tbody.total-rows td {
-    font-weight: bold;
+    font-weight: $font-weight-bold;
   }
 
   th {

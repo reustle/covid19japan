@@ -40,7 +40,7 @@ const setKpiDescription = (key, value) => {
   }
   let descElement = document.querySelector(`#kpi-${key} .description`);
   if (descElement) {
-    descElement.innerText = value;
+    descElement.innerHTML = value;
   }
 };
 

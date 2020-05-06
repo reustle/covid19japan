@@ -43,7 +43,7 @@
   "recovered-chart-caption": "Daily new recoveries",
   "deceased-chart-caption": "Daily new deaths",
   "tested-chart-caption": "Daily tests",
-  "active-critical-percentage": "{{percent}}% are in critical condition.",
+  "active-critical-percentage": "{{percent}}% are in <b>critical</b> condition.",
   "recovered-percentage": "{{percent}}% of total cases",
   "deceased-percentage": "{{percent}}% of total cases",
   "tested-percentage": "{{percent}}% of results are positive.",
