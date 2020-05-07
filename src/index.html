@@ -53,6 +53,357 @@
   />
 </head>
 <body class="<%= htmlWebpackPlugin.options.bodyClass %>">
+  <div id="page">
+    <header class="embed-hide">
+      <h1 data-i18n="covid-19-tracker">Japan COVID-19 Coronavirus Tracker</h1>
+      <div class="toolbar">
+        <div class="lang-picker">
+          <!-- will be populated from supported language list -->
+          <a href="#" data-lang-picker='en'>EN 🇺🇸</a> |
+          <a href="#" data-lang-picker='ja'>JA 🇯🇵</a> |
+          <a href="#" data-lang-picker='es'>ES 🇪🇸</a>
+          <a href="#" data-lang-picker='de'>DE 🇩🇪</a>
+        </div>
+        <div id="last-updated">
+          <span data-i18n="last-updated">Last Updated:</span> <strong id="last-updated-time">-</strong>
+        </div>
+      </div>
+    </header>
+  
+    <section id="kpi" class="loading">
+      <div class="kpi-box" id="kpi-confirmed">
+        <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-confirmed-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(244,67,54, 0.6)" />
+            <stop offset="90%" stop-color="rgba(244,67,54, 0)" />
+            <stop offset="100%" stop-color="rgba(244,67,54, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-confirmed-chart"></div>
+        <div class="chart-caption" data-i18n="confirmed-chart-caption">Confirmed cases per day</div>
+      </div>
+  
+  
+      <div class="kpi-box" id="kpi-recovered">
+        <div class="label" data-i18n="kpi-recovered">Recovered</div>
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-recovered-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(24,118,211, 0.6)" />
+            <stop offset="90%" stop-color="rgba(24,118,211, 0)" />
+            <stop offset="100%" stop-color="rgba(24,118,211, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-recovered-chart"></div>
+        <div class="chart-caption" data-i18n="recovered-chart-caption">Recoveries per day</div>
+      </div>
+
+      <div class="kpi-box" id="kpi-critical">
+        <div class="label" data-i18n="kpi-critical">Critical</div>
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-critical-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(114,4,5, 0.6)" />
+            <stop offset="90%" stop-color="rgba(114,4,5, 0)" />
+            <stop offset="100%" stop-color="rgba(114,4,5, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-critical-chart"></div>
+        <div class="chart-caption" data-i18n="critical-chart-caption">Critical patients per day</div>
+      </div>
+
+      <div class="kpi-box" id="kpi-deceased">
+        <div class="label" data-i18n="kpi-deceased">Deaths</div>
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-deceased-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(54,72,79, 0.6)" />
+            <stop offset="90%" stop-color="rgba(54,72,79, 0)" />
+            <stop offset="100%" stop-color="rgba(54,72,79, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-deceased-chart"></div>
+        <div class="chart-caption" data-i18n="deceased-chart-caption">Deaths per day</div>
+      </div>
+
+      <div class="kpi-box" id="kpi-active" data-tippy-i18n="kpi-active-tooltip" data-tippy-placement="bottom" >
+        <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>     
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-active-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(223,14,31, 0.6)" />
+            <stop offset="90%" stop-color="rgba(223,14,31, 0)" />
+            <stop offset="100%" stop-color="rgba(223,14,31, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-active-chart"></div>
+        <div class="chart-caption" data-i18n="active-chart-caption">Active cases per day</div>
+      </div>
+    
+      <div class="kpi-box" id="kpi-tested">
+        <div class="vitals">
+          <div class="label" data-i18n="kpi-tested">Tested</div>
+          <div class="value"><div class="lds-dual-ring"></div></div>
+          <div class="diff">&nbsp;</div>
+          <div class="description"></div>  
+        </div>
+        <div class="chart-container">
+          <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+            <linearGradient id="kpi-tested-chart-gradient" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(164,173,192, 0.6)" />
+              <stop offset="90%" stop-color="rgba(164,173,192, 0)" />
+              <stop offset="100%" stop-color="rgba(164,173,192, 0)" />
+            </linearGradient>
+          </svg>
+          <div class="chart" id="kpi-tested-chart"></div>
+          <div class="chart-caption" data-i18n="tested-chart-caption">Tests per day</div>  
+        </div>
+      </div>
+
+      <div class="kpi-box" id="kpi-critical-short">
+        <div class="label" data-i18n="kpi-critical">Critical</div>
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+      </div>
+    </section>
+
+    <section id="national-charts" class="embed-hide">
+      <section id="trend-chart-container" class="embed-hide">
+        <h4 data-i18n="outbreak-spread-trend">Outbreak Spread Trend</h4>
+        <div id="trend-chart-box">
+          <div id="trend-chart">
+              <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>
+    
+      <section id="daily-increase-container" class="embed-hide">
+        <h4 data-i18n="new-cases-by-day">New Cases By Day</h4>
+        <div id="daily-increase-chart-box">
+          <div id="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section id="prefecture-sections">
+      <section id="prefecture-map-container">       
+        <a name="map"><h4><span data-i18n="covid-19" class="embed-show">COVID-19</span> <span data-i18n="outbreak-map">Outbreak Map</span></h4></a>
+        <div id="prefecture-map-contents">
+          <div id="map-container"></div>
+          <p class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></p>
+          <div id="map-legend">
+            <div><span class="one">▉</span> 1-49 <span data-i18n="cases">cases</span></div>
+            <div><span class="two">▉</span> 50-99 <span data-i18n="cases">cases</span></div>
+            <div><span class="three">▉</span> 100-499 <span data-i18n="cases">cases</span></div>
+            <div><span class="four">▉</span> 500-999 <span data-i18n="cases">cases</span></div>
+            <div><span class="five">▉</span> 1000+ <span data-i18n="cases">cases</span></div>    
+          </div>  
+        </div>
+      </section>    
+
+      <section id="prefecture-top-table-container" class="embed-hide">
+        <h4 data-i18n="top-prefectures">Top 10 Prefectures</h4>
+          <table id="top-prefectures-table" class="loading">
+            <thead>
+              <tr>
+                <th data-i18n="prefecture" class="prefecture">Prefecture</th>
+                <th class="trend" data-i18n="daily-trend">Daily Trend</th>
+                <th class="confirmed">
+                  <span data-i18n="confirmed">Confirmed</span>
+                </th>
+                <th class="delta">
+                  <div class="increment">
+                    <div class="today"><span data-i18n="increment-today">(Today)</span></div>
+                    <div class="yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></div>
+                  </div>
+                </th>
+                <th data-i18n="recovered" class="recovered">Recovered</th>
+                <th data-i18n="deaths" class="deceased">Deaths</th>
+              </tr>
+            </thead>
+            <tbody class="prefecture-rows">
+            </tbody>
+            <tbody class="more-rows">
+              <tr>
+                <td colspan="5">
+                  <a id="show-more-rows" href="#all-prefectures" data-i18n="see-all-prefectures">See all prefectures</a>
+                </td>
+              </tr>
+            </tbody>
+            <tbody class="loading-rows">
+              <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
+            </tbody>
+  
+          </table>
+      </section>
+    </section>
+    
+    <section id="prefecture-trajectory-container" class="embed-hide">
+      <h4 data-i18n="confirmed-case-trajectories-by-prefecture">Confirmed Case Trajectories by Prefecture</h4>
+      <div id="prefecture-trajectory-chart-box">
+        <div id="prefecture-trajectory">
+          <div class="loader"><div class="lds-dual-ring"></div></div>
+        </div>
+      </div>
+    </section>
+  
+
+
+    <section id="all-prefectures-table-container" class="embed-hide">
+      <a name="all-prefectures"><h4 data-i18n="prefecture-data">Cases by Prefecture</h4></a>
+      <div class="table-wrapper">
+        <table id="prefectures-table" class="loading">
+          <thead>
+            <tr>
+              <th data-i18n="prefecture" class="prefecture">Prefecture</th>
+              <th class="trend" data-i18n="daily-trend">Daily Trend</th>
+              <th class="confirmed">
+                <span data-i18n="confirmed">Confirmed</span>
+              </th>
+              <th class="delta">
+                <div class="increment">
+                  <div class="today"><span data-i18n="increment-today">(Today)</span></div>
+                  <div class="yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></div>
+                </div>
+              </th>
+              <th data-i18n="recovered" class="recovered">Recovered</th>
+              <th data-i18n="deaths" class="deceased">Deaths</th>
+            </tr>
+          </thead>
+          <tbody class="total-rows">
+            <tr>
+              <td class="prefecture" data-i18n="total">Total</td>
+              <td class="trend"></td>
+              <td class="confirmed"></td>
+              <td class="delta"></td>
+              <td class="recovered"></td>
+              <td class="deceased"></td>
+            </tr>
+          </tbody>
+          <tbody class="prefecture-rows">
+            
+          </tbody>
+          <tbody class="pseudo-prefecture-rows"></tbody>
+         
+          <tbody class="cruise-header">
+            <tr>
+              <td colspan="4" data-i18n="cruise-passengers-explanation">Cruise crew and passengers are not included in totals.</td>
+            </tr>
+          </tbody>
+          <tbody class="cruise-rows"></tbody>
+          <tbody class="loading-rows">
+            <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  
+  
+    <section id="travel-restrictions" class="embed-hide">
+      <h4 data-i18n="traveling-into-japan">Traveling into Japan</h4>
+      <p data-i18n="about-travel-restriction">Below are the travel restrictions that have been put in place regarding traveling into Japan.
+        Click on the link for more details on the restrictions.</p>
+      <h5 data-i18n="banned-from-entering-japan" id="banned-entry-title">Banned from entering Japan:</h5><span id="banned-entry"></span>
+      <h5 data-i18n="existing-visa-required" id="visa-required-title">Existing visa required:</h5><span id="visa-required"></span>
+      <h5 data-i18n="14-day-self-quarantine-required" id="self-quarantine-title">14-day Self-Quarantine required:</h5><span id="self-quarantine"></span>
+      <h5 data-i18n="other-limitations" id="other-restrictions-title">Other limitations:</h5><span id="other-restrictions"></span>
+  
+      <!--<h4>Traveling out of Japan</h4>
+      <p>Below are the travel restrictions that have been put in place regarding traveling from Japan into
+        foreign countries. Click on the link for more details on the restrictions.</p>
+      <h5>Banned From Entering Japan:</h5><span id="foreign-banned-entry"></span>
+      <h5>Existing Visa Required:</h5><span id="foreign-visa-required"></span>
+      <h5>14-day Self-Quarantine Required:</h5><span id="foreign-self-quarantine"></span>
+      <h5>Other Limitations:</h5><span id="foreign-other-restrictions"></span>-->
+    </section>
+  
+    <section id="helpful-links" class="embed-hide">
+      <a name="links">
+        <h4 data-i18n="helpful-links">Helpful Links</h4>
+      </a>
+      <ul>
+        <li>
+          <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">
+            Information from the Tokyo Metropolitan Infectious Disease Surveillance Center
+          </a>
+        </li>
+        <li>
+          <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html">
+            If you think you might have the virus
+          </a>
+        </li>
+        <li>
+          <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">
+            WHO information about the virus
+          </a>
+        </li>
+        <li>
+          <a href="https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf">
+            Monitoring your symptoms if you feel ill
+          </a>
+        </li>
+        <li>
+          <a href="https://twitter.com/i/lists/1069503606880006144">
+            Active relevant Twitter accounts
+          </a>
+        </li>
+        <li>
+          English language news sources: <a href="https://www.japantimes.co.jp/">Japan Times</a>, <a href="https://english.kyodonews.net/">Kyodo News</a>, <a href="http://www.asahi.com/ajw/">Asahi Shimbun</a>, <a href="https://mainichi.jp/english/">Mainichi Shimbun</a>
+        </li>
+      </ul>
+    </section>
+  </div>
+  <div id="footer-container">
+    <footer>
+      <p>
+        Built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and many more
+      </p>
+      <p>
+        <a href="https://twitter.com/reustle" title="Shane" target="_blank" class="avatar">
+          <img src="/static/avatars/shane.jpg" alt="Shane">
+        </a>
+        <a href="https://twitter.com/kayzjh" title="Kay" target="_blank" class="avatar">
+          <img src="/static/avatars/kay.jpg" alt="Kay">
+        </a>
+        <a href="https://twitter.com/guchagucha" title="Mark" target="_blank" class="avatar">
+          <img src="/static/avatars/mark.jpg" alt="Mark">
+        </a>
+        <a href="https://twitter.com/liquidx" title="Alastair" target="_blank" class="avatar">
+          <img src="/static/avatars/alastair.jpg" alt="Alastair">
+        </a>
+        <a href="https://twitter.com/lchin" title="Leonard" target="_blank" class="avatar">
+          <img src="/static/avatars/leonard.jpg" alt="Leonard">
+        </a>
+        <a href="https://github.com/mertd" title="Mert" target="_blank" class="avatar">
+          <img src="/static/avatars/mert.jpg" alt="Mert">
+        </a>
+        <a href="https://github.com/reustle/covid19japan/graphs/contributors" title="Other Contributors" target="_blank" class="avatar">
+          <img src="https://ui-avatars.com/api/?background=1876D3&size=80&bold=true&color=fff&name=%2B" alt="Other Contributors">
+        </a>
+      </p>
+      <p>
+        Supported by <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, <a href="https://mapbox.com/community/" target="_blank">Mapbox</a>, <a href="https://sentry.io" target="_blank">Sentry.io</a>, and <a href="https://netlify.com/" target="_blank">Netlify</a><br/>
+        Contribute to <a href="https://github.com/reustle/covid19japan">covid19japan on GitHub</a><br/>
+        Data sourced from Prefectural Governments and MHLW (<a href="https://github.com/reustle/covid19japan-data/">Full Details</a>)
+      </p>
+    </footer>
+  </div>
+  <!-- JS -->
   <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js" integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous"></script>
   <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
   <script>
@@ -60,16 +411,16 @@
       Sentry.init({
         dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
         debug: false,
-	blacklistUrls: [
-	  // Chrome extensions
-	  /extensions\//i,
-	  /^chrome:\/\//i,
-	],
-        ignoreErrors: [
-	  // Ignore Google Translate Chrome extension errors.
-	  // See: https://medium.com/@amir.harel/a-b-target-classname-indexof-is-not-a-function-at-least-not-mine-8e52f7be64ca
-	  "a[b].target.className.indexOf is not a function",
-	],
+        blacklistUrls: [
+          // Chrome extensions
+          /extensions\//i,
+          /^chrome:\/\//i,
+        ],
+              ignoreErrors: [
+          // Ignore Google Translate Chrome extension errors.
+          // See: https://medium.com/@amir.harel/a-b-target-classname-indexof-is-not-a-function-at-least-not-mine-8e52f7be64ca
+          "a[b].target.className.indexOf is not a function",
+        ],
         integrations: [
           new Sentry.Integrations.CaptureConsole({
             levels: ['error']
@@ -77,875 +428,7 @@
         ]
       })
     }
-  </script>
-
-  <header class="embed-hide">
-    <h1 data-i18n="covid-19-tracker">Japan COVID-19 Coronavirus Tracker</h1>
-    <div class="toolbar">
-      <div class="lang-picker">
-        <!-- will be populated from supported language list -->
-        <a href="#" data-lang-picker='en'>EN 🇺🇸</a> |
-        <a href="#" data-lang-picker='ja'>JA 🇯🇵</a>
-        <a href="#" data-lang-picker='es'>ES 🇪🇸</a>
-        <a href="#" data-lang-picker='de'>DE 🇩🇪</a>
-      </div>
-      <em>
-        <span data-i18n="last-updated">Last Updated:</span> <strong id="last-updated">-</strong>
-      </em>
-    </div>
-  </header>
-
-  <section id="kpi">
-    <div
-      id="kpi-active"
-      data-tippy-i18n="kpi-active-tooltip"
-      data-tippy-placement="bottom"
-    >
-      <div class="diff">&nbsp;</div>
-      <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>
-    </div>
-    <div id="kpi-critical">
-      <div class="diff">&nbsp;</div>
-      <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-i18n="kpi-critical">Critical</div>
-    </div>
-    <div id="kpi-deceased">
-      <div class="diff">&nbsp;</div>
-      <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-i18n="kpi-deceased">Deaths</div>
-    </div>
-    <div id="kpi-tested">
-      <div class="diff">&nbsp;</div>
-      <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-i18n="kpi-tested">Tested</div>
-    </div>
-    <div id="kpi-confirmed">
-      <div class="diff">&nbsp;</div>
-      <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
-    </div>
-    <div id="kpi-recovered">
-      <div class="diff">&nbsp;</div>
-      <div class="value"><div class="lds-dual-ring"></div></div>
-      <div class="label" data-i18n="kpi-recovered">Recovered</div>
-    </div>
-  </section>
-
-  <section id="outbreak-map-container">
-    <a name="map"></a>
-    <div class="center-offset">
-      <h4><span data-i18n="covid-19" class="embed-show">COVID-19</span> <span data-i18n="outbreak-map">Outbreak Map</span></h4>
-    </div>
-  <section id="map-legend">
-    <div><span class="one">▉</span> 1-49 <span data-i18n="cases">cases</span></div>
-    <div><span class="two">▉</span> 50-99 <span data-i18n="cases">cases</span></div>
-    <div><span class="three">▉</span> 100-499 <span data-i18n="cases">cases</span></div>
-    <div><span class="four">▉</span> 500-999 <span data-i18n="cases">cases</span></div>
-    <div><span class="five">▉</span> 1000+ <span data-i18n="cases">cases</span></div>    
-  </section>
-    <div id="map-container"></div>
-    <p class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></p>
-  </section>    
-
-  <section id="trend-chart-container" class="embed-hide">
-    <h4 data-i18n="outbreak-spread-trend">Outbreak Spread Trend</h4>
-    <div id="trend-chart">
-        <div class="text-center"><div class="lds-dual-ring"></div></div>
-    </div>
-  </section>
-
-  <section id="daily-increase-container" class="embed-hide">
-    <h4 data-i18n="new-cases-by-day">New Cases By Day</h4>
-    <div id="daily-increase-chart">
-        <div class="text-center"><div class="lds-dual-ring"></div></div>
-    </div>
-  </section>
-
-  <section id="prefecture-trajectory-container" class="embed-hide">
-    <h4 data-i18n="confirmed-case-trajectories-by-prefecture">Confirmed Case Trajectories by Prefecture (> 100 Cases)</h4>
-    <div id="prefecture-trajectory">
-        <div class="text-center"><div class="lds-dual-ring"></div></div>
-    </div>
-  </section>
-
-  <section class="embed-hide">
-    <h4 data-i18n="prefecture-data">Prefecture Data</h4>
-    <div class="table-wrapper">
-      <table id="prefectures-table">
-        <thead>
-          <tr>
-            <th data-i18n="prefecture" class="prefecture">Prefecture</th>
-            <th class="trend"></th>
-            <th class="" colspan="2">
-              <span data-i18n="confirmed">Confirmed</span>
-              <div class="increment">
-                <span class="delta today"><span data-i18n="increment-today">(Today)</span></span>
-                <span class="delta yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></span>
-              </div>
-            </th>
-            <th data-i18n="recovered" class="recovered">Recovered</th>
-            <th data-i18n="deaths" class="deceased">Deaths</th>
-          </tr>
-        </thead>
-        <tbody id="prefecture-rows">
-          <tr id="row-tokyo">
-            <td class="prefecture" data-i18n="prefectures.Tokyo">Tokyo</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-osaka">
-            <td class="prefecture" data-i18n="prefectures.Osaka">Osaka</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-kanagawa">
-            <td class="prefecture" data-i18n="prefectures.Kanagawa">Kanagawa</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-saitama">
-            <td class="prefecture" data-i18n="prefectures.Saitama">Saitama</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-chiba">
-            <td class="prefecture" data-i18n="prefectures.Chiba">Chiba</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-hokkaido">
-            <td class="prefecture" data-i18n="prefectures.Hokkaido">Hokkaido</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-hyogo">
-            <td class="prefecture" data-i18n="prefectures.Hyogo">Hyogo</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-fukuoka">
-            <td class="prefecture" data-i18n="prefectures.Fukuoka">Fukuoka</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-aichi">
-            <td class="prefecture" data-i18n="prefectures.Aichi">Aichi</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-kyoto">
-            <td class="prefecture" data-i18n="prefectures.Kyoto">Kyoto</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-ishikawa">
-            <td class="prefecture" data-i18n="prefectures.Ishikawa">Ishikawa</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-toyama">
-            <td class="prefecture" data-i18n="prefectures.Toyama">Toyama</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-ibaraki">
-            <td class="prefecture" data-i18n="prefectures.Ibaraki">Ibaraki</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-hiroshima">
-            <td class="prefecture" data-i18n="prefectures.Hiroshima">Hiroshima</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-gifu">
-            <td class="prefecture" data-i18n="prefectures.Gifu">Gifu</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-gunma">
-            <td class="prefecture" data-i18n="prefectures.Gunma">Gunma</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-okinawa">
-            <td class="prefecture" data-i18n="prefectures.Okinawa">Okinawa</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-fukui">
-            <td class="prefecture" data-i18n="prefectures.Fukui">Fukui</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-shiga">
-            <td class="prefecture" data-i18n="prefectures.Shiga">Shiga</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-miyagi">
-            <td class="prefecture" data-i18n="prefectures.Miyagi">Miyagi</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-nara">
-            <td class="prefecture" data-i18n="prefectures.Nara">Nara</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-niigata">
-            <td class="prefecture" data-i18n="prefectures.Niigata">Niigata</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-fukushima">
-            <td class="prefecture" data-i18n="prefectures.Fukushima">Fukushima</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-kochi">
-            <td class="prefecture" data-i18n="prefectures.Kochi">Kochi</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-shizuoka">
-            <td class="prefecture" data-i18n="prefectures.Shizuoka">Shizuoka</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-yamagata">
-            <td class="prefecture" data-i18n="prefectures.Yamagata">Yamagata</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-nagano">
-            <td class="prefecture" data-i18n="prefectures.Nagano">Nagano</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-oita">
-            <td class="prefecture" data-i18n="prefectures.Oita">Oita</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-wakayama">
-            <td class="prefecture" data-i18n="prefectures.Wakayama">Wakayama</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-tochigi">
-            <td class="prefecture" data-i18n="prefectures.Tochigi">Tochigi</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-yamanashi">
-            <td class="prefecture" data-i18n="prefectures.Yamanashi">Yamanashi</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-ehime">
-            <td class="prefecture" data-i18n="prefectures.Ehime">Ehime</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-kumamoto">
-            <td class="prefecture" data-i18n="prefectures.Kumamoto">Kumamoto</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-mie">
-            <td class="prefecture" data-i18n="prefectures.Mie">Mie</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-saga">
-            <td class="prefecture" data-i18n="prefectures.Saga">Saga</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-yamaguchi">
-            <td class="prefecture" data-i18n="prefectures.Yamaguchi">Yamaguchi</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-kagawa">
-            <td class="prefecture" data-i18n="prefectures.Kagawa">Kagawa</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-aomori">
-            <td class="prefecture" data-i18n="prefectures.Aomori">Aomori</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-shimane">
-            <td class="prefecture" data-i18n="prefectures.Shimane">Shimane</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-okayama">
-            <td class="prefecture" data-i18n="prefectures.Okayama">Okayama</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-nagasaki">
-            <td class="prefecture" data-i18n="prefectures.Nagasaki">Nagasaki</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-miyazaki">
-            <td class="prefecture" data-i18n="prefectures.Miyazaki">Miyazaki</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-akita">
-            <td class="prefecture" data-i18n="prefectures.Akita">Akita</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-kagoshima">
-            <td class="prefecture" data-i18n="prefectures.Kagoshima">Kagoshima</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-tokushima">
-            <td class="prefecture" data-i18n="prefectures.Tokushima">Tokushima</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-tottori">
-            <td class="prefecture" data-i18n="prefectures.Tottori">Tottori</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-        </tbody>
-        <tbody id="pseudo-prefecture-rows">
-          <tr id="row-diamond_princess_cruise_ship">
-            <td class="prefecture" data-i18n="pseudo-prefectures.diamond-princess">Diamond Princess Cruise Ship</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-port_quarantine">
-            <td class="prefecture" data-i18n="pseudo-prefectures.port-of-entry">Port of Entry</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-          <tr id="row-nagasaki_cruise_ship">
-            <td class="prefecture" data-i18n="pseudo-prefectures.nagasaki-cruise">Nagasaki Cruise Ship</td>
-      
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-        </tbody>
-        <tbody id="unspecified-rows">
-          <tr id="row-unspecified">
-            <td class="prefecture" data-i18n="pseudo-prefectures.unspecified">Unspecified</td>
-            <td class="trend"></td>
-            <td class="count confirmed"></td>
-            <td class="delta">
-              <div class="increment">
-                <span class="today"></span>
-                <span class="yesterday"></span>
-              </div>
-            </td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-        </tbody>
-        <tfoot>
-          <tr class="totals">
-            <td class="prefecture" data-i18n="total">Total</td>
-            <td class="trend"></td>
-            <td class="count confirmed" colspan="2"></td>
-            <td class="count recovered"></td>
-            <td class="count deceased"></td>
-          </tr>
-        </tfoot>
-      </table>
-    </div>
-  </section>
-
-  <section id="travel-restrictions" class="embed-hide">
-    <h4 data-i18n="traveling-into-japan">Traveling into Japan</h4>
-    <p data-i18n="about-travel-restriction">Below are the travel restrictions that have been put in place regarding traveling into Japan.
-      Click on the link for more details on the restrictions.</p>
-    <h5 data-i18n="banned-from-entering-japan" id="banned-entry-title">Banned From Entering Japan:</h5><span id="banned-entry"></span>
-    <h5 data-i18n="existing-visa-required" id="visa-required-title">Existing Visa Required:</h5><span id="visa-required"></span>
-    <h5 data-i18n="14-day-self-quarantine-required" id="self-quarantine-title">14-day Self-Quarantine Required:</h5><span id="self-quarantine"></span>
-    <h5 data-i18n="other-limitations" id="other-restrictions-title">Other Limitations:</h5><span id="other-restrictions"></span>
-
-    <!--<h4>Traveling out of Japan</h4>
-    <p>Below are the travel restrictions that have been put in place regarding traveling from Japan into
-      foreign countries. Click on the link for more details on the restrictions.</p>
-    <h5>Banned From Entering Japan:</h5><span id="foreign-banned-entry"></span>
-    <h5>Existing Visa Required:</h5><span id="foreign-visa-required"></span>
-    <h5>14-day Self-Quarantine Required:</h5><span id="foreign-self-quarantine"></span>
-    <h5>Other Limitations:</h5><span id="foreign-other-restrictions"></span>-->
-  </section>
-
-  <section id="helpful-links" class="embed-hide">
-    <a name="links"></a>
-    <h4 data-i18n="helpful-links">Helpful Links</h4>
-    <ul>
-      <li>
-        <a href="http://idsc.tokyo-eiken.go.jp/diseases/2019-ncov/">
-          Information from the Tokyo Metropolitan Infectious Disease Surveillance Center
-        </a>
-      </li>
-      <li>
-        <a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/kenkou_iryou/covid19-kikokusyasessyokusya.html">
-          If you think you might have the virus
-        </a>
-      </li>
-      <li>
-        <a href="https://www.who.int/emergencies/diseases/novel-coronavirus-2019">
-          WHO information about the virus
-        </a>
-      </li>
-      <li>
-        <a href="https://www.fukushihoken.metro.tokyo.lg.jp/iryo/kansen/tagengoguide.files/tagengogaido2019-mihiraki.pdf">
-          Monitoring your symptoms if you feel ill
-        </a>
-      </li>
-      <li>
-        <a href="https://twitter.com/i/lists/1069503606880006144">
-          Active relevant Twitter accounts
-        </a>
-      </li>
-      <li>
-        English language news sources: <a href="https://www.japantimes.co.jp/">Japan Times</a>, <a href="https://english.kyodonews.net/">Kyodo News</a>, <a href="http://www.asahi.com/ajw/">Asahi Shimbun</a>, <a href="https://mainichi.jp/english/">Mainichi Shimbun</a>
-      </li>
-    </ul>
-  </section>
-
-  <footer>
-    <p>
-      Built by <a href="https://twitter.com/reustle" target="_blank">Shane Reustle</a> and many more
-    </p>
-    <p>
-      <a href="https://twitter.com/reustle" title="Shane" target="_blank" class="avatar">
-        <img src="/static/avatars/shane.jpg" alt="Shane">
-      </a>
-      <a href="https://twitter.com/kayzjh" title="Kay" target="_blank" class="avatar">
-        <img src="/static/avatars/kay.jpg" alt="Kay">
-      </a>
-      <a href="https://twitter.com/guchagucha" title="Mark" target="_blank" class="avatar">
-        <img src="/static/avatars/mark.jpg" alt="Mark">
-      </a>
-      <a href="https://twitter.com/liquidx" title="Alastair" target="_blank" class="avatar">
-        <img src="/static/avatars/alastair.jpg" alt="Alastair">
-      </a>
-      <a href="https://twitter.com/lchin" title="Leonard" target="_blank" class="avatar">
-        <img src="/static/avatars/leonard.jpg" alt="Leonard">
-      </a>
-      <a href="https://github.com/mertd" title="Mert" target="_blank" class="avatar">
-        <img src="/static/avatars/mert.jpg" alt="Mert">
-      </a>
-      <a href="https://github.com/reustle/covid19japan/graphs/contributors" title="Other Contributors" target="_blank" class="avatar">
-        <img src="https://ui-avatars.com/api/?background=1876D3&size=80&bold=true&color=fff&name=%2B" alt="Other Contributors">
-      </a>
-    </p>
-    <p>
-      Supported by <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, <a href="https://mapbox.com/community/" target="_blank">Mapbox</a>, <a href="https://sentry.io" target="_blank">Sentry.io</a>, and <a href="https://netlify.com/" target="_blank">Netlify</a><br/>
-      Contribute to <a href="https://github.com/reustle/covid19japan">covid19japan on GitHub</a><br/>
-      Data sourced from Prefectural Governments and MHLW (<a href="https://github.com/reustle/covid19japan-data/">Full Details</a>)
-    </p>
-  </footer>
-
-  <!-- JS -->
+  </script>  
   <script async src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-2580539-41"></script>

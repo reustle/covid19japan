@@ -1,0 +1,81 @@
+@import 'src/colors';
+@import 'src/layout';
+
+$map-color-background: #cad2d3;
+
+#map-container {
+  width: 100%;
+  height: 500px;
+  background: $map-color-background;
+  border-radius: $box-border-radius;
+}
+
+#map-legend {
+  padding: 20px 10px;
+  font-size: 0.9em;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  > div {
+    display: block;
+    height: 2em;
+    padding: 0 1rem;
+    white-space: nowrap;
+    width: 30%;
+  }
+
+  span.one {
+    color: #fdeacb;
+  }
+
+  span.two {
+    color: #fb9b7f;
+  }
+
+  span.three {
+    color: #f44336;
+  }
+
+  span.four {
+    color: #ba000d;
+  }
+
+  span.five {
+    color: #720405;
+  }
+}
+
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  #map-legend { 
+    > div {
+      width: 45%;
+    }
+  }
+}
+
+@media (max-width: $breakpoint-500) {
+  #map-legend { 
+    > div {
+      width: 45%;
+    }
+  }
+}
+
+.map-popup {
+  font-size: 0.8rem;
+  margin-bottom: -5px;
+
+  h3 {
+    margin: 0;
+  }
+
+  span.popup-increment {
+    color: rgb(244,67,54);
+    font-size: 0.7rem;
+  }
+}
+
+.popup-content:hover {
+  visibility: hidden;
+}

@@ -2,7 +2,8 @@ import * as c3 from "c3";
 import { color as d3_color } from "d3-color";
 import i18next from "i18next";
 import { format as dateFormat } from "date-fns";
-import { enUS, ja } from "date-fns/locale";
+
+import { LOCALES } from "../../i18n";
 
 import {
   COLOR_ACTIVE,
@@ -13,10 +14,7 @@ import {
 } from "../../data/constants";
 
 const drawTrendChart = (sheetTrend, trendChart, lang) => {
-  let dateLocale = enUS;
-  if (lang == "ja") {
-    dateLocale = ja;
-  }
+  const dateLocale = LOCALES[lang];
 
   const cols = {
     Date: ["Date"],
@@ -97,7 +95,7 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
       pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED],
     },
     point: {
-      r: 3,
+      r: 2,
     },
     axis: {
       x: {

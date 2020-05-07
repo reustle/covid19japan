@@ -1,5 +1,4 @@
 import i18next from "i18next";
-import { is } from "date-fns/esm/locale";
 
 const prefectureId = (prefectureName) => {
   return prefectureName.toLowerCase().replace(/[\s]+/g, "_");
@@ -10,33 +9,69 @@ const prefectureTrendChartURL = (prefectureName) => {
   return `https://data.covid19japan.com/charts/${filename}.svg`;
 };
 
-const drawPrefectureTable = (prefectures, totals) => {
-  // Draw the Cases By Prefecture table
-  const dataTable = document.querySelector("#prefectures-table");
-  const dataTableFoot = document.querySelector("#prefectures-table tfoot");
+const prefectureTableRow = (id) => {
+  let row = document.createElement("tr");
+  row.classList.add("prefecture-row");
+  row.classList.add(id);
 
-  // Abort if dataTable or dataTableFoot is not accessible.
-  if (!dataTable || !dataTableFoot) {
+  for (let cellClass of [
+    "prefecture",
+    "trend",
+    "confirmed",
+    "delta",
+    "recovered",
+    "deceased",
+  ]) {
+    let cell = document.createElement("td");
+    cell.classList.add(cellClass);
+    row.appendChild(cell);
+  }
+
+  let deltaCell = row.querySelector(".delta");
+  if (deltaCell) {
+    deltaCell.innerHTML =
+      '<div class="increment"><div class="today"></div><div class="yesterday"></div></div>';
+  }
+  return row;
+};
+
+export const drawPrefectureTable = (prefectureTable, prefectures, totals) => {
+  // Abort if prefectureTable is not accessible.
+  if (!prefectureTable) {
     return;
   }
+
+  // Check if prefectureTable needs any pseudo prefecture rows.
+  const existingPrefectureRows = prefectureTable.querySelector(
+    ".prefecture-rows"
+  );
+  const existingPseudoPrefectureRows = prefectureTable.querySelector(
+    ".pseudo-prefecture-rows"
+  );
+  const existingCruiseRows = prefectureTable.querySelector(".cruise-rows");
+  const existingTotalRows = prefectureTable.querySelector(".total-rows");
 
   // Special prefectures to handle when we iterate through them.
   const pseudoPrefectures = {
     Unspecified: {
       stringId: "pseudo-prefectures.unspecified",
       className: "Unspecified",
+      rowGroup: "pseudo-prefecture",
     },
     "Port Quarantine": {
       stringId: "pseudo-prefectures.port-of-entry",
       className: "PortOfEntry",
+      rowGroup: "pseudo-prefecture",
     },
     "Diamond Princess Cruise Ship": {
       stringId: "pseudo-prefectures.diamond-princess",
       className: "DiamondPrincess",
+      rowGroup: "cruise",
     },
     "Nagasaki Cruise Ship": {
       stringId: "pseudo-prefectures.nagasaki-cruise",
       className: "NagasakiCruise",
+      rowGroup: "cruise",
     },
     Total: {}, // Left blank so we can ignore it.
   };
@@ -49,21 +84,24 @@ const drawPrefectureTable = (prefectures, totals) => {
   });
 
   const prefectureRows = document.createElement("tbody");
-  prefectureRows.id = "prefecture-rows";
+  prefectureRows.classList.add("prefecture-rows");
 
   const pseudoPrefectureRows = document.createElement("tbody");
-  pseudoPrefectureRows.id = "pseudo-prefecture-rows";
+  pseudoPrefectureRows.classList.add("pseudo-prefecture-rows");
 
-  const unspecifiedRows = document.createElement("tbody");
-  unspecifiedRows.id = "unspecified-rows";
+  const cruiseRows = document.createElement("tbody");
+  cruiseRows.classList.add("cruise-rows");
 
-  prefectures.map((pref) => {
-    let prefId = prefectureId(pref.name);
-    let rowId = `row-${prefId}`;
-    let existingRow = document.querySelector(`#${rowId}`);
-    if (!existingRow) {
-      console.log("Could not find row " + rowId);
-      return;
+  const rowGroups = {
+    cruise: cruiseRows,
+    "pseudo-prefecture": pseudoPrefectureRows,
+  };
+
+  prefectures.map((pref, i) => {
+    let rowId = `row${i}`;
+    let row = prefectureTable.querySelector(`.${rowId}`);
+    if (!row) {
+      row = prefectureTableRow(rowId);
     }
 
     let stringId = `prefectures.${pref.name}`;
@@ -79,54 +117,66 @@ const drawPrefectureTable = (prefectures, totals) => {
       yesterdayConfirmedString = `(&nbsp;+${pref.yesterdayConfirmed}&nbsp;)`;
     }
 
+    if (isPseudoPrefecture && !existingPseudoPrefectureRows) {
+      return;
+    }
+
     if (isPseudoPrefecture) {
       stringId = isPseudoPrefecture.stringId;
     }
 
-    existingRow.querySelector("td.prefecture").innerHTML = i18next.t(stringId);
-    existingRow
-      .querySelector("td.prefecture")
-      .setAttribute("data-i18n", stringId);
-    existingRow.querySelector("td.confirmed").innerHTML = pref.confirmed;
-    existingRow.querySelector(
-      "td.delta .increment .today"
-    ).innerHTML = todayConfirmedString;
-    existingRow.querySelector(
-      "td.delta .increment .yesterday"
-    ).innerHTML = yesterdayConfirmedString;
+    row.querySelector("td.prefecture").innerHTML = i18next.t(stringId);
+    row.querySelector("td.prefecture").setAttribute("data-i18n", stringId);
+    row.querySelector("td.confirmed").innerHTML = pref.confirmed;
+    row.querySelector(".today").innerHTML = todayConfirmedString;
+    row.querySelector(".yesterday").innerHTML = yesterdayConfirmedString;
+    row.querySelector("td.recovered").innerHTML = pref.recovered;
+    row.querySelector("td.deceased").innerHTML = pref.deceased;
 
-    existingRow.querySelector("td.recovered").innerHTML = pref.recovered;
-    existingRow.querySelector("td.deceased").innerHTML = pref.deceased;
+    let trendCell = row.querySelector("td.trend");
+    trendCell.innerHTML = `<img class="trend-svg" src="${trendURL}">`;
 
-    let trendCell = existingRow.querySelector("td.trend");
-    trendCell.innerHTML = `<img src="${trendURL}">`;
-
-    if (isPseudoPrefecture && pref.name == "Unspecified") {
-      unspecifiedRows.appendChild(existingRow);
-    } else if (isPseudoPrefecture) {
-      pseudoPrefectureRows.appendChild(existingRow);
+    if (isPseudoPrefecture) {
+      rowGroups[isPseudoPrefecture.rowGroup].appendChild(row);
     } else {
-      prefectureRows.appendChild(existingRow);
+      prefectureRows.appendChild(row);
     }
   });
 
-  dataTable.replaceChild(
-    prefectureRows,
-    dataTable.querySelector("#prefecture-rows")
-  );
-  dataTable.replaceChild(
-    pseudoPrefectureRows,
-    dataTable.querySelector("#pseudo-prefecture-rows")
-  );
-  dataTable.replaceChild(
-    unspecifiedRows,
-    dataTable.querySelector("#unspecified-rows")
-  );
+  if (existingPrefectureRows) {
+    prefectureTable.replaceChild(prefectureRows, existingPrefectureRows);
+  }
 
-  dataTableFoot.querySelector(".prefecture").innerHTML = i18next.t("total");
-  dataTableFoot.querySelector(".confirmed").innerHTML = totals.confirmed;
-  dataTableFoot.querySelector(".recovered").innerHTML = totals.recovered;
-  dataTableFoot.querySelector(".deceased").innerHTML = totals.deceased;
+  if (existingPseudoPrefectureRows) {
+    prefectureTable.replaceChild(
+      pseudoPrefectureRows,
+      existingPseudoPrefectureRows
+    );
+  }
+
+  if (existingCruiseRows) {
+    prefectureTable.replaceChild(cruiseRows, existingCruiseRows);
+  }
+
+  if (existingTotalRows) {
+    existingTotalRows.querySelector(".prefecture").innerHTML = i18next.t(
+      "total"
+    );
+    existingTotalRows.querySelector(".confirmed").innerHTML = totals.confirmed;
+    existingTotalRows.querySelector(".recovered").innerHTML = totals.recovered;
+    existingTotalRows.querySelector(".deceased").innerHTML = totals.deceased;
+  }
+
+  // Remove any loaders
+  prefectureTable.classList.remove("loading");
 };
 
-export default drawPrefectureTable;
+export const drawAllPrefectureTable = (prefectures, totals) => {
+  let allPrefectureTable = document.querySelector("#prefectures-table");
+  drawPrefectureTable(allPrefectureTable, prefectures, totals);
+};
+
+export const drawTopPrefectureTable = (prefectures, totals) => {
+  let topPrefectureTable = document.querySelector("#top-prefectures-table");
+  drawPrefectureTable(topPrefectureTable, prefectures, totals);
+};

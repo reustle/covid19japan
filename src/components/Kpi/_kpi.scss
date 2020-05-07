@@ -1,0 +1,347 @@
+@import 'src/colors';
+@import 'src/type';
+@import 'src/layout';
+
+$box-margin: 5px;
+
+// KPI 5-up layout
+$breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) / 5;
+
+// KPI 4-up layout
+$breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 4;
+$breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
+
+// KPI 3-up layout 
+$breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
+
+// KPI 2-up layout for below $breakpoint-500 (box-width is not fixed, but 
+// relative to screen width.)
+
+#kpi {
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+
+  .kpi-box {
+    background: $color-box-background;
+    box-shadow: $color-box-shadow;
+    border-radius: $box-border-radius;
+    margin: 5px 5px;
+    
+    .label {
+      color: $primary-black;
+      font-size: 0.9rem;
+      font-weight: $font-weight-extra-bold;
+      margin-bottom: 0.5rem;
+    }
+
+    .diff {
+      font-size: 1rem;
+      line-height: 1em;
+      font-weight: $font-weight-bold;
+      display: inline;
+      word-wrap: none;
+    }
+    .value {
+      font-size: 1.4rem;
+      font-weight: $font-weight-extra-bold;
+      display: inline;
+    }
+
+    .chart {
+      padding-bottom: 0;
+
+      svg {
+        width: 100%;  // Width needed for Chrome, Firefox.
+
+        // Height only needed for IE11, but breaks Chrome/Firefox (so sad to need to use this hack)
+        @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+          height: 3em;  
+        }
+      }
+    }
+
+    .description {
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+      line-height: 1.2em;
+      min-height: 1.2rem;
+    }
+
+    .chart-caption {
+      font-size: 0.6rem;
+      line-height: 1em;
+    }
+
+  }
+
+  // Box layouts.
+
+  .kpi-box {
+    padding: 0.8rem;
+    width: $breakpoint-1200-box-width;
+    line-height: 1.3rem;
+    /* height uses rem to ensure it scales to text height sizes */
+    height: 11rem;
+  }
+
+  .kpi-box#kpi-critical-short {
+    display: none;
+    height: 6rem;
+  }
+
+  .kpi-box#kpi-critical {
+    display: none;
+  }
+
+
+  @media (min-width: $breakpoint-1200) {
+    .kpi-box {
+      .chart-caption {
+        margin-top: 0.2rem;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+    .kpi-box {
+      width: $breakpoint-960-box-width;
+      height: 11rem;
+      .chart-caption {
+        margin-top: 0.2rem;
+      }
+    }
+
+    .kpi-box#kpi-tested {
+      height: 7rem;
+      width: $breakpoint-960-box-width-double;
+      display: flex;
+      flex-direction: row;
+      .vitals {
+        width: $breakpoint-960-box-width-double / 2;
+      }
+      .chart-container {
+        width: 200px;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
+    .kpi-box {
+      width: $breakpoint-600-box-width;
+      height: 10rem;
+      .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+      }
+      .diff {
+        font-size: 0.7rem;
+      }
+      .description {
+        font-size: 0.7em;
+      }
+    }
+  }
+
+  @media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
+    .kpi-box {
+      width: 30%; /* 3 in a row */
+      height: 11rem;
+      .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.2rem;
+      }
+      .diff {
+        font-size: 0.7rem;
+        line-height: 1.2em;
+        margin-top: 0.2rem;
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .description {
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  @media (max-width: $breakpoint-500) {
+    .kpi-box {
+      padding: 10px;      
+      width: 45%;  /* 2 in a row */
+      height: 11rem;
+      .label {
+        font-size: 0.8rem;
+        margin-bottom: 0.1rem;
+      }
+      .value {
+        font-size: 1.3rem;
+        display: block;
+      }
+      .diff {
+        font-size: 0.7rem;
+        line-height: 0.9rem;
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .description {
+        font-size: 0.7rem;
+        min-height: 2.2em; /* reserve space for two lines */
+      }
+    }
+  }
+
+  #kpi-confirmed {
+    color: $color-confirmed;
+    .chart-caption {
+      color: $color-confirmed-caption;
+    }
+  }
+
+  #kpi-recovered {
+    color: $color-recovered;
+    .chart-caption {
+      color: $color-recovered-caption;
+    }
+  }
+
+  #kpi-deceased {
+    color: $color-deceased;
+    .chart-caption {
+      color: $color-deceased-caption;
+    }
+  }
+
+  #kpi-critical, #kpi-critical-short {
+    color:  $color-critical;
+    .chart-caption {
+      color: $color-critical-caption;
+    }
+    b {
+      font-weight: $font-weight-bold;
+    }
+  }
+
+  #kpi-tested {
+    color: $color-tested;
+    .chart-caption {
+      color: $color-tested-caption;
+    }
+  }
+
+  #kpi-active {
+    color: $color-active;
+    .chart-caption {
+      color: $color-active-caption;
+    }
+  }
+
+  #kpi-active-chart {
+    path.line {
+      stroke: $color-active;
+      stroke-width: 2px;
+    }
+
+    path.axis-ceiling {
+      stroke: $color-active;
+    }
+
+    text, circle { fill: $color-active; }
+
+    path.area {
+      fill: url(#kpi-active-chart-gradient) $color-active-light !important;
+    }
+  }
+
+
+  #kpi-confirmed-chart {
+    path.line {
+      stroke: $color-confirmed;
+      stroke-width: 2px;
+    }
+
+    path.axis-ceiling {
+      stroke: $color-confirmed;
+    }
+
+    text, circle { fill: $color-confirmed; }
+
+    path.area {
+      fill: url(#kpi-confirmed-chart-gradient) $color-confirmed-light !important;
+    }
+  }
+
+  #kpi-recovered-chart {
+    path.line {
+      stroke: $color-recovered;
+      stroke-width: 2px;
+    }
+
+    path.axis-ceiling {
+      stroke: $color-recovered;
+    }
+
+    text, circle { fill: $color-recovered; }
+
+    path.area {
+      fill: url(#kpi-recovered-chart-gradient) $color-recovered-light !important;
+    }
+  }
+
+  #kpi-critical-chart {
+    path.line {
+      stroke: $color-critical;
+      stroke-width: 2px;
+    }
+
+    path.axis-ceiling {
+      stroke: $color-critical;
+    }
+
+    text, circle { fill: $color-critical; }
+
+    path.area {
+      fill: url(#kpi-critical-chart-gradient) $color-critical-light !important;
+    }
+  }
+
+
+  #kpi-deceased-chart {
+    path.line {
+      stroke: $color-deceased;
+      stroke-width: 2px;
+    }
+
+    path.axis-ceiling {
+      stroke: $color-deceased;
+    }
+
+    text, circle { fill: $color-deceased; }
+
+    path.area {
+      fill: url(#kpi-deceased-chart-gradient) $color-deceased-light !important;
+    }
+  }
+
+  #kpi-tested-chart {
+    path.line {
+      stroke: $color-tested;
+      stroke-width: 2px;
+    }
+    
+    path.axis-ceiling {
+      stroke: $color-tested;
+    }
+
+    text, circle { fill: $color-tested; }
+
+    path.area {
+      fill: url(#kpi-tested-chart-gradient) $color-tested-light !important;
+    }
+  }
+}
+
+#kpi.loading {
+  .chart-caption {
+    display: none;
+  }
+}
