@@ -1,4 +1,4 @@
-import { enUS, ja, es, de, ptBR } from "date-fns/locale";
+import { enUS, ja, es, de, ptBR, id } from "date-fns/locale";
 
 // Add new languages and their emoji flag here. Make sure the array indices line up.
 export const LANGUAGES = ["en", "ja", "es", "de", "pt", "id"];
