@@ -17,37 +17,20 @@ export const calculateTotals = (daily) => {
     tested: 1,
   };
 
-  // If there is an empty cell, fall back to the previous row
-  const pullLatestSumAndDiff = (rowKey, totalKey) => {
-    let latest = {};
-    let dayBefore = {};
-    let twoDaysBefore = {};
-    if (daily.length > 2) {
-      twoDaysBefore = daily[daily.length - 3];
-    }
-    if (daily.length > 1) {
-      dayBefore = daily[daily.length - 2];
-    }
-    if (daily.length > 0) {
-      latest = daily[daily.length - 1];
-    }
+  let latest = daily[daily.length - 1];
+  totals.tested = latest.testedCumulative;
+  totals.critical = latest.criticalCumulative;
+  totals.confirmed = latest.confirmedCumulative;
+  totals.recovered = latest.recoveredCumulative;
+  totals.deceased = latest.deceasedCumulative;
+  totals.active = latest.activeCumulative;
 
-    if (latest && dayBefore && latest[rowKey] && dayBefore[rowKey]) {
-      totals[totalKey] = latest[rowKey];
-      totalsDiff[totalKey] = latest[rowKey] - dayBefore[rowKey];
-    }
-
-    if (totalsDiff[totalKey] <= 0 && twoDaysBefore && twoDaysBefore[rowKey]) {
-      totalsDiff[totalKey] = latest[rowKey] - twoDaysBefore[rowKey];
-    }
-  };
-
-  pullLatestSumAndDiff("testedCumulative", "tested");
-  pullLatestSumAndDiff("criticalCumulative", "critical");
-  pullLatestSumAndDiff("confirmedCumulative", "confirmed");
-  pullLatestSumAndDiff("recoveredCumulative", "recovered");
-  pullLatestSumAndDiff("deceasedCumulative", "deceased");
-  pullLatestSumAndDiff("activeCumulative", "active");
+  totalsDiff.tested = latest.tested;
+  totalsDiff.critical = latest.critical;
+  totalsDiff.confirmed = latest.confirmed;
+  totalsDiff.recovered = latest.recovered;
+  totalsDiff.deceased = latest.deceased;
+  totalsDiff.active = latest.active;
 
   return [totals, totalsDiff];
 };

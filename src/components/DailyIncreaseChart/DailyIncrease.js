@@ -1,7 +1,8 @@
 import * as c3 from "c3";
 import i18next from "i18next";
 import format from "date-fns/format";
-import { enUS, ja } from "date-fns/locale";
+
+import { LOCALES } from "../../i18n";
 
 import {
   COLOR_TESTED,
@@ -11,10 +12,7 @@ import {
 } from "../../data/constants";
 
 const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
-  let dateLocale = enUS;
-  if (lang == "ja") {
-    dateLocale = ja;
-  }
+  const dateLocale = LOCALES[lang];
 
   const cols = {
     Date: ["Date"],
@@ -82,6 +80,7 @@ const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
       x: {
         type: "timeseries",
         tick: {
+          culling: { max: 6 },
           format: (x) => {
             if (isNaN(x)) {
               return "";

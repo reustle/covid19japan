@@ -1,0 +1,20 @@
+// Breakpoints definitions.
+
+$min-page-margins: 20px;
+
+$breakpoint-1200: 1200px;
+$breakpoint-1200-less-than: 1199px;
+$breakpoint-1200-page-width: $breakpoint-1200 - $min-page-margins;
+
+$breakpoint-960: 960px;
+$breakpoint-960-less-than: 959px;
+$breakpoint-960-page-width: $breakpoint-960 - $min-page-margins;
+
+$breakpoint-600: 600px;
+$breakpoint-600-less-than: 599px;
+$breakpoint-600-page-width: $breakpoint-600 - $min-page-margins;
+
+$breakpoint-500: 500px;
+$breakpoint-500-page-width: $breakpoint-500 - $min-page-margins;
+
+$box-border-radius: 10px;

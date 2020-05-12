@@ -1,0 +1,218 @@
+@import "src/type";
+
+.table-wrapper {
+  overflow-x: auto;
+  width: 100%;
+  border-radius: 10px;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+}
+
+table#prefectures-table, table#top-prefectures-table {
+  width: 100%;  
+  border-collapse: separate;
+  border-spacing: 0px;
+  border-radius: 10px;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+
+  th, td {
+    font-size: 0.85rem;
+    line-height: 1.2rem;
+    padding: 0.5rem 1rem;
+    text-align: left;
+    vertical-align: middle;
+    height: 3rem;  
+  }
+
+  th, tbody.total-rows td {
+    font-weight: $font-weight-bold;
+  }
+
+  th {
+    word-wrap: break-word;
+  }
+
+  tbody.prefecture-rows,
+  tbody.pseudo-prefecture-rows,
+  tbody.cruise-rows {
+    tr:nth-child(odd) {
+      background-color: rgb(244,247,248);
+    }  
+  }
+
+  tbody.cruise-header {
+    color: rgba(200, 200, 200, 1);
+  }
+
+  .today {
+    color: $color-increment-today;
+  }
+
+  .yesterday {
+    color: $color-increment-yesterday;
+  }
+
+  .prefecture {
+    text-align: right;
+  }
+}
+
+// Column layouts
+table#prefectures-table {
+  .prefecture {
+    width: 20%;
+  }
+
+  .trend {
+    width: 20%;
+
+    // Not setting the width helps it properly horizontally
+    // layout within the cell. Otherwise it tries to center the image.
+    .trend-svg {
+      height: 40px;
+    }
+  }
+  
+  .delta, .confirmed, .deceased, .recovered {
+    width: 15%;
+  }
+}
+
+table#top-prefectures-table {
+  .prefecture { width: 30% }
+  .trend { width: 30%; }
+  .delta, .confirmed { width: 20%; }
+  .recovered, .deceased {
+    display: none;
+    width: 0;
+  }
+
+  // Not setting the width helps it properly horizontally
+  // layout within the cell. Otherwise it tries to center the image.
+  .trend-svg { height: 30px; }
+
+  tbody.prefecture-rows {
+    // Only display the first 10 rows by default
+    tr:nth-child(n+11) {
+      display: none;
+    }
+  }
+
+  tbody.more-rows {
+    td a#show-more-rows {
+      text-align: right;
+    }
+  }
+}
+
+// Hide top prefecture table when it gets below this breakpoint.
+@media (max-width: $breakpoint-960) {
+  #prefecture-top-table-container {
+    display: none;
+  }
+}
+
+@media (max-width: $breakpoint-960) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th {
+        font-size: 0.8rem;
+      }
+      th.delta {
+        font-size: 0.7rem;
+      }
+      th, td {
+        line-height: 1.1rem;
+        padding: 0.5rem 0.5rem;
+      }
+      .trend .trend-svg {
+        height: 30px;
+      }
+
+    }
+  }
+}
+
+@media (max-width: $breakpoint-600) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th, th.delta {
+        font-size: 0.7rem;
+      }
+      td {
+        font-size: 0.9rem;
+      }
+      .trend {
+        // min-width: 80px;
+        // max-width: 80px;
+        .trend-svg {
+          height: 25px;
+        }
+      }
+      .deceased {
+        display: none;
+      }
+
+    }
+  }
+}
+
+@media (max-width: $breakpoint-500) {
+  #all-prefectures-table-container {
+    #prefectures-table {
+      th, th.delta {
+        font-size: 0.6rem;
+        line-height: 1.05em;
+      }
+      td {
+        font-size: 0.8rem;
+      }
+
+      .trend .trend-svg {
+        height: 25px;
+      }
+      .deceased {
+        display: none;
+      }
+
+    }
+  }
+
+}
+
+
+// Table loading state
+
+table#prefectures-table, 
+table#top-prefectures-table {
+  // Loading state (loaded)
+  tbody.loading-rows {
+    display: none;
+    tr {
+      td { padding: 20px;}
+    }
+  }
+
+  thead,
+  tbody.cruise-header,
+  tbody.more-rows,
+  tbody.total-rows {
+    display: table-row-group;
+  }
+}
+
+
+table#prefectures-table.loading, 
+table#top-prefectures-table.loading {
+  tbody.loading-rows {
+    display: table-row-group;
+  }
+
+  thead,
+  tbody.cruise-header,
+  tbody.more-rows,
+  tbody.total-rows {
+    display: none;
+  }
+}

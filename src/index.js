@@ -28,7 +28,7 @@ import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
-import drawPrefectureTable from "./components/PrefectureTable";
+import PrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
 import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
@@ -160,6 +160,7 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
+        drawKpis(ddb.totals, ddb.totalsDiff);
         trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
         dailyIncreaseChart = drawDailyIncreaseChart(
           ddb.trend,
@@ -208,7 +209,14 @@ const initDataTranslate = () => {
     langPickers.forEach((pick) => {
       pick.addEventListener("click", (e) => {
         e.preventDefault();
-        setLang(e.target.dataset.langPicker);
+        // Go up the DOM tree until we find the langPicker
+        let elem = e.target;
+        while (elem && (!elem.dataset || !elem.dataset.langPicker)) {
+          elem = elem.parentElement;
+        }
+        if (elem) {
+          setLang(elem.dataset.langPicker);
+        }
       });
     });
   }
@@ -266,7 +274,7 @@ const doInitMap = () => {
     PAGE_STATE.map = map;
   } else {
     // Hide the outbreak map.
-    let mapContainer = document.querySelector("#outbreak-map-container");
+    let mapContainer = document.querySelector("#prefecture-map-container");
     if (mapContainer) {
       mapContainer.style.display = "none";
     }
@@ -329,7 +337,8 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      drawPrefectureTable(ddb.prefectures, ddb.totals);
+      PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals);
+      PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }

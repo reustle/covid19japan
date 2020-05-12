@@ -1,320 +1,234 @@
 @import '../node_modules/tippy.js/dist/tippy.css';
 @import '../node_modules/c3/c3.min.css';
 
+@import 'src/colors';
+@import 'src/type';
+@import 'src/layout';
+@import 'src/loader';
 
-$primary-black: #000a12;
-$color-confirmed: rgb(244,67,52);
-$color-recovered: rgb(24,118,211);
-$color-deceased:  rgb(54,72,79);
+// Use border-box override for more simple box-sizing.
+* {
+  box-sizing: border-box;
+}
 
 body {
   margin: 0px;
   font-family: 'Open Sans', helvetica, sans-serif;
-  line-height: 25px;
+  font-size: 16px;
+  line-height: 1.4rem;
   color: $primary-black;
-  font-size: 16px;
+  background: $color-background;
 }
+
+#page, footer  {
+  max-width: $breakpoint-1200-page-width;
+  margin: 0 auto;
+}
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  #page, footer { max-width: $breakpoint-960-page-width; }
+}
+@media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
+  #page, footer { max-width: $breakpoint-600-page-width; }
+}
+@media (min-width: $breakpoint-500) and (max-width: $breakpoint-600-less-than) {
+  #page, footer { max-width: $breakpoint-500-page-width; }
+}
+@media (max-width: $breakpoint-500) {
+  #page, footer { max-width: 90%;  }
+}
+
+// Title styles
+
 h1 {
-  font-size: 48px;
-  font-weight: 800;
+  font-size: 1.8rem;
+  line-height: 1.2em;
+  font-weight: $font-weight-extra-bold;
 }
+
 h4 {
-  font-size: 21px;
-  margin-bottom: 20px;
+  font-size: 1.4rem;
+  line-height: 1.2em;
+  margin-bottom: 1rem;
+  font-weight: $font-weight-bold;
 }
+
 h5 {
-  font-weight: 600;
-  font-size: 16px;
-  margin-bottom: 5px;
+  font-size: 1.1rem;
+  font-weight: $font-weight-bold;
+  margin-bottom: 1rem;
 }
+
 .footnote {
   display: block;
-  font-weight: 400;
-  font-size: 15px;
-  padding-left: 5px;
+  font-size: 0.9em;
   font-style: italic;
   text-align: right;
-  margin: 5px auto 0px auto;
-  max-width: 650px;
+  margin: 5px 10px 0px 10px;
 }
-section, header, footer {
-  padding: 30px 10px;
-  max-width: 650px;
-  margin: 0px auto;
-}
-.center-offset {
-  max-width: 650px;
-  margin: 0px auto;
-  padding: 0px 10px;
-}
+
+
 header {
-  padding-top: 10px;
+  padding: 10px 0;
 
   .toolbar {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    font-size: 12px;
+    font-size: 0.8em;
     
     .lang-picker {
-      display: inline;
+      padding: 0.5rem 1em 0.5em 0;
       a {
+        white-space: nowrap;
         text-decoration: none;
         &.active {
           padding-bottom: 4px;
           border-bottom: solid 2px black;
-          font-weight: 700;
+          font-weight: $font-weight-bold;
         }
       }
     }
+
+    #last-updated {
+      padding: 0.5rem 0 0.5em 1em;
+      flex-grow: 1;
+      font-style: italic;
+      text-align: right;
+    }
+
   }
 }
 
 a, a:hover, a:visited {
   color: #000a12;
 }
-h1 {
-  font-size: 24px;
-}
+
 .text-center {
   text-align: center;
 }
 
-#kpi {
-  padding-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  text-align: center;
+// KPI Numbers.
+@import 'src/components/Kpi/kpi';
 
+// National charts
+#national-charts { width: 100%; }
 
-  >div {
-    width: 30%;
-    margin-bottom: 35px;
-
-    .diff {
-      margin-bottom: 8px;
-      font-weight: 700;
-    }
-    .value {
-      font-size: 28px;
-      font-weight: 800;
-      margin-bottom: 14px;
-    }
-    .label {
-      color: $primary-black;
-      font-weight: 700;
-    }
+@media (min-width: $breakpoint-960) {
+  #national-charts {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    //align-items: stretch;
   }
-
-  #kpi-confirmed {
-    color: $color-confirmed;
+  #trend-chart-container { 
+    margin: 10px;
+    flex: 1;
+    width: 50%;
   }
-  #kpi-recovered {
-    color: $color-recovered;
-  }
-  #kpi-deceased {
-    color: $color-deceased;
-  }
-  #kpi-critical {
-    color:  rgb(114,4,5);
-  }
-  #kpi-tested {
-    color: rgb(164,173,192);
-  }
-  #kpi-active {
-    color: rgb(223,14,31);
-  }
-
-
-  table {
-    width: 100%;
-    border-spacing: 0px 10px;
-  }
-
-  .kpi-metrics {
-    font-size: 24px;
-   font-weight: 800;
-  }
-
-  .kpi-labels {
-    font-size: 18px;
-    font-weight: 700;
+  #daily-increase-container { 
+    margin: 10px;
+    flex: 1;
+    width: 50%;
   }
 }
 
-#map-container {
-  width: 100%;
-  height: 400px;
-  background: #cad2d3;
-  max-width: 650px;
-  margin: 0px auto;
-  border-radius: 6px;
+#daily-increase-chart, #trend-chart {
+  min-height: 320px;
 }
 
-#map-legend {
-  padding-top: 0px;
-  padding-bottom: 10px;
-  font-size: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-
-  > div {
-    display: inline-block;
-  }
-
-  span.one {
-    color: #fdeacb;
-  }
-
-  span.two {
-    color: #fb9b7f;
-  }
-
-  span.three {
-    color: #f44336;
-  }
-
-  span.four {
-    color: #ba000d;
-  }
-
-  span.five {
-    color: #720405;
-  }
-
+#daily-increase-chart-box, #trend-chart-box {
+  padding: 10px 10px 5px 10px;
+  border-radius: $box-border-radius;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
 }
 
-#trend-chart-container,
-#daily-increase-container,
-#prefecture-trajectory-container {
-  //padding: 0px 10px;
+// Prefectural section
 
-  path.c3-line {
-    stroke-width: 2px;
-  }
-  line.c3-xgrid, line.c3-ygrid {
-    stroke-dasharray: 0 0;
-    stroke: #f0f0f0 !important;
-  }
-}
+#prefecture-sections { width: 100%; }
+@media (min-width: $breakpoint-960) {
+  #prefecture-sections {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    //align-items: stretch;
 
-table {
-  width: 100%;
-  border-collapse: separate;
-  border-spacing: 0px;
-  font-size: 14px;
-
-  th, td {
-    padding: 5px 5px;
-    line-height: 1.2em;
-  }
-
-
-  thead {
-    tr {
-      padding-bottom: 10px;
+    #prefecture-map-container { 
+      margin: 10px;
+      flex: 1;
+      width: 50%;
     }
-    th {
-      min-height: 40px;
-      border-bottom: 2px solid rgb(219, 219, 219);
-      text-align: left;
-      font-size: 11px;
-      min-width: 7em;
-      vertical-align: baseline;
-    }
-  }
 
-  tbody {
-    tr:nth-child(even) {
-      background-color: rgb(244,247,248);
+    #prefecture-top-table-container { 
+      margin: 10px;
+      flex: 1;
+      width: 50%;
     }  
-    td {
-      vertical-align: middle;
-      height: 40px;
-      min-height: 40px;
-    }
   }
-
-
-  tbody#total-rows {
-    tr {
-      background-color: rgb(230, 230, 230);
-    }
-    td {
-      height: 30px;
-      padding: 10px;
-    }
-
-    .totals {
-      font-weight: bold;
-    }
-  }
-
-  tbody#cruise-header {
-    color: rgba(200, 200, 200, 1);
-  }
-
-
-  .loading td {
-    text-align: center;
-    padding: 30px 0px;
-  }
-
-  th.prefecture, td.prefecture {
-    padding: 5px;
-    min-width: 60px;
-    max-width: 100px;
-    overflow: hidden;
-    text-align: right;
-  }
-
-  th.trend, td.trend {
-    width: 120px;
-    padding: 0 10px;
-
-    .trend-svg {
-      width: 120px;
-      height: 40px;
-    }
-  }
-
-  td.confirmed {
-    width: 2em;
-  }
-
-  div.increment {
-    display: block;
-  }
-
-  .today {
-    color: $color-confirmed;
-    font-size: 10px;
-  }
-
-  .yesterday {
-    color: rgb(128, 122, 122);
-    font-size: 10px;
-  }
-
-  td.delta {
-    width: 40px;
-    padding-left: 2px;
-    text-align: left;
-  }
-
 }
 
-#helpful-links {
+
+#prefecture-trajectory-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#prefecture-trajectory-chart {
+  min-height: 500px;
+}
+
+#prefecture-trajectory-chart-box {
+  padding: 10px 10px 5px 10px;
+  border-radius: $box-border-radius;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+}
+
+#prefecture-map-contents {
+  width: 100%;
+  border-radius: $box-border-radius;
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+}
+
+
+#all-prefectures-table-container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+
+@import 'src/components/OutbreakMap/map';
+@import 'src/components/PrefectureTable/prefectureTable';
+
+#helpful-links,
+#travel-restrictions, {
+  max-width: 800px;
+  margin: 0 auto;
   li {
     margin-bottom: 20px;
     word-wrap: break-word;
   }
 }
 
+#travel-restrictions {
+  margin-bottom: 5em;
+  .country-link {
+    white-space: nowrap;
+  }
+}
+
+
+#footer-container {
+  background: white;
+  margin: 0;
+}
 
 footer {
-  line-height: 34px;
+  margin: 0 auto;
+  line-height: 2rem;
+  padding: 1rem;
+
   a, a:active {
     color: #1976d2 !important;
   }
@@ -325,31 +239,6 @@ footer {
       width: 50px;
       border-radius: 50%;
     }
-  }
-}
-
-// Loading Icon
-.lds-dual-ring {
-  display: inline-block;
-  width: 24px;
-  height: 24px;
-}
-.lds-dual-ring:after {
-  content: " ";
-  display: block;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  border: 4px solid #f44336;
-  border-color: #f44336 transparent #f44336 transparent;
-  animation: lds-dual-ring 1.6s linear infinite;
-}
-@keyframes lds-dual-ring {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
   }
 }
 
@@ -364,11 +253,18 @@ body {
       display: none;
     }
   }
-}
 
-.table-wrapper {
-  overflow-x: auto;
-  width: 100%
+  // Disable box shadow and grey background for embeds.
+  &.embed {
+    background: $color-embed-background;
+
+    #prefecture-map-contents,
+    #kpi .kpi-box
+     {
+      box-shadow: none;
+      border: $color-box-border;
+    }
+  }
 }
 
 img.emoji {
@@ -378,25 +274,21 @@ img.emoji {
   vertical-align: -0.1em;
 }
 
-.country-link {
-  white-space: nowrap;
+// c3 chart styling
+#trend-chart-container,
+#daily-increase-container,
+#prefecture-trajectory-container {
+  path.c3-line {
+    stroke-width: 2px;
+  }
+  line.c3-xgrid, line.c3-ygrid {
+    stroke-dasharray: 0 0;
+    stroke: #f0f0f0 !important;
+  }
 }
 
-.map-popup {
-  font-size: 12px;
-  margin-bottom: -5px;
-
-  h3 {
-    margin: 0;
+#daily-increase-chart {
+  .c3-axis-x .tick line {
+    display: none;
   }
-
-  span.popup-increment {
-    color: rgb(244,67,54);
-    font-size: 10px;
-  }
-
-}
-
-.popup-content:hover {
-  visibility: hidden;
 }
