@@ -435,6 +435,11 @@
         "name": "westerdam",
         "emoji": "🛳",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "name": "mexico",
+        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c",
+        "emoji": "🇲🇽"
       }
     ],
     "visaRequired": [],
