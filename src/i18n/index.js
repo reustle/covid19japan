@@ -1,10 +1,11 @@
-import { enUS, ja, es, de, ptBR, fr, id, pl, fi, it } from "date-fns/locale";
+import { enUS, ja, es, de, ptBR, fr, id, pl, fi, it, cs } from "date-fns/locale";
 
 // Add new languages and their emoji flag here. Make sure the array indices line up.
 export const LANGUAGES = [
   "en",
   "ja",
   "id",
+  "cs",
   "de",
   "es",
   "fr",
@@ -17,6 +18,7 @@ export const LANGUAGE_NAMES = [
   "English",
   "日本語",
   "Bahasa Indonesia",
+  "Čeština",
   "Deutsch",
   "Español",
   "Français",
@@ -38,6 +40,7 @@ export const LOCALES = {
   pl: pl,
   it: it,
   fi: fi,
+  cs: cs,
 };
 
 const generateExport = () => {
