@@ -32,9 +32,14 @@ const drawPrefectureTrajectoryChart = (
     const cumulativeConfirmedFromMinimum = cumulativeConfirmed.filter(
       (value) => value >= minimumConfirmed
     );
-    t[prefecture.name] = {
-      name: prefecture.name,
-      name_ja: prefecture.name_ja,
+    const translatedName =
+      i18next.getResource(
+        lang,
+        "translation",
+        `prefectures.${prefecture.name}`
+      ) || prefecture.name;
+    t[translatedName] = {
+      name: translatedName,
       confirmed: prefecture.confirmed,
       cumulativeConfirmed: cumulativeConfirmedFromMinimum,
       lastIndex: cumulativeConfirmedFromMinimum.length - 1,
@@ -60,16 +65,6 @@ const drawPrefectureTrajectoryChart = (
     (a, b) => Math.max(a, b.lastIndex),
     0
   );
-
-  const nameMap = trajectoryValues.reduce((result, prefecture) => {
-    result[prefecture.name] =
-      i18next.getResource(
-        lang,
-        "translation",
-        `prefectures.${prefecture.name}`
-      ) || prefecture.name;
-    return result;
-  }, {});
 
   if (prefectureTrajectoryChart) {
     prefectureTrajectoryChart.destroy();
@@ -110,7 +105,6 @@ const drawPrefectureTrajectoryChart = (
           }
         },
       },
-      names: nameMap,
       color: (originalColor, d) => {
         let color = d3.hsl(originalColor);
         if (!d || !d.id) {
