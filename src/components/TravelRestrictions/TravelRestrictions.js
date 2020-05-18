@@ -20,30 +20,40 @@ const travelRestrictionsHelper = (titleId, elementId, countries) => {
     if (title) {
       title.hidden = true;
     }
-  } else {
-    const countryList = [];
-    // Iterate through and render country links
-    countries.sort((a, b) => {
-      a["name"] < b["name"] ? 1 : b["name"] > a["name"] ? -1 : 0;
-    });
-    countries.map((country) => {
-      const name = i18next.t(`countries.${country.name}`);
-      countryList.push(
-        `<a href="${country.link}" class="country-link">${parseEmoji(
-          country.emoji
-        )}${name}</a>`
-      );
-      return true;
-    });
+    return;
+  }
 
-    const banned = document.querySelector(elementId);
-    if (banned) {
-      banned.innerHTML = countryList.join(", ");
-    }
+  const countryList = [];
+  // Iterate through and render country links
+  countries.sort((a, b) => {
+    a["name"] < b["name"] ? 1 : b["name"] > a["name"] ? -1 : 0;
+  });
+
+  const countryData = require("i18n-iso-countries");
+  countryData.registerLocale(
+    require("i18n-iso-countries/langs/" + i18next.language + ".json")
+  );
+
+  countries.map((country) => {
+    //const name = i18next.t(`countries.${country.name}`) + ;
+    const name =
+      countryData.getName(country.code || "", i18next.language) ||
+      i18next.t(`countries.${country.name}`);
+    countryList.push(
+      `<a href="${country.link}" class="country-link">${parseEmoji(
+        country.emoji
+      )}${name}</a>`
+    );
+    return true;
+  });
+
+  const banned = document.querySelector(elementId);
+  if (banned) {
+    banned.innerHTML = countryList.join(", ");
   }
 };
 
-export const drawTravelRestrictions = (ddb) => {
+export const drawTravelRestrictions = ddb => {
   const banned = ddb.travelRestrictions.japan.banned;
   const visaRequired = ddb.travelRestrictions.japan.visaRequired;
   const selfQuarantine = ddb.travelRestrictions.selfQuarantine;
