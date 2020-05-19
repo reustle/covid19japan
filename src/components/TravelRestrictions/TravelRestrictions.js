@@ -13,7 +13,52 @@ const parseEmoji = (emoji) => {
   });
 };
 
-const travelRestrictionsHelper = (titleId, elementId, countries) => {
+/**
+ * Adds the localized "name" property to each country on the array.
+ *
+ * @param {array} countries The countries to loaclize
+ */
+const localizeCountryNames = (countries) => {
+  const countryData = require("i18n-iso-countries");
+  countryData.registerLocale(
+    require("i18n-iso-countries/langs/" + i18next.language + ".json")
+  );
+  countries.forEach((country) => {
+    const countryKey = `countries.${country.code}`;
+    const localizedName = i18next.exists(countryKey)
+      ? i18next.t(countryKey)
+      : countryData.getName(country.code, i18next.language);
+    country.name = localizedName || country.name;
+  });
+};
+
+/**
+ * Creates a list of countries, sorted by name.
+ *
+ * @param {array} countries
+ * @returns The list of countries as HTML.
+ */
+const createCountryList = (countries) => {
+  return countries
+    .sort((a, b) =>
+      a["name"] < b["name"] ? -1 : a["name"] > b["name"] ? 1 : 0
+    )
+    .map((country) => {
+      return `<a href="${country.link}" class="country-link">${parseEmoji(
+        country.emoji
+      )}${country.name}</a>`;
+    })
+    .join(", ");
+};
+
+/**
+ * Populate the travel restrictions element with the list of countries.
+ *
+ * @param {string} titleId The element ID for the title.
+ * @param {string} elementId The element ID for the contents.
+ * @param {array} countries The list of countries for the content.
+ */
+const populateTravelRestriction = (titleId, elementId, countries) => {
   // Hide category title if the category is empty.
   if (!countries || !countries.length) {
     const title = document.querySelector(titleId);
@@ -22,38 +67,17 @@ const travelRestrictionsHelper = (titleId, elementId, countries) => {
     }
     return;
   }
-
-  const countryList = [];
-  // Iterate through and render country links
-  countries.sort((a, b) => {
-    a["name"] < b["name"] ? 1 : b["name"] > a["name"] ? -1 : 0;
-  });
-
-  const countryData = require("i18n-iso-countries");
-  countryData.registerLocale(
-    require("i18n-iso-countries/langs/" + i18next.language + ".json")
-  );
-
-  countries.map((country) => {
-    //const name = i18next.t(`countries.${country.name}`) + ;
-    const name =
-      countryData.getName(country.code || "", i18next.language) ||
-      i18next.t(`countries.${country.name}`);
-    countryList.push(
-      `<a href="${country.link}" class="country-link">${parseEmoji(
-        country.emoji
-      )}${name}</a>`
-    );
-    return true;
-  });
-
+  // Target element for the list
   const banned = document.querySelector(elementId);
-  if (banned) {
-    banned.innerHTML = countryList.join(", ");
+  if (!banned) {
+    return;
   }
+
+  localizeCountryNames(countries);
+  banned.innerHTML = createCountryList(countries);
 };
 
-export const drawTravelRestrictions = ddb => {
+export const drawTravelRestrictions = (ddb) => {
   const banned = ddb.travelRestrictions.japan.banned;
   const visaRequired = ddb.travelRestrictions.japan.visaRequired;
   const selfQuarantine = ddb.travelRestrictions.selfQuarantine;
@@ -71,18 +95,18 @@ export const drawTravelRestrictions = ddb => {
       travelResSection.hidden = true;
     }
   } else {
-    travelRestrictionsHelper("#banned-entry-title", "#banned-entry", banned);
-    travelRestrictionsHelper(
+    populateTravelRestriction("#banned-entry-title", "#banned-entry", banned);
+    populateTravelRestriction(
       "#visa-required-title",
       "#visa-required",
       visaRequired
     );
-    travelRestrictionsHelper(
+    populateTravelRestriction(
       "#self-quarantine-title",
       "#self-quarantine",
       selfQuarantine
     );
-    travelRestrictionsHelper(
+    populateTravelRestriction(
       "#other-restrictions-title",
       "#other-restrictions",
       other
