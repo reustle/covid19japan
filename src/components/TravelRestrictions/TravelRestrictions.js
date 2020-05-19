@@ -40,9 +40,7 @@ const localizeCountryNames = (countries) => {
  */
 const createCountryList = (countries) => {
   return countries
-    .sort((a, b) =>
-      a["name"] < b["name"] ? -1 : a["name"] > b["name"] ? 1 : 0
-    )
+    .sort((a, b) => a["name"].localeCompare(b["name"], i18next.language))
     .map((country) => {
       return `<a href="${country.link}" class="country-link">${parseEmoji(
         country.emoji
