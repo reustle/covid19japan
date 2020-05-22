@@ -524,66 +524,79 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "mx",
         "name": "mexico",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c",
         "emoji": "🇲🇽"
       },
       {
+        "code": "az",
         "name": "azerbaijan",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c",
         "emoji": "🇦🇿"
       },
       {
+        "code": "bs",
         "name": "bahamas",
         "emoji": "🇧🇸",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "cv",
         "name": "caboverde",
         "emoji": "🇨🇻",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "co",
         "name": "colombia",
         "emoji": "🇨🇴",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "gq",
         "name": "equatorialguinea",
         "emoji": "🇬🇶",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "ga",
         "name": "gabon",
         "emoji": "🇬🇦",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "gw",
         "name": "guineabissau",
         "emoji": "🇬🇼",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "hn",
         "name": "honduras",
         "emoji": "🇭🇳",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "kz",
         "name": "kazakhstan",
         "emoji": "🇰🇿",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "mv",
         "name": "maldives",
         "emoji": "🇲🇻",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "st",
         "name": "saotomeandprincipe",
         "emoji": "🇸🇹",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
       },
       {
+        "code": "uy",
         "name": "uruguay",
         "emoji": "🇺🇾",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
