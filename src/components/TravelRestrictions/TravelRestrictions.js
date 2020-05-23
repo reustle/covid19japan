@@ -20,9 +20,13 @@ const parseEmoji = (emoji) => {
  */
 const localizeCountryNames = (countries) => {
   const countryData = require("i18n-iso-countries");
-  countryData.registerLocale(
-    require("i18n-iso-countries/langs/" + i18next.language + ".json")
-  );
+  try {
+    countryData.registerLocale(
+      require("i18n-iso-countries/langs/" + i18next.language + ".json")
+    );
+  }
+  catch (err) {
+  }
   countries.forEach((country) => {
     const countryKey = `countries.${country.code}`;
     const localizedName = i18next.exists(countryKey)
