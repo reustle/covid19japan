@@ -20,18 +20,24 @@ const parseEmoji = (emoji) => {
  */
 const localizeCountryNames = (countries) => {
   const countryData = require("i18n-iso-countries");
+  var language = i18next.language;
   try {
     countryData.registerLocale(
-      require("i18n-iso-countries/langs/" + i18next.language + ".json")
+      require("i18n-iso-countries/langs/" + language + ".json")
     );
   }
   catch (err) {
+    // Fall back to English
+    language = "en";
+    countryData.registerLocale(
+      require("i18n-iso-countries/langs/en.json")
+    );
   }
   countries.forEach((country) => {
     const countryKey = `countries.${country.code}`;
     const localizedName = i18next.exists(countryKey)
       ? i18next.t(countryKey)
-      : countryData.getName(country.code, i18next.language);
+      : countryData.getName(country.code, language);
     country.name = localizedName || country.name;
   });
 };
