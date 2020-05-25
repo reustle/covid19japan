@@ -1,5 +1,6 @@
 {
   "covid-19-tracker": "Japanin COVID-19 koronavirus-seuranta",
+  "languages": "Kielet:",
   "last-updated": "Päivitetty viimeksi:",
   "kpi-active": "Aktiivisia",
   "kpi-active-tooltip": "Varmistetut tapaukset pois lukien toipuneet ja kuolleet",
