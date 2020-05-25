@@ -25,13 +25,10 @@ const localizeCountryNames = (countries) => {
     countryData.registerLocale(
       require("i18n-iso-countries/langs/" + language + ".json")
     );
-  }
-  catch (err) {
+  } catch (err) {
     // Fall back to English
     language = "en";
-    countryData.registerLocale(
-      require("i18n-iso-countries/langs/en.json")
-    );
+    countryData.registerLocale(require("i18n-iso-countries/langs/en.json"));
   }
   countries.forEach((country) => {
     const countryKey = `countries.${country.code}`;
