@@ -600,6 +600,72 @@
         "name": "uruguay",
         "emoji": "🇺🇾",
         "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+      },
+      {
+        "code": "af",
+        "name": "afghanistan",
+        "emoji": "🇦🇫",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "ar",
+        "name": "argentina",
+        "emoji": "🇦🇷",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "in",
+        "name": "india",
+        "emoji": "🇮🇳",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "sv",
+        "name": "el salvador",
+        "emoji": "🇸🇻",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "gh",
+        "name": "ghana",
+        "emoji": "🇬🇭",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "gn",
+        "name": "guinea",
+        "emoji": "🇬🇳",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "kg",
+        "name": "kyrgyzstan",
+        "emoji": "🇰🇬",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "tj",
+        "name": "tajikistan",
+        "emoji": "🇹🇯",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "pk",
+        "name": "pakistan",
+        "emoji": "🇵🇰",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "bd",
+        "name": "bangladesh",
+        "emoji": "🇧🇩",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
+      },
+      {
+        "code": "za",
+        "name": "south africa",
+        "emoji": "🇿🇦",
+        "link": "https://www.japantimes.co.jp/news/2020/05/25/national/japan-expand-entry-ban-india-10-other-nations/"
       }
     ],
     "visaRequired": [],
