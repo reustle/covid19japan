@@ -20,6 +20,12 @@
         "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
       },
       {
+        "code": "am",
+        "name": "armenia",
+        "emoji": "🇦🇲",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "au",
         "name": "australia",
         "emoji": "🇦🇺",
