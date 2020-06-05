@@ -15,6 +15,7 @@ import {
 
 const drawTrendChart = (sheetTrend, trendChart, lang) => {
   const dateLocale = LOCALES[lang];
+  const formatNumber = new Intl.NumberFormat(lang).format;
 
   const cols = {
     Date: ["Date"],
@@ -132,6 +133,7 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
             18000,
             20000,
           ],
+          format: formatNumber,
         },
       },
     },
@@ -140,11 +142,12 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
         value: (value, ratio, id, index) => {
           if (index && cols[id][index]) {
             const diff = parseInt(value) - cols[id][index];
-            return `${value} (${diff >= 0 ? "+" : ""}${diff}) ${
+            const sign = diff >= 0 ? "+" : "";
+            return `${formatNumber(value)} (${sign}${formatNumber(diff)}) ${
               index === cols.Date.length - 2 ? i18next.t("provisional") : ""
             }`;
           } else {
-            return value;
+            return formatNumber(value);
           }
         },
       },

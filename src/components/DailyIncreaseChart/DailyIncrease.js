@@ -13,6 +13,7 @@ import {
 
 const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
   const dateLocale = LOCALES[lang];
+  const formatNumber = new Intl.NumberFormat(lang).format;
 
   const cols = {
     Date: ["Date"],
@@ -96,13 +97,14 @@ const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
       y: {
         tick: {
           values: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+          format: formatNumber,
         },
       },
     },
     tooltip: {
       format: {
         value: (value, ratio, id, index) => {
-          return `${value} ${
+          return `${formatNumber(value)} ${
             index === cols.Date.length - 2 ? i18next.t("provisional") : ""
           }`;
         },

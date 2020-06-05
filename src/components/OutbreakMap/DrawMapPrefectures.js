@@ -18,7 +18,9 @@ let pageDrawCount = 0;
  * drawMapPrefectures
  * @param {*} pageDraws - number of redraws to screen
  */
-const drawMapPrefectures = (ddb, map) => {
+const drawMapPrefectures = (ddb, map, lang) => {
+  const formatNumber = new Intl.NumberFormat(lang).format;
+
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
@@ -156,14 +158,16 @@ const drawMapPrefectures = (ddb, map) => {
       )}</h3>
           <span data-i18n="confirmed">${i18next.t(
             "confirmed"
-          )}</span>: ${confirmed} ${popupIncrementSpan}<br />
+          )}</span>: ${formatNumber(confirmed)} ${popupIncrementSpan}<br />
           <span data-i18n="recovered">${i18next.t(
             "recovered"
-          )}</span>: ${recovered}<br />
+          )}</span>: ${formatNumber(recovered)}<br />
           <span data-i18n="deaths">${i18next.t(
             "deaths"
-          )}</span>: ${deaths}<br />
-          <span data-i18n="active">${i18next.t("active")}</span>: ${active}
+          )}</span>: ${formatNumber(deaths)}<br />
+          <span data-i18n="active">${i18next.t(
+            "active"
+          )}</span>: ${formatNumber(active)}
           </div>`;
       popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
     } else {
