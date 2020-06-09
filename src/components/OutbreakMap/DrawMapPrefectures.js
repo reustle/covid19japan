@@ -37,7 +37,7 @@ const drawMapPrefectures = (ddb, map, lang) => {
     var classIndex = 0;
     var previousBoundary = 1;
     var html = "";
-    for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort()) {
+    for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort((a, b) => a - b)) {
       let span = isFinite(boundary)
         ? i18next.t("cases-range", {
             from: formatNumber(previousBoundary),
