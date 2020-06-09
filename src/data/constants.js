@@ -21,6 +21,15 @@ export const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
 export const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
 export const PREFECTURE_PAINT = ["match", ["get", "NAME_1"]];
 
+export const MAP_COLOR_BOUNDARIES = {
+  50: COLOR_YELLOW,
+  100: COLOR_ORANGE,
+  500: COLOR_RED,
+  1000: COLOR_DARK_RED,
+  Infinity: COLOR_DARK_BURGUNDY,
+};
+export const LEGEND_CLASSES = ["one", "two", "three", "four", "five"];
+
 export const LANG_CONFIG = {
   fallbackLng: "en",
   lowerCaseLng: true,
