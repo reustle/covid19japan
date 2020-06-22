@@ -1,7 +1,7 @@
 {
   "covid-19-tracker": "Japan COVID-19 Coronavirus Tracker",
   "languages": "Idiomas",
-  "last-updated": "Ultima actualización:",
+  "last-updated": "Última actualización:",
   "kpi-active": "Activo",
   "kpi-active-tooltip": "Casos confirmados menos recuperados y fallecidos",
   "kpi-critical": "En condición crítica",
