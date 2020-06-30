@@ -11,6 +11,7 @@
   "kpi-recovered": "回復者数",
   "covid-19": "ウイルス",
   "outbreak-map": "感染マップ",
+  "cases-none": "0件",
   "cases-range": "{{from}}〜{{to}}件",
   "cases-last": "{{from}}〜件",
   "outbreak-spread-trend": "ウイルス感染の拡散傾向",

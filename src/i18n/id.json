@@ -11,6 +11,7 @@
   "kpi-recovered": "Sembuh",
   "covid-19": "COVID-19",
   "outbreak-map": "Peta Sebaran Wabah",
+  "cases-none": "0 kasus",
   "cases-range": "{{from}}-{{to}} kasus",
   "cases-last": "{{from}}+ kasus",
   "outbreak-spread-trend": "Tren Penyebaran Wabah",

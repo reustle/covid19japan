@@ -33,18 +33,27 @@ const drawMapPrefectures = (ddb, map, lang) => {
     }
   }
 
+  const getLegendLabel = (boundary, previousBoundary) => {
+    if (previousBoundary === 0) {
+      return i18next.t("cases-none");
+    }
+    if (!isFinite(boundary)) {
+      return i18next.t("cases-last", { from: formatNumber(previousBoundary) });
+    }
+    return i18next.t("cases-range", {
+      from: formatNumber(previousBoundary),
+      to: formatNumber(boundary - 1),
+    });
+  };
   const drawLegend = () => {
     var classIndex = 0;
-    var previousBoundary = 1;
+    var previousBoundary = 0;
     var html = "";
-    for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort((a, b) => a - b)) {
-      let span = isFinite(boundary)
-        ? i18next.t("cases-range", {
-            from: formatNumber(previousBoundary),
-            to: formatNumber(boundary - 1),
-          })
-        : i18next.t("cases-last", { from: formatNumber(previousBoundary) });
-      html += `<div><span class="${LEGEND_CLASSES[classIndex]}">▉</span> ${span}</div>`;
+    for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort(
+      (a, b) => a - b
+    )) {
+      let label = getLegendLabel(boundary, previousBoundary);
+      html += `<div><span class="${LEGEND_CLASSES[classIndex]}">▉</span> ${label}</div>`;
 
       classIndex = (classIndex + 1) % LEGEND_CLASSES.length;
       previousBoundary = boundary;

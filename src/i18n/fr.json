@@ -10,6 +10,7 @@
   "kpi-recovered": "Guérisons",
   "covid-19": "COVID-19",
   "outbreak-map": "Carte de l'épidémie",
+  "cases-none": "0 cas",
   "cases-range": "{{from}}-{{to}} cas",
   "cases-last": "{{from}}+ cas",
   "outbreak-spread-trend": "Nombre total de cas",

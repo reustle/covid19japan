@@ -10,6 +10,7 @@
   "kpi-recovered": "Uzdravených",
   "covid-19": "COVID-19",
   "outbreak-map": "Mapa rozšíření",
+  "cases-none": "0 případů",
   "cases-range": "{{from}}-{{to}} případů",
   "cases-last": "{{from}}+ případů",
   "outbreak-spread-trend": "Celkový Počet Případů",

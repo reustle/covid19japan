@@ -11,6 +11,7 @@
   "kpi-recovered": "Recovered",
   "covid-19": "COVID-19",
   "outbreak-map": "Outbreak Map",
+  "cases-none": "No cases",
   "cases-range": "{{from}}-{{to}} cases",
   "cases-last": "{{from}}+ cases",
   "outbreak-spread-trend": "Total Cases",
