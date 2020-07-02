@@ -12,6 +12,7 @@ import {
   cs,
   bn,
   hi,
+  uk,
 } from "date-fns/locale";
 
 // Add new languages and their emoji flag here. Make sure the array indices line up.
@@ -29,6 +30,7 @@ export const LANGUAGES = [
   "fi",
   "bn",
   "hi",
+  "uk",
 ];
 export const LANGUAGE_NAMES = [
   "English",
@@ -44,6 +46,7 @@ export const LANGUAGE_NAMES = [
   "Suomi",
   "বাংলা",
   "हिंदी",
+  "Українська",
 ];
 
 // Add locales for date-fns here. Make sure the keys match the languages in LANGUAGES.
@@ -61,6 +64,7 @@ export const LOCALES = {
   cs: cs,
   bn: bn,
   hi: hi,
+  uk: uk,
 };
 
 const generateExport = () => {
