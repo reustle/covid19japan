@@ -40,7 +40,7 @@ const drawTrendChart = (
     cols.Confirmed.push(row.confirmedCumulative);
     cols.Critical.push(row.criticalCumulative);
     cols.Deceased.push(row.deceasedCumulative);
-    cols.Recovered.push(row.recoveredCumulative);
+    cols.Recovered.push(row.recovered);
     cols.Active.push(
       row.confirmedCumulative - row.deceasedCumulative - row.recoveredCumulative
     );
@@ -57,56 +57,56 @@ const drawTrendChart = (
     bindto: "#trend-chart",
     data: {
       x: "Date",
-      color: (color, d) => {
-        if (d && d.index === cols.Date.length - 2) {
-          const newColor = d3_color(color);
+      columns: [cols.Date, cols.Active, cols.Recovered],
+      colors: {
+        Active: (color, d) => {
+          if (d && d.index === cols.Date.length - 2) {
+            const newColor = d3_color(COLOR_ACTIVE);
+            newColor.opacity = 0.6;
+            return newColor;
+          } else {
+            return COLOR_ACTIVE;
+          }
+        },
+        Recovered: (color, d) => {
+          const newColor = d3_color(COLOR_RECOVERED);
           newColor.opacity = 0.6;
           return newColor;
-        } else {
-          return color;
-        }
+        },
       },
-      columns: [
-        cols.Date,
-        cols.Confirmed,
-        cols.Active,
-        cols.Recovered,
-        cols.Deceased,
-        //cols.Tested
-      ],
+      type: "line",
+      types: {
+        Active: "spline",
+        Recovered: "bar",
+      },
+      axes: {
+        Active: "y",
+        Recovered: "y2",
+      },
       names: {
-        Confirmed: i18next.t("kpi-confirmed"),
-        Active: i18next.t("kpi-active"),
-        Recovered: i18next.t("kpi-recovered"),
-        Deceased: i18next.t("kpi-deceased"),
+        Active: i18next.t("active-trend-total-active"),
+        Recovered: i18next.t("active-trend-daily-recovery"),
       },
       regions: {
-        [cols.Confirmed[0]]: [
+        Active: [{ start: cols.Date[cols.Date.length - 2], style: "dashed" }],
+        Recovered: [
           { start: cols.Date[cols.Date.length - 2], style: "dashed" },
         ],
-        [cols.Active[0]]: [
-          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
-        ],
-        [cols.Recovered[0]]: [
-          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
-        ],
-        [cols.Deceased[0]]: [
-          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
-        ],
-        //[cols.Tested[0]]: [{'start': cols.Date[cols.Date.length-2], 'style':'dashed'}],
       },
-    },
-    color: {
-      pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED],
     },
     point: {
       r: 1,
+    },
+    bar: {
+      width: {
+        ratio: 0.8,
+      },
     },
     axis: {
       x: {
         type: "timeseries",
         tick: {
-          count: 6,
+          culling: { max: 6 },
           format: (x) => {
             if (isNaN(x)) {
               return "";
@@ -126,18 +126,17 @@ const drawTrendChart = (
           values: scale.ticks,
         },
       },
+      y2: {
+        show: true,
+        tick: {
+          values: [300, 600, 900, 1200, 1500],
+        },
+      },
     },
     tooltip: {
       format: {
         value: (value, ratio, id, index) => {
-          if (index && cols[id][index]) {
-            const diff = parseInt(value) - cols[id][index];
-            return `${value} (${diff >= 0 ? "+" : ""}${diff}) ${
-              index === cols.Date.length - 2 ? i18next.t("provisional") : ""
-            }`;
-          } else {
-            return value;
-          }
+          return value;
         },
       },
     },

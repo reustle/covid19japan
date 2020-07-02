@@ -1,6 +1,7 @@
 import * as c3 from "c3";
 import i18next from "i18next";
 import format from "date-fns/format";
+import { color as d3_color } from "d3-color";
 
 import { LOCALES } from "../../i18n";
 import { niceScale } from "../../data/scaling";
@@ -55,9 +56,13 @@ const drawDailyIncreaseChart = (
       colors: {
         Confirmed: (color, d) => {
           if (d && d.index === cols.Date.length - 2) {
-            return COLOR_TESTED_DAILY;
+            const newColor = d3_color(COLOR_CONFIRMED);
+            newColor.opacity = 0.2;
+            return newColor;
           } else {
-            return COLOR_TESTED;
+            const newColor = d3_color(COLOR_CONFIRMED);
+            newColor.opacity = 0.4;
+            return newColor;
           }
         },
         ConfirmedAvg: (color, d) => {
