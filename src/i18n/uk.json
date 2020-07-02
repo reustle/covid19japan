@@ -10,7 +10,7 @@
   "kpi-confirmed": "Підтверджено",
   "kpi-recovered": "Одужали",
   "covid-19": "COVID-19",
-  "outbreak-map": "Мапа Спалахів Інфекції",
+  "outbreak-map": "Мапа Осередків Інфекції",
   "cases": "випадків",
   "outbreak-spread-trend": "Всього Випадків",
   "new-cases-by-day": "Підтверджені Випадки за Добу",
@@ -50,7 +50,7 @@
   "deceased-percentage": "{{percent}}% від загальних випадків",
   "tested-percentage": "{{percent}}% результатів позитивні.",
   "pseudo-prefectures": {
-    "port-of-entry": "Порт Заходу",
+    "port-of-entry": "Прикордонний контроль",
     "unspecified": "Невизначено",
     "diamond-princess": "Круїзне Судно «Diamond Princess»",
     "nagasaki-cruise": "Круїзне Судно «Nagasaki»"
