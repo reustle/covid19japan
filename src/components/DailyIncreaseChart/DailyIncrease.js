@@ -7,11 +7,16 @@ import { LOCALES } from "../../i18n";
 import {
   COLOR_TESTED,
   COLOR_TESTED_DAILY,
-  CHART_TIME_PERIOD,
+  DEFAULT_CHART_TIME_PERIOD,
   COLOR_CONFIRMED,
 } from "../../data/constants";
 
-const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
+const drawDailyIncreaseChart = (
+  trends,
+  dailyIncreaseChart,
+  lang,
+  timePeriod = DEFAULT_CHART_TIME_PERIOD
+) => {
   const dateLocale = LOCALES[lang];
   const formatNumber = new Intl.NumberFormat(lang).format;
 
@@ -21,7 +26,9 @@ const drawDailyIncreaseChart = (trends, dailyIncreaseChart, lang) => {
     ConfirmedAvg: ["ConfirmedAvg"],
   };
 
-  for (let i = trends.length - CHART_TIME_PERIOD; i < trends.length; i++) {
+  const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
+  console.log(startIndex, timePeriod);
+  for (let i = startIndex; i < trends.length; i++) {
     const row = trends[i];
 
     cols.Date.push(row.date);

@@ -46,6 +46,7 @@ import {
   JSON_PATH,
   SUPPORTED_LANGS,
   DDB_COMMON,
+  DEFAULT_CHART_TIME_PERIOD,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
@@ -55,6 +56,7 @@ import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 //
 
 let LANG = "en";
+let CHART_TIME_PERIOD = DEFAULT_CHART_TIME_PERIOD;
 
 const PAGE_STATE = {
   map: null,
@@ -162,11 +164,17 @@ const setLang = (lng) => {
       if (ddb.isLoaded()) {
         drawKpis(ddb.totals, ddb.totalsDiff, LANG);
         drawPageTitleCount(ddb.totals.confirmed, LANG);
-        trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+        trendChart = drawTrendChart(
+          ddb.trend,
+          trendChart,
+          LANG,
+          CHART_TIME_PERIOD
+        );
         dailyIncreaseChart = drawDailyIncreaseChart(
           ddb.trend,
           dailyIncreaseChart,
-          LANG
+          LANG,
+          CHART_TIME_PERIOD
         );
         prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
           ddb.prefectures,
@@ -330,13 +338,19 @@ document.addEventListener("covid19japan-redraw", () => {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
     callIfUpdated(() => {
-      trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+      trendChart = drawTrendChart(
+        ddb.trend,
+        trendChart,
+        LANG,
+        CHART_TIME_PERIOD
+      );
     });
     callIfUpdated(() => {
       dailyIncreaseChart = drawDailyIncreaseChart(
         ddb.trend,
         dailyIncreaseChart,
-        LANG
+        LANG,
+        CHART_TIME_PERIOD
       );
     });
     callIfUpdated(() => {
