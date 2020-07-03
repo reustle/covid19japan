@@ -30,7 +30,6 @@ const drawDailyIncreaseChart = (
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
   for (let i = startIndex; i < trends.length; i++) {
     const row = trends[i];
-
     cols.Date.push(row.date);
     cols.Confirmed.push(row.confirmed);
     if (i < trends.length - 1) {

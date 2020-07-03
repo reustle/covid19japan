@@ -47,7 +47,8 @@ const drawTrendChart = (
     cols.Tested.push(row.testedCumulative);
   }
 
-  const scale = niceScale(cols.Confirmed.slice(1), 5);
+  const activeScale = niceScale(cols.Active.slice(1), 5);
+  const recoveredScale = niceScale(cols.Recovered.slice(1), 5);
 
   if (trendChart) {
     trendChart.destroy();
@@ -121,15 +122,19 @@ const drawTrendChart = (
       },
       y: {
         padding: 0,
-        max: scale.max,
+        min: 0,
+        max: activeScale.max,
         tick: {
-          values: scale.ticks,
+          values: activeScale.ticks,
         },
       },
       y2: {
         show: true,
+        padding: 0,
+        min: 0,
+        max: recoveredScale.max,
         tick: {
-          values: [300, 600, 900, 1200, 1500],
+          values: recoveredScale.ticks,
         },
       },
     },

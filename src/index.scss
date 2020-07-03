@@ -300,6 +300,37 @@ img.emoji {
   }
 }
 
+#trend-chart {
+  .c3-axis-x {
+    path.domain, .tick line {
+      stroke: $color-increment-yesterday;
+      stroke-width: 2px;
+    }
+  }
+
+  .c3-axis-y {
+    path.domain, .tick line {
+      stroke: $color-active;
+      stroke-width: 2px;
+    }
+    text {
+      fill: $color-active;
+    }
+  }
+  .c3-axis-y2 {
+    path.domain, .tick line {
+      stroke: $color-recovered-caption;
+      stroke-width: 2px;
+    }
+    text {
+      fill: $color-recovered-caption;
+    }
+  }
+  .c3-axis-x .tick line {
+    display: none;
+  }
+}
+
 #daily-increase-chart {
   .c3-axis-x .tick line {
     display: none;
