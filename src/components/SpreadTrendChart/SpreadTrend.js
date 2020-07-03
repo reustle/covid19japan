@@ -10,10 +10,15 @@ import {
   COLOR_CONFIRMED,
   COLOR_RECOVERED,
   COLOR_DECEASED,
-  CHART_TIME_PERIOD,
+  DEFAULT_CHART_TIME_PERIOD,
 } from "../../data/constants";
 
-const drawTrendChart = (sheetTrend, trendChart, lang) => {
+const drawTrendChart = (
+  sheetTrend,
+  trendChart,
+  lang,
+  timePeriod = DEFAULT_CHART_TIME_PERIOD
+) => {
   const dateLocale = LOCALES[lang];
 
   const cols = {
@@ -26,11 +31,8 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
     Tested: ["Tested"],
   };
 
-  for (
-    let i = sheetTrend.length - CHART_TIME_PERIOD;
-    i < sheetTrend.length;
-    i++
-  ) {
+  const startIndex = timePeriod > 0 ? sheetTrend.length - timePeriod : 0;
+  for (let i = startIndex; i < sheetTrend.length; i++) {
     const row = sheetTrend[i];
 
     cols.Date.push(row.date);
