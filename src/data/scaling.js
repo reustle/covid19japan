@@ -1,4 +1,12 @@
 // Returns a nicely rounded scale based on the number of ticks.
+
+// Polyfill for log10.
+Math.log10 =
+  Math.log10 ||
+  function (x) {
+    return Math.log(x) * Math.LOG10E;
+  };
+
 export const niceScale = (values, tickCount) => {
   let max = Math.max(...values);
   let ticks = [];
