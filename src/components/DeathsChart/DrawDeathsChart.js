@@ -14,54 +14,49 @@ import {
   DEFAULT_CHART_TIME_PERIOD,
 } from "../../data/constants";
 
-const drawTrendChart = (
+const drawDeathsChart = (
+  container,
   sheetTrend,
-  trendChart,
+  existingChart,
   lang,
   timePeriod = DEFAULT_CHART_TIME_PERIOD
 ) => {
   const dateLocale = LOCALES[lang];
 
-  const cols = {
-    Date: ["Date"],
-    Confirmed: ["Confirmed"],
-    Active: ["Active"],
-    Critical: ["Critical"],
-    Deceased: ["Deceased"],
-    Recovered: ["Recovered"],
-    Tested: ["Tested"],
+  const datasets = {
+    Date: [],
+    Deceased: [],
+    Active: [],
   };
 
   const startIndex = timePeriod > 0 ? sheetTrend.length - timePeriod : 0;
   for (let i = startIndex; i < sheetTrend.length; i++) {
     const row = sheetTrend[i];
 
-    cols.Date.push(row.date);
-    cols.Confirmed.push(row.confirmedCumulative);
-    cols.Critical.push(row.criticalCumulative);
-    cols.Deceased.push(row.deceasedCumulative);
-    cols.Recovered.push(row.recovered);
-    cols.Active.push(
-      row.confirmedCumulative - row.deceasedCumulative - row.recoveredCumulative
-    );
-    cols.Tested.push(row.testedCumulative);
+    datasets.Date.push(row.date);
+    datasets.Deceased.push(row.deceasedAvg7d);
+    datasets.Active.push(row.activeCumulative);
   }
 
-  const activeScale = niceScale(cols.Active.slice(1), 5);
-  const recoveredScale = niceScale(cols.Recovered.slice(1), 5);
+  const activeScale = niceScale(datasets.Active, 5);
+  const deceasedScale = niceScale(datasets.Deceased, 5);
 
-  if (trendChart) {
-    trendChart.destroy();
+  if (existingChart) {
+    existingChart.destroy();
   }
 
-  trendChart = c3.generate({
-    bindto: "#trend-chart",
+  return c3.generate({
+    bindto: container,
     data: {
       x: "Date",
-      columns: [cols.Date, cols.Active, cols.Recovered],
+      columns: [
+        ["Date"].concat(datasets.Date),
+        ["Deaths"].concat(datasets.Deceased),
+        ["Active"].concat(datasets.Active),
+      ],
       colors: {
         Active: (color, d) => {
-          if (d && d.index === cols.Date.length - 2) {
+          if (d && d.index === datasets.Date.length - 2) {
             const newColor = d3_color(COLOR_ACTIVE);
             newColor.opacity = 0.6;
             return newColor;
@@ -69,29 +64,27 @@ const drawTrendChart = (
             return COLOR_ACTIVE;
           }
         },
-        Recovered: (color, d) => {
-          const newColor = d3_color(COLOR_RECOVERED);
-          newColor.opacity = 0.6;
-          return newColor;
+        Deaths: (color, d) => {
+          return COLOR_DECEASED;
         },
       },
       type: "line",
       types: {
+        Deaths: "spline",
         Active: "spline",
-        Recovered: "bar",
       },
       axes: {
-        Active: "y",
-        Recovered: "y2",
+        Deaths: "y",
+        Active: "y2",
       },
       names: {
-        Active: i18next.t("active-trend-total-active"),
-        Recovered: i18next.t("active-trend-daily-recovery"),
+        Deaths: i18next.t("deaths-chart-deaths"),
+        Active: i18next.t("deaths-chart-active"),
       },
       regions: {
-        Active: [{ start: cols.Date[cols.Date.length - 2], style: "dashed" }],
-        Recovered: [
-          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
+        Active: [{ start: datasets.Date[0], style: "dashed" }],
+        Deaths: [
+          { start: datasets.Date[datasets.Date.length - 2], style: "dashed" },
         ],
       },
     },
@@ -123,18 +116,18 @@ const drawTrendChart = (
       y: {
         padding: 0,
         min: 0,
-        max: activeScale.max,
+        max: deceasedScale.max,
         tick: {
-          values: activeScale.ticks,
+          values: deceasedScale.ticks,
         },
       },
       y2: {
         show: true,
         padding: 0,
         min: 0,
-        max: recoveredScale.max,
+        max: activeScale.max,
         tick: {
-          values: recoveredScale.ticks,
+          values: activeScale.ticks,
         },
       },
     },
@@ -155,12 +148,11 @@ const drawTrendChart = (
     },
     padding: {
       left: 40,
-      right: 10,
+      right: 40,
       top: 0,
       bottom: 0,
     },
   });
-  return trendChart;
 };
 
-export default drawTrendChart;
+export default drawDeathsChart;

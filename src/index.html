@@ -179,31 +179,56 @@
     </section>
 
     <section id="national-charts" class="embed-hide">
-      <section id="trend-chart-container" class="embed-hide">
-        <h4 data-i18n="active-trend">Total Active Cases</h4>
+      <section id="total-cases-container" class="embed-hide">
+        <h4 data-i18n="total-cases">Total Cases</h4>
+        <div id="total-cases-chart-box">
+          <div id="total-cases-chart">
+              <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
         <p class="chart-description" data-i18n="active-trend-explanation">
           Active patients are those that had tested positive and not yet recovered. 
           Recovered cases are those who tested negative and/or past the observation period,
           hence discharged from hospital or home quarantine.
         </p>
-        <div id="trend-chart-box">
-          <div id="trend-chart">
-              <div class="loader"><div class="lds-dual-ring"></div></div>
-          </div>
-        </div>
       </section>
     
       <section id="daily-increase-container" class="embed-hide">
-        <h4 data-i18n="new-cases-by-day">Confirmed Cases</h4>
-        <p class="chart-description" data-i18n="daily-increase-explanation">
-          Daily increase in patients testing positive, as well as a rolling 7-day
-          average that denotes the weekly trend.
-        </p>
+        <h4 data-i18n="new-cases-by-day">Daily Confirmed Cases</h4>
         <div id="daily-increase-chart-box">
           <div id="daily-increase-chart">
             <div class="loader"><div class="lds-dual-ring"></div></div>
           </div>
         </div>
+        <p class="chart-description" data-i18n="daily-increase-explanation">
+          Daily increase in patients testing positive, as well as a rolling 7-day
+          average that denotes the weekly trend.
+        </p>
+      </section>
+
+      <section id="active-cases-container" class="embed-hide">
+        <h4 data-i18n="active-cases">Active Cases and Recoveries</h4>
+        <div id="active-cases-chart-box">
+          <div id="active-cases-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+        <p class="chart-description" data-i18n="active-cases-explanation">
+          Observing active cases along with daily recoveries show whether
+          hospital capacity is at risk.
+        </p>
+      </section>
+
+      <section id="deaths-container" class="embed-hide">
+        <h4 data-i18n="deaths-chart">Daily Deaths and Active Cases</h4>
+        <div id="deaths-chart-box">
+          <div id="deaths-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+        <p class="chart-description" data-i18n="deaths-explanation">
+          
+        </p>
       </section>
     </section>
 

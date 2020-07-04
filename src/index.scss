@@ -124,32 +124,46 @@ a, a:hover, a:visited {
 @import 'src/components/Kpi/kpi';
 
 // National charts
-#national-charts { width: 100%; }
+#national-charts { 
+  width: 100%; 
+}
 
 @media (min-width: $breakpoint-960) {
   #national-charts {
     display: flex;
     flex-direction: row;
-    flex-wrap: nowrap;
-    //align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+    align-content: flex-start;
   }
-  #trend-chart-container { 
+  #total-cases-container,
+  #daily-increase-container,
+  #active-cases-container,
+  #deaths-container { 
     margin: 10px;
-    flex: 1;
-    width: 50%;
-  }
-  #daily-increase-container { 
-    margin: 10px;
-    flex: 1;
-    width: 50%;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 440px;
+    max-width: 440px;
   }
 }
 
-#daily-increase-chart, #trend-chart {
+@media (min-width: $breakpoint-1200) {
+  #total-cases-container,
+  #daily-increase-container,
+  #active-cases-container,
+  #deaths-container { 
+    width: 570px;
+    max-width: 570px;
+  }
+}
+
+#daily-increase-chart, #total-cases-chart, #active-cases-chart, #deaths-chart {
   min-height: 320px;
 }
 
-#daily-increase-chart-box, #trend-chart-box {
+#daily-increase-chart-box, #total-cases-chart-box, #active-cases-chart-box, #deaths-chart-box {
   padding: 20px 10px 5px 10px;
   border-radius: $box-border-radius;
   background: $color-box-background;
@@ -288,8 +302,10 @@ img.emoji {
 }
 
 // c3 chart styling
-#trend-chart-container,
+#total-cases-container,
 #daily-increase-container,
+#active-cases-container,
+#deaths-container,
 #prefecture-trajectory-container {
   path.c3-line {
     stroke-width: 2px;
@@ -300,7 +316,17 @@ img.emoji {
   }
 }
 
-#trend-chart {
+
+#daily-increase-chart,
+#active-cases-chart,
+#deaths-chart {
+  .c3-axis-x .tick line {
+    display: none;
+  }
+}
+
+
+#active-cases-chart {
   .c3-axis-x {
     path.domain, .tick line {
       stroke: $color-increment-yesterday;
@@ -319,20 +345,23 @@ img.emoji {
   }
   .c3-axis-y2 {
     path.domain, .tick line {
-      stroke: $color-recovered-caption;
+      stroke: $color-recovered-light;
       stroke-width: 2px;
     }
     text {
-      fill: $color-recovered-caption;
+      fill: $color-recovered-light;
     }
-  }
-  .c3-axis-x .tick line {
-    display: none;
   }
 }
 
-#daily-increase-chart {
-  .c3-axis-x .tick line {
-    display: none;
+#deaths-chart {
+  .c3-axis-y2 {
+    path.domain, .tick line {
+      stroke: $color-active-light;
+      stroke-width: 2px;
+    }
+    text {
+      fill: $color-active-light;
+    }
   }
 }

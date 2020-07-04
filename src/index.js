@@ -28,9 +28,11 @@ import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import PrefectureTable from "./components/PrefectureTable";
-import drawTrendChart from "./components/SpreadTrendChart";
+import drawActiveCasesChart from "./components/ActiveCasesChart";
 import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
+import drawTotalCasesChart from "./components/TotalCasesChart";
+import drawDeathsChart from "./components/DeathsChart";
 
 const {
   toggleLangPicker,
@@ -113,16 +115,13 @@ const loadData = (callback) => {
 };
 
 // Keep a reference around to destroy it if we redraw this.
-let trendChart = null;
-
-// Keep reference to current chart in order to clean up when redrawing.
+let totalCasesChart = null;
 let dailyIncreaseChart = null;
+let activeCasesChart = null;
+let deathsChart = null;
 
 // Keep reference to chart in order to destroy it when redrawing.
 let prefectureTrajectoryChart = null;
-
-// Dictionary of all the trend charts so that we can cleanup when redrawing.
-let prefectureTrendCharts = {};
 
 // localize must be accessible globally
 const localize = locI18next.init(i18next);
@@ -162,9 +161,24 @@ const setLang = (lng) => {
       }
       if (ddb.isLoaded()) {
         drawKpis(ddb.totals, ddb.totalsDiff);
-        trendChart = drawTrendChart(
+        totalCasesChart = drawTotalCasesChart(
+          "#total-cases-chart",
           ddb.trend,
-          trendChart,
+          totalCasesChart,
+          LANG,
+          CHART_TIME_PERIOD
+        );
+        activeCasesChart = drawActiveCasesChart(
+          "#active-cases-chart",
+          ddb.trend,
+          activeCasesChart,
+          LANG,
+          CHART_TIME_PERIOD
+        );
+        deathsChart = drawDeathsChart(
+          "#deaths-chart",
+          ddb.trend,
+          deathsChart,
           LANG,
           CHART_TIME_PERIOD
         );
@@ -326,9 +340,28 @@ document.addEventListener("covid19japan-redraw", () => {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
     callIfUpdated(() => {
-      trendChart = drawTrendChart(
+      totalCasesChart = drawTotalCasesChart(
+        "#total-cases-chart",
         ddb.trend,
-        trendChart,
+        totalCasesChart,
+        LANG,
+        CHART_TIME_PERIOD
+      );
+    });
+    callIfUpdated(() => {
+      activeCasesChart = drawActiveCasesChart(
+        "#active-cases-chart",
+        ddb.trend,
+        activeCasesChart,
+        LANG,
+        CHART_TIME_PERIOD
+      );
+    });
+    callIfUpdated(() => {
+      deathsChart = drawDeathsChart(
+        "#deaths-chart",
+        ddb.trend,
+        deathsChart,
         LANG,
         CHART_TIME_PERIOD
       );

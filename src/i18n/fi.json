@@ -12,7 +12,7 @@
   "covid-19": "COVID-19",
   "outbreak-map": "Levinneisyyskartta",
   "cases": "tapausta",
-  "outbreak-spread-trend": "Tapauksia yhteensä",
+  "total-cases": "Tapauksia yhteensä",
   "new-cases-by-day": "Päivän varmistetut tapaukset",
   "top-prefectures": "Prefektuurien kymmenen kärki",
   "prefecture-data": "Tapauksia prefektuureittain",

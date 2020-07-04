@@ -12,7 +12,7 @@
   "covid-19": "COVID-19",
   "outbreak-map": "Outbreak Map",
   "cases": "cases",
-  "outbreak-spread-trend": "Total Cases",
+  "total-cases": "Total Cases",
   "active-trend": "Active Cases",
   "active-trend-total-active": "Total Active Patients",
   "active-trend-daily-recovery": "Daily Recoveries",
@@ -52,6 +52,9 @@
   "recovered-percentage": "{{percent}}% of total cases",
   "deceased-percentage": "{{percent}}% of total cases",
   "tested-percentage": "{{percent}}% of results are positive.",
+  "deaths-chart": "Daily Deaths and Active Cases",
+  "deaths-chart-active": "Total Active Patients",
+  "deaths-chart-deaths": "Deaths (7-day average)",
   "pseudo-prefectures": {
     "port-of-entry": "Port of Entry",
     "unspecified": "Unspecified",

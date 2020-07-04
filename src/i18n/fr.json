@@ -11,7 +11,7 @@
   "covid-19": "COVID-19",
   "outbreak-map": "Carte de l'épidémie",
   "cases": "cas",
-  "outbreak-spread-trend": "Nombre total de cas",
+  "total-cases": "Nombre total de cas",
   "new-cases-by-day": "Cas confirmés quotidiennement",
   "top-prefectures": "Top des 10 Préfectures",
   "prefecture-data": "Cas par préfecture",
