@@ -27,7 +27,6 @@ const drawDailyIncreaseChart = (
   };
 
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
-  console.log(startIndex, timePeriod);
   for (let i = startIndex; i < trends.length; i++) {
     const row = trends[i];
 
@@ -132,7 +131,8 @@ const drawDailyIncreaseChart = (
       },
     },
     padding: {
-      right: 24,
+      left: 40,
+      right: 10,
       top: 0,
       bottom: 0,
     },
