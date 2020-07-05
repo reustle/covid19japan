@@ -14,7 +14,6 @@ table#prefectures-table, table#top-prefectures-table {
   border-spacing: 0px;
   border-radius: 10px;
   background: $color-box-background;
-  box-shadow: $color-box-shadow;
 
   th, td {
     font-size: 0.85rem;
@@ -80,6 +79,8 @@ table#prefectures-table {
 }
 
 table#top-prefectures-table {
+  box-shadow: $color-box-shadow;
+  
   .prefecture { width: 30% }
   .trend { width: 30%; }
   .delta, .confirmed { width: 20%; }
@@ -215,4 +216,41 @@ table#top-prefectures-table.loading {
   tbody.total-rows {
     display: none;
   }
+}
+
+.all-prefectures-table-toggle {
+  display: flex;
+  width: 100%;
+  padding: 0;
+  justify-content: center;
+  background:rgba(255,255,255,1);
+  cursor: pointer;
+  border:none;
+  border-radius: 0px 0px 10px 10px ;
+  box-shadow: 0px 3px 4px 0px rgba(0,0,0,0.2);
+}
+
+.chevron {
+  width: 0; 
+  height: 0; 
+  border-left: 20px solid transparent;
+  border-right: 20px solid transparent;
+  border-top: 20px solid #000;
+  margin-bottom: 1rem;
+}
+
+.rotate {
+  transform: rotate(180deg)
+}
+
+.toggle-wrapper {
+  max-height: 49.25rem;
+  overflow-y: hidden;
+  transition:  max-height 1s;
+  border-radius: 10px 10px 0px 0px;
+}
+
+.show {
+  max-height: 500rem;
+  transition:  max-height 1s;
 }
