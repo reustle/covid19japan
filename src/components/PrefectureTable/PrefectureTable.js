@@ -174,6 +174,17 @@ export const drawPrefectureTable = (prefectureTable, prefectures, totals) => {
 export const drawAllPrefectureTable = (prefectures, totals) => {
   let allPrefectureTable = document.querySelector("#prefectures-table");
   drawPrefectureTable(allPrefectureTable, prefectures, totals);
+
+  const toggleWrapper = document.querySelector(".toggle-wrapper");
+  const toggleButton = document.querySelector(".all-prefectures-table-toggle");
+  const chevron = document.querySelector(".chevron");
+
+  const toggleClassNames = () => {
+    toggleWrapper.classList.toggle("show");
+    chevron.classList.toggle("rotate");
+  };
+
+  toggleButton.addEventListener("click", toggleClassNames);
 };
 
 export const drawTopPrefectureTable = (prefectures, totals) => {
