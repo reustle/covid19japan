@@ -263,52 +263,53 @@
 
 
     <section id="all-prefectures-table-container" class="embed-hide">
-      <a name="all-prefectures"><h4 data-i18n="prefecture-data">Cases by Prefecture</h4></a>
-      <div class="table-wrapper">
-        <table id="prefectures-table" class="loading">
-          <thead>
-            <tr>
-              <th data-i18n="prefecture" class="prefecture">Prefecture</th>
-              <th class="trend" data-i18n="daily-trend">Daily Trend</th>
-              <th class="confirmed">
-                <span data-i18n="confirmed">Confirmed</span>
-              </th>
-              <th class="delta">
-                <div class="increment">
-                  <div class="today"><span data-i18n="increment-today">(Today)</span></div>
-                  <div class="yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></div>
-                </div>
-              </th>
-              <th data-i18n="recovered" class="recovered">Recovered</th>
-              <th data-i18n="deaths" class="deceased">Deaths</th>
-            </tr>
-          </thead>
-          <tbody class="total-rows">
-            <tr>
-              <td class="prefecture" data-i18n="total">Total</td>
-              <td class="trend"></td>
-              <td class="confirmed"></td>
-              <td class="delta"></td>
-              <td class="recovered"></td>
-              <td class="deceased"></td>
-            </tr>
-          </tbody>
-          <tbody class="prefecture-rows">
-            
-          </tbody>
-          <tbody class="pseudo-prefecture-rows"></tbody>
-         
-          <tbody class="cruise-header">
-            <tr>
-              <td colspan="4" data-i18n="cruise-passengers-explanation">Cruise crew and passengers are not included in totals.</td>
-            </tr>
-          </tbody>
-          <tbody class="cruise-rows"></tbody>
-          <tbody class="loading-rows">
-            <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
-          </tbody>
-        </table>
-      </div>
+        <a name="all-prefectures"><h4 data-i18n="prefecture-data">Cases by Prefecture</h4></a>
+        <div class="table-wrapper toggle-wrapper">
+          <table id="prefectures-table" class="loading">
+            <thead>
+              <tr>
+                <th data-i18n="prefecture" class="prefecture">Prefecture</th>
+                <th class="trend" data-i18n="daily-trend">Daily Trend</th>
+                <th class="confirmed">
+                  <span data-i18n="confirmed">Confirmed</span>
+                </th>
+                <th class="delta">
+                  <div class="increment">
+                    <div class="today"><span data-i18n="increment-today">(Today)</span></div>
+                    <div class="yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></div>
+                  </div>
+                </th>
+                <th data-i18n="recovered" class="recovered">Recovered</th>
+                <th data-i18n="deaths" class="deceased">Deaths</th>
+              </tr>
+            </thead>
+            <tbody class="total-rows">
+              <tr>
+                <td class="prefecture" data-i18n="total">Total</td>
+                <td class="trend"></td>
+                <td class="confirmed"></td>
+                <td class="delta"></td>
+                <td class="recovered"></td>
+                <td class="deceased"></td>
+              </tr>
+            </tbody>
+            <tbody class="prefecture-rows">
+              
+            </tbody>
+            <tbody class="pseudo-prefecture-rows"></tbody>
+          
+            <tbody class="cruise-header">
+              <tr>
+                <td colspan="4" data-i18n="cruise-passengers-explanation">Cruise crew and passengers are not included in totals.</td>
+              </tr>
+            </tbody>
+            <tbody class="cruise-rows"></tbody>
+            <tbody class="loading-rows">
+              <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      <button class="all-prefectures-table-toggle"><div class="chevron"></div></button>
     </section>
   
   
