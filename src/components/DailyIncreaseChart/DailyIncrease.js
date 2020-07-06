@@ -3,6 +3,7 @@ import i18next from "i18next";
 import format from "date-fns/format";
 
 import { LOCALES } from "../../i18n";
+import { niceScale } from "../../data/scaling";
 
 import {
   COLOR_TESTED,
@@ -27,7 +28,6 @@ const drawDailyIncreaseChart = (
   };
 
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
-  console.log(startIndex, timePeriod);
   for (let i = startIndex; i < trends.length; i++) {
     const row = trends[i];
 
@@ -39,6 +39,11 @@ const drawDailyIncreaseChart = (
       cols.ConfirmedAvg.push(row.confirmedAvg7d);
     }
   }
+
+  const scale = niceScale(
+    cols.Confirmed.slice(1).concat(cols.ConfirmedAvg.slice(1)),
+    5
+  );
 
   if (dailyIncreaseChart) {
     dailyIncreaseChart.destroy();
@@ -102,8 +107,10 @@ const drawDailyIncreaseChart = (
         },
       },
       y: {
+        padding: 0,
+        max: scale.max,
         tick: {
-          values: [100, 200, 300, 400, 500, 600, 700, 800, 900, 1000],
+          values: scale.ticks,
           format: formatNumber,
         },
       },
@@ -126,7 +133,10 @@ const drawDailyIncreaseChart = (
       },
     },
     padding: {
-      right: 24,
+      left: 40,
+      right: 10,
+      top: 0,
+      bottom: 0,
     },
   });
   return dailyIncreaseChart;

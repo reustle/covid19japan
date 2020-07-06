@@ -4,6 +4,7 @@ import i18next from "i18next";
 import { format as dateFormat } from "date-fns";
 
 import { LOCALES } from "../../i18n";
+import { niceScale } from "../../data/scaling";
 
 import {
   COLOR_ACTIVE,
@@ -46,6 +47,8 @@ const drawTrendChart = (
     );
     cols.Tested.push(row.testedCumulative);
   }
+
+  const scale = niceScale(cols.Confirmed.slice(1), 5);
 
   if (trendChart) {
     trendChart.destroy();
@@ -98,7 +101,7 @@ const drawTrendChart = (
       pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED],
     },
     point: {
-      r: 2,
+      r: 1,
     },
     axis: {
       x: {
@@ -118,23 +121,10 @@ const drawTrendChart = (
         },
       },
       y: {
-        padding: {
-          bottom: 0,
-        },
+        padding: 0,
+        max: scale.max,
         tick: {
-          values: [
-            0,
-            2000,
-            4000,
-            6000,
-            8000,
-            10000,
-            12000,
-            14000,
-            16000,
-            18000,
-            20000,
-          ],
+          values: scale.ticks,
           format: formatNumber,
         },
       },
@@ -163,7 +153,10 @@ const drawTrendChart = (
       },
     },
     padding: {
-      right: 24,
+      left: 40,
+      right: 10,
+      top: 0,
+      bottom: 0,
     },
   });
   return trendChart;
