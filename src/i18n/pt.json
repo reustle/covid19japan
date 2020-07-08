@@ -10,6 +10,7 @@
   "kpi-recovered": "Recuperados",
   "covid-19": "COVID-19",
   "outbreak-map": "Mapa de Contaminação",
+  "cases-none": "0 casos",
   "cases-range": "{{from}}-{{to}} casos",
   "cases-last": "{{from}}+ casos",
   "outbreak-spread-trend": "Total de Casos",

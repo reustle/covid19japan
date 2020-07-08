@@ -10,6 +10,7 @@
   "kpi-recovered": "Wyleczone",
   "covid-19": "COVID-19",
   "outbreak-map": "Mapa zachorowań",
+  "cases-none": "0 przypadków",
   "cases-range": "{{from}}-{{to}} przypadków",
   "cases-last": "{{from}}+ przypadków",
   "outbreak-spread-trend": "Wszystkie Przypadki",
