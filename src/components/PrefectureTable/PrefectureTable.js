@@ -104,6 +104,9 @@ export const drawPrefectureTable = (
     "pseudo-prefecture": pseudoPrefectureRows,
   };
 
+  let totalNewlyConfirmed = 0;
+  let totalYesterdayConfirmed = 0;
+
   prefectures.map((pref, i) => {
     let rowId = `row${i}`;
     let row = prefectureTable.querySelector(`.${rowId}`);
@@ -118,11 +121,13 @@ export const drawPrefectureTable = (
     let todayConfirmedString = "";
     let yesterdayConfirmedString = "";
     if (pref.newlyConfirmed > 0) {
+      totalNewlyConfirmed += pref.newlyConfirmed;
       todayConfirmedString = `(&nbsp;+${formatNumber(
         pref.newlyConfirmed
       )}&nbsp;)`;
     }
     if (pref.yesterdayConfirmed > 0) {
+      totalYesterdayConfirmed += pref.yesterdayConfirmed;
       yesterdayConfirmedString = `(&nbsp;+${formatNumber(
         pref.yesterdayConfirmed
       )}&nbsp;)`;
@@ -182,6 +187,22 @@ export const drawPrefectureTable = (
     existingTotalRows.querySelector(".deceased").innerHTML = formatNumber(
       totals.deceased
     );
+    let todayConfirmedString = "";
+    let yesterdayConfirmedString = "";
+    if (totalNewlyConfirmed > 0) {
+      todayConfirmedString = `(&nbsp;+${formatNumber(
+        totalNewlyConfirmed
+      )}&nbsp;)`;
+    }
+    if (totalYesterdayConfirmed > 0) {
+      yesterdayConfirmedString = `(&nbsp;+${formatNumber(
+        totalYesterdayConfirmed
+      )}&nbsp;)`;
+    }
+    existingTotalRows.querySelector(".today").innerHTML = todayConfirmedString;
+    existingTotalRows.querySelector(
+      ".yesterday"
+    ).innerHTML = yesterdayConfirmedString;
   }
 
   // Remove any loaders
