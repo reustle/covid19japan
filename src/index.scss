@@ -152,6 +152,10 @@ a, a:hover, a:visited {
   box-shadow: $color-box-shadow;
 }
 
+// Regional section
+@import 'src/components/RegionalCharts/regional';
+
+
 // Prefectural section
 
 #prefecture-sections { width: 100%; }

@@ -1,0 +1,143 @@
+
+@import 'src/colors';
+@import 'src/type';
+@import 'src/layout';
+
+$box-margin: 5px;
+
+// KPI 5-up layout
+$breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) / 5;
+
+// KPI 4-up layout
+$breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 4;
+$breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
+
+// KPI 3-up layout 
+$breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
+
+// KPI 2-up layout for below $breakpoint-500 (box-width is not fixed, but 
+// relative to screen width.)
+
+.regional-charts {
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#region-tokyo {
+ 
+}
+
+
+// Box layouts.
+
+.region-box {
+  padding: 0.8rem;
+  width: $breakpoint-1200-box-width;
+  line-height: 1.3rem;
+  /* height uses rem to ensure it scales to text height sizes */
+  height: 11rem;
+}
+
+
+.region-box.region-area {
+  height: 7rem;
+  width: $breakpoint-960-box-width-double;
+  display: flex;
+  flex-direction: row;
+  .vitals {
+    width: $breakpoint-960-box-width-double / 2;
+  }
+  .chart-container {
+    width: 200px;
+  }
+}
+
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  .region-box {
+    width: $breakpoint-960-box-width;
+    height: 11rem;
+    .chart-caption {
+      margin-top: 0.2rem;
+    }
+  }
+
+}
+
+
+.region-box {
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+  border-radius: $box-border-radius;
+  margin: 5px 5px;
+  .value {
+    color: $color-active;
+  }
+  .diff {
+    color: $color-confirmed;
+  }
+  .chart-caption {
+  }
+
+  .label {
+    color: $primary-black;
+    font-size: 0.9rem;
+    font-weight: $font-weight-extra-bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .diff {
+    font-size: 1rem;
+    line-height: 1em;
+    font-weight: $font-weight-bold;
+    display: inline;
+    word-wrap: none;
+  }
+  .value {
+    font-size: 1.4rem;
+    font-weight: $font-weight-extra-bold;
+    display: inline;
+  }
+
+  .chart {
+    padding-bottom: 0;
+
+    svg {
+      width: 100%;  // Width needed for Chrome, Firefox.
+
+      // Height only needed for IE11, but breaks Chrome/Firefox (so sad to need to use this hack)
+      @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+        height: 3em;  
+      }
+    }
+  }
+
+  .description {
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    line-height: 1.2em;
+    min-height: 1.2rem;
+  }
+
+  .chart-caption {
+    font-size: 0.6rem;
+    line-height: 1em;
+  }
+}
+
+.region-box .chart svg {
+  path.line {
+    stroke: $color-active;
+    stroke-width: 2px;
+  }
+
+  path.axis-ceiling {
+    stroke: $color-active;
+  }
+
+  text, circle { fill: $color-active; }
+
+  path.area {
+    fill: url(#kpi-active-chart-gradient) $color-active-light !important;
+  }
+}
