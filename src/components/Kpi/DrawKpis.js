@@ -1,7 +1,7 @@
 import i18next from "i18next";
 
 const drawKpiTrend = (chartName, element) => {
-  let svgURL = `https://data.covid19japan.com/charts/${chartName}`;
+  let svgURL = `http://localhost:3999/charts/${chartName}`;
   fetch(svgURL)
     .then((response) => {
       if (response.status == 200) {
