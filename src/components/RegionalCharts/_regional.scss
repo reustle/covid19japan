@@ -3,20 +3,30 @@
 @import 'src/type';
 @import 'src/layout';
 
+
 $box-margin: 5px;
 
-// KPI 5-up layout
 $breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) / 5;
+$breakpoint-1200-full-box-width: $breakpoint-1200-page-width - $box-margin * 2;
 
-// KPI 4-up layout
 $breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 4;
 $breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
+
+$breakpoint-960-full-box-width: $breakpoint-960-page-width - $box-margin * 2;
+$breakpoint-960-inner-box-width: $breakpoint-960-box-width - $box-margin * 4;
 
 // KPI 3-up layout 
 $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
 
+$breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
+$breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
+
 // KPI 2-up layout for below $breakpoint-500 (box-width is not fixed, but 
 // relative to screen width.)
+
+#regional-charts-container {
+  margin-top: 20px;
+}
 
 .regional-charts {
   padding: 10px 0;
@@ -32,24 +42,31 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
 // Box layouts.
 
 .region-box {
-  padding: 0.8rem;
   width: $breakpoint-1200-box-width;
   line-height: 1.3rem;
   /* height uses rem to ensure it scales to text height sizes */
   height: 11rem;
 }
 
+.region-inner-box {
+  width: $breakpoint-960-inner-box-width; 
+}
+
 
 .region-box.region-area {
-  height: 7rem;
-  width: $breakpoint-960-box-width-double;
+  height: 14rem;
+  width: $breakpoint-1200-full-box-width;
   display: flex;
   flex-direction: row;
+  flex-wrap: nowrap;
   .vitals {
-    width: $breakpoint-960-box-width-double / 2;
+    width: $breakpoint-960-inner-box-width;
   }
-  .chart-container {
-    width: 200px;
+  .region-box-prefectures {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 2;
+    width: 100%;
   }
 }
 
@@ -62,6 +79,30 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
     }
   }
 
+  .region-box.region-area {
+    width: $breakpoint-960-full-box-width;
+  }
+  .region-inner-box {
+    width: $breakpoint-960-inner-box-width; 
+  }
+}
+
+@media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
+  .region-box.region-area {
+    width: $breakpoint-600-full-box-width;
+  }
+  .region-inner-box {
+    width: $breakpoint-600-inner-box-width; 
+  }
+}
+
+@media (max-width: $breakpoint-600) {
+  .region-box.region-area {
+    width: 90%;
+  }
+  .region-inner-box {
+    width: $breakpoint-600-inner-box-width; 
+  }
 }
 
 
@@ -70,20 +111,57 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   box-shadow: $color-box-shadow;
   border-radius: $box-border-radius;
   margin: 5px 5px;
-  .value {
-    color: $color-active;
-  }
-  .diff {
+  padding: 0.8rem;
+
+  .value, .diff {
     color: $color-confirmed;
   }
+  .value-label {
+    color: $color-confirmed-caption;
+  }
+
+  .active {
+    .diff, .value {
+      color: $color-active;
+    }
+    .value-label {
+      color: $color-active-caption;
+    }
+  }
+
+  .deceased {
+    .diff, .value {
+      color: $color-deceased;
+    }
+    .value-label {
+      color: $color-deceased-caption;
+    }
+  }
+
   .chart-caption {
   }
+
 
   .label {
     color: $primary-black;
     font-size: 0.9rem;
     font-weight: $font-weight-extra-bold;
     margin-bottom: 0.5rem;
+  }
+
+  .metric {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .value-label {
+    font-size: 0.8rem;
+  }
+
+  .value {
+    font-size: 1.4rem;
+    font-weight: $font-weight-extra-bold;
+    display: inline;
   }
 
   .diff {
@@ -93,11 +171,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
     display: inline;
     word-wrap: none;
   }
-  .value {
-    font-size: 1.4rem;
-    font-weight: $font-weight-extra-bold;
-    display: inline;
-  }
+  
 
   .chart {
     padding-bottom: 0;
@@ -122,6 +196,16 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   .chart-caption {
     font-size: 0.6rem;
     line-height: 1em;
+  }
+}
+
+.region-box.region-inner-box {
+  box-shadow: none;
+  border: 1px solid rgb(230, 230, 230);
+  margin: 0.5rem 0 0.5rem 0.5rem;
+
+  .metric {
+    margin-bottom: 0;
   }
 }
 

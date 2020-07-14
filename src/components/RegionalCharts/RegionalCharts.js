@@ -19,14 +19,17 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
     let prefectureId = prefecture.name.toLowerCase();
     let regionBox = document.querySelector(`#region-${prefectureId}`);
     if (regionBox) {
-      let valueElement = regionBox.querySelector(".value");
-      valueElement.innerHTML = `${prefecture.active}`;
-      let diffElement = regionBox.querySelector(".diff");
-      diffElement.innerHTML = `(+${prefecture.newlyConfirmed})`;
-      let descriptionElement = regionBox.querySelector(".description");
-      descriptionElement.innerHTML = `${prefecture.confirmed} total cases, ${prefecture.recovered} recovered`;
+      let e;
+      e = regionBox.querySelector(".confirmed .value");
+      if (e) {
+        e.innerHTML = `${prefecture.confirmed}`;
+      }
+      e = regionBox.querySelector(".confirmed .diff");
+      if (e) {
+        e.innerHTML = `(+${prefecture.newlyConfirmed})`;
+      }
       let chartElement = regionBox.querySelector(".chart");
-      drawRegionChart(`${prefectureId}_confirmed_daily_avg.svg`, chartElement);
+      drawRegionChart(`${prefectureId}_confirmed_daily.svg`, chartElement);
     }
   }
 
@@ -36,12 +39,23 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
       let regionBox = document.querySelector(`#region-${regionId}`);
       if (regionBox) {
         let regionData = regionalData[regionName];
-        let valueElement = regionBox.querySelector(".value");
-        valueElement.innerHTML = `${regionData.active}`;
-        let diffElement = regionBox.querySelector(".diff");
-        diffElement.innerHTML = `(+${regionData.newlyConfirmed})`;
-        let descriptionElement = regionBox.querySelector(".description");
-        descriptionElement.innerHTML = `${regionData.confirmed} total cases, ${regionData.recovered} recovered`;
+        let e = null;
+        e = regionBox.querySelector(".active .value");
+        if (e) {
+          e.innerHTML = `${regionData.active}`;
+        }
+        e = regionBox.querySelector(".confirmed .value");
+        if (e) {
+          e.innerHTML = `${regionData.confirmed}`;
+        }
+        e = regionBox.querySelector(".confirmed .diff");
+        if (e) {
+          e.innerHTML = `(+${regionData.newlyConfirmed})`;
+        }
+        e = regionBox.querySelector(".deceased .value");
+        if (e) {
+          e.innerHTML = `${regionData.deceased}`;
+        }
       }
     }
   }
