@@ -1,5 +1,5 @@
 const drawRegionChart = (chartName, element) => {
-  let svgURL = `http://localhost:3999/charts/${chartName}`;
+  let svgURL = `https://data.covid19japan.com/charts/${chartName}`;
   fetch(svgURL)
     .then((response) => {
       if (response.status == 200) {
