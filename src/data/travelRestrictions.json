@@ -8,6 +8,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "dz",
+        "name": "algeria",
+        "emoji": "🇩🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ad",
         "name": "andorra",
         "emoji": "🇦🇩",
@@ -17,7 +23,13 @@
         "code": "ag",
         "name": "antiguaandbarbuda",
         "emoji": "🇦🇬",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "am",
+        "name": "armenia",
+        "emoji": "🇦🇲",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "au",
@@ -41,13 +53,13 @@
         "code": "bb",
         "name": "barbados",
         "emoji": "🇧🇧",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "by",
         "name": "belarus",
         "emoji": "🇧🇾",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "be",
@@ -86,9 +98,21 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "cm",
+        "name": "cameroon",
+        "emoji": "🇨🇲",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ca",
         "name": "canada",
         "emoji": "🇨🇦",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "cf",
+        "name": "central african republic",
+        "emoji": "🇨🇫",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -110,6 +134,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "cr",
+        "name": "costa rica",
+        "emoji": "🇨🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ci",
         "name": "cotedivoire",
         "emoji": "🇨🇮",
@@ -119,6 +149,12 @@
         "code": "hr",
         "name": "croatia",
         "emoji": "🇭🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "cu",
+        "name": "cuba",
+        "emoji": "🇨🇺",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -143,7 +179,7 @@
         "code": "dj",
         "name": "djibouti",
         "emoji": "🇩🇯",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "dm",
@@ -155,7 +191,7 @@
         "code": "do",
         "name": "dominicanrepublic",
         "emoji": "🇩🇴",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "ec",
@@ -173,6 +209,12 @@
         "code": "ee",
         "name": "estonia",
         "emoji": "🇪🇪",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sz",
+        "name": "eswantini",
+        "emoji": "🇸🇿",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -194,9 +236,39 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "ge",
+        "name": "georgia",
+        "emoji": "🇬🇪",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "gr",
         "name": "greece",
         "emoji": "🇬🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gd",
+        "name": "grenada",
+        "emoji": "🇬🇩",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gt",
+        "name": "guatemala",
+        "emoji": "🇬🇹",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gy",
+        "name": "guyana",
+        "emoji": "🇬🇾",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ht",
+        "name": "haiti",
+        "emoji": "🇭🇹",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -224,6 +296,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "iq",
+        "name": "iraq",
+        "emoji": "🇮🇶",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ie",
         "name": "ireland",
         "emoji": "🇮🇪",
@@ -242,6 +320,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "jm",
+        "name": "jamaica",
+        "emoji": "🇯🇲",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "kr",
         "name": "korea",
         "emoji": "🇰🇷",
@@ -257,12 +341,18 @@
         "code": "kw",
         "name": "kuwait",
         "emoji": "🇰🇼",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "lv",
         "name": "latvia",
         "emoji": "🇱🇻",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "lb",
+        "name": "lebanon",
+        "emoji": "🇱🇧",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -293,6 +383,12 @@
         "code": "mt",
         "name": "malta",
         "emoji": "🇲🇹",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "mr",
+        "name": "mauritania",
+        "emoji": "🇲🇷",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -338,6 +434,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "ni",
+        "name": "nicaragua",
+        "emoji": "🇳🇮",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "mk",
         "name": "northmacedonia",
         "emoji": "🇲🇰",
@@ -353,7 +455,7 @@
         "code": "om",
         "name": "oman",
         "emoji": "🇴🇲",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "pa",
@@ -365,7 +467,7 @@
         "code": "pe",
         "name": "peru",
         "emoji": "🇵🇪",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "ph",
@@ -389,7 +491,7 @@
         "code": "qa",
         "name": "qatar",
         "emoji": "🇶🇦",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "ro",
@@ -401,7 +503,7 @@
         "code": "ru",
         "name": "russia",
         "emoji": "🇷🇺",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "sm",
@@ -413,18 +515,30 @@
         "code": "kn",
         "name": "saintkittsandnevis",
         "emoji": "🇰🇳",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "sa",
         "name": "saudiarabia",
         "emoji": "🇸🇦",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "rs",
         "name": "serbia",
         "emoji": "🇷🇸",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "vc",
+        "name": "saint vincent and the grenadines",
+        "emoji": "🇻🇨",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sn",
+        "name": "senegal",
+        "emoji": "🇸🇳",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -491,13 +605,13 @@
         "code": "ua",
         "name": "ukraine",
         "emoji": "🇺🇦",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "ae",
         "name": "unitedarabemirates",
         "emoji": "🇦🇪",
-        "link": "https://www.japantimes.co.jp/news/2020/04/27/national/japan-extend-entry-ban-russia-13-countries-abe-says/"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "us",
@@ -526,80 +640,146 @@
       {
         "code": "mx",
         "name": "mexico",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c",
+        "link": "http://www.moj.go.jp/content/001316999.pdf",
         "emoji": "🇲🇽"
       },
       {
         "code": "az",
         "name": "azerbaijan",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c",
+        "link": "http://www.moj.go.jp/content/001316999.pdf",
         "emoji": "🇦🇿"
       },
       {
         "code": "bs",
         "name": "bahamas",
         "emoji": "🇧🇸",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "cv",
         "name": "caboverde",
         "emoji": "🇨🇻",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "co",
         "name": "colombia",
         "emoji": "🇨🇴",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "gq",
         "name": "equatorialguinea",
         "emoji": "🇬🇶",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "ga",
         "name": "gabon",
         "emoji": "🇬🇦",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "gw",
         "name": "guineabissau",
         "emoji": "🇬🇼",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "hn",
         "name": "honduras",
         "emoji": "🇭🇳",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "kz",
         "name": "kazakhstan",
         "emoji": "🇰🇿",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "mv",
         "name": "maldives",
         "emoji": "🇲🇻",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "st",
         "name": "saotomeandprincipe",
         "emoji": "🇸🇹",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
         "code": "uy",
         "name": "uruguay",
         "emoji": "🇺🇾",
-        "link": "https://mainichi.jp/english/articles/20200514/p2g/00m/0na/109000c"
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "af",
+        "name": "afghanistan",
+        "emoji": "🇦🇫",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ar",
+        "name": "argentina",
+        "emoji": "🇦🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "in",
+        "name": "india",
+        "emoji": "🇮🇳",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sv",
+        "name": "el salvador",
+        "emoji": "🇸🇻",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gh",
+        "name": "ghana",
+        "emoji": "🇬🇭",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gn",
+        "name": "guinea",
+        "emoji": "🇬🇳",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "kg",
+        "name": "kyrgyzstan",
+        "emoji": "🇰🇬",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "tj",
+        "name": "tajikistan",
+        "emoji": "🇹🇯",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "pk",
+        "name": "pakistan",
+        "emoji": "🇵🇰",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "bd",
+        "name": "bangladesh",
+        "emoji": "🇧🇩",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "za",
+        "name": "south africa",
+        "emoji": "🇿🇦",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
       }
     ],
     "visaRequired": [],
