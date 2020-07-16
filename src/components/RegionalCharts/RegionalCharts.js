@@ -109,7 +109,9 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
         let prefectures = _.map(prefectureNames, (name) => {
           return _.find(prefectureData, ["name", name]);
         });
-        prefectures = _.reverse(_.sortBy(prefectures, ["newlyConfirmed"]));
+        prefectures = _.reverse(
+          _.sortBy(prefectures, ["newlyConfirmed", "active"])
+        );
         prefectures = prefectures.slice(0, 4);
 
         for (let prefecture of prefectures) {
