@@ -89,17 +89,6 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
     }
   }
 
-  const regionPrefectures = {
-    Kanto: ["Tokyo", "Saitama", "Kanagawa", "Chiba"],
-    Kansai: ["Osaka", "Hyogo", "Kyoto", "Nara"],
-    Kyushu: ["Fukuoka", "Kagoshima", "Saga", "Nagasaki"],
-    Chubu: ["Aichi", "Gifu", "Shizuoka", "Niigata"],
-    Tohoku: ["Miyagi", "Fukushima", "Aomori", "Akita"],
-    Shikoku: ["Kagawa", "Kochi", "Ehime", "Tokushima"],
-    Chugoku: ["Hiroshima", "Okayama", "Shimane", "Yamaguchi"],
-    Hokkaido: ["Hokkaido"],
-  };
-
   if (regionalData) {
     const regionalContainer = document.querySelector(
       "#regional-charts-container"
@@ -111,24 +100,27 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
       let regionBox = createRegionBox(regionName, regionData);
       regionalContainer.appendChild(regionBox);
 
-      let prefectureNames = regionPrefectures[regionName];
+      let prefectureNames = regionData.prefectures;
       if (prefectureNames) {
         let prefecturesContainer = regionBox.querySelector(
           ".region-box-prefectures"
         );
-        for (let prefectureName of prefectureNames) {
-          for (let prefecture of prefectureData) {
-            if (prefecture.name == prefectureName) {
-              let prefectureBox = createPrefectureBox(prefecture);
-              let chartElement = prefectureBox.querySelector(".chart");
-              let prefectureId = prefecture.name.toLowerCase();
-              drawRegionChart(
-                `${prefectureId}_confirmed_daily.svg`,
-                chartElement
-              );
-              prefecturesContainer.appendChild(prefectureBox);
-            }
+
+        let prefectures = _.map(prefectureNames, (name) => {
+          return _.find(prefectureData, ["name", name]);
+        });
+        prefectures = _.reverse(_.sortBy(prefectures, ["newlyConfirmed"]));
+        prefectures = prefectures.slice(0, 4);
+
+        for (let prefecture of prefectures) {
+          if (!prefecture) {
+            continue;
           }
+          let prefectureBox = createPrefectureBox(prefecture);
+          let chartElement = prefectureBox.querySelector(".chart");
+          let prefectureId = prefecture.name.toLowerCase();
+          drawRegionChart(`${prefectureId}_confirmed_daily.svg`, chartElement);
+          prefecturesContainer.appendChild(prefectureBox);
         }
       }
     }
