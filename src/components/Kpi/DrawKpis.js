@@ -56,46 +56,63 @@ const drawKpis = (totals, totalsDiff, lang) => {
     document.querySelector("#kpi-confirmed-chart")
   );
 
-  let criticalPercentage =
-    parseInt((totals.critical / totals.active) * 1000) / 10;
   setKpi("active", totals.active);
   setKpiDiff("active", totalsDiff.active);
-  setKpiDescription(
-    "active",
-    i18next.t("active-critical-percentage", {
-      percent: formatNumber(criticalPercentage),
-    })
-  );
   drawKpiTrend(
     "active_cumulative_avg.svg",
     document.querySelector("#kpi-active-chart")
   );
+  if (totals.active > 0) {
+    let criticalPercentage = parseInt((totals.critical / totals.active) * 100);
+    if (criticalPercentage < 1) {
+      criticalPercentage =
+        parseInt((totals.critical / totals.active) * 1000) / 10;
+    }
+    setKpiDescription(
+      "active",
+      i18next.t("active-critical-percentage", {
+        percent: formatNumber(criticalPercentage),
+      })
+    );
+  }
 
-  let recoveredPercent = parseInt((totals.recovered / totals.confirmed) * 100);
   setKpi("recovered", totals.recovered);
   setKpiDiff("recovered", totalsDiff.recovered);
-  setKpiDescription(
-    "recovered",
-    i18next.t("recovered-percentage", {
-      percent: formatNumber(recoveredPercent),
-    })
-  );
   drawKpiTrend(
     "recovered_daily_avg.svg",
     document.querySelector("#kpi-recovered-chart")
   );
+  if (totals.confirmed > 0) {
+    let recoveredPercent = parseInt(
+      (totals.recovered / totals.confirmed) * 100
+    );
+    setKpiDescription(
+      "recovered",
+      i18next.t("recovered-percentage", {
+        percent: formatNumber(recoveredPercent),
+      })
+    );
+  }
 
-  let deceasedPercent = parseInt((totals.deceased / totals.confirmed) * 100);
   setKpi("deceased", totals.deceased);
   setKpiDiff("deceased", totalsDiff.deceased);
-  setKpiDescription(
-    "deceased",
-    i18next.t("deceased-percentage", { percent: formatNumber(deceasedPercent) })
-  );
   drawKpiTrend(
     "deceased_daily_avg.svg",
     document.querySelector("#kpi-deceased-chart")
   );
+  if (totals.confirmed > 0) {
+    let deceasedPercent = parseInt((totals.deceased / totals.confirmed) * 100);
+    if (deceasedPercent < 1) {
+      deceasedPercent =
+        parseInt((totals.deceased / totals.confirmed) * 1000) / 10;
+    }
+    setKpiDescription(
+      "deceased",
+      i18next.t("deceased-percentage", {
+        percent: formatNumber(deceasedPercent),
+      })
+    );
+  }
 
   setKpi("critical", totals.critical);
   setKpiDiff("critical", totalsDiff.critical);
@@ -107,17 +124,25 @@ const drawKpis = (totals, totalsDiff, lang) => {
   setKpi("critical-short", totals.critical);
   setKpiDiff("critical-short", totalsDiff.critical);
 
-  let testedPercentage = parseInt((totals.confirmed / totals.tested) * 100);
   setKpi("tested", totals.tested);
   setKpiDiff("tested", totalsDiff.tested);
-  setKpiDescription(
-    "tested",
-    i18next.t("tested-percentage", { percent: formatNumber(testedPercentage) })
-  );
   drawKpiTrend(
     "tested_daily_avg.svg",
     document.querySelector("#kpi-tested-chart")
   );
+  if (totals.tested > 0) {
+    let testedPercentage = parseInt((totals.confirmed / totals.tested) * 100);
+    if (testedPercentage < 1) {
+      testedPercentage =
+        parseInt((totals.confirmed / totals.tested) * 1000) / 10;
+    }
+    setKpiDescription(
+      "tested",
+      i18next.t("tested-percentage", {
+        percent: formatNumber(testedPercentage),
+      })
+    );
+  }
 
   let kpi = document.querySelector("#kpi");
   if (kpi) {
