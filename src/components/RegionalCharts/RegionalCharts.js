@@ -19,6 +19,9 @@ const drawRegionChart = (chartName, element) => {
       if (element) {
         element.innerHTML = text;
       }
+    })
+    .catch((e) => {
+      console.log(e, svgURL);
     });
 };
 
