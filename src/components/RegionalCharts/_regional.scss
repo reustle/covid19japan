@@ -41,10 +41,13 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
 
 .region-area {
   height: 14rem;
+  max-height: 14rem;
+  transition: all 1s;
   width: $breakpoint-1200-full-box-width;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+  position: relative;
 
   .vitals {
     width: 11rem;
@@ -58,6 +61,13 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
     flex-wrap: nowrap;
     overflow-x: scroll;
     width: 100%;
+    max-height: 14rem;
+    transition: all 1s;
+  }
+  
+  .hide-region-box {
+    max-height: 0;
+    overflow:hidden;
   }
 }
 
@@ -381,4 +391,25 @@ a.region-top-link {
   // path.area {
   //   fill: url(#regional-chart-gradient) $primary-black !important;
   // }
+}
+
+.chevron {
+  width: 0; 
+  height: 0; 
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid #000;
+  position: absolute;
+  top: 0.8rem;
+  right: 0.8rem;
+}
+
+.rotate {
+  transform: rotate(180deg)
+}
+
+.hide-region-container {
+  max-height: 2.8rem;
+  transition: all 1s;
+  overflow:hidden;
 }
