@@ -6,13 +6,6 @@ const MAX_PREFECTURES_IN_REGION = 6;
 const MAX_REGIONS_IN_TOP_REGIONS = 4;
 const MAX_PREFECTURES_IN_TOP_REGIONS = 4;
 
-const PSEUDO_PREFECTURE_NAMES = {
-  "Diamond Princess Cruise Ship": "diamond-princess",
-  "Port Quarantine": "port-of-entry",
-  "Nagasaki Cruise Ship": "nagasaki-cruise",
-  Unspecified: "unspecified",
-};
-
 const drawRegionChart = (chartName, element) => {
   let svgURL = `https://data.covid19japan.com/charts/${chartName}`;
   fetch(svgURL)
@@ -59,7 +52,7 @@ export const createTopRegionBox = (regionName, region, topPrefectures) => {
   });
 
   const box = div(["region-box", "region-top"], { id: `region-${regionId}` }, [
-    div("label", {}, [
+    div("title", {}, [
       span("", { "data-i18n": `regions.${regionName}` }, localizedRegionName),
       span("prefecture-sum", {}, topPrefectureStringElements),
     ]),
@@ -126,7 +119,7 @@ export const createRegionBox = (regionName, region) => {
   const box = div(["region-box", "region-area"], { id: `region-${regionId}` }, [
     div("vitals", {}, [
       div(
-        "label",
+        "title",
         { "data-i18n": `regions.${regionName}` },
         localizedRegionName
       ),
@@ -171,32 +164,37 @@ export const createPrefectureBox = (prefecture, prefectureStringKey) => {
       span("yesterday", {}, `&nbsp;(+${prefecture.yesterdayConfirmed})`),
     ];
   }
-  const box = div(
-    ["region-box", "region-inner-box"],
-    { id: `region-${prefectureId}` },
-    [
-      div(
-        "label",
-        { "data-i18n": prefectureStringKey },
-        localizedPrefectureName
-      ),
-      div(["confirmed", "metric"], {}, [
-        div(
-          "value-label",
-          { "data-i18n": "confirmed" },
-          i18next.t("confirmed")
-        ),
-        div("value", {}, "" + prefecture.confirmed),
-        div("diff", null, diffValue),
-      ]),
-      div("chart"),
-      div(
-        "chart-caption",
-        { "data-i18n": "confirmed-chart-caption" },
-        i18next.t("confirmed-chart-caption")
-      ),
-    ]
-  );
+
+  let boxClasses = ["region-box", "region-inner-box"];
+  if (prefecture.active == 0) {
+    boxClasses.push("inactive");
+  }
+
+  let valueLabel = i18next.t("active-cases");
+  let valueKey = { "data-i18n": "active-cases" };
+  if (prefecture.active == 0) {
+    valueLabel = "No active cases 🎉";
+    valueKey = { "data-i18n": "No active cases" };
+  }
+
+  const box = div(boxClasses, { id: `region-${prefectureId}` }, [
+    div(
+      "title",
+      { "data-i18n": prefectureStringKey, title: localizedPrefectureName },
+      localizedPrefectureName
+    ),
+    div(["active", "metric"], {}, [
+      div("value-label", valueKey, valueLabel),
+      div("value", {}, "" + prefecture.active),
+      div("diff", null, diffValue),
+    ]),
+    div("chart"),
+    div(
+      "chart-caption",
+      { "data-i18n": "confirmed-chart-caption" },
+      i18next.t("confirmed-chart-caption")
+    ),
+  ]);
   return box;
 };
 
@@ -223,13 +221,18 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
       let prefectures = _.map(prefectureNames, (name) => {
         return _.find(prefectureData, ["name", name]);
       });
-      prefectures = _.reverse(
-        _.sortBy(prefectures, [
-          "newlyConfirmed",
-          "yesterdayConfirmed",
-          "active",
-        ])
-      );
+      prefectures = prefectures.sort((a, b) => {
+        let deltaA = Math.max(a.newlyConfirmed, a.yesterdayConfirmed);
+        let deltaB = Math.max(b.newlyConfirmed, b.yesterdayConfirmed);
+        if (deltaA < deltaB) {
+          return 1;
+        } else if (deltaB < deltaA) {
+          return -1;
+        } else {
+          return a.active - b.active;
+        }
+      });
+
       //prefectures = prefectures.slice(0, MAX_PREFECTURES_IN_REGION);
 
       for (let prefecture of prefectures) {
@@ -256,8 +259,21 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
   let pseudoRegionPrefectureContainer = pseudoRegionBox.querySelector(
     ".region-box-prefectures"
   );
-  for (let prefecture of prefectureData) {
-    if (prefecture.pseudoPrefecture) {
+
+  let sortedPrefectures = prefectureData.sort((a, b) => {
+    let deltaA = Math.max(a.newlyConfirmed, a.yesterdayConfirmed);
+    let deltaB = Math.max(b.newlyConfirmed, b.yesterdayConfirmed);
+    if (deltaA < deltaB) {
+      return 1;
+    } else if (deltaB < deltaA) {
+      return -1;
+    } else {
+      return a.active - b.active;
+    }
+  });
+
+  for (let prefecture of sortedPrefectures) {
+    if (prefecture.pseudoPrefecture && prefecture.identifier != "unspecified") {
       let prefectureStringKey = "pseudo-prefectures." + prefecture.identifier;
       let prefectureBox = createPrefectureBox(prefecture, prefectureStringKey);
       let chartElement = prefectureBox.querySelector(".chart");

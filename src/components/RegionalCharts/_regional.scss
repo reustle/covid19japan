@@ -97,7 +97,7 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
     }
   }
 
-  .label {
+  .title {
     margin-bottom: 0;
   }
 }
@@ -162,11 +162,17 @@ a.region-top-link {
     }
   }
 
-  .label {
+  .title {
     color: $primary-black;
     font-size: 1rem;
     font-weight: $font-weight-extra-bold;
     margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow-x: hidden;
+  }
+
+  .message {
+    font-size: 0.8rem;
   }
 
   .metric {
@@ -242,13 +248,24 @@ a.region-top-link {
     }
   }
 
-
-
   .chart {
     margin: 0.5rem 0.5rem 0 0.5rem;
   }
-
 }
+
+.region-inner-box.inactive {
+  .value, .message {
+    color: $color-inactive;
+  }
+  .value, .diff {
+    color: $color-inactive;
+  }
+  .value-label {
+    color: $color-inactive;
+  }
+}
+
+
 
 .region-area .chart svg {
   path.line {
