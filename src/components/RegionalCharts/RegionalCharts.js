@@ -1,4 +1,4 @@
-import { span, div } from "../quickelement";
+import { el, span, div } from "../quickelement";
 import i18next from "i18next";
 import _ from "lodash";
 
@@ -98,6 +98,14 @@ export const createTopRegionBox = (regionName, region, topPrefectures) => {
     ]),
     div("region-box-prefectures"),
   ]);
+
+  box.addEventListener("click", (e) => {
+    let r = document.querySelector(`#region-${regionId}`);
+    if (r) {
+      r.scrollIntoView(true);
+    }
+  });
+
   return box;
 };
 

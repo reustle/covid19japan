@@ -122,6 +122,9 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
   }
 }
 
+a.region-top-link {
+  text-decoration: none;
+}
 
 .region-box {
   background: $color-box-background;
