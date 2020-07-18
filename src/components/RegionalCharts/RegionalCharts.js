@@ -234,7 +234,7 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
     o.parentElement.removeChild(o);
   });
 
-  if (!regionalData) {
+  if (!regionalData || !regionalData.slice) {
     return;
   }
 
@@ -347,7 +347,7 @@ export const drawTopRegions = (prefectureData, regionalData, lang) => {
     o.parentElement.removeChild(o);
   });
 
-  if (!regionalData) {
+  if (!regionalData || !regionalData.slice) {
     return;
   }
 
