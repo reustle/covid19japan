@@ -44,7 +44,7 @@
   "recovered-chart-caption": "المتعافون يوميا",
   "deceased-chart-caption": "الوفيات اليومية",
   "tested-chart-caption": "الاختبارات اليومية",
-  "active-critical-percentage": "{{percent}}%<b>حالات حرجة</b>",
+  "active-critical-percentage": "{{percent}}%<b> حالات حرجة</b>",
   "recovered-percentage": "{{percent}}% من اجمالي الاصابات",
   "deceased-percentage": "{{percent}}% من اجمالي الاصابات",
   "tested-percentage": "{{percent}}% من النائج تكون ايجابية",
