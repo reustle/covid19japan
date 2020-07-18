@@ -75,7 +75,7 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
 
 
 .region-top {
-  height: 10rem;
+  min-height: 10rem;
   width: 100%;
 
   .vitals {
