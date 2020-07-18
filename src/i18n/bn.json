@@ -51,6 +51,8 @@
   "recovered-percentage": "মোট সনাক্তের {{percent}}%",
   "deceased-percentage": "মোট সনাক্তের {{percent}}%",
   "tested-percentage": "পরীক্ষার {{percent}}% নিশ্চিত হয়েছে.",
+  "active-cases": "সক্রিয়",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "বন্দরের প্রবেশ পথ",
     "unspecified": "অনির্ধারিত",

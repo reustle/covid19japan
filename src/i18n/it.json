@@ -50,6 +50,8 @@
   "recovered-percentage": "{{percent}}% dei casi totali",
   "deceased-percentage": "{{percent}}% dei casi totali",
   "tested-percentage": "{{percent}}% dei testati sono positivi.",
+  "active-cases": "Active cases",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Porto di entrata",
     "unspecified": "Non specificato",

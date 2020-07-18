@@ -51,6 +51,8 @@
   "recovered-percentage": "कुल विषयों का {{percent}}%",
   "deceased-percentage": "कुल विषयों का {{percent}}%",
   "tested-percentage": "परीक्षित परिणाम का {{percent}}% सकारात्मक",
+  "active-cases": "Active cases",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "प्रवेश पत्तन",
     "unspecified": "अनिर्दिष्ट",

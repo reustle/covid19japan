@@ -50,6 +50,8 @@
   "recovered-percentage": "{{percent}}% z celkového počtu případů",
   "deceased-percentage": "{{percent}}% z celkového počtu případů",
   "tested-percentage": "{{percent}}% výsledků je pozitivní.",
+  "active-cases": "Active cases",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Hraniční přechod",
     "unspecified": "Nespecifikovánp",

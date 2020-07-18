@@ -52,6 +52,7 @@
   "deceased-percentage": "累計感染者数の{{percent}}%",
   "tested-percentage": "検査結果の{{percent}}%が陽性",
   "active-cases": "既存感染者数",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "入国港",
     "unspecified": "不明",
