@@ -1,6 +1,6 @@
 {
   "covid-19-tracker": "متعقب حالات كوفيد-19 في اليابان",
-  "languages": ":اللغات",
+  "languages": "اللغات:",
   "last-updated": "اخر تحديث:",
   "kpi-active": "حالات نشطة حاليا",
   "kpi-active-tooltip": "الحالات المؤكدة مطروحاَ منها الافراد المتعافون",
@@ -17,7 +17,7 @@
   "outbreak-spread-trend": "اجمالي الحالات المسجلة",
   "new-cases-by-day": "الحالات اليومية الجديدة",
   "top-prefectures": "اعلى عشرة محافظات",
-  "active-regions": "اعلي المحافظات اصابة",
+  "active-regions": "أعلي المحافظات اصابة",
   "prefecture-data": "عدد الاصابات في كل محافظة",
   "prefecture": "المحافظة",
   "confirmed": "حالات مؤكدة",
