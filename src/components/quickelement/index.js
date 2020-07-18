@@ -23,7 +23,7 @@ export const el = (tag, klass, attributes, contents) => {
     element.appendChild(textNode);
   } else if (typeof contents == "object" && contents.length) {
     for (let child of contents) {
-      if (child) {
+      if (child && typeof child == "object") {
         element.appendChild(child);
       }
     }
@@ -37,5 +37,7 @@ export const tr = (klass, attributes, contents) =>
   el("tr", klass, attributes, contents);
 export const div = (klass, attributes, contents) =>
   el("div", klass, attributes, contents);
+export const span = (klass, attributes, contents) =>
+  el("span", klass, attributes, contents);
 export const img = (klass, attributes, contents) =>
   el("img", klass, attributes, contents);

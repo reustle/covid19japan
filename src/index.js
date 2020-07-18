@@ -31,7 +31,10 @@ import PrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
 import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
-import { drawRegionalCharts } from "./components/RegionalCharts/RegionalCharts";
+import {
+  drawRegionalCharts,
+  drawTopRegions,
+} from "./components/RegionalCharts/RegionalCharts";
 
 const {
   toggleLangPicker,
@@ -360,8 +363,9 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals, LANG);
-      PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals, LANG);
+      // PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals, LANG);
+      // PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals, LANG);
+      drawTopRegions(ddb.prefectures, ddb.regions);
       drawRegionalCharts(ddb.prefectures, ddb.regions);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));

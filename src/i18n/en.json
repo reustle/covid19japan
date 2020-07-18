@@ -17,6 +17,7 @@
   "outbreak-spread-trend": "Total Cases",
   "new-cases-by-day": "Daily Confirmed Cases",
   "top-prefectures": "Top 10 Prefectures",
+  "active-regions": "Most Active Regions",
   "prefecture-data": "Cases by Prefecture",
   "prefecture": "Prefecture",
   "confirmed": "Confirmed",
@@ -105,6 +106,17 @@
     "Yamagata": "Yamagata",
     "Yamaguchi": "Yamaguchi",
     "Yamanashi": "Yamanashi"
+  },
+  "regions": {
+    "Kanto": "Kanto",
+    "Kansai": "Kansai",
+    "Kyushu": "Kyushu",
+    "Chubu": "Chubu",
+    "Chugoku": "Chugoku",
+    "Hokkaido": "Hokkaido",
+    "Tohoku": "Tohoku",
+    "Shikoku": "Shikoku",
+    "Other": "Other"
   },
   "countries": {
     "westerdam": "Westerdam (Cruise Ship)"

@@ -106,6 +106,17 @@
     "Yamaguchi": "山口県",
     "Yamanashi": "山梨県"
   },
+  "regions": {
+    "Kanto": "関東",
+    "Kansai": "関西",
+    "Kyushu": "九州",
+    "Chubu": "中部",
+    "Chugoku": "中国",
+    "Hokkaido": "北海道",
+    "Tohoku": "東北",
+    "Shikoku": "四国",
+    "Other": "都道府県以外"
+  },
   "countries": {
     "westerdam": "ウェスターダム（船）"
   }

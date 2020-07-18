@@ -6,6 +6,7 @@
 
 $box-margin: 5px;
 
+
 $breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) / 5;
 $breakpoint-1200-full-box-width: $breakpoint-1200-page-width - $box-margin * 2;
 
@@ -14,6 +15,7 @@ $breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 
 
 $breakpoint-960-full-box-width: $breakpoint-960-page-width - $box-margin * 2;
 $breakpoint-960-inner-box-width: $breakpoint-960-box-width - $box-margin * 4;
+
 
 // KPI 3-up layout 
 $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
@@ -34,74 +36,89 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
   flex-wrap: wrap;
 }
 
-#region-tokyo {
- 
-}
+// Layouts
 
 
-// Box layouts.
+// Layout 1:  Max screen size >1200px 
 
-.region-box {
-  width: $breakpoint-1200-box-width;
-  line-height: 1.3rem;
-  /* height uses rem to ensure it scales to text height sizes */
-  height: 11rem;
-}
-
-.region-inner-box {
-  width: $breakpoint-960-inner-box-width; 
-}
-
-
-.region-box.region-area {
+.region-area {
   height: 14rem;
   width: $breakpoint-1200-full-box-width;
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
+
   .vitals {
-    width: $breakpoint-960-inner-box-width;
+    width: 11rem;
+    padding-left: 0.5rem;
   }
+
   .region-box-prefectures {
     display: flex;
     flex-direction: row;
     flex-grow: 2;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
     width: 100%;
   }
 }
 
-@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
-  .region-box {
-    width: $breakpoint-960-box-width;
-    height: 11rem;
-    .chart-caption {
-      margin-top: 0.2rem;
+.region-inner-box {
+  width: 11rem; 
+  min-width: 11rem;
+}
+
+
+.region-top {
+  height: 10rem;
+  width: 100%;
+
+  .vitals {
+    display: flex;
+    flex-direction: row;
+  }
+  .vitals-left {
+    width: 50%;
+  }
+  .vitals-right {
+    width: 50%;
+    align-self: flex-end;
+  }
+
+  .metrics {
+    display: flex;
+    flex-direction: row;
+  }
+  .metric {
+    margin-right: 1rem;
+    min-width: 4rem;
+    .diff {
+      display: block;
     }
   }
 
-  .region-box.region-area {
-    width: $breakpoint-960-full-box-width;
+  .label {
+    margin-bottom: 0;
   }
-  .region-inner-box {
-    width: $breakpoint-960-inner-box-width; 
+}
+
+// Layout 2: Between 1200px and 960px
+
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  .region-area {
+    width: $breakpoint-960-full-box-width;
   }
 }
 
 @media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
-  .region-box.region-area {
+  .region-area {
     width: $breakpoint-600-full-box-width;
-  }
-  .region-inner-box {
-    width: $breakpoint-600-inner-box-width; 
   }
 }
 
 @media (max-width: $breakpoint-600) {
-  .region-box.region-area {
-    width: 90%;
-  }
-  .region-inner-box {
-    width: $breakpoint-600-inner-box-width; 
+  .region-area {
+    width: 100%;
   }
 }
 
@@ -118,6 +135,10 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
   }
   .value-label {
     color: $color-confirmed-caption;
+  }
+
+  .yesterday {
+    color: $color-increment-yesterday;
   }
 
   .active {
@@ -138,15 +159,11 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
     }
   }
 
-  .chart-caption {
-  }
-
-
   .label {
     color: $primary-black;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: $font-weight-extra-bold;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
 
   .metric {
@@ -172,7 +189,6 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
     word-wrap: none;
   }
   
-
   .chart {
     padding-bottom: 0;
 
@@ -195,33 +211,72 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
 
   .chart-caption {
     font-size: 0.6rem;
-    line-height: 1em;
+    line-height: 0.8em;
+    color: $color-increment-yesterday;
   }
 }
 
-.region-box.region-inner-box {
+.region-inner-box {
   box-shadow: none;
   border: 1px solid rgb(230, 230, 230);
-  margin: 0.5rem 0 0.5rem 0.5rem;
+  margin: 1rem 0 0.5rem 0.5rem;
+  align-self: flex-end;
 
   .metric {
     margin-bottom: 0;
   }
 }
 
-.region-box .chart svg {
+.region-top { 
+  .prefecture-sum {
+    font-weight: $font-weight-normal;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    color: $color-light-caption;
+
+    &::after {
+      content: "...";
+    }
+  }
+
+
+
+  .chart {
+    margin: 0.5rem 0.5rem 0 0.5rem;
+  }
+
+}
+
+.region-area .chart svg {
   path.line {
-    stroke: $color-active;
+    stroke: $color-increment-yesterday;
     stroke-width: 2px;
   }
 
   path.axis-ceiling {
-    stroke: $color-active;
+    stroke: $color-increment-yesterday;
   }
 
-  text, circle { fill: $color-active; }
+  text, circle { fill: $color-increment-yesterday; }
 
   path.area {
-    fill: url(#kpi-active-chart-gradient) $color-active-light !important;
+    fill: url(#regional-chart-gradient) $color-increment-yesterday !important;
   }
+}
+
+.region-top .chart svg {
+  path.line {
+    stroke: $color-increment-yesterday;
+    stroke-width: 1px;
+  }
+
+  path.axis-ceiling {
+    stroke: $color-increment-yesterday;
+  }
+
+  text, circle { fill: $color-increment-yesterday; }
+
+  // path.area {
+  //   fill: url(#regional-chart-gradient) $primary-black !important;
+  // }
 }
