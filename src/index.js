@@ -182,16 +182,8 @@ const setLang = (lng) => {
           prefectureTrajectoryChart,
           LANG
         );
-        PrefectureTable.drawAllPrefectureTable(
-          ddb.prefectures,
-          ddb.totals,
-          LANG
-        );
-        PrefectureTable.drawTopPrefectureTable(
-          ddb.prefectures,
-          ddb.totals,
-          LANG
-        );
+        drawTopRegions(ddb.prefectures, ddb.regions, LANG);
+        drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
       }
     }
 
@@ -320,7 +312,7 @@ const doInitMap = () => {
 };
 
 // Reload data every five minutes
-const FIVE_MINUTES_IN_MS = 300000;
+const FIVE_MINUTES_IN_MS = 10000;
 const recursiveDataLoad = () => {
   loadDataOnPage();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
@@ -363,8 +355,8 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      drawTopRegions(ddb.prefectures, ddb.regions);
-      drawRegionalCharts(ddb.prefectures, ddb.regions);
+      drawTopRegions(ddb.prefectures, ddb.regions, LANG);
+      drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }

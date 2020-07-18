@@ -22,25 +22,40 @@ const drawRegionChart = (chartName, element) => {
     });
 };
 
-export const createTopRegionBox = (regionName, region, topPrefectures) => {
+const confirmedDiffValue = (placeData, numberFormatter) => {
+  let diffValue = "";
+  if (!placeData) {
+    return diffValue;
+  }
+
+  if (placeData.newlyConfirmed) {
+    const newlyConfirmed = numberFormatter(placeData.newlyConfirmed);
+    diffValue = `&nbsp;(+${newlyConfirmed})`;
+  } else if (placeData.yesterdayConfirmed) {
+    const yesterdayConfirmed = numberFormatter(placeData.yesterdayConfirmed);
+    diffValue = [span("yesterday", {}, `&nbsp;(+${yesterdayConfirmed})`)];
+  }
+  return diffValue;
+};
+
+export const createTopRegionBox = (
+  regionName,
+  region,
+  topPrefectures,
+  numberFormatter
+) => {
   const regionId = regionName.toLowerCase();
   const localizedRegionName = i18next.t(`regions.${regionName}`);
-  let diffValue = "";
-  if (region.newlyConfirmed) {
-    diffValue = `&nbsp;(+${region.newlyConfirmed})`;
-  } else if (region.yesterdayConfirmed) {
-    diffValue = [
-      span("yesterday", {}, `&nbsp;(+${region.yesterdayConfirmed})`),
-    ];
-  }
+  const diffValue = confirmedDiffValue(region, numberFormatter);
 
   const topPrefectureStringElements = _.map(topPrefectures, (p) => {
     const prefectureKey = `prefectures.${p.name}`;
     let localizedName = i18next.t(prefectureKey);
     if (p.newlyConfirmed > 0) {
+      const newlyConfirmed = numberFormatter(p.newlyConfirmed);
       return span("", {}, [
         span("", { "data-i18n": prefectureKey }, localizedName),
-        span("", {}, `&nbsp;(+${p.newlyConfirmed})`),
+        span("", {}, `&nbsp;(+${newlyConfirmed})`),
         span("", {}, `&nbsp;`),
       ]);
     } else {
@@ -61,12 +76,12 @@ export const createTopRegionBox = (regionName, region, topPrefectures) => {
         div("metrics", {}, [
           div(["active", "metric"], {}, [
             div("value-label", { "data-i18n": "active" }, i18next.t("active")),
-            div("value", {}, "" + region.active),
+            div("value", {}, numberFormatter(region.active)),
             div("diff", null, "&nbsp;"),
           ]),
           div(["deceased", "metric"], {}, [
             div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
-            div("value", {}, "" + region.deceased),
+            div("value", {}, numberFormatter(region.deceased)),
             div("diff", null, "&nbsp;"),
           ]),
           div(["confirmed", "metric"], {}, [
@@ -75,7 +90,7 @@ export const createTopRegionBox = (regionName, region, topPrefectures) => {
               { "data-i18n": "confirmed" },
               i18next.t("confirmed")
             ),
-            div("value", {}, "" + region.confirmed),
+            div("value", {}, numberFormatter(region.confirmed)),
             div("diff", null, diffValue),
           ]),
         ]),
@@ -102,18 +117,24 @@ export const createTopRegionBox = (regionName, region, topPrefectures) => {
   return box;
 };
 
-export const createRegionBox = (regionName, region) => {
+export const createRegionBox = (regionName, region, numberFormatter) => {
   const regionId = regionName.toLowerCase();
   const localizedRegionName = i18next.t(`regions.${regionName}`);
-  let diffValue = "";
-  if (region) {
-    if (region.newlyConfirmed) {
-      diffValue = `&nbsp;(+${region.newlyConfirmed})`;
-    } else if (region.yesterdayConfirmed) {
-      diffValue = [
-        span("yesterday", {}, `&nbsp;(+${region.yesterdayConfirmed})`),
-      ];
-    }
+  const diffValue = confirmedDiffValue(region, numberFormatter);
+
+  let confirmed = region.confirmed;
+  if (typeof confirmed == "number") {
+    confirmed = numberFormatter(confirmed);
+  }
+
+  let active = region.active;
+  if (typeof active == "number") {
+    active = numberFormatter(active);
+  }
+
+  let deceased = region.deceased;
+  if (typeof deceased == "number") {
+    deceased = numberFormatter(deceased);
   }
 
   const box = div(["region-box", "region-area"], { id: `region-${regionId}` }, [
@@ -125,12 +146,12 @@ export const createRegionBox = (regionName, region) => {
       ),
       div(["active", "metric"], {}, [
         div("value-label", { "data-i18n": "active" }, i18next.t("active")),
-        div("value", {}, "" + region.active),
+        div("value", {}, active),
         div("diff", null, "&nbsp;"),
       ]),
       div(["deceased", "metric"], {}, [
         div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
-        div("value", {}, "" + region.deceased),
+        div("value", {}, deceased),
         div("diff", null, "&nbsp;"),
       ]),
       div(["confirmed", "metric"], {}, [
@@ -139,7 +160,7 @@ export const createRegionBox = (regionName, region) => {
           { "data-i18n": "confirmed" },
           i18next.t("confirmed")
         ),
-        div("value", {}, "" + region.confirmed),
+        div("value", {}, confirmed),
         div("diff", null, diffValue),
       ]),
     ]),
@@ -148,22 +169,18 @@ export const createRegionBox = (regionName, region) => {
   return box;
 };
 
-export const createPrefectureBox = (prefecture, prefectureStringKey) => {
+export const createPrefectureBox = (
+  prefecture,
+  prefectureStringKey,
+  numberFormatter
+) => {
   if (!prefectureStringKey) {
     prefectureStringKey = `prefectures.${prefecture.name}`;
   }
 
   const prefectureId = prefecture.name.toLowerCase();
   const localizedPrefectureName = i18next.t(prefectureStringKey);
-
-  let diffValue = "";
-  if (prefecture.newlyConfirmed) {
-    diffValue = `&nbsp;(+${prefecture.newlyConfirmed})`;
-  } else if (prefecture.yesterdayConfirmed) {
-    diffValue = [
-      span("yesterday", {}, `&nbsp;(+${prefecture.yesterdayConfirmed})`),
-    ];
-  }
+  const diffValue = confirmedDiffValue(prefecture, numberFormatter);
 
   let boxClasses = ["region-box", "region-inner-box"];
   if (prefecture.active == 0) {
@@ -173,8 +190,8 @@ export const createPrefectureBox = (prefecture, prefectureStringKey) => {
   let valueLabel = i18next.t("active-cases");
   let valueKey = { "data-i18n": "active-cases" };
   if (prefecture.active == 0) {
-    valueLabel = "No active cases 🎉";
-    valueKey = { "data-i18n": "No active cases" };
+    valueLabel = i18next.t("no-active-cases");
+    valueKey = { "data-i18n": "no-active-cases" };
   }
 
   const box = div(boxClasses, { id: `region-${prefectureId}` }, [
@@ -185,7 +202,7 @@ export const createPrefectureBox = (prefecture, prefectureStringKey) => {
     ),
     div(["active", "metric"], {}, [
       div("value-label", valueKey, valueLabel),
-      div("value", {}, "" + prefecture.active),
+      div("value", {}, numberFormatter(prefecture.active)),
       div("diff", null, diffValue),
     ]),
     div("chart"),
@@ -198,23 +215,28 @@ export const createPrefectureBox = (prefecture, prefectureStringKey) => {
   return box;
 };
 
-export const drawRegionalCharts = (prefectureData, regionalData) => {
+export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
   if (!regionalData) {
     return;
   }
+
+  const numberFormatter = new Intl.NumberFormat(lang).format;
 
   const regionalContainer = document.querySelector(
     "#regional-charts-container"
   );
 
   // Remove all existing regional containers first
-  _.map(regionalContainer.querySelector(".region-area"), (o) => {
+  const existingRegionElements = regionalContainer.querySelectorAll(
+    ".region-area"
+  );
+  existingRegionElements.forEach((o) => {
     o.parentElement.removeChild(o);
   });
 
   for (let regionData of regionalData) {
     let regionName = regionData.name;
-    let regionBox = createRegionBox(regionName, regionData);
+    let regionBox = createRegionBox(regionName, regionData, numberFormatter);
     regionalContainer.appendChild(regionBox);
 
     let prefectureNames = regionData.prefectures;
@@ -244,7 +266,11 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
         if (!prefecture) {
           continue;
         }
-        let prefectureBox = createPrefectureBox(prefecture);
+        let prefectureBox = createPrefectureBox(
+          prefecture,
+          null,
+          numberFormatter
+        );
         let chartElement = prefectureBox.querySelector(".chart");
         if (chartElement) {
           let prefectureId = prefecture.name.toLowerCase();
@@ -256,11 +282,16 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
   }
 
   // Include pseudo prefectures.
-  let pseudoRegionBox = createRegionBox("Other", {
+  const pseudoRegionData = {
     active: "-",
     confirmed: "-",
     deceased: "-",
-  });
+  };
+  let pseudoRegionBox = createRegionBox(
+    "Other",
+    pseudoRegionData,
+    numberFormatter
+  );
   let pseudoRegionPrefectureContainer = pseudoRegionBox.querySelector(
     ".region-box-prefectures"
   );
@@ -280,7 +311,11 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
   for (let prefecture of sortedPrefectures) {
     if (prefecture.pseudoPrefecture && prefecture.identifier != "unspecified") {
       let prefectureStringKey = "pseudo-prefectures." + prefecture.identifier;
-      let prefectureBox = createPrefectureBox(prefecture, prefectureStringKey);
+      let prefectureBox = createPrefectureBox(
+        prefecture,
+        prefectureStringKey,
+        numberFormatter
+      );
       let chartElement = prefectureBox.querySelector(".chart");
       if (chartElement) {
         let prefectureId = prefecture.name.toLowerCase().replace(/[\s]+/g, "_");
@@ -294,12 +329,17 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
   }
 };
 
-export const drawTopRegions = (prefectureData, regionalData) => {
+export const drawTopRegions = (prefectureData, regionalData, lang) => {
   const regionalContainer = document.querySelector(
     "#prefecture-top-table-container"
   );
 
-  _.map(regionalContainer.querySelector(".region-top"), (o) => {
+  const numberFormatter = new Intl.NumberFormat(lang).format;
+
+  const existingRegionElements = regionalContainer.querySelectorAll(
+    ".region-top"
+  );
+  existingRegionElements.forEach((o) => {
     o.parentElement.removeChild(o);
   });
 
@@ -317,7 +357,8 @@ export const drawTopRegions = (prefectureData, regionalData) => {
     let regionBox = createTopRegionBox(
       regionData.name,
       regionData,
-      prefectures
+      prefectures,
+      numberFormatter
     );
     regionalContainer.appendChild(regionBox);
 
