@@ -48,8 +48,8 @@
   "recovered-percentage": "{{percent}}% من اجمالي الاصابات",
   "deceased-percentage": "{{percent}}% من اجمالي الاصابات",
   "tested-percentage": "{{percent}}% من النائج تكون ايجابية",
-  "active-cases": "Active cases",
-  "no-active-cases": "No active cases 🎉",
+  "active-cases": "الحالات النشطة",
+  "no-active-cases": "🎉 لا يوجد حالات نشطة",
   "pseudo-prefectures": {
     "port-of-entry": "منفذ الدخول",
     "unspecified": "غير محدد",
