@@ -149,24 +149,26 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
         { "data-i18n": `regions.${regionName}` },
         localizedRegionName
       ),
-      div(["active", "metric"], {}, [
-        div("value-label", { "data-i18n": "active" }, i18next.t("active")),
-        div("value", {}, active),
-        div("diff", null, "&nbsp;"),
-      ]),
-      div(["deceased", "metric"], {}, [
-        div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
-        div("value", {}, deceased),
-        div("diff", null, "&nbsp;"),
-      ]),
-      div(["confirmed", "metric"], {}, [
-        div(
-          "value-label",
-          { "data-i18n": "confirmed" },
-          i18next.t("confirmed")
-        ),
-        div("value", {}, confirmed),
-        div("diff", null, diffValue),
+      div("metrics", {}, [
+        div(["active", "metric"], {}, [
+          div("value-label", { "data-i18n": "active" }, i18next.t("active")),
+          div("value", {}, active),
+          div("diff", null, "&nbsp;"),
+        ]),
+        div(["deceased", "metric"], {}, [
+          div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
+          div("value", {}, deceased),
+          div("diff", null, "&nbsp;"),
+        ]),
+        div(["confirmed", "metric"], {}, [
+          div(
+            "value-label",
+            { "data-i18n": "confirmed" },
+            i18next.t("confirmed")
+          ),
+          div("value", {}, confirmed),
+          div("diff", null, diffValue),
+        ]),
       ]),
     ]),
     div("region-box-prefectures"),
@@ -187,7 +189,7 @@ export const createPrefectureBox = (
   const localizedPrefectureName = i18next.t(prefectureStringKey);
   const diffValue = confirmedDiffValue(prefecture, numberFormatter);
 
-  let boxClasses = ["region-box", "region-inner-box"];
+  let boxClasses = ["region-box", "region-prefecture"];
   if (prefecture.active == 0) {
     boxClasses.push("inactive");
   }
@@ -199,23 +201,57 @@ export const createPrefectureBox = (
     valueKey = { "data-i18n": "no-active-cases" };
   }
 
+  let confirmed = prefecture.confirmed;
+  if (typeof confirmed == "number") {
+    confirmed = numberFormatter(confirmed);
+  }
+
+  let active = prefecture.active;
+  if (typeof active == "number") {
+    active = numberFormatter(active);
+  }
+
+  let deceased = prefecture.deceased;
+  if (typeof deceased == "number") {
+    deceased = numberFormatter(deceased);
+  }
+
   const box = div(boxClasses, { id: `region-${prefectureId}` }, [
     div(
       "title",
       { "data-i18n": prefectureStringKey, title: localizedPrefectureName },
       localizedPrefectureName
     ),
-    div(["active", "metric"], {}, [
-      div("value-label", valueKey, valueLabel),
-      div("value", {}, numberFormatter(prefecture.active)),
-      div("diff", null, diffValue),
+    div(["metrics-and-chart"], {}, [
+      div(["metrics"], {}, [
+        div(["active", "metric"], {}, [
+          div("value-label", valueKey, valueLabel),
+          div("value", {}, active),
+          div("diff", null, diffValue),
+        ]),
+        div(["deceased", "metric"], {}, [
+          div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
+          div("value", {}, deceased),
+        ]),
+        div(["confirmed", "metric"], {}, [
+          div(
+            "value-label",
+            { "data-i18n": "confirmed" },
+            i18next.t("confirmed")
+          ),
+          div("value", {}, confirmed),
+          div("diff", null, diffValue),
+        ]),
+      ]),
+      div("chart-and-caption", {}, [
+        div("chart"),
+        div(
+          "chart-caption",
+          { "data-i18n": "confirmed-chart-caption" },
+          i18next.t("confirmed-chart-caption")
+        ),
+      ]),
     ]),
-    div("chart"),
-    div(
-      "chart-caption",
-      { "data-i18n": "confirmed-chart-caption" },
-      i18next.t("confirmed-chart-caption")
-    ),
   ]);
   return box;
 };
