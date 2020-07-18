@@ -86,8 +86,8 @@ const generateExport = () => {
 };
 
 export const maybeIntlNumberFormat = (lang) => {
-  if (Intl && Intl.NumberFormat) {
-    return Intl.NumberFormat(lang).format;
+  if (window.Intl && window.Intl.NumberFormat) {
+    return window.Intl.NumberFormat(lang).format;
   }
   return (o) => {
     return "" + o;
