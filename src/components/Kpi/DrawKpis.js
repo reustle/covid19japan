@@ -56,7 +56,8 @@ const drawKpis = (totals, totalsDiff, lang) => {
     document.querySelector("#kpi-confirmed-chart")
   );
 
-  let criticalPercentage = parseInt((totals.critical / totals.active) * 100);
+  let criticalPercentage =
+    parseInt((totals.critical / totals.active) * 1000) / 10;
   setKpi("active", totals.active);
   setKpiDiff("active", totalsDiff.active);
   setKpiDescription(
