@@ -363,8 +363,6 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      // PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals, LANG);
-      // PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals, LANG);
       drawTopRegions(ddb.prefectures, ddb.regions);
       drawRegionalCharts(ddb.prefectures, ddb.regions);
     }, 32);

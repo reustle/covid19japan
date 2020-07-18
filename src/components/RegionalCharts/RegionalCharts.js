@@ -207,6 +207,11 @@ export const drawRegionalCharts = (prefectureData, regionalData) => {
     "#regional-charts-container"
   );
 
+  // Remove all existing regional containers first
+  _.map(regionalContainer.querySelector(".region-area"), (o) => {
+    o.parentElement.removeChild(o);
+  });
+
   for (let regionData of regionalData) {
     let regionName = regionData.name;
     let regionBox = createRegionBox(regionName, regionData);
@@ -293,6 +298,10 @@ export const drawTopRegions = (prefectureData, regionalData) => {
   const regionalContainer = document.querySelector(
     "#prefecture-top-table-container"
   );
+
+  _.map(regionalContainer.querySelector(".region-top"), (o) => {
+    o.parentElement.removeChild(o);
+  });
 
   let sortedRegions = regionalData.slice(0, MAX_REGIONS_IN_TOP_REGIONS);
 
