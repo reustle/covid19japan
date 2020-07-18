@@ -23,7 +23,7 @@
   "helpful-links": "روابط مساعدة",
   "primary-data-sources": "المصادر المرجعية للبيانات",
   "confirmed-case-trajectories-by-prefecture": "مسارات الاصابات في كل محافظة",
-  "trajectory-description": "عدد الايام منذ تخطي {{minimumConfirmed}}اصابة",
+  "trajectory-description": " عدد الايام منذ تخطي {{minimumConfirmed}} اصابة ",
   "traveling-into-japan": "السفر الي اليابان",
   "about-travel-restriction": "هذه معلومات عن حظر السفر الي اليابان. برجاء الضعط على الروابط في الاسفل للحصول على معلومات تفصيلية",
   "banned-from-entering-japan": "دول ممنوعة من دخول اليابان",
