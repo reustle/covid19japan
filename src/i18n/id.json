@@ -52,8 +52,8 @@
   "recovered-percentage": "{{percent}}% dari total kasus",
   "deceased-percentage": "{{percent}}% dari total kasus",
   "tested-percentage": "{{percent}}% dari hasil tes adalah positif",
-  "active-cases": "Active cases",
-  "no-active-cases": "No active cases 🎉",
+  "active-cases": "Kasus aktif",
+  "no-active-cases": "Tidak ada kasus aktif 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Titik Masuk Pelabuhan",
     "unspecified": "Tidak dispesifikasi",
@@ -108,6 +108,17 @@
     "Yamagata": "Yamagata",
     "Yamaguchi": "Yamaguchi",
     "Yamanashi": "Yamanashi"
+  },
+  "regions": {
+    "Kanto": "Kanto",
+    "Kansai": "Kansai",
+    "Kyushu": "Kyushu",
+    "Chubu": "Chubu",
+    "Chugoku": "Chugoku",
+    "Hokkaido": "Hokkaido",
+    "Tohoku": "Tohoku",
+    "Shikoku": "Shikoku",
+    "Other": "Lainnya"
   },
   "countries": {
     "westerdam": "Westerdam (Kapal Pesiar)"
