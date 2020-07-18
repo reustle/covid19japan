@@ -234,6 +234,10 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
     o.parentElement.removeChild(o);
   });
 
+  if (!regionalData) {
+    return;
+  }
+
   for (let regionData of regionalData) {
     let regionName = regionData.name;
     let regionBox = createRegionBox(regionName, regionData, numberFormatter);
@@ -342,6 +346,10 @@ export const drawTopRegions = (prefectureData, regionalData, lang) => {
   existingRegionElements.forEach((o) => {
     o.parentElement.removeChild(o);
   });
+
+  if (!regionalData) {
+    return;
+  }
 
   let sortedRegions = regionalData.slice(0, MAX_REGIONS_IN_TOP_REGIONS);
 
