@@ -8,20 +8,27 @@ const MAX_PREFECTURES_IN_REGION = 6;
 const MAX_REGIONS_IN_TOP_REGIONS = 4;
 const MAX_PREFECTURES_IN_TOP_REGIONS = 4;
 
+const PREFECTURES_VISIBLE_ON_LOAD = 3;
+
 const hideSelectRegions = () => {
   const allRegions = document.querySelectorAll(".region-box.region-area");
 
-  // Selects all regions after the top 3 to hide
-  const afterTopThreeRegions = Array.from(allRegions).slice(3);
+  if (MAX_PREFECTURES_IN_TOP_REGIONS <= allRegions.length) {
+    const afterTopThreeRegions = Array.from(allRegions).slice(
+      PREFECTURES_VISIBLE_ON_LOAD
+    );
 
-  afterTopThreeRegions.forEach((region) => {
-    const regionBoxPrefecture = region.querySelector(".region-box-prefectures");
-    const chevron = region.querySelector(".chevron");
+    afterTopThreeRegions.forEach((region) => {
+      const regionBoxPrefecture = region.querySelector(
+        ".region-box-prefectures"
+      );
+      const chevron = region.querySelector(".chevron");
 
-    region.classList.add("hide-region-container");
-    regionBoxPrefecture.classList.add("hide-region-box");
-    chevron.classList.add("rotate");
-  });
+      region.classList.add("hide-region-container");
+      regionBoxPrefecture.classList.add("hide-region-box");
+      chevron.classList.add("rotate");
+    });
+  }
 };
 
 const drawRegionChart = (chartName, element) => {
