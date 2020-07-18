@@ -90,11 +90,7 @@ export const createTopRegionBox = (
             div("diff", null, "&nbsp;"),
           ]),
           div(["confirmed", "metric"], {}, [
-            div(
-              "value-label",
-              { "data-i18n": "confirmed" },
-              i18next.t("confirmed")
-            ),
+            div("value-label", { "data-i18n": "total" }, i18next.t("total")),
             div("value", {}, numberFormatter(region.confirmed)),
             div("diff", null, diffValue),
           ]),
@@ -161,11 +157,7 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
           div("diff", null, "&nbsp;"),
         ]),
         div(["confirmed", "metric"], {}, [
-          div(
-            "value-label",
-            { "data-i18n": "confirmed" },
-            i18next.t("confirmed")
-          ),
+          div("value-label", { "data-i18n": "total" }, i18next.t("total")),
           div("value", {}, confirmed),
           div("diff", null, diffValue),
         ]),
@@ -194,8 +186,8 @@ export const createPrefectureBox = (
     boxClasses.push("inactive");
   }
 
-  let valueLabel = i18next.t("active-cases");
-  let valueKey = { "data-i18n": "active-cases" };
+  let valueLabel = i18next.t("active");
+  let valueKey = { "data-i18n": "active" };
   if (prefecture.active == 0) {
     valueLabel = i18next.t("no-active-cases");
     valueKey = { "data-i18n": "no-active-cases" };
@@ -234,11 +226,7 @@ export const createPrefectureBox = (
           div("value", {}, deceased),
         ]),
         div(["confirmed", "metric"], {}, [
-          div(
-            "value-label",
-            { "data-i18n": "confirmed" },
-            i18next.t("confirmed")
-          ),
+          div("value-label", { "data-i18n": "total" }, i18next.t("total")),
           div("value", {}, confirmed),
           div("diff", null, diffValue),
         ]),

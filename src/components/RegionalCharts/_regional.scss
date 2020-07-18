@@ -34,7 +34,88 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
   flex-wrap: wrap;
 }
 
-// Layouts
+// Common styling
+
+.region-box {
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+  border-radius: $box-border-radius;
+  margin: 5px 5px;
+  padding: 0.8rem;
+
+  .yesterday {
+    color: $color-increment-yesterday;
+  }
+
+
+  .title {
+    color: $primary-black;
+    font-size: 1rem;
+    font-weight: $font-weight-extra-bold;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow-x: hidden;
+  }
+
+  .metric {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .value-label {
+    font-size: 0.8rem;
+  }
+
+  .value {
+    font-size: 1.4rem;
+    font-weight: $font-weight-extra-bold;
+    display: inline;
+  }
+
+  .diff {
+    font-size: 1rem;
+    line-height: 1em;
+    font-weight: $font-weight-bold;
+    display: inline;
+    word-wrap: none;
+  }
+  
+  .chart {
+    padding-bottom: 0;
+
+    svg {
+      width: 100%;  // Width needed for Chrome, Firefox.
+
+      // Height only needed for IE11, but breaks Chrome/Firefox (so sad to need to use this hack)
+      @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+        height: 3em;  
+      }
+    }
+  }
+
+  .chart-caption {
+    font-size: 0.6rem;
+    line-height: 0.8em;
+    color: $color-increment-yesterday;
+  }
+
+  .confirmed {
+    .value, .diff { color: $color-confirmed; }
+    .value-label { color: $color-confirmed-caption;  }
+  }
+
+  .active {
+    .diff, .value { color: $color-active; }
+    .value-label { color: $color-active-caption; }
+  }
+
+  .deceased {
+    .diff, .value { color: $color-deceased; }
+    .value-label { color: $color-deceased-caption; }
+  }
+}
+
+
 
 
 // Layout 1:  Max screen size >1200px 
@@ -65,14 +146,55 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
   width: 11rem; 
   min-width: 11rem;
 
+  .metrics {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .metric {
+    min-width: 3rem;
+    width: 3rem;
+  }
+
+  .metric.active {
+    .diff { display: none; }
+  }
+
   .metric.deceased {
-    display: none;
+    display: block;
   }
   .metric.confirmed {
-    display: none;
+    display: block;
+    .diff {
+      display: block;
+    }
   }
 }
 
+// style
+.region-prefecture {
+  box-shadow: none;
+  border: 1px solid rgb(230, 230, 230);
+  margin: 1rem 0 0.5rem 0.5rem;
+  align-self: flex-end;
+
+  .metric {
+    margin-bottom: 0;
+    .value-label {
+      font-size: 0.6rem;
+      line-height: 0.8em;
+    }
+    .value {
+      font-size: 0.9rem;
+      line-height: 0.8em;
+      font-weight: $font-weight-bold;
+    }
+    .diff {
+      font-size: 0.6rem;
+      line-height: 0.8em;
+    }
+  }
+}
 
 .region-top {
   height: 10rem;
@@ -171,7 +293,12 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
             }
             .value {
               font-size: 1.0rem;
+              line-height: 0.8em;
               font-weight: $font-weight-bold;
+            }
+            .diff {
+              font-size: 0.8rem;
+              line-height: 0.8em;
             }
           }
 
@@ -180,6 +307,10 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
           }
           .metric.confirmed {
             display: block;
+            .diff {
+              display: inline;
+            }
+        
           }
           .metric.active .diff {
             display: none;
@@ -208,115 +339,6 @@ a.region-top-link {
   text-decoration: none;
 }
 
-.region-box {
-  background: $color-box-background;
-  box-shadow: $color-box-shadow;
-  border-radius: $box-border-radius;
-  margin: 5px 5px;
-  padding: 0.8rem;
-
-  .value, .diff {
-    color: $color-confirmed;
-  }
-  .value-label {
-    color: $color-confirmed-caption;
-  }
-
-  .yesterday {
-    color: $color-increment-yesterday;
-  }
-
-  .active {
-    .diff, .value {
-      color: $color-active;
-    }
-    .value-label {
-      color: $color-active-caption;
-    }
-  }
-
-  .deceased {
-    .diff, .value {
-      color: $color-deceased;
-    }
-    .value-label {
-      color: $color-deceased-caption;
-    }
-  }
-
-  .title {
-    color: $primary-black;
-    font-size: 1rem;
-    font-weight: $font-weight-extra-bold;
-    margin-bottom: 0.3rem;
-    white-space: nowrap;
-    overflow-x: hidden;
-  }
-
-  .message {
-    font-size: 0.8rem;
-  }
-
-  .metric {
-    display: block;
-    margin-bottom: 0.5rem;
-  }
-
-  .value-label {
-    font-size: 0.8rem;
-  }
-
-  .value {
-    font-size: 1.4rem;
-    font-weight: $font-weight-extra-bold;
-    display: inline;
-  }
-
-  .diff {
-    font-size: 1rem;
-    line-height: 1em;
-    font-weight: $font-weight-bold;
-    display: inline;
-    word-wrap: none;
-  }
-  
-  .chart {
-    padding-bottom: 0;
-
-    svg {
-      width: 100%;  // Width needed for Chrome, Firefox.
-
-      // Height only needed for IE11, but breaks Chrome/Firefox (so sad to need to use this hack)
-      @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
-        height: 3em;  
-      }
-    }
-  }
-
-  .description {
-    font-size: 0.8rem;
-    margin-top: 0.2rem;
-    line-height: 1.2em;
-    min-height: 1.2rem;
-  }
-
-  .chart-caption {
-    font-size: 0.6rem;
-    line-height: 0.8em;
-    color: $color-increment-yesterday;
-  }
-}
-
-.region-prefecture {
-  box-shadow: none;
-  border: 1px solid rgb(230, 230, 230);
-  margin: 1rem 0 0.5rem 0.5rem;
-  align-self: flex-end;
-
-  .metric {
-    margin-bottom: 0;
-  }
-}
 
 .region-top { 
   .prefecture-sum {
@@ -346,8 +368,6 @@ a.region-top-link {
     color: $color-inactive;
   }
 }
-
-
 
 .region-area .chart svg {
   path.line {
