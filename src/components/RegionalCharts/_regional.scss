@@ -14,14 +14,12 @@ $breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 
 $breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
 
 $breakpoint-960-full-box-width: $breakpoint-960-page-width - $box-margin * 2;
-$breakpoint-960-inner-box-width: $breakpoint-960-box-width - $box-margin * 4;
 
 
 // KPI 3-up layout 
 $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
 
 $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
-$breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
 
 // KPI 2-up layout for below $breakpoint-500 (box-width is not fixed, but 
 // relative to screen width.)
@@ -63,9 +61,16 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
   }
 }
 
-.region-inner-box {
+.region-prefecture {
   width: 11rem; 
   min-width: 11rem;
+
+  .metric.deceased {
+    display: none;
+  }
+  .metric.confirmed {
+    display: none;
+  }
 }
 
 
@@ -119,12 +124,13 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
 }
 
 // Layout 4: Under 600px
+// Switched from a horizontal scroll to a vertical layout.
 
 @media (max-width: $breakpoint-600) {
   .region-area {
     width: 100%;
 
-    height: 24em;
+    height: auto;
     flex-direction: column;
 
     .metrics {
@@ -132,20 +138,69 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
       flex-direction: row;
       width: 90%;
       .metric {
-        min-width: 100px;
-        width: 70px;
+        min-width: 5rem;
+        width: 5rem;
       }
     }
 
     .region-box-prefectures {
+      display: block;
       flex-direction: column;
-      .region-inner-box {
+
+      .region-prefecture {
+        align-self: auto;
+        margin: 0;
         width: 100%;
-        align-self: stretch;
+        padding: 0.1rem 0.5rem;
+        border: none;
         
+        .title {
+          color: $color-title-dark;
+          margin-top: 0.5rem;
+          font-size: 0.8rem;
+          font-weight: $font-weight-bold;
+        }
+
+        .metrics-and-chart {
+          display: block;
+
+          .metric {
+            align-self: flex-start;
+            .value-label {
+              display: none;
+            }
+            .value {
+              font-size: 1.0rem;
+              font-weight: $font-weight-bold;
+            }
+          }
+
+          .metric.deceased {
+            display: block;
+          }
+          .metric.confirmed {
+            display: block;
+          }
+          .metric.active .diff {
+            display: none;
+          }
+
+          .chart-and-caption {
+            //display: flex;
+            display: none;
+            flex-direction: row-reverse;
+          }
+
+          .chart {
+            width: 170px;
+          }
+
+          .chart-caption { 
+            display: none; 
+          }
+        }
       }
     }
-
   }
 }
 
@@ -252,7 +307,7 @@ a.region-top-link {
   }
 }
 
-.region-inner-box {
+.region-prefecture {
   box-shadow: none;
   border: 1px solid rgb(230, 230, 230);
   margin: 1rem 0 0.5rem 0.5rem;
@@ -280,7 +335,7 @@ a.region-top-link {
   }
 }
 
-.region-inner-box.inactive {
+.region-prefecture.inactive {
   .value, .message {
     color: $color-inactive;
   }
