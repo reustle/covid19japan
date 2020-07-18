@@ -52,6 +52,8 @@
   "recovered-percentage": "{{percent}}% dari total kasus",
   "deceased-percentage": "{{percent}}% dari total kasus",
   "tested-percentage": "{{percent}}% dari hasil tes adalah positif",
+  "active-cases": "Active cases",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Titik Masuk Pelabuhan",
     "unspecified": "Tidak dispesifikasi",

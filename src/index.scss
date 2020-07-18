@@ -152,6 +152,10 @@ a, a:hover, a:visited {
   box-shadow: $color-box-shadow;
 }
 
+// Regional section
+@import 'src/components/RegionalCharts/regional';
+
+
 // Prefectural section
 
 #prefecture-sections { width: 100%; }
@@ -300,4 +304,8 @@ img.emoji {
   .c3-axis-x .tick line {
     display: none;
   }
+}
+
+.hidden {
+  display: none;
 }

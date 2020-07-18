@@ -51,6 +51,8 @@
   "recovered-percentage": "{{percent}}% від загальних випадків",
   "deceased-percentage": "{{percent}}% від загальних випадків",
   "tested-percentage": "{{percent}}% результатів позитивні.",
+  "active-cases": "Active cases",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Прикордонний контроль",
     "unspecified": "Невизначено",

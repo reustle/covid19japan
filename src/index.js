@@ -31,6 +31,10 @@ import PrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
 import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
+import {
+  drawRegionalCharts,
+  drawTopRegions,
+} from "./components/RegionalCharts/RegionalCharts";
 
 const {
   toggleLangPicker,
@@ -121,9 +125,6 @@ let dailyIncreaseChart = null;
 // Keep reference to chart in order to destroy it when redrawing.
 let prefectureTrajectoryChart = null;
 
-// Dictionary of all the trend charts so that we can cleanup when redrawing.
-let prefectureTrendCharts = {};
-
 // localize must be accessible globally
 const localize = locI18next.init(i18next);
 
@@ -181,16 +182,8 @@ const setLang = (lng) => {
           prefectureTrajectoryChart,
           LANG
         );
-        PrefectureTable.drawAllPrefectureTable(
-          ddb.prefectures,
-          ddb.totals,
-          LANG
-        );
-        PrefectureTable.drawTopPrefectureTable(
-          ddb.prefectures,
-          ddb.totals,
-          LANG
-        );
+        drawTopRegions(ddb.prefectures, ddb.regions, LANG);
+        drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
       }
     }
 
@@ -255,6 +248,7 @@ const loadDataOnPage = () => {
       ddb.previouslyUpdated = ddb.lastUpdated;
       ddb.lastUpdated = summaryData.updated;
       ddb.prefectures = summaryData.prefectures;
+      ddb.regions = summaryData.regions;
       let newTotals = calculateTotals(summaryData.daily);
       ddb.totals = newTotals[0];
       ddb.totalsDiff = newTotals[1];
@@ -318,7 +312,7 @@ const doInitMap = () => {
 };
 
 // Reload data every five minutes
-const FIVE_MINUTES_IN_MS = 300000;
+const FIVE_MINUTES_IN_MS = 10000;
 const recursiveDataLoad = () => {
   loadDataOnPage();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
@@ -361,8 +355,8 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     }, 32);
     callIfUpdated(() => {
-      PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals, LANG);
-      PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals, LANG);
+      drawTopRegions(ddb.prefectures, ddb.regions, LANG);
+      drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }
