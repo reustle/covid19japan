@@ -106,15 +106,15 @@
     "Yamanashi": "ياماناشي"
   },
   "regions": {
-    "Kanto": "كانتو",
-    "Kansai": "كانساي",
-    "Kyushu": "كيوشو",
-    "Chubu": "تشوبو",
-    "Chugoku": "تشوجوكو",
-    "Hokkaido": "هوكايدو",
-    "Tohoku": "توهوكو",
-    "Shikoku": "شيكوكو",
-    "Other": "غير ذلك"
+    "Kanto": " كانتو ",
+    "Kansai": " كانساي ",
+    "Kyushu": " كيوشو ",
+    "Chubu": " تشوبو ",
+    "Chugoku": " تشوجوكو ",
+    "Hokkaido": " هوكايدو ",
+    "Tohoku": " توهوكو ",
+    "Shikoku": " شيكوكو ",
+    "Other": " غير ذلك "
   },
   "countries": {
     "albania": "ألبانيا",
