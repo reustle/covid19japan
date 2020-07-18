@@ -231,6 +231,10 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
     "#regional-charts-container"
   );
 
+  if (!regionalContainer) {
+    return;
+  }
+
   // Remove all existing regional containers first
   const existingRegionElements = regionalContainer.querySelectorAll(
     ".region-area"
@@ -342,6 +346,9 @@ export const drawTopRegions = (prefectureData, regionalData, lang) => {
   const regionalContainer = document.querySelector(
     "#prefecture-top-table-container"
   );
+  if (!regionalContainer) {
+    return;
+  }
 
   const numberFormatter = maybeIntlNumberFormat(lang);
 
