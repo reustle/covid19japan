@@ -149,24 +149,26 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
         { "data-i18n": `regions.${regionName}` },
         localizedRegionName
       ),
-      div(["active", "metric"], {}, [
-        div("value-label", { "data-i18n": "active" }, i18next.t("active")),
-        div("value", {}, active),
-        div("diff", null, "&nbsp;"),
-      ]),
-      div(["deceased", "metric"], {}, [
-        div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
-        div("value", {}, deceased),
-        div("diff", null, "&nbsp;"),
-      ]),
-      div(["confirmed", "metric"], {}, [
-        div(
-          "value-label",
-          { "data-i18n": "confirmed" },
-          i18next.t("confirmed")
-        ),
-        div("value", {}, confirmed),
-        div("diff", null, diffValue),
+      div("metrics", {}, [
+        div(["active", "metric"], {}, [
+          div("value-label", { "data-i18n": "active" }, i18next.t("active")),
+          div("value", {}, active),
+          div("diff", null, "&nbsp;"),
+        ]),
+        div(["deceased", "metric"], {}, [
+          div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
+          div("value", {}, deceased),
+          div("diff", null, "&nbsp;"),
+        ]),
+        div(["confirmed", "metric"], {}, [
+          div(
+            "value-label",
+            { "data-i18n": "confirmed" },
+            i18next.t("confirmed")
+          ),
+          div("value", {}, confirmed),
+          div("diff", null, diffValue),
+        ]),
       ]),
     ]),
     div("region-box-prefectures"),
@@ -205,17 +207,19 @@ export const createPrefectureBox = (
       { "data-i18n": prefectureStringKey, title: localizedPrefectureName },
       localizedPrefectureName
     ),
-    div(["active", "metric"], {}, [
-      div("value-label", valueKey, valueLabel),
-      div("value", {}, numberFormatter(prefecture.active)),
-      div("diff", null, diffValue),
+    div(["vitals"], {}, [
+      div(["active", "metric"], {}, [
+        div("value-label", valueKey, valueLabel),
+        div("value", {}, numberFormatter(prefecture.active)),
+        div("diff", null, diffValue),
+      ]),
+      div("chart"),
+      div(
+        "chart-caption",
+        { "data-i18n": "confirmed-chart-caption" },
+        i18next.t("confirmed-chart-caption")
+      ),
     ]),
-    div("chart"),
-    div(
-      "chart-caption",
-      { "data-i18n": "confirmed-chart-caption" },
-      i18next.t("confirmed-chart-caption")
-    ),
   ]);
   return box;
 };

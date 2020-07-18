@@ -110,15 +110,42 @@ $breakpoint-600-inner-box-width: $breakpoint-600-box-width - $box-margin * 4;
   }
 }
 
+// Layout 3: Between 960px and 600px
+
 @media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
   .region-area {
     width: $breakpoint-600-full-box-width;
   }
 }
 
+// Layout 4: Under 600px
+
 @media (max-width: $breakpoint-600) {
   .region-area {
     width: 100%;
+
+    height: 24em;
+    flex-direction: column;
+
+    .metrics {
+      display: flex;
+      flex-direction: row;
+      width: 90%;
+      .metric {
+        min-width: 100px;
+        width: 70px;
+      }
+    }
+
+    .region-box-prefectures {
+      flex-direction: column;
+      .region-inner-box {
+        width: 100%;
+        align-self: stretch;
+        
+      }
+    }
+
   }
 }
 
