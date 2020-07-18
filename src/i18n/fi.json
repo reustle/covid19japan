@@ -51,8 +51,8 @@
   "recovered-percentage": "{{percent}}% kaikista tapauksista",
   "deceased-percentage": "{{percent}}% kaikista tapauksista",
   "tested-percentage": "{{percent}}% positiivisia.",
-  "active-cases": "Active cases",
-  "no-active-cases": "No active cases 🎉",
+  "active-cases": "Aktiivisia tapauksia",
+  "no-active-cases": "Ei aktiivisia tapauksia 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Tulosatama",
     "unspecified": "Määrittelemätön",
