@@ -1,9 +1,9 @@
 import { PAGE_TITLE } from "../../data/constants";
 
-const drawPageTitleCount = (confirmed) => {
+const drawPageTitleCount = (confirmed, lang) => {
   // Update the number of confirmed cases in the title
-
-  document.title = `(${confirmed}) ${PAGE_TITLE}`;
+  const formatNumber = new Intl.NumberFormat(lang).format;
+  document.title = `(${formatNumber(confirmed)}) ${PAGE_TITLE}`;
 };
 
 export default drawPageTitleCount;

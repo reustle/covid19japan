@@ -21,6 +21,7 @@ const drawTrendChart = (
   timePeriod = DEFAULT_CHART_TIME_PERIOD
 ) => {
   const dateLocale = LOCALES[lang];
+  const formatNumber = new Intl.NumberFormat(lang).format;
 
   const cols = {
     Date: ["Date"],
@@ -124,6 +125,7 @@ const drawTrendChart = (
         max: scale.max,
         tick: {
           values: scale.ticks,
+          format: formatNumber,
         },
       },
     },
@@ -132,11 +134,12 @@ const drawTrendChart = (
         value: (value, ratio, id, index) => {
           if (index && cols[id][index]) {
             const diff = parseInt(value) - cols[id][index];
-            return `${value} (${diff >= 0 ? "+" : ""}${diff}) ${
+            const sign = diff >= 0 ? "+" : "";
+            return `${formatNumber(value)} (${sign}${formatNumber(diff)}) ${
               index === cols.Date.length - 2 ? i18next.t("provisional") : ""
             }`;
           } else {
-            return value;
+            return formatNumber(value);
           }
         },
       },

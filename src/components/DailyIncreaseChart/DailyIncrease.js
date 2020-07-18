@@ -19,6 +19,7 @@ const drawDailyIncreaseChart = (
   timePeriod = DEFAULT_CHART_TIME_PERIOD
 ) => {
   const dateLocale = LOCALES[lang];
+  const formatNumber = new Intl.NumberFormat(lang).format;
 
   const cols = {
     Date: ["Date"],
@@ -110,13 +111,14 @@ const drawDailyIncreaseChart = (
         max: scale.max,
         tick: {
           values: scale.ticks,
+          format: formatNumber,
         },
       },
     },
     tooltip: {
       format: {
         value: (value, ratio, id, index) => {
-          return `${value} ${
+          return `${formatNumber(value)} ${
             index === cols.Date.length - 2 ? i18next.t("provisional") : ""
           }`;
         },

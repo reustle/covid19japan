@@ -10,6 +10,7 @@ const drawPrefectureTrajectoryChart = (
   prefectureTrajectoryChart,
   lang
 ) => {
+  const formatNumber = new Intl.NumberFormat(lang).format;
   const minimumConfirmed = 500;
   const filteredPrefectures = prefectures.filter((prefecture) => {
     return (
@@ -84,13 +85,19 @@ const drawPrefectureTrajectoryChart = (
         padding: {
           bottom: 0,
         },
+        tick: {
+          format: formatNumber,
+        },
       },
       x: {
         // Set max x value to be 2 greater to avoid label cutoff
         max: maxDays + 2,
         label: i18next.t("trajectory-description", {
-          minimumConfirmed: minimumConfirmed,
+          minimumConfirmed: formatNumber(minimumConfirmed),
         }),
+        tick: {
+          format: formatNumber,
+        },
       },
     },
     data: {
@@ -146,10 +153,11 @@ const drawPrefectureTrajectoryChart = (
               parseInt(value) - prefecture.cumulativeConfirmed[index - 1];
             const annotation =
               index === prefecture.lastIndex ? i18next.t("provisional") : "";
-            const diffText = diff >= 0 ? `+${diff}` : diff;
-            return `${value} (${diffText}) ${annotation}`;
+            const sign = diff >= 0 ? "+" : "";
+            const diffText = `${sign}${formatNumber(diff)}`
+            return `${formatNumber(value)} (${diffText}) ${annotation}`;
           } else {
-            return value;
+            return formatNumber(value);
           }
         },
       },

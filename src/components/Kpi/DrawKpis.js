@@ -16,35 +16,38 @@ const drawKpiTrend = (chartName, element) => {
     });
 };
 
-const setKpiDiffWithSelector = (selector, value) => {
-  const diffDir = value >= 0 ? "+" : "";
-  let kpiDiffElement = document.querySelector(selector);
-  if (kpiDiffElement) {
-    kpiDiffElement.innerHTML = `(&nbsp;${diffDir}${value}&nbsp;)`;
-  }
-};
-const setKpiDiff = (key, value) =>
-  setKpiDiffWithSelector(`#kpi-${key} .diff`, value);
+const drawKpis = (totals, totalsDiff, lang) => {
+  const formatNumber = new Intl.NumberFormat(lang).format;
 
-const setKpiWithSelector = (selector, value) => {
-  let kpiValueElement = document.querySelector(selector);
-  if (kpiValueElement) {
-    kpiValueElement.innerHTML = value;
-  }
-};
-const setKpi = (key, value) => setKpiWithSelector(`#kpi-${key} .value`, value);
+  const setKpiDiffWithSelector = (selector, value) => {
+    const diffDir = value >= 0 ? "+" : "";
+    let kpiDiffElement = document.querySelector(selector);
+    if (kpiDiffElement) {
+      kpiDiffElement.innerHTML = `(&nbsp;${diffDir}${value}&nbsp;)`;
+    }
+  };
+  const setKpiDiff = (key, value) =>
+    setKpiDiffWithSelector(`#kpi-${key} .diff`, formatNumber(value));
 
-const setKpiDescription = (key, value) => {
-  if (!value) {
-    return;
-  }
-  let descElement = document.querySelector(`#kpi-${key} .description`);
-  if (descElement) {
-    descElement.innerHTML = value;
-  }
-};
+  const setKpiWithSelector = (selector, value) => {
+    let kpiValueElement = document.querySelector(selector);
+    if (kpiValueElement) {
+      kpiValueElement.innerHTML = value;
+    }
+  };
+  const setKpi = (key, value) =>
+    setKpiWithSelector(`#kpi-${key} .value`, formatNumber(value));
 
-const drawKpis = (totals, totalsDiff) => {
+  const setKpiDescription = (key, value) => {
+    if (!value) {
+      return;
+    }
+    let descElement = document.querySelector(`#kpi-${key} .description`);
+    if (descElement) {
+      descElement.innerHTML = value;
+    }
+  };
+
   setKpi("confirmed", totals.confirmed);
   setKpiDiff("confirmed", totalsDiff.confirmed);
   drawKpiTrend(
@@ -57,7 +60,9 @@ const drawKpis = (totals, totalsDiff) => {
   setKpiDiff("active", totalsDiff.active);
   setKpiDescription(
     "active",
-    i18next.t("active-critical-percentage", { percent: criticalPercentage })
+    i18next.t("active-critical-percentage", {
+      percent: formatNumber(criticalPercentage),
+    })
   );
   drawKpiTrend(
     "active_cumulative_avg.svg",
@@ -69,7 +74,9 @@ const drawKpis = (totals, totalsDiff) => {
   setKpiDiff("recovered", totalsDiff.recovered);
   setKpiDescription(
     "recovered",
-    i18next.t("recovered-percentage", { percent: recoveredPercent })
+    i18next.t("recovered-percentage", {
+      percent: formatNumber(recoveredPercent),
+    })
   );
   drawKpiTrend(
     "recovered_daily_avg.svg",
@@ -81,7 +88,7 @@ const drawKpis = (totals, totalsDiff) => {
   setKpiDiff("deceased", totalsDiff.deceased);
   setKpiDescription(
     "deceased",
-    i18next.t("deceased-percentage", { percent: deceasedPercent })
+    i18next.t("deceased-percentage", { percent: formatNumber(deceasedPercent) })
   );
   drawKpiTrend(
     "deceased_daily_avg.svg",
@@ -103,7 +110,7 @@ const drawKpis = (totals, totalsDiff) => {
   setKpiDiff("tested", totalsDiff.tested);
   setKpiDescription(
     "tested",
-    i18next.t("tested-percentage", { percent: testedPercentage })
+    i18next.t("tested-percentage", { percent: formatNumber(testedPercentage) })
   );
   drawKpiTrend(
     "tested_daily_avg.svg",
