@@ -8,6 +8,22 @@ const MAX_PREFECTURES_IN_REGION = 6;
 const MAX_REGIONS_IN_TOP_REGIONS = 4;
 const MAX_PREFECTURES_IN_TOP_REGIONS = 4;
 
+const hideSelectRegions = () => {
+  const allRegions = document.querySelectorAll(".region-box.region-area");
+
+  // Selects all regions after the top 3 to hide
+  const afterTopThreeRegions = Array.from(allRegions).slice(3);
+
+  afterTopThreeRegions.forEach((region) => {
+    const regionBoxPrefecture = region.querySelector(".region-box-prefectures");
+    const chevron = region.querySelector(".chevron");
+
+    region.classList.add("hide-region-container");
+    regionBoxPrefecture.classList.add("hide-region-box");
+    chevron.classList.add("rotate");
+  });
+};
+
 const drawRegionChart = (chartName, element) => {
   let svgURL = `https://data.covid19japan.com/charts/${chartName}`;
   fetch(svgURL)
@@ -143,6 +159,7 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
   }
 
   const box = div(["region-box", "region-area"], { id: `region-${regionId}` }, [
+    div("chevron", {}, []),
     div("vitals", {}, [
       div(
         "title",
@@ -173,6 +190,16 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
     ]),
     div("region-box-prefectures"),
   ]);
+
+  const chevron = box.querySelector(".chevron");
+  const regionBoxPrefecture = box.querySelector(".region-box-prefectures");
+
+  chevron.addEventListener("click", () => {
+    box.classList.toggle("hide-region-container");
+    regionBoxPrefecture.classList.toggle("hide-region-box");
+    chevron.classList.toggle("rotate");
+  });
+
   return box;
 };
 
@@ -379,6 +406,7 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
   if (pseudoRegionPrefectureContainer.children.length > 0) {
     regionalContainer.appendChild(pseudoRegionBox);
   }
+  hideSelectRegions();
 };
 
 export const drawTopRegions = (prefectureData, regionalData, lang) => {
