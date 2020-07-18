@@ -19,6 +19,9 @@ const drawRegionChart = (chartName, element) => {
       if (element) {
         element.innerHTML = text;
       }
+    })
+    .catch((e) => {
+      console.log(e, svgURL);
     });
 };
 
@@ -234,7 +237,7 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
     o.parentElement.removeChild(o);
   });
 
-  if (!regionalData) {
+  if (!regionalData || !regionalData.slice) {
     return;
   }
 
@@ -347,7 +350,7 @@ export const drawTopRegions = (prefectureData, regionalData, lang) => {
     o.parentElement.removeChild(o);
   });
 
-  if (!regionalData) {
+  if (!regionalData || !regionalData.slice) {
     return;
   }
 
