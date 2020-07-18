@@ -1,6 +1,8 @@
-import { el, span, div } from "../quickelement";
 import i18next from "i18next";
 import _ from "lodash";
+
+import { el, span, div } from "../quickelement";
+import { maybeIntlNumberFormat } from "../../i18n";
 
 const MAX_PREFECTURES_IN_REGION = 6;
 const MAX_REGIONS_IN_TOP_REGIONS = 4;
@@ -223,7 +225,7 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
     return;
   }
 
-  const numberFormatter = new Intl.NumberFormat(lang).format;
+  const numberFormatter = maybeIntlNumberFormat(lang);
 
   const regionalContainer = document.querySelector(
     "#regional-charts-container"
@@ -341,7 +343,7 @@ export const drawTopRegions = (prefectureData, regionalData, lang) => {
     "#prefecture-top-table-container"
   );
 
-  const numberFormatter = new Intl.NumberFormat(lang).format;
+  const numberFormatter = maybeIntlNumberFormat(lang);
 
   const existingRegionElements = regionalContainer.querySelectorAll(
     ".region-top"

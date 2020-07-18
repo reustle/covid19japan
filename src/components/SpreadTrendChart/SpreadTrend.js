@@ -3,7 +3,7 @@ import { color as d3_color } from "d3-color";
 import i18next from "i18next";
 import { format as dateFormat } from "date-fns";
 
-import { LOCALES } from "../../i18n";
+import { LOCALES, maybeIntlNumberFormat } from "../../i18n";
 import { niceScale } from "../../data/scaling";
 
 import {
@@ -21,7 +21,7 @@ const drawTrendChart = (
   timePeriod = DEFAULT_CHART_TIME_PERIOD
 ) => {
   const dateLocale = LOCALES[lang];
-  const formatNumber = new Intl.NumberFormat(lang).format;
+  const formatNumber = maybeIntlNumberFormat(lang);
 
   const cols = {
     Date: ["Date"],

@@ -2,6 +2,8 @@ import * as c3 from "c3";
 import * as d3 from "d3";
 import i18next from "i18next";
 
+import { maybeIntlNumberFormat } from "../../i18n";
+
 // Inject IE11 polyfill (not used in index.js).
 import "core-js/es/object/values";
 
@@ -10,7 +12,7 @@ const drawPrefectureTrajectoryChart = (
   prefectureTrajectoryChart,
   lang
 ) => {
-  const formatNumber = new Intl.NumberFormat(lang).format;
+  const formatNumber = maybeIntlNumberFormat(lang);
   const minimumConfirmed = 500;
   const filteredPrefectures = prefectures.filter((prefecture) => {
     return (
@@ -154,7 +156,7 @@ const drawPrefectureTrajectoryChart = (
             const annotation =
               index === prefecture.lastIndex ? i18next.t("provisional") : "";
             const sign = diff >= 0 ? "+" : "";
-            const diffText = `${sign}${formatNumber(diff)}`
+            const diffText = `${sign}${formatNumber(diff)}`;
             return `${formatNumber(value)} (${diffText}) ${annotation}`;
           } else {
             return formatNumber(value);

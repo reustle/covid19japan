@@ -85,4 +85,13 @@ const generateExport = () => {
   return resources;
 };
 
+export const maybeIntlNumberFormat = (lang) => {
+  if (Intl && Intl.NumberFormat) {
+    return Intl.NumberFormat(lang).format;
+  }
+  return (o) => {
+    return "" + o;
+  };
+};
+
 export default generateExport();

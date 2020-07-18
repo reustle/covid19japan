@@ -1,8 +1,9 @@
 import { PAGE_TITLE } from "../../data/constants";
+import { maybeIntlNumberFormat } from "../../i18n";
 
 const drawPageTitleCount = (confirmed, lang) => {
   // Update the number of confirmed cases in the title
-  const formatNumber = new Intl.NumberFormat(lang).format;
+  const formatNumber = maybeIntlNumberFormat(lang);
   document.title = `(${formatNumber(confirmed)}) ${PAGE_TITLE}`;
 };
 
