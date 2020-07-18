@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import { maybeIntlNumberFormat } from "../../i18n";
 
 const prefectureId = (prefectureName) => {
   return prefectureName.toLowerCase().replace(/[\s]+/g, "_");

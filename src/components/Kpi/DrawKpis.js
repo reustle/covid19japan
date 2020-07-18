@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import { maybeIntlNumberFormat } from "../../i18n";
 
 const drawKpiTrend = (chartName, element) => {
   let svgURL = `https://data.covid19japan.com/charts/${chartName}`;
@@ -17,7 +18,7 @@ const drawKpiTrend = (chartName, element) => {
 };
 
 const drawKpis = (totals, totalsDiff, lang) => {
-  const formatNumber = new Intl.NumberFormat(lang).format;
+  const formatNumber = maybeIntlNumberFormat(lang);
 
   const setKpiDiffWithSelector = (selector, value) => {
     const diffDir = value >= 0 ? "+" : "";

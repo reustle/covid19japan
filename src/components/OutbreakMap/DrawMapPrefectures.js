@@ -1,4 +1,5 @@
 import i18next from "i18next";
+import { maybeIntlNumberFormat } from "../../i18n";
 import {
   PREFECTURE_PAINT,
   COLOR_NONE,
@@ -14,7 +15,7 @@ let pageDrawCount = 0;
  * @param {*} pageDraws - number of redraws to screen
  */
 const drawMapPrefectures = (ddb, map, lang) => {
-  const formatNumber = new Intl.NumberFormat(lang).format;
+  const formatNumber = maybeIntlNumberFormat(lang);
 
   // Find the index of the first symbol layer
   // in the map style so we can draw the
