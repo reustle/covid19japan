@@ -304,9 +304,12 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
           return 1;
         } else if (deltaB < deltaA) {
           return -1;
-        } else {
-          return a.active - b.active;
+        } else if (a.active < b.active) {
+          return 1;
+        } else if (b.active < a.active) {
+          return -1;
         }
+        return b.confirmed - a.confirmed;
       });
 
       //prefectures = prefectures.slice(0, MAX_PREFECTURES_IN_REGION);
