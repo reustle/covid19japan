@@ -3,7 +3,7 @@
   "last-updated": "Ultimo aggiornamento:",
   "kpi-active": "Attivi",
   "kpi-active-tooltip": "Casi confermati meno i guarti e i morti",
-  "kpi-critical": "Critical",
+  "kpi-critical": "in stato Critico",
   "kpi-deceased": "Morti",
   "kpi-tested": "Testati",
   "kpi-confirmed": "Confermati",
@@ -23,16 +23,16 @@
   "deaths": "Decessi",
   "active": "Attivi",
   "helpful-links": "Collegamenti utili",
-  "primary-data-sources": "Primary Data Sources",
+  "primary-data-sources": "Fonti Principali dei dati",
   "confirmed-case-trajectories-by-prefecture": "Traiettora per Prefettura dei Casi Confermati",
   "trajectory-description": "Numero dei giorni dal {{minimumConfirmed}}esimo caso",
   "traveling-into-japan": "Viaggiare in Giappone",
-  "about-travel-restriction": "Seguono le restrizioni dei viaggi che sono state messe in atto riguardante il viaggiare in Giappone. Clicca sui link per saperne di più.",
+  "about-travel-restriction": "Seguono le restrizioni messe in atto riguardante il viaggiare in Giappone. Clicca sui link per saperne di più.",
   "banned-from-entering-japan": "Ingresso bannato in Giappone:",
-  "existing-visa-required": "Existing visa required:",
-  "14-day-self-quarantine-required": "14-day Self-Quarantine required:",
-  "other-limitations": "Other limitations:",
-  "provisional": "Provisional",
+  "existing-visa-required": "Visto attualmente attivo ed esistente:",
+  "14-day-self-quarantine-required": "14-giorni di Auto Quarantena necessari:",
+  "other-limitations": "Altre limitazioni:",
+  "provisional": "Provvisionale",
   "total": "Totale",
   "increment-today": "(Oggi)",
   "increment-yesterday": "(Ieri)",
@@ -50,8 +50,8 @@
   "recovered-percentage": "{{percent}}% dei casi totali",
   "deceased-percentage": "{{percent}}% dei casi totali",
   "tested-percentage": "{{percent}}% dei testati sono positivi.",
-  "active-cases": "Active cases",
-  "no-active-cases": "No active cases 🎉",
+  "active-cases": "Casi attivi",
+  "no-active-cases": "Nessun caso attivo 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Porto di entrata",
     "unspecified": "Non specificato",
@@ -59,7 +59,7 @@
     "nagasaki-cruise": "Nagasaki - nave da crociera"
   },
   "prefectures": {
-    "Tokyo": "Tokio"
+    "Tokyo": "Tokyo"
   },
   "countries": {
     "westerdam": "Westerdam (nave da crociera)"
