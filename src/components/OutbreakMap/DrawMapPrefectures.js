@@ -67,7 +67,7 @@ const drawMapPrefectures = (ddb, map, lang) => {
   const prefecturePaint = [...PREFECTURE_PAINT];
   // Go through all prefectures looking for cases
   ddb.prefectures.map((prefecture) => {
-    let cases = parseInt(prefecture.confirmed);
+    let cases = parseInt(prefecture.active);
     if (cases > 0) {
       prefecturePaint.push(prefecture.name);
       let matchingBoundary = Object.keys(MAP_COLOR_BOUNDARIES).find(
@@ -152,36 +152,30 @@ const drawMapPrefectures = (ddb, map, lang) => {
       }
 
       let increment = thisPrefecture.newlyConfirmed;
+      let popupIncrementSpan = "";
       if (increment > 0) {
-        var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
-      } else {
-        var popupIncrementSpan = "";
+        popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
       }
 
-      const name = thisPrefecture.name;
-      const confirmed = thisPrefecture.confirmed;
-      const deaths = thisPrefecture.deaths;
-      const recovered = thisPrefecture.recovered;
-      const active =
-        thisPrefecture.confirmed -
-        ((thisPrefecture.recovered || 0) + (thisPrefecture.deaths || 0));
-      const html = `<div class="map-popup">
-      <h3 data-i18n="prefectures.${name}">${i18next.t(
-        "prefectures." + name
-      )}</h3>
-          <span data-i18n="confirmed">${i18next.t(
-            "confirmed"
-          )}</span>: ${formatNumber(confirmed)} ${popupIncrementSpan}<br />
-          <span data-i18n="recovered">${i18next.t(
-            "recovered"
-          )}</span>: ${formatNumber(recovered)}<br />
-          <span data-i18n="deaths">${i18next.t(
-            "deaths"
-          )}</span>: ${formatNumber(deaths)}<br />
-          <span data-i18n="active">${i18next.t(
-            "active"
-          )}</span>: ${formatNumber(active)}
-          </div>`;
+      const prefectureStringId = `prefectures.${thisPrefecture.name}`;
+      const prefectureName = i18next.t(prefectureStringId);
+      const confirmed = formatNumber(thisPrefecture.confirmed);
+      const deaths = formatNumber(thisPrefecture.deaths);
+      const recovered = formatNumber(thisPrefecture.recovered);
+      const active = formatNumber(thisPrefecture.active);
+      const deathsLabel = i18next.t("deaths");
+      const recoveredLabel = i18next.t("recovered");
+      const confirmedLabel = i18next.t("confirmed");
+      const activeLabel = i18next.t("active");
+
+      const html = `
+        <div class="map-popup">
+          <h3 data-i18n="${prefectureStringId}">${prefectureName}</h3>
+          <div><span data-i18n="active">${activeLabel}</span>: ${active}</div>
+          <div><span data-i18n="confirmed">${confirmedLabel}</span>: ${confirmed} ${popupIncrementSpan}</div>
+          <div><span data-i18n="recovered">${recoveredLabel}</span>: ${recovered}</div>
+          <div><span data-i18n="deaths">${deathsLabel}</span>: ${deaths}</div>
+        </div>`;
       popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
     } else {
       popup.remove();
