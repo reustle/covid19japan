@@ -187,7 +187,8 @@ export const createPrefectureBox = (
 
   const prefectureId = prefecture.name.toLowerCase();
   const localizedPrefectureName = i18next.t(prefectureStringKey);
-  const diffValue = confirmedDiffValue(prefecture, numberFormatter);
+  const diffConfirmedValue = confirmedDiffValue(prefecture, numberFormatter);
+  const diffActiveValue = confirmedDiffValue(prefecture, numberFormatter);
 
   let boxClasses = ["region-box", "region-prefecture"];
   if (prefecture.active == 0) {
@@ -227,7 +228,7 @@ export const createPrefectureBox = (
         div(["active", "metric"], {}, [
           div("value-label", valueKey, valueLabel),
           div("value", {}, active),
-          div("diff", null, diffValue),
+          div("diff", null, diffActiveValue),
         ]),
         div(["deceased", "metric"], {}, [
           div("value-label", { "data-i18n": "deaths" }, i18next.t("deaths")),
@@ -240,7 +241,7 @@ export const createPrefectureBox = (
             i18next.t("confirmed")
           ),
           div("value", {}, confirmed),
-          div("diff", null, diffValue),
+          div("diff", null, diffConfirmedValue),
         ]),
       ]),
       div("chart-and-caption", {}, [
