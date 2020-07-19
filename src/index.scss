@@ -239,8 +239,13 @@ a, a:hover, a:visited {
 
 footer {
   margin: 0 auto;
-  line-height: 2rem;
   padding: 1rem;
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+    margin: 0 0 1rem;
+  }
 
   a, a:active {
     color: #1976d2 !important;
@@ -248,8 +253,9 @@ footer {
   .avatar {
     text-decoration: none;
     img {
-      height: 50px;
-      width: 50px;
+      height: 30px;
+      width: 30px;
+      margin: 5px;
       border-radius: 50%;
     }
   }
