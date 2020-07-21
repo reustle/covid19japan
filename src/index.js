@@ -29,10 +29,7 @@ import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import PrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
-import {
-  drawPrefectureTrajectoryChart,
-  drawRegionTrajectoryChart,
-} from "./components/TrajectoryChart/TrajectoryChart";
+import { drawRegionTrajectoryChart } from "./components/TrajectoryChart/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
 import {
   drawRegionalCharts,
@@ -126,7 +123,6 @@ let trendChart = null;
 let dailyIncreaseChart = null;
 
 // Keep reference to chart in order to destroy it when redrawing.
-let prefectureTrajectoryChart = null;
 let regionTrajectoryChart = null;
 
 // localize must be accessible globally
@@ -180,11 +176,6 @@ const setLang = (lng) => {
           dailyIncreaseChart,
           LANG,
           CHART_TIME_PERIOD
-        );
-        prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-          ddb.prefectures,
-          prefectureTrajectoryChart,
-          LANG
         );
         regionTrajectoryChart = drawRegionTrajectoryChart(
           ddb.regions,
@@ -357,11 +348,6 @@ document.addEventListener("covid19japan-redraw", () => {
       );
     });
     callIfUpdated(() => {
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
-        LANG
-      );
       regionTrajectoryChart = drawRegionTrajectoryChart(
         ddb.regions,
         regionTrajectoryChart,

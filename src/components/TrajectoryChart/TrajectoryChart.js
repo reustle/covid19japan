@@ -164,19 +164,6 @@ const drawTrajectoryChart = (
   return trajectoryChart;
 };
 
-export const drawPrefectureTrajectoryChart = (
-  prefectures,
-  trajectoryChart,
-  lang
-) => {
-  return drawTrajectoryChart(
-    prefectures.filter((prefecture) => !prefecture.pseudoPrefecture),
-    trajectoryChart,
-    lang,
-    "#prefecture-trajectory",
-    "prefectures"
-  );
-};
 export const drawRegionTrajectoryChart = (
   regions,
   regionTrajectoryChart,
