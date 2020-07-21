@@ -25,7 +25,6 @@
   "active": "Aktiivisia",
   "helpful-links": "Hyödyllisiä linkkejä",
   "primary-data-sources": "Pääasialliset tietolähteet",
-  "confirmed-case-trajectories-by-prefecture": "Varmistettujen tapauksien kehitys prefektuureittain",
   "confirmed-case-trajectories-by-region": "Varmistettujen tapauksien kehitys alueittain",
   "trajectory-description": "Päivää {{minimumConfirmed}}. tapauksesta",
   "traveling-into-japan": "Matkustaminen Japaniin",

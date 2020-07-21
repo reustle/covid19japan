@@ -24,7 +24,7 @@
   "active": "Attivi",
   "helpful-links": "Collegamenti utili",
   "primary-data-sources": "Fonti Principali dei dati",
-  "confirmed-case-trajectories-by-prefecture": "Traiettora per Prefettura dei Casi Confermati",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Numero dei giorni dal {{minimumConfirmed}}esimo caso",
   "traveling-into-japan": "Viaggiare in Giappone",
   "about-travel-restriction": "Seguono le restrizioni messe in atto riguardante il viaggiare in Giappone. Clicca sui link per saperne di più.",

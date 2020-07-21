@@ -25,7 +25,7 @@
   "active": "Активні",
   "helpful-links": "Корисні Посилання",
   "primary-data-sources": "Основні Джерела Даних",
-  "confirmed-case-trajectories-by-prefecture": "Траєкторії Підтверджених Випадків по Префектурі",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Кількість днів з {{minimumConfirmed}}-го випадку",
   "traveling-into-japan": "В'їзд в Японію",
   "about-travel-restriction": "Нижче наведено діючі обмеження на в'їзд в Японію. Клацніть на посилання, щоб отримати докладнішу інформацію про обмеження.",

@@ -24,7 +24,7 @@
   "active": "Aktivních",
   "helpful-links": "Informativní Odkazy",
   "primary-data-sources": "Hlavní Zdroj Dat",
-  "confirmed-case-trajectories-by-prefecture": "Graf Potvrzených Případů rozdělený podle Prefektur",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Počet dní od {{minimumConfirmed}}ho případu",
   "traveling-into-japan": "Cestování do Japonska",
   "about-travel-restriction": "Níže jsou platné opatření týkající se cestování do Japonska. Pro více informací klikněte na odkaz.",

@@ -23,7 +23,7 @@
   "active": "活性",
   "helpful-links": "有用的網址",
   "primary-data-sources": "主要數據源",
-  "confirmed-case-trajectories-by-prefecture": "按地區確認的病例軌跡",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "自第{{minimumConfirmed}}起案件以來的天數",
   "traveling-into-japan": "前往日本",
   "about-travel-restriction": "以下是對赴日旅行的限制。 單擊鏈接以獲取有關限制的更多詳細信息。",

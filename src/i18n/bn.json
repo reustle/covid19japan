@@ -25,7 +25,7 @@
   "active": "সক্রিয়",
   "helpful-links": "উপকারী লিঙ্কসমূহ",
   "primary-data-sources": "প্রাথমিক তথ্য সূত্রসমূহ",
-  "confirmed-case-trajectories-by-prefecture": "প্রিফেকচার অনুযায়ী সনাক্তের ট্রাজেক্টোরি-চিত্র",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "{{minimumConfirmed}}তম সনাক্তের পর থেকে দিনের সংখ্যা",
   "traveling-into-japan": "জাপানে ভ্রমণ",
   "about-travel-restriction": "জাপানে ভ্রমণবিষয়ক নিষেধাজ্ঞাগুলো নিচে দেওয়া হল। বিধিনিষেধ সম্পর্কে আরও তথ্যের জন্য লিঙ্কে ক্লিক করুন।",

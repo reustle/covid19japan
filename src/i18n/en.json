@@ -26,7 +26,6 @@
   "active": "Active",
   "helpful-links": "Helpful Links",
   "primary-data-sources": "Primary Data Sources",
-  "confirmed-case-trajectories-by-prefecture": "Confirmed Case Trajectories by Prefecture",
   "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Number of days since {{minimumConfirmed}}th case",
   "traveling-into-japan": "Traveling into Japan",

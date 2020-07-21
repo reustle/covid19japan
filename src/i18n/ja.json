@@ -25,7 +25,7 @@
   "active": "既存感染者数",
   "helpful-links": "有益な情報源",
   "primary-data-sources": "一次情報源",
-  "confirmed-case-trajectories-by-prefecture": "都道府県別の感染者数推移",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Number of days since {{minimumConfirmed}}th case",
   "traveling-into-japan": "入国制限について",
   "about-travel-restriction": "下記に各国の入国制限に関する一覧がございます。詳細をご覧いただくには、国名をクリックしてください。",

@@ -26,7 +26,7 @@
   "active": "حالات نشطة حاليا",
   "helpful-links": "روابط مساعدة",
   "primary-data-sources": "المصادر المرجعية للبيانات",
-  "confirmed-case-trajectories-by-prefecture": "مسارات الاصابات في كل محافظة",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": " عدد الايام منذ تخطي {{minimumConfirmed}} اصابة ",
   "traveling-into-japan": "السفر الي اليابان",
   "about-travel-restriction": "هذه معلومات عن حظر السفر الي اليابان. برجاء الضعط على الروابط في الاسفل للحصول على معلومات تفصيلية",
