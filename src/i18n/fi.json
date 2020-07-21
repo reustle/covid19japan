@@ -17,6 +17,7 @@
   "outbreak-spread-trend": "Tapauksia yhteensä",
   "new-cases-by-day": "Päivän varmistetut tapaukset",
   "top-prefectures": "Prefektuurien kymmenen kärki",
+  "active-regions": "Aktiivisimmat alueet",
   "prefecture-data": "Tapauksia prefektuureittain",
   "prefecture": "Prefektuuri",
   "confirmed": "Varmistettuja",
@@ -107,6 +108,16 @@
     "Yamagata": "Yamagata",
     "Yamaguchi": "Yamaguchi",
     "Yamanashi": "Yamanashi"
+  },
+  "regions": {
+    "Hokkaido": "Hokkaidō",
+    "Tohoku": "Tōhoku",
+    "Kanto": "Kantō",
+    "Chubu": "Chūbu",
+    "Kansai": "Kansai",
+    "Chugoku": "Chūgoku",
+    "Shikoku": "Shikoku",
+    "Other": "Muut"
   },
   "countries": {
     "westerdam": "Westerdam (risteilyalus)"
