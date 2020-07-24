@@ -22,13 +22,14 @@ const drawKpis = (totals, totalsDiff, lang) => {
 
   const setKpiDiffWithSelector = (selector, value) => {
     const diffDir = value >= 0 ? "+" : "";
+    const valueString = formatNumber(value);
     let kpiDiffElement = document.querySelector(selector);
     if (kpiDiffElement) {
-      kpiDiffElement.innerHTML = `(&nbsp;${diffDir}${value}&nbsp;)`;
+      kpiDiffElement.innerHTML = `(&nbsp;${diffDir}${valueString}&nbsp;)`;
     }
   };
   const setKpiDiff = (key, value) =>
-    setKpiDiffWithSelector(`#kpi-${key} .diff`, formatNumber(value));
+    setKpiDiffWithSelector(`#kpi-${key} .diff`, value);
 
   const setKpiWithSelector = (selector, value) => {
     let kpiValueElement = document.querySelector(selector);
