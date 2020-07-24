@@ -24,7 +24,7 @@
   "active": "Aktywne",
   "helpful-links": "Przydatne Linki",
   "primary-data-sources": "Główne Źródła Danych",
-  "confirmed-case-trajectories-by-prefecture": "Trajektorie Potwierdzonych Przypadków według Prefektur",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Liczba dni od przypadku numer: {{minimumConfirmed}}",
   "traveling-into-japan": "Podróżowanie do Japonii",
   "about-travel-restriction": "Poniżej znajdują się informacje o ograniczeniach w podróżowaniu do Japonii. Kliknij w link, aby uzyskać więcej szczegółów.",

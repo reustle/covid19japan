@@ -27,7 +27,7 @@
   "active": "Aktif",
   "helpful-links": "Tautan Berguna",
   "primary-data-sources": "Sumber Data Utama",
-  "confirmed-case-trajectories-by-prefecture": "Lintasan Kasus Terkonfirmasi berdasarkan Prefektur (> 100 kasus)",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Jumlah hari sejak kasus ke-{{minimumConfirmed}}",
   "traveling-into-japan": "Bepergian ke Jepang",
   "about-travel-restriction": "Di bawah ini adalah daftar negara yang dikenakan pembatasan perjalanan ke Jepang. Klik tautan untuk rincian lebih lanjut tentang pembatasan.",

@@ -180,17 +180,18 @@ a, a:hover, a:visited {
   }
 }
 
+// National charts
+#trajectories { width: 100%; }
 
-#prefecture-trajectory-container {
-  max-width: 800px;
-  margin: 0 auto;
+#regional-trajectory-container {
+  margin: 5px;
 }
 
-#prefecture-trajectory-chart {
+#regional-trajectory-chart {
   min-height: 500px;
 }
 
-#prefecture-trajectory-chart-box {
+#regional-trajectory-chart-box {
   padding: 10px 10px 5px 10px;
   border-radius: $box-border-radius;
   background: $color-box-background;
@@ -296,7 +297,7 @@ img.emoji {
 // c3 chart styling
 #trend-chart-container,
 #daily-increase-container,
-#prefecture-trajectory-container {
+#regional-trajectory-container {
   path.c3-line {
     stroke-width: 2px;
   }

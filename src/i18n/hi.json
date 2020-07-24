@@ -25,7 +25,7 @@
   "active": "सक्रिय",
   "helpful-links": "सहायक सूचना",
   "primary-data-sources": "प्राथमिक सूचना स्रोत",
-  "confirmed-case-trajectories-by-prefecture": "प्रांत अनुसार पुष्ट विषय मार्ग",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "{{minimumConfirmed}}वे विषय से अब तक व्यतीत दिन",
   "traveling-into-japan": "जापान में यात्रा",
   "about-travel-restriction": "विभिन्न देशों द्वारा जारी प्रवेशवर्जित सूची निम्न है। विस्तार से जानने के लिए देश के नाम पर दबाएँ 。",
