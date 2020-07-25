@@ -11,10 +11,13 @@
   "kpi-recovered": "Recovered",
   "covid-19": "COVID-19",
   "outbreak-map": "Outbreak Map",
-  "cases": "cases",
+  "cases-none": "No cases",
+  "cases-range": "{{from}}-{{to}} cases",
+  "cases-last": "{{from}}+ cases",
   "outbreak-spread-trend": "Total Cases",
   "new-cases-by-day": "Daily Confirmed Cases",
   "top-prefectures": "Top 10 Prefectures",
+  "active-regions": "Most Active Regions",
   "prefecture-data": "Cases by Prefecture",
   "prefecture": "Prefecture",
   "confirmed": "Confirmed",
@@ -23,7 +26,7 @@
   "active": "Active",
   "helpful-links": "Helpful Links",
   "primary-data-sources": "Primary Data Sources",
-  "confirmed-case-trajectories-by-prefecture": "Confirmed Case Trajectories by Prefecture",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Number of days since {{minimumConfirmed}}th case",
   "traveling-into-japan": "Traveling into Japan",
   "about-travel-restriction": "Below are the travel restrictions that have been put in place regarding traveling into Japan. Click on the link for more details on the restrictions.",
@@ -49,6 +52,8 @@
   "recovered-percentage": "{{percent}}% of total cases",
   "deceased-percentage": "{{percent}}% of total cases",
   "tested-percentage": "{{percent}}% of results are positive.",
+  "active-cases": "Active cases",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Port of Entry",
     "unspecified": "Unspecified",
@@ -103,6 +108,17 @@
     "Yamagata": "Yamagata",
     "Yamaguchi": "Yamaguchi",
     "Yamanashi": "Yamanashi"
+  },
+  "regions": {
+    "Kanto": "Kanto",
+    "Kansai": "Kansai",
+    "Kyushu": "Kyushu",
+    "Chubu": "Chubu",
+    "Chugoku": "Chugoku",
+    "Hokkaido": "Hokkaido",
+    "Tohoku": "Tohoku",
+    "Shikoku": "Shikoku",
+    "Other": "Other"
   },
   "countries": {
     "westerdam": "Westerdam (Cruise Ship)"

@@ -29,8 +29,12 @@ import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import PrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
-import drawPrefectureTrajectoryChart from "./components/TrajectoryChart";
+import { drawRegionTrajectoryChart } from "./components/TrajectoryChart/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
+import {
+  drawRegionalCharts,
+  drawTopRegions,
+} from "./components/RegionalCharts/RegionalCharts";
 
 const {
   toggleLangPicker,
@@ -46,6 +50,7 @@ import {
   JSON_PATH,
   SUPPORTED_LANGS,
   DDB_COMMON,
+  DEFAULT_CHART_TIME_PERIOD,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
@@ -55,6 +60,7 @@ import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 //
 
 let LANG = "en";
+let CHART_TIME_PERIOD = DEFAULT_CHART_TIME_PERIOD;
 
 const PAGE_STATE = {
   map: null,
@@ -117,10 +123,7 @@ let trendChart = null;
 let dailyIncreaseChart = null;
 
 // Keep reference to chart in order to destroy it when redrawing.
-let prefectureTrajectoryChart = null;
-
-// Dictionary of all the trend charts so that we can cleanup when redrawing.
-let prefectureTrendCharts = {};
+let regionTrajectoryChart = null;
 
 // localize must be accessible globally
 const localize = locI18next.init(i18next);
@@ -151,6 +154,7 @@ const setLang = (lng) => {
           ]);
         }
       });
+      drawMapPrefectures(ddb, PAGE_STATE.map, LANG);
     }
 
     // Redraw all components that need rerendering to be localized the prefectures table
@@ -159,18 +163,27 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
-        drawKpis(ddb.totals, ddb.totalsDiff);
-        trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+        drawKpis(ddb.totals, ddb.totalsDiff, LANG);
+        drawPageTitleCount(ddb.totals.confirmed, LANG);
+        trendChart = drawTrendChart(
+          ddb.trend,
+          trendChart,
+          LANG,
+          CHART_TIME_PERIOD
+        );
         dailyIncreaseChart = drawDailyIncreaseChart(
           ddb.trend,
           dailyIncreaseChart,
+          LANG,
+          CHART_TIME_PERIOD
+        );
+        regionTrajectoryChart = drawRegionTrajectoryChart(
+          ddb.regions,
+          regionTrajectoryChart,
           LANG
         );
-        prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-          ddb.prefectures,
-          prefectureTrajectoryChart,
-          LANG
-        );
+        drawTopRegions(ddb.prefectures, ddb.regions, LANG);
+        drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
       }
     }
 
@@ -226,7 +239,7 @@ const whenMapAndDataReady = () => {
   if (!PAGE_STATE.styleLoaded || !PAGE_STATE.dataLoaded || !PAGE_STATE.map) {
     return;
   }
-  drawMapPrefectures(ddb, PAGE_STATE.map);
+  drawMapPrefectures(ddb, PAGE_STATE.map, LANG);
 };
 
 const loadDataOnPage = () => {
@@ -235,6 +248,7 @@ const loadDataOnPage = () => {
       ddb.previouslyUpdated = ddb.lastUpdated;
       ddb.lastUpdated = summaryData.updated;
       ddb.prefectures = summaryData.prefectures;
+      ddb.regions = summaryData.regions;
       let newTotals = calculateTotals(summaryData.daily);
       ddb.totals = newTotals[0];
       ddb.totalsDiff = newTotals[1];
@@ -313,30 +327,36 @@ const callIfUpdated = (callback, delay = 0) => {
 };
 
 document.addEventListener("covid19japan-redraw", () => {
-  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff));
+  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff, LANG));
   if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
-    callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed));
+    callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
     callIfUpdated(() => {
-      trendChart = drawTrendChart(ddb.trend, trendChart, LANG);
+      trendChart = drawTrendChart(
+        ddb.trend,
+        trendChart,
+        LANG,
+        CHART_TIME_PERIOD
+      );
     });
     callIfUpdated(() => {
       dailyIncreaseChart = drawDailyIncreaseChart(
         ddb.trend,
         dailyIncreaseChart,
-        LANG
+        LANG,
+        CHART_TIME_PERIOD
       );
     });
     callIfUpdated(() => {
-      prefectureTrajectoryChart = drawPrefectureTrajectoryChart(
-        ddb.prefectures,
-        prefectureTrajectoryChart,
+      regionTrajectoryChart = drawRegionTrajectoryChart(
+        ddb.regions,
+        regionTrajectoryChart,
         LANG
       );
     }, 32);
     callIfUpdated(() => {
-      PrefectureTable.drawAllPrefectureTable(ddb.prefectures, ddb.totals);
-      PrefectureTable.drawTopPrefectureTable(ddb.prefectures, ddb.totals);
+      drawTopRegions(ddb.prefectures, ddb.regions, LANG);
+      drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
     }, 32);
     callIfUpdated(() => drawTravelRestrictions(ddb));
   }

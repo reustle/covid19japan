@@ -11,10 +11,13 @@
   "kpi-recovered": "Toipuneita",
   "covid-19": "COVID-19",
   "outbreak-map": "Levinneisyyskartta",
-  "cases": "tapausta",
+  "cases-none": "Ei tapauksia",
+  "cases-range": "{{from}}-{{to}} tapausta",
+  "cases-last": "Yli {{from}} tapausta",
   "outbreak-spread-trend": "Tapauksia yhteensä",
   "new-cases-by-day": "Päivän varmistetut tapaukset",
   "top-prefectures": "Prefektuurien kymmenen kärki",
+  "active-regions": "Aktiivisimmat alueet",
   "prefecture-data": "Tapauksia prefektuureittain",
   "prefecture": "Prefektuuri",
   "confirmed": "Varmistettuja",
@@ -23,7 +26,7 @@
   "active": "Aktiivisia",
   "helpful-links": "Hyödyllisiä linkkejä",
   "primary-data-sources": "Pääasialliset tietolähteet",
-  "confirmed-case-trajectories-by-prefecture": "Varmistettujen tapauksien kehitys prefektuureittain",
+  "confirmed-case-trajectories-by-region": "Varmistettujen tapauksien kehitys alueittain",
   "trajectory-description": "Päivää {{minimumConfirmed}}. tapauksesta",
   "traveling-into-japan": "Matkustaminen Japaniin",
   "about-travel-restriction": "Alla on listattu Japaniin matkustamista kohtevia rajoituksia. Klikkaa linkkiä saadaksesi lisätietoa rajoituksista.",
@@ -49,6 +52,8 @@
   "recovered-percentage": "{{percent}}% kaikista tapauksista",
   "deceased-percentage": "{{percent}}% kaikista tapauksista",
   "tested-percentage": "{{percent}}% positiivisia.",
+  "active-cases": "Aktiivisia tapauksia",
+  "no-active-cases": "Ei aktiivisia tapauksia 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Tulosatama",
     "unspecified": "Määrittelemätön",
@@ -103,6 +108,16 @@
     "Yamagata": "Yamagata",
     "Yamaguchi": "Yamaguchi",
     "Yamanashi": "Yamanashi"
+  },
+  "regions": {
+    "Hokkaido": "Hokkaidō",
+    "Tohoku": "Tōhoku",
+    "Kanto": "Kantō",
+    "Chubu": "Chūbu",
+    "Kansai": "Kansai",
+    "Chugoku": "Chūgoku",
+    "Shikoku": "Shikoku",
+    "Other": "Muut"
   },
   "countries": {
     "westerdam": "Westerdam (risteilyalus)"

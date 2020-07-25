@@ -3,18 +3,25 @@ import { color as d3_color } from "d3-color";
 import i18next from "i18next";
 import { format as dateFormat } from "date-fns";
 
-import { LOCALES } from "../../i18n";
+import { LOCALES, maybeIntlNumberFormat } from "../../i18n";
+import { niceScale } from "../../data/scaling";
 
 import {
   COLOR_ACTIVE,
   COLOR_CONFIRMED,
   COLOR_RECOVERED,
   COLOR_DECEASED,
-  CHART_TIME_PERIOD,
+  DEFAULT_CHART_TIME_PERIOD,
 } from "../../data/constants";
 
-const drawTrendChart = (sheetTrend, trendChart, lang) => {
+const drawTrendChart = (
+  sheetTrend,
+  trendChart,
+  lang,
+  timePeriod = DEFAULT_CHART_TIME_PERIOD
+) => {
   const dateLocale = LOCALES[lang];
+  const formatNumber = maybeIntlNumberFormat(lang);
 
   const cols = {
     Date: ["Date"],
@@ -26,11 +33,8 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
     Tested: ["Tested"],
   };
 
-  for (
-    let i = sheetTrend.length - CHART_TIME_PERIOD;
-    i < sheetTrend.length;
-    i++
-  ) {
+  const startIndex = timePeriod > 0 ? sheetTrend.length - timePeriod : 0;
+  for (let i = startIndex; i < sheetTrend.length; i++) {
     const row = sheetTrend[i];
 
     cols.Date.push(row.date);
@@ -43,6 +47,8 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
     );
     cols.Tested.push(row.testedCumulative);
   }
+
+  const scale = niceScale(cols.Confirmed.slice(1), 5);
 
   if (trendChart) {
     trendChart.destroy();
@@ -95,7 +101,7 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
       pattern: [COLOR_CONFIRMED, COLOR_ACTIVE, COLOR_RECOVERED, COLOR_DECEASED],
     },
     point: {
-      r: 2,
+      r: 1,
     },
     axis: {
       x: {
@@ -115,23 +121,11 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
         },
       },
       y: {
-        padding: {
-          bottom: 0,
-        },
+        padding: 0,
+        max: scale.max,
         tick: {
-          values: [
-            0,
-            2000,
-            4000,
-            6000,
-            8000,
-            10000,
-            12000,
-            14000,
-            16000,
-            18000,
-            20000,
-          ],
+          values: scale.ticks,
+          format: formatNumber,
         },
       },
     },
@@ -140,11 +134,12 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
         value: (value, ratio, id, index) => {
           if (index && cols[id][index]) {
             const diff = parseInt(value) - cols[id][index];
-            return `${value} (${diff >= 0 ? "+" : ""}${diff}) ${
+            const sign = diff >= 0 ? "+" : "";
+            return `${formatNumber(value)} (${sign}${formatNumber(diff)}) ${
               index === cols.Date.length - 2 ? i18next.t("provisional") : ""
             }`;
           } else {
-            return value;
+            return formatNumber(value);
           }
         },
       },
@@ -158,7 +153,10 @@ const drawTrendChart = (sheetTrend, trendChart, lang) => {
       },
     },
     padding: {
-      right: 24,
+      left: 40,
+      right: 10,
+      top: 0,
+      bottom: 0,
     },
   });
   return trendChart;

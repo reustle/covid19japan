@@ -1,7 +1,7 @@
 import languageResources, { LANGUAGES } from "../i18n";
 
 export const TIME_FORMAT = "MMMM d yyyy, HH:mm";
-export const CHART_TIME_PERIOD = 60;
+export const DEFAULT_CHART_TIME_PERIOD = 120;
 export const COLOR_ACTIVE = "rgb(223,14,31)";
 export const COLOR_CONFIRMED = "rgb(244,67,54)";
 export const COLOR_RECOVERED = "rgb(25,118,210)";
@@ -20,6 +20,16 @@ export const COLOR_NONE = "rgba(255, 255, 255, 0)";
 export const JSON_PATH = "https://data.covid19japan.com/summary/latest.json";
 export const PAGE_TITLE = "Coronavirus Disease (COVID-19) Japan Tracker";
 export const PREFECTURE_PAINT = ["match", ["get", "NAME_1"]];
+
+export const MAP_COLOR_BOUNDARIES = {
+  1: COLOR_NONE,
+  50: COLOR_YELLOW,
+  100: COLOR_ORANGE,
+  500: COLOR_RED,
+  1000: COLOR_DARK_RED,
+  Infinity: COLOR_DARK_BURGUNDY,
+};
+export const LEGEND_CLASSES = ["none", "one", "two", "three", "four", "five"];
 
 export const LANG_CONFIG = {
   fallbackLng: "en",

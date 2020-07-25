@@ -1,14 +1,10 @@
 import i18next from "i18next";
+import { maybeIntlNumberFormat } from "../../i18n";
 import {
   PREFECTURE_PAINT,
-  COLOR_YELLOW,
-  COLOR_ORANGE,
-  COLOR_RED,
-  COLOR_DARK_RED,
-  COLOR_BURGUNDY,
-  COLOR_DARK_BURGUNDY,
-  COLOR_BLACK,
   COLOR_NONE,
+  MAP_COLOR_BOUNDARIES,
+  LEGEND_CLASSES,
 } from "../../data/constants";
 
 const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
@@ -18,7 +14,9 @@ let pageDrawCount = 0;
  * drawMapPrefectures
  * @param {*} pageDraws - number of redraws to screen
  */
-const drawMapPrefectures = (ddb, map) => {
+const drawMapPrefectures = (ddb, map, lang) => {
+  const formatNumber = maybeIntlNumberFormat(lang);
+
   // Find the index of the first symbol layer
   // in the map style so we can draw the
   // prefecture colors behind it
@@ -36,30 +34,47 @@ const drawMapPrefectures = (ddb, map) => {
     }
   }
 
+  const getLegendLabel = (boundary, previousBoundary) => {
+    if (previousBoundary === 0) {
+      return i18next.t("cases-none");
+    }
+    if (!isFinite(boundary)) {
+      return i18next.t("cases-last", { from: formatNumber(previousBoundary) });
+    }
+    return i18next.t("cases-range", {
+      from: formatNumber(previousBoundary),
+      to: formatNumber(boundary - 1),
+    });
+  };
+  const drawLegend = () => {
+    var classIndex = 0;
+    var previousBoundary = 0;
+    var html = "";
+    for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort(
+      (a, b) => a - b
+    )) {
+      let label = getLegendLabel(boundary, previousBoundary);
+      html += `<div><span class="${LEGEND_CLASSES[classIndex]}">▉</span> ${label}</div>`;
+
+      classIndex = (classIndex + 1) % LEGEND_CLASSES.length;
+      previousBoundary = boundary;
+    }
+    return html;
+  };
+  document.getElementById("map-legend").innerHTML = drawLegend();
+
   // Start the Mapbox search expression
   const prefecturePaint = [...PREFECTURE_PAINT];
   // Go through all prefectures looking for cases
   ddb.prefectures.map((prefecture) => {
-    let cases = parseInt(prefecture.confirmed);
+    let cases = parseInt(prefecture.active);
     if (cases > 0) {
       prefecturePaint.push(prefecture.name);
-
-      if (cases <= 49) {
-        // 1-49 cases
-        prefecturePaint.push(COLOR_YELLOW);
-      } else if (cases <= 99) {
-        // 50-99 cases
-        prefecturePaint.push(COLOR_ORANGE);
-      } else if (cases <= 499) {
-        // 100-499 cases
-        prefecturePaint.push(COLOR_RED);
-      } else if (cases <= 999) {
-        // 500-999 cases
-        prefecturePaint.push(COLOR_DARK_RED);
-      } else {
-        // 1000+ cases
-        prefecturePaint.push(COLOR_DARK_BURGUNDY);
-      }
+      let matchingBoundary = Object.keys(MAP_COLOR_BOUNDARIES).find(
+        (boundary) => cases < boundary
+      );
+      let color = MAP_COLOR_BOUNDARIES[matchingBoundary];
+      prefecturePaint.push(color);
     }
   });
 
@@ -137,34 +152,30 @@ const drawMapPrefectures = (ddb, map) => {
       }
 
       let increment = thisPrefecture.newlyConfirmed;
+      let popupIncrementSpan = "";
       if (increment > 0) {
-        var popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
-      } else {
-        var popupIncrementSpan = "";
+        popupIncrementSpan = `<span class='popup-increment'>(+${increment})</span>`;
       }
 
-      const name = thisPrefecture.name;
-      const confirmed = thisPrefecture.confirmed;
-      const deaths = thisPrefecture.deaths;
-      const recovered = thisPrefecture.recovered;
-      const active =
-        thisPrefecture.confirmed -
-        ((thisPrefecture.recovered || 0) + (thisPrefecture.deaths || 0));
-      const html = `<div class="map-popup">
-      <h3 data-i18n="prefectures.${name}">${i18next.t(
-        "prefectures." + name
-      )}</h3>
-          <span data-i18n="confirmed">${i18next.t(
-            "confirmed"
-          )}</span>: ${confirmed} ${popupIncrementSpan}<br />
-          <span data-i18n="recovered">${i18next.t(
-            "recovered"
-          )}</span>: ${recovered}<br />
-          <span data-i18n="deaths">${i18next.t(
-            "deaths"
-          )}</span>: ${deaths}<br />
-          <span data-i18n="active">${i18next.t("active")}</span>: ${active}
-          </div>`;
+      const prefectureStringId = `prefectures.${thisPrefecture.name}`;
+      const prefectureName = i18next.t(prefectureStringId);
+      const confirmed = formatNumber(thisPrefecture.confirmed);
+      const deaths = formatNumber(thisPrefecture.deaths);
+      const recovered = formatNumber(thisPrefecture.recovered);
+      const active = formatNumber(thisPrefecture.active);
+      const deathsLabel = i18next.t("deaths");
+      const recoveredLabel = i18next.t("recovered");
+      const confirmedLabel = i18next.t("confirmed");
+      const activeLabel = i18next.t("active");
+
+      const html = `
+        <div class="map-popup">
+          <h3 data-i18n="${prefectureStringId}">${prefectureName}</h3>
+          <div><span data-i18n="active">${activeLabel}</span>: ${active}</div>
+          <div><span data-i18n="confirmed">${confirmedLabel}</span>: ${confirmed} ${popupIncrementSpan}</div>
+          <div><span data-i18n="recovered">${recoveredLabel}</span>: ${recovered}</div>
+          <div><span data-i18n="deaths">${deathsLabel}</span>: ${deaths}</div>
+        </div>`;
       popup.setLngLat(e.lngLat).setHTML(html).addTo(map);
     } else {
       popup.remove();

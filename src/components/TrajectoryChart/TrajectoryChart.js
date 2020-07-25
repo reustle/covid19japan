@@ -2,22 +2,25 @@ import * as c3 from "c3";
 import * as d3 from "d3";
 import i18next from "i18next";
 
+import { maybeIntlNumberFormat } from "../../i18n";
+
 // Inject IE11 polyfill (not used in index.js).
 import "core-js/es/object/values";
 
-const drawPrefectureTrajectoryChart = (
-  prefectures,
-  prefectureTrajectoryChart,
-  lang
+const drawTrajectoryChart = (
+  areas,
+  trajectoryChart,
+  lang,
+  bindElement,
+  type
 ) => {
+  const formatNumber = maybeIntlNumberFormat(lang);
   const minimumConfirmed = 500;
-  const filteredPrefectures = prefectures.filter((prefecture) => {
-    return (
-      prefecture.confirmed >= minimumConfirmed && !prefecture.pseudoPrefecture
-    );
+  const filteredAreas = areas.filter((area) => {
+    return area.confirmed >= minimumConfirmed;
   });
-  const trajectories = filteredPrefectures.reduce((t, prefecture) => {
-    const cumulativeConfirmed = prefecture.dailyConfirmedCount.reduce(
+  const trajectories = filteredAreas.reduce((t, area) => {
+    const cumulativeConfirmed = area.dailyConfirmedCount.reduce(
       (result, value) => {
         if (result.length > 0) {
           const sum = result[result.length - 1] + value;
@@ -33,14 +36,11 @@ const drawPrefectureTrajectoryChart = (
       (value) => value >= minimumConfirmed
     );
     const translatedName =
-      i18next.getResource(
-        lang,
-        "translation",
-        `prefectures.${prefecture.name}`
-      ) || prefecture.name;
+      i18next.getResource(lang, "translation", `${type}.${area.name}`) ||
+      area.name;
     t[translatedName] = {
       name: translatedName,
-      confirmed: prefecture.confirmed,
+      confirmed: area.confirmed,
       cumulativeConfirmed: cumulativeConfirmedFromMinimum,
       lastIndex: cumulativeConfirmedFromMinimum.length - 1,
     };
@@ -48,12 +48,12 @@ const drawPrefectureTrajectoryChart = (
   }, {});
 
   const trajectoryValues = Object.values(trajectories);
-  const columns = trajectoryValues.map((prefecture) =>
-    [prefecture.name].concat(prefecture.cumulativeConfirmed)
+  const columns = trajectoryValues.map((area) =>
+    [area.name].concat(area.cumulativeConfirmed)
   );
 
-  const regions = trajectoryValues.map((prefecture) => {
-    const value = prefecture.lastIndex;
+  const regions = trajectoryValues.map((area) => {
+    const value = area.lastIndex;
     if (value > 0) {
       return [{ start: value - 1, end: value, style: "dashed" }];
     } else {
@@ -66,12 +66,12 @@ const drawPrefectureTrajectoryChart = (
     0
   );
 
-  if (prefectureTrajectoryChart) {
-    prefectureTrajectoryChart.destroy();
+  if (trajectoryChart) {
+    trajectoryChart.destroy();
   }
 
-  prefectureTrajectoryChart = c3.generate({
-    bindto: "#prefecture-trajectory",
+  trajectoryChart = c3.generate({
+    bindto: bindElement,
     size: {
       height: 500,
     },
@@ -84,13 +84,19 @@ const drawPrefectureTrajectoryChart = (
         padding: {
           bottom: 0,
         },
+        tick: {
+          format: formatNumber,
+        },
       },
       x: {
         // Set max x value to be 2 greater to avoid label cutoff
         max: maxDays + 2,
         label: i18next.t("trajectory-description", {
-          minimumConfirmed: minimumConfirmed,
+          minimumConfirmed: formatNumber(minimumConfirmed),
         }),
+        tick: {
+          format: formatNumber,
+        },
       },
     },
     data: {
@@ -140,22 +146,34 @@ const drawPrefectureTrajectoryChart = (
     tooltip: {
       format: {
         value: (value, ratio, id, index) => {
-          const prefecture = trajectories[id];
-          if (index && prefecture.cumulativeConfirmed[index - 1]) {
-            const diff =
-              parseInt(value) - prefecture.cumulativeConfirmed[index - 1];
+          const area = trajectories[id];
+          if (index && area.cumulativeConfirmed[index - 1]) {
+            const diff = parseInt(value) - area.cumulativeConfirmed[index - 1];
             const annotation =
-              index === prefecture.lastIndex ? i18next.t("provisional") : "";
-            const diffText = diff >= 0 ? `+${diff}` : diff;
-            return `${value} (${diffText}) ${annotation}`;
+              index === area.lastIndex ? i18next.t("provisional") : "";
+            const sign = diff >= 0 ? "+" : "";
+            const diffText = `${sign}${formatNumber(diff)}`;
+            return `${formatNumber(value)} (${diffText}) ${annotation}`;
           } else {
-            return value;
+            return formatNumber(value);
           }
         },
       },
     },
   });
-  return prefectureTrajectoryChart;
+  return trajectoryChart;
 };
 
-export default drawPrefectureTrajectoryChart;
+export const drawRegionTrajectoryChart = (
+  regions,
+  regionTrajectoryChart,
+  lang
+) => {
+  return drawTrajectoryChart(
+    regions,
+    regionTrajectoryChart,
+    lang,
+    "#regional-trajectory",
+    "regions"
+  );
+};

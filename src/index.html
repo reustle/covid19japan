@@ -180,7 +180,7 @@
 
     <section id="national-charts" class="embed-hide">
       <section id="trend-chart-container" class="embed-hide">
-        <h4 data-i18n="outbreak-spread-trend">Outbreak Spread Trend</h4>
+        <h4 data-i18n="outbreak-spread-trend">Total Cases</h4>
         <div id="trend-chart-box">
           <div id="trend-chart">
               <div class="loader"><div class="lds-dual-ring"></div></div>
@@ -189,7 +189,7 @@
       </section>
     
       <section id="daily-increase-container" class="embed-hide">
-        <h4 data-i18n="new-cases-by-day">New Cases By Day</h4>
+        <h4 data-i18n="new-cases-by-day">Daily Confirmed Cases</h4>
         <div id="daily-increase-chart-box">
           <div id="daily-increase-chart">
             <div class="loader"><div class="lds-dual-ring"></div></div>
@@ -204,113 +204,36 @@
         <div id="prefecture-map-contents">
           <div id="map-container"></div>
           <p class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></p>
-          <div id="map-legend">
-            <div><span class="one">▉</span> 1-49 <span data-i18n="cases">cases</span></div>
-            <div><span class="two">▉</span> 50-99 <span data-i18n="cases">cases</span></div>
-            <div><span class="three">▉</span> 100-499 <span data-i18n="cases">cases</span></div>
-            <div><span class="four">▉</span> 500-999 <span data-i18n="cases">cases</span></div>
-            <div><span class="five">▉</span> 1000+ <span data-i18n="cases">cases</span></div>    
-          </div>  
+          <div id="map-legend"></div>
         </div>
       </section>    
 
       <section id="prefecture-top-table-container" class="embed-hide">
-        <h4 data-i18n="top-prefectures">Top 10 Prefectures</h4>
-          <table id="top-prefectures-table" class="loading">
-            <thead>
-              <tr>
-                <th data-i18n="prefecture" class="prefecture">Prefecture</th>
-                <th class="trend" data-i18n="daily-trend">Daily Trend</th>
-                <th class="confirmed">
-                  <span data-i18n="confirmed">Confirmed</span>
-                </th>
-                <th class="delta">
-                  <div class="increment">
-                    <div class="today"><span data-i18n="increment-today">(Today)</span></div>
-                    <div class="yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></div>
-                  </div>
-                </th>
-                <th data-i18n="recovered" class="recovered">Recovered</th>
-                <th data-i18n="deaths" class="deceased">Deaths</th>
-              </tr>
-            </thead>
-            <tbody class="prefecture-rows">
-            </tbody>
-            <tbody class="more-rows">
-              <tr>
-                <td colspan="5">
-                  <a id="show-more-rows" href="#all-prefectures" data-i18n="see-all-prefectures">See all prefectures</a>
-                </td>
-              </tr>
-            </tbody>
-            <tbody class="loading-rows">
-              <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
-            </tbody>
-  
-          </table>
+        <h4 data-i18n="active-regions">Most Active Regions</h4>
       </section>
     </section>
     
-    <section id="prefecture-trajectory-container" class="embed-hide">
-      <h4 data-i18n="confirmed-case-trajectories-by-prefecture">Confirmed Case Trajectories by Prefecture</h4>
-      <div id="prefecture-trajectory-chart-box">
-        <div id="prefecture-trajectory">
+  
+    <section id="regional-charts-container" class="embed-hide">
+
+      <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+        <linearGradient id="regional-chart-gradient" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(0, 10, 18, 0.6)" />
+          <stop offset="90%" stop-color="rgba(0, 10, 18, 0)" />
+          <stop offset="100%" stop-color="rgba(0, 10, 18, 0)" />
+        </linearGradient>
+      </svg>
+
+    </section>
+
+    <section id="regional-trajectory-container" class="embed-hide">
+      <h4 data-i18n="confirmed-case-trajectories-by-region">Confirmed Case Trajectories by Region</h4>
+      <div id="regional-trajectory-chart-box">
+        <div id="regional-trajectory">
           <div class="loader"><div class="lds-dual-ring"></div></div>
         </div>
       </div>
     </section>
-  
-
-
-    <section id="all-prefectures-table-container" class="embed-hide">
-      <a name="all-prefectures"><h4 data-i18n="prefecture-data">Cases by Prefecture</h4></a>
-      <div class="table-wrapper">
-        <table id="prefectures-table" class="loading">
-          <thead>
-            <tr>
-              <th data-i18n="prefecture" class="prefecture">Prefecture</th>
-              <th class="trend" data-i18n="daily-trend">Daily Trend</th>
-              <th class="confirmed">
-                <span data-i18n="confirmed">Confirmed</span>
-              </th>
-              <th class="delta">
-                <div class="increment">
-                  <div class="today"><span data-i18n="increment-today">(Today)</span></div>
-                  <div class="yesterday"><span data-i18n="increment-yesterday">(Yesterday)</span></div>
-                </div>
-              </th>
-              <th data-i18n="recovered" class="recovered">Recovered</th>
-              <th data-i18n="deaths" class="deceased">Deaths</th>
-            </tr>
-          </thead>
-          <tbody class="total-rows">
-            <tr>
-              <td class="prefecture" data-i18n="total">Total</td>
-              <td class="trend"></td>
-              <td class="confirmed"></td>
-              <td class="delta"></td>
-              <td class="recovered"></td>
-              <td class="deceased"></td>
-            </tr>
-          </tbody>
-          <tbody class="prefecture-rows">
-            
-          </tbody>
-          <tbody class="pseudo-prefecture-rows"></tbody>
-         
-          <tbody class="cruise-header">
-            <tr>
-              <td colspan="4" data-i18n="cruise-passengers-explanation">Cruise crew and passengers are not included in totals.</td>
-            </tr>
-          </tbody>
-          <tbody class="cruise-rows"></tbody>
-          <tbody class="loading-rows">
-            <tr><td colspan="4"><div class="loader"><div class="lds-dual-ring"></div></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-  
   
     <section id="travel-restrictions" class="embed-hide">
       <h4 data-i18n="traveling-into-japan">Traveling into Japan</h4>
@@ -393,14 +316,22 @@
         <a href="https://twitter.com/kojiannoura" title="Koji Annoura" target="_blank" class="avatar">
           <img src="/static/avatars/koji.jpg" alt="Koji Annoura">
         </a>
+        <a href="https://twitter.com/hnn_kbysh" title="Hinano Kobayashi" target="_blank" class="avatar">
+          <img src="/static/avatars/hinano.jpg" alt="Hinano Kobayashi">
+        </a>
+        <a href="https://twitter.com/vlumi" title="Ville Misaki" target="_blank" class="avatar">
+          <img src="/static/avatars/vlumi.jpg" alt="Ville Misaki">
+        </a>
         <a href="https://github.com/reustle/covid19japan/graphs/contributors" title="Other Contributors" target="_blank" class="avatar">
           <img src="https://ui-avatars.com/api/?background=1876D3&size=80&bold=true&color=fff&name=%2B" alt="Other Contributors">
         </a>
       </p>
       <p>
-        Supported by <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, <a href="https://mapbox.com/community/" target="_blank">Mapbox</a>, <a href="https://sentry.io" target="_blank">Sentry.io</a>, and <a href="https://netlify.com/" target="_blank">Netlify</a><br/>
-        Contribute to <a href="https://github.com/reustle/covid19japan">covid19japan on GitHub</a><br/>
-        Data sourced from Prefectural Governments and MHLW (<a href="https://github.com/reustle/covid19japan-data/">Full Details</a>)
+        Supported by <a href="https://reustle.co" target="_blank">Reustle K.K.</a>, <a href="https://mapbox.com/community/" target="_blank">Mapbox</a>, <a href="https://sentry.io" target="_blank">Sentry.io</a>, and <a href="https://netlify.com/" target="_blank">Netlify</a>.
+        Data sourced from Prefectural Governments and MHLW (<a href="https://github.com/reustle/covid19japan-data/">Full Details</a>.)
+      </p>
+      <p>
+        Contribute to <a href="https://github.com/reustle/covid19japan">covid19japan on GitHub</a>
       </p>
     </footer>
   </div>

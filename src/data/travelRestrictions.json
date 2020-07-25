@@ -8,6 +8,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "dz",
+        "name": "algeria",
+        "emoji": "🇩🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ad",
         "name": "andorra",
         "emoji": "🇦🇩",
@@ -92,9 +98,21 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "cm",
+        "name": "cameroon",
+        "emoji": "🇨🇲",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ca",
         "name": "canada",
         "emoji": "🇨🇦",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "cf",
+        "name": "central african republic",
+        "emoji": "🇨🇫",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -116,6 +134,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "cr",
+        "name": "costa rica",
+        "emoji": "🇨🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ci",
         "name": "cotedivoire",
         "emoji": "🇨🇮",
@@ -125,6 +149,12 @@
         "code": "hr",
         "name": "croatia",
         "emoji": "🇭🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "cu",
+        "name": "cuba",
+        "emoji": "🇨🇺",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -182,6 +212,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "sz",
+        "name": "eswantini",
+        "emoji": "🇸🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "fi",
         "name": "finland",
         "emoji": "🇫🇮",
@@ -200,9 +236,39 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "ge",
+        "name": "georgia",
+        "emoji": "🇬🇪",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "gr",
         "name": "greece",
         "emoji": "🇬🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gd",
+        "name": "grenada",
+        "emoji": "🇬🇩",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gt",
+        "name": "guatemala",
+        "emoji": "🇬🇹",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "gy",
+        "name": "guyana",
+        "emoji": "🇬🇾",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ht",
+        "name": "haiti",
+        "emoji": "🇭🇹",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -230,6 +296,12 @@
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
+        "code": "iq",
+        "name": "iraq",
+        "emoji": "🇮🇶",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
         "code": "ie",
         "name": "ireland",
         "emoji": "🇮🇪",
@@ -245,6 +317,12 @@
         "code": "it",
         "name": "italy",
         "emoji": "🇮🇹",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "jm",
+        "name": "jamaica",
+        "emoji": "🇯🇲",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -269,6 +347,12 @@
         "code": "lv",
         "name": "latvia",
         "emoji": "🇱🇻",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "lb",
+        "name": "lebanon",
+        "emoji": "🇱🇧",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -299,6 +383,12 @@
         "code": "mt",
         "name": "malta",
         "emoji": "🇲🇹",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "mr",
+        "name": "mauritania",
+        "emoji": "🇲🇷",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -341,6 +431,12 @@
         "code": "nz",
         "name": "newzealand",
         "emoji": "🇳🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ni",
+        "name": "nicaragua",
+        "emoji": "🇳🇮",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -431,6 +527,18 @@
         "code": "rs",
         "name": "serbia",
         "emoji": "🇷🇸",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "vc",
+        "name": "saint vincent and the grenadines",
+        "emoji": "🇻🇨",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sn",
+        "name": "senegal",
+        "emoji": "🇸🇳",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       },
       {
@@ -671,6 +779,108 @@
         "code": "za",
         "name": "south africa",
         "emoji": "🇿🇦",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "bw",
+        "name": "botswana",
+        "emoji": "🇧🇼",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "km",
+        "name": "comoros",
+        "emoji": "🇰🇲",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ke",
+        "name": "kenya",
+        "emoji": "🇰🇪",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "lr",
+        "name": "liberia",
+        "emoji": "🇱🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ly",
+        "name": "libya",
+        "emoji": "🇱🇾",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "mg",
+        "name": "madagascar",
+        "emoji": "🇲🇬",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "na",
+        "name": "namibia",
+        "emoji": "🇳🇦",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "np",
+        "name": "nepal",
+        "emoji": "🇳🇵",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ps",
+        "name": "palestine",
+        "emoji": "🇵🇸",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "py",
+        "name": "paraguay",
+        "emoji": "🇵🇾",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "cd",
+        "name": "republic of congo",
+        "emoji": "🇨🇬",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sl",
+        "name": "sierra leone",
+        "emoji": "🇸🇱",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "so",
+        "name": "somalia",
+        "emoji": "🇸🇴",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sd",
+        "name": "sudan",
+        "emoji": "🇸🇩",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "sr",
+        "name": "suriname",
+        "emoji": "🇸🇷",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "uz",
+        "name": "uzbekistan",
+        "emoji": "🇺🇿",
+        "link": "http://www.moj.go.jp/content/001316999.pdf"
+      },
+      {
+        "code": "ve",
+        "name": "venezuela",
+        "emoji": "🇻🇪",
         "link": "http://www.moj.go.jp/content/001316999.pdf"
       }
     ],

@@ -11,7 +11,9 @@
   "kpi-recovered": "回復者数",
   "covid-19": "ウイルス",
   "outbreak-map": "感染マップ",
-  "cases": "件",
+  "cases-none": "0件",
+  "cases-range": "{{from}}〜{{to}}件",
+  "cases-last": "{{from}}〜件",
   "outbreak-spread-trend": "ウイルス感染の拡散傾向",
   "new-cases-by-day": "日別新着感染者数",
   "top-prefectures": "Top 10 Prefectures",
@@ -23,7 +25,7 @@
   "active": "既存感染者数",
   "helpful-links": "有益な情報源",
   "primary-data-sources": "一次情報源",
-  "confirmed-case-trajectories-by-prefecture": "都道府県別の感染者数推移",
+  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
   "trajectory-description": "Number of days since {{minimumConfirmed}}th case",
   "traveling-into-japan": "入国制限について",
   "about-travel-restriction": "下記に各国の入国制限に関する一覧がございます。詳細をご覧いただくには、国名をクリックしてください。",
@@ -49,6 +51,8 @@
   "recovered-percentage": "累計感染者数の{{percent}}%",
   "deceased-percentage": "累計感染者数の{{percent}}%",
   "tested-percentage": "検査結果の{{percent}}%が陽性",
+  "active-cases": "既存感染者数",
+  "no-active-cases": "No active cases 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "入国港",
     "unspecified": "不明",
@@ -103,6 +107,17 @@
     "Yamagata": "山形県",
     "Yamaguchi": "山口県",
     "Yamanashi": "山梨県"
+  },
+  "regions": {
+    "Kanto": "関東",
+    "Kansai": "関西",
+    "Kyushu": "九州",
+    "Chubu": "中部",
+    "Chugoku": "中国",
+    "Hokkaido": "北海道",
+    "Tohoku": "東北",
+    "Shikoku": "四国",
+    "Other": "都道府県以外"
   },
   "countries": {
     "westerdam": "ウェスターダム（船）"

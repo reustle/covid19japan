@@ -146,11 +146,15 @@ a, a:hover, a:visited {
 }
 
 #daily-increase-chart-box, #trend-chart-box {
-  padding: 10px 10px 5px 10px;
+  padding: 20px 10px 5px 10px;
   border-radius: $box-border-radius;
   background: $color-box-background;
   box-shadow: $color-box-shadow;
 }
+
+// Regional section
+@import 'src/components/RegionalCharts/regional';
+
 
 // Prefectural section
 
@@ -176,17 +180,18 @@ a, a:hover, a:visited {
   }
 }
 
+// National charts
+#trajectories { width: 100%; }
 
-#prefecture-trajectory-container {
-  max-width: 800px;
-  margin: 0 auto;
+#regional-trajectory-container {
+  margin: 5px;
 }
 
-#prefecture-trajectory-chart {
+#regional-trajectory-chart {
   min-height: 500px;
 }
 
-#prefecture-trajectory-chart-box {
+#regional-trajectory-chart-box {
   padding: 10px 10px 5px 10px;
   border-radius: $box-border-radius;
   background: $color-box-background;
@@ -235,8 +240,13 @@ a, a:hover, a:visited {
 
 footer {
   margin: 0 auto;
-  line-height: 2rem;
   padding: 1rem;
+
+  p {
+    font-size: 0.9rem;
+    line-height: 1.2rem;
+    margin: 0 0 1rem;
+  }
 
   a, a:active {
     color: #1976d2 !important;
@@ -244,8 +254,9 @@ footer {
   .avatar {
     text-decoration: none;
     img {
-      height: 50px;
-      width: 50px;
+      height: 30px;
+      width: 30px;
+      margin: 5px;
       border-radius: 50%;
     }
   }
@@ -286,7 +297,7 @@ img.emoji {
 // c3 chart styling
 #trend-chart-container,
 #daily-increase-container,
-#prefecture-trajectory-container {
+#regional-trajectory-container {
   path.c3-line {
     stroke-width: 2px;
   }
@@ -300,4 +311,8 @@ img.emoji {
   .c3-axis-x .tick line {
     display: none;
   }
+}
+
+.hidden {
+  display: none;
 }

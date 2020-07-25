@@ -13,6 +13,8 @@ import {
   bn,
   hi,
   uk,
+  zhTW,
+  ar,
 } from "date-fns/locale";
 
 // Add new languages and their emoji flag here. Make sure the array indices line up.
@@ -31,6 +33,8 @@ export const LANGUAGES = [
   "bn",
   "hi",
   "uk",
+  "zh",
+  "ar",
 ];
 export const LANGUAGE_NAMES = [
   "English",
@@ -47,6 +51,8 @@ export const LANGUAGE_NAMES = [
   "বাংলা",
   "हिंदी",
   "Українська",
+  "中文 (繁體)",
+  "العربية",
 ];
 
 // Add locales for date-fns here. Make sure the keys match the languages in LANGUAGES.
@@ -65,6 +71,8 @@ export const LOCALES = {
   bn: bn,
   hi: hi,
   uk: uk,
+  zh: zhTW,
+  ar: ar,
 };
 
 const generateExport = () => {
@@ -75,6 +83,15 @@ const generateExport = () => {
     };
   }
   return resources;
+};
+
+export const maybeIntlNumberFormat = (lang) => {
+  if (window.Intl && window.Intl.NumberFormat) {
+    return window.Intl.NumberFormat(lang).format;
+  }
+  return (o) => {
+    return "" + o;
+  };
 };
 
 export default generateExport();

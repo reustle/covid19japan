@@ -1,0 +1,384 @@
+
+@import 'src/colors';
+@import 'src/type';
+@import 'src/layout';
+
+
+$box-margin: 5px;
+
+
+$breakpoint-1200-box-width: ($breakpoint-1200-page-width - $box-margin * 2 * 5) / 5;
+$breakpoint-1200-full-box-width: $breakpoint-1200-page-width - $box-margin * 2;
+
+$breakpoint-960-box-width: ($breakpoint-960-page-width - $box-margin * 2 * 4) / 4;
+$breakpoint-960-box-width-double: $breakpoint-960-box-width * 2 + $box-margin * 2;
+
+$breakpoint-960-full-box-width: $breakpoint-960-page-width - $box-margin * 2;
+
+
+// KPI 3-up layout 
+$breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 3;
+
+$breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
+
+// KPI 2-up layout for below $breakpoint-500 (box-width is not fixed, but 
+// relative to screen width.)
+
+#regional-charts-container {
+  margin-top: 20px;
+}
+
+.regional-charts {
+  padding: 10px 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+// Layouts
+
+
+// Layout 1:  Max screen size >1200px 
+
+.region-area {
+  height: 14rem;
+  width: $breakpoint-1200-full-box-width;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+
+  .vitals {
+    width: 11rem;
+    padding-left: 0.5rem;
+  }
+
+  .region-box-prefectures {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 2;
+    flex-wrap: nowrap;
+    overflow-x: scroll;
+    width: 100%;
+  }
+}
+
+.region-prefecture {
+  width: 11rem; 
+  min-width: 11rem;
+
+  .metric.deceased {
+    display: none;
+  }
+  .metric.confirmed {
+    display: none;
+  }
+}
+
+
+.region-top {
+  min-height: 10rem;
+  width: 100%;
+
+  .vitals {
+    display: flex;
+    flex-direction: row;
+  }
+  .vitals-left {
+    width: 50%;
+  }
+  .vitals-right {
+    width: 50%;
+    align-self: flex-end;
+  }
+
+  .metrics {
+    display: flex;
+    flex-direction: row;
+  }
+  .metric {
+    margin-right: 1rem;
+    min-width: 4rem;
+    .diff {
+      display: block;
+    }
+  }
+
+  .title {
+    margin-bottom: 0;
+  }
+}
+
+// Layout 2: Between 1200px and 960px
+
+@media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
+  .region-area {
+    width: $breakpoint-960-full-box-width;
+  }
+}
+
+// Layout 3: Between 960px and 600px
+
+@media (min-width: $breakpoint-600) and (max-width: $breakpoint-960-less-than) {
+  .region-area {
+    width: $breakpoint-600-full-box-width;
+  }
+}
+
+// Layout 4: Under 600px
+// Switched from a horizontal scroll to a vertical layout.
+
+@media (max-width: $breakpoint-600) {
+  .region-area {
+    width: 100%;
+
+    height: auto;
+    flex-direction: column;
+
+    .metrics {
+      display: flex;
+      flex-direction: row;
+      width: 90%;
+      .metric {
+        min-width: 5rem;
+        width: 5rem;
+      }
+    }
+
+    .region-box-prefectures {
+      display: block;
+      flex-direction: column;
+
+      .region-prefecture {
+        align-self: auto;
+        margin: 0;
+        width: 100%;
+        padding: 0.1rem 0.5rem;
+        border: none;
+        
+        .title {
+          color: $color-title-dark;
+          margin-top: 0.5rem;
+          font-size: 0.8rem;
+          font-weight: $font-weight-bold;
+        }
+
+        .metrics-and-chart {
+          display: block;
+
+          .metric {
+            align-self: flex-start;
+            .value-label {
+              display: none;
+            }
+            .value {
+              font-size: 1.0rem;
+              font-weight: $font-weight-bold;
+            }
+          }
+
+          .metric.deceased {
+            display: block;
+          }
+          .metric.confirmed {
+            display: block;
+          }
+          .metric.active .diff {
+            display: none;
+          }
+
+          .chart-and-caption {
+            //display: flex;
+            display: none;
+            flex-direction: row-reverse;
+          }
+
+          .chart {
+            width: 170px;
+          }
+
+          .chart-caption { 
+            display: none; 
+          }
+        }
+      }
+    }
+  }
+}
+
+a.region-top-link {
+  text-decoration: none;
+}
+
+.region-box {
+  background: $color-box-background;
+  box-shadow: $color-box-shadow;
+  border-radius: $box-border-radius;
+  margin: 5px 5px;
+  padding: 0.8rem;
+
+  .value, .diff {
+    color: $color-confirmed;
+  }
+  .value-label {
+    color: $color-confirmed-caption;
+  }
+
+  .yesterday {
+    color: $color-increment-yesterday;
+  }
+
+  .active {
+    .diff, .value {
+      color: $color-active;
+    }
+    .value-label {
+      color: $color-active-caption;
+    }
+  }
+
+  .deceased {
+    .diff, .value {
+      color: $color-deceased;
+    }
+    .value-label {
+      color: $color-deceased-caption;
+    }
+  }
+
+  .title {
+    color: $primary-black;
+    font-size: 1rem;
+    font-weight: $font-weight-extra-bold;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow-x: hidden;
+  }
+
+  .message {
+    font-size: 0.8rem;
+  }
+
+  .metric {
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+
+  .value-label {
+    font-size: 0.8rem;
+  }
+
+  .value {
+    font-size: 1.4rem;
+    font-weight: $font-weight-extra-bold;
+    display: inline;
+  }
+
+  .diff {
+    font-size: 1rem;
+    line-height: 1em;
+    font-weight: $font-weight-bold;
+    display: inline;
+    word-wrap: none;
+  }
+  
+  .chart {
+    padding-bottom: 0;
+
+    svg {
+      width: 100%;  // Width needed for Chrome, Firefox.
+
+      // Height only needed for IE11, but breaks Chrome/Firefox (so sad to need to use this hack)
+      @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {  
+        height: 3em;  
+      }
+    }
+  }
+
+  .description {
+    font-size: 0.8rem;
+    margin-top: 0.2rem;
+    line-height: 1.2em;
+    min-height: 1.2rem;
+  }
+
+  .chart-caption {
+    font-size: 0.6rem;
+    line-height: 0.8em;
+    color: $color-increment-yesterday;
+  }
+}
+
+.region-prefecture {
+  box-shadow: none;
+  border: 1px solid rgb(230, 230, 230);
+  margin: 1rem 0 0.5rem 0.5rem;
+  align-self: flex-end;
+
+  .metric {
+    margin-bottom: 0;
+  }
+}
+
+.region-top { 
+  .prefecture-sum {
+    font-weight: $font-weight-normal;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    color: $color-light-caption;
+
+    &::after {
+      content: "...";
+    }
+  }
+
+  .chart {
+    margin: 0.5rem 0.5rem 0 0.5rem;
+  }
+}
+
+.region-prefecture.inactive {
+  .value, .message {
+    color: $color-inactive;
+  }
+  .value, .diff {
+    color: $color-inactive;
+  }
+  .value-label {
+    color: $color-inactive;
+  }
+}
+
+
+
+.region-area .chart svg {
+  path.line {
+    stroke: $color-increment-yesterday;
+    stroke-width: 2px;
+  }
+
+  path.axis-ceiling {
+    stroke: $color-increment-yesterday;
+  }
+
+  text, circle { fill: $color-increment-yesterday; }
+
+  path.area {
+    fill: url(#regional-chart-gradient) $color-increment-yesterday !important;
+  }
+}
+
+.region-top .chart svg {
+  path.line {
+    stroke: $color-increment-yesterday;
+    stroke-width: 1px;
+  }
+
+  path.axis-ceiling {
+    stroke: $color-increment-yesterday;
+  }
+
+  text, circle { fill: $color-increment-yesterday; }
+
+  // path.area {
+  //   fill: url(#regional-chart-gradient) $primary-black !important;
+  // }
+}
