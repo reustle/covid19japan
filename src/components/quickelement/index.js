@@ -17,14 +17,16 @@ export const el = (tag, klass, attributes, contents) => {
       element.setAttribute(attrKey, attributes[attrKey]);
     }
   }
-  if (typeof contents == "string") {
-    let textNode = document.createElement("span");
-    textNode.innerHTML = contents;
-    element.appendChild(textNode);
-  } else if (typeof contents == "object" && contents.length) {
-    for (let child of contents) {
-      if (child && typeof child == "object") {
-        element.appendChild(child);
+  if (!!contents) {
+    if (typeof contents == "string") {
+      let textNode = document.createElement("span");
+      textNode.innerHTML = contents;
+      element.appendChild(textNode);
+    } else if (typeof contents == "object" && contents.length) {
+      for (let child of contents) {
+        if (child && typeof child == "object") {
+          element.appendChild(child);
+        }
       }
     }
   }
