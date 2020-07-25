@@ -135,6 +135,8 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
   let active = region.active;
   if (typeof active == "number") {
     active = numberFormatter(active);
+  } else if (active === null) {
+    active = "0";
   }
 
   let deceased = region.deceased;
@@ -210,6 +212,8 @@ export const createPrefectureBox = (
   let active = prefecture.active;
   if (typeof active == "number") {
     active = numberFormatter(active);
+  } else if (!active) {
+    active = "0";
   }
 
   let deceased = prefecture.deceased;
