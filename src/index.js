@@ -21,6 +21,7 @@ import "custom-event-polyfill";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
+import { initReactI18next } from "react-i18next";
 
 import { calculateTotals } from "./data/helper";
 import header from "./components/Header";
@@ -126,7 +127,7 @@ let dailyIncreaseChart = null;
 let regionTrajectoryChart = null;
 
 // localize must be accessible globally
-const localize = locI18next.init(i18next);
+const localize = locI18next.init(i18next.use(initReactI18next));
 
 const setLang = (lng) => {
   if (lng && lng.length > 1) {
