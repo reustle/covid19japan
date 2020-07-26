@@ -104,7 +104,7 @@ const KpiContainer = ({ data }) => {
   }, [data, language, t]);
 
   return (
-    <section id="kpi">
+    <>
       {setDrawData.length > 0 &&
         drawData.map((chart) => (
           <Kpi
@@ -118,7 +118,7 @@ const KpiContainer = ({ data }) => {
             caption={chart.caption}
           />
         ))}
-    </section>
+    </>
   );
 };
 
