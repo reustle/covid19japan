@@ -303,8 +303,14 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
         return _.find(prefectureData, ["name", name]);
       });
       prefectures = prefectures.sort((a, b) => {
-        let deltaA = Math.max(a.newlyConfirmed, a.yesterdayConfirmed);
-        let deltaB = Math.max(b.newlyConfirmed, b.yesterdayConfirmed);
+        let deltaA = a.newlyConfirmed;
+        let deltaB = b.newlyConfirmed;
+        if (deltaA < 1 && a.yesterdayConfirmed > 0) {
+          deltaA = a.yesterdayConfirmed;
+        }
+        if (deltaB < 1 && b.yesterdayConfirmed > 0) {
+          deltaB = b.yesterdayConfirmed;
+        }
         if (deltaA < deltaB) {
           return 1;
         } else if (deltaB < deltaA) {
@@ -354,8 +360,15 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
   );
 
   let sortedPrefectures = prefectureData.sort((a, b) => {
-    let deltaA = Math.max(a.newlyConfirmed, a.yesterdayConfirmed);
-    let deltaB = Math.max(b.newlyConfirmed, b.yesterdayConfirmed);
+    let deltaA = a.newlyConfirmed;
+    let deltaB = b.newlyConfirmed;
+    if (deltaA < 1 && a.yesterdayConfirmed > 0) {
+      deltaA = a.yesterdayConfirmed;
+    }
+    if (deltaB < 1 && b.yesterdayConfirmed > 0) {
+      deltaB = b.yesterdayConfirmed;
+    }
+
     if (deltaA < deltaB) {
       return 1;
     } else if (deltaB < deltaA) {
