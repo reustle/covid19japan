@@ -14,7 +14,7 @@ const KpiContainer = ({ data }) => {
     const formatNumber = maybeIntlNumberFormat(language);
     const confirmed = {
       id: "confirmed",
-      label: "Confirmed",
+      label: t("kpi-confirmed"),
       value: formatNumber(totals.confirmed),
       diff: formatNumber(totalsDiff.confirmed),
       chartName: "confirmed_daily_avg.svg",
@@ -22,7 +22,7 @@ const KpiContainer = ({ data }) => {
     };
     let recovered = {
       id: "recovered",
-      label: "Recovered",
+      label: t("kpi-recovered"),
       value: formatNumber(totals.recovered),
       diff: formatNumber(totalsDiff.recovered),
       chartName: "recovered_daily_avg.svg",
@@ -30,7 +30,7 @@ const KpiContainer = ({ data }) => {
     };
     let deaths = {
       id: "deceased",
-      label: "Deaths",
+      label: t("kpi-deceased"),
       value: formatNumber(totals.deceased),
       diff: formatNumber(totalsDiff.deceased),
       chartName: "deceased_daily_avg.svg",
@@ -39,7 +39,7 @@ const KpiContainer = ({ data }) => {
 
     let active = {
       id: "active",
-      label: "Active",
+      label: t("kpi-active"),
       value: formatNumber(totals.active),
       diff: formatNumber(totalsDiff.active),
       chartName: "active_cumulative_avg.svg",
@@ -47,7 +47,7 @@ const KpiContainer = ({ data }) => {
     };
     let tested = {
       id: "tested",
-      label: "Tested",
+      label: t("kpi-tested"),
       value: formatNumber(totals.tested),
       diff: formatNumber(totalsDiff.tested),
       chartName: "tested_daily_avg.svg",
