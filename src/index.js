@@ -56,6 +56,9 @@ import {
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 
+import React from "react";
+import ReactDOM from "react-dom";
+import KpiContainer from "./components/KpiReact";
 //
 // Globals
 //
@@ -256,6 +259,10 @@ const loadDataOnPage = () => {
       ddb.trend = summaryData.daily;
 
       PAGE_STATE.dataLoaded = ddb.isLoaded();
+
+      //rendering the react component as soon as the data loads
+      const wrapper = document.getElementById("react-container");
+      ReactDOM.render(<KpiContainer data={ddb} />, wrapper);
 
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
