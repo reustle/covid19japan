@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Proptypes from "prop-types";
-// import Kpi from "../../components/kpi";
+import Kpi from "./kpi";
 import { maybeIntlNumberFormat } from "../../i18n";
 import { useTranslation } from "react-i18next";
 
@@ -105,7 +105,7 @@ const KpiContainer = ({ data }) => {
 
   return (
     <section id="kpi">
-      {/* {setDrawData.length > 0 &&
+      {setDrawData.length > 0 &&
         drawData.map((chart) => (
           <Kpi
             key={chart.id}
@@ -117,8 +117,7 @@ const KpiContainer = ({ data }) => {
             percent={chart.percentage}
             caption={chart.caption}
           />
-        ))} */}
-      <div>{JSON.stringify(drawData)}</div>
+        ))}
     </section>
   );
 };
