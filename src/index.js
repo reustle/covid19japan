@@ -26,7 +26,6 @@ import { initReactI18next } from "react-i18next";
 import { calculateTotals } from "./data/helper";
 import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
-import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import PrefectureTable from "./components/PrefectureTable";
 import drawTrendChart from "./components/SpreadTrendChart";
@@ -167,7 +166,6 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
-        drawKpis(ddb.totals, ddb.totalsDiff, LANG);
         drawPageTitleCount(ddb.totals.confirmed, LANG);
         trendChart = drawTrendChart(
           ddb.trend,
@@ -261,7 +259,7 @@ const loadDataOnPage = () => {
       PAGE_STATE.dataLoaded = ddb.isLoaded();
 
       //rendering the react component as soon as the data loads
-      const wrapper = document.getElementById("react-container");
+      const wrapper = document.getElementById("kpi");
       ReactDOM.render(<KpiContainer data={ddb} />, wrapper);
 
       const event = new CustomEvent("covid19japan-redraw");
@@ -335,7 +333,6 @@ const callIfUpdated = (callback, delay = 0) => {
 };
 
 document.addEventListener("covid19japan-redraw", () => {
-  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff, LANG));
   if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
