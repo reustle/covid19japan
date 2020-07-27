@@ -32,7 +32,7 @@ const KpiContainer = ({ data }) => {
           ? `+${formatNumber(totalsDiff.recovered)}`
           : formatNumber(totalsDiff.recovered),
       chartName: "recovered_daily_avg.svg",
-      caption: t("active-chart-caption"),
+      caption: t("recovered-chart-caption"),
     };
     let deaths = {
       id: "deceased",
@@ -43,7 +43,7 @@ const KpiContainer = ({ data }) => {
           ? `+${formatNumber(totalsDiff.deceased)}`
           : formatNumber(totalsDiff.deceased),
       chartName: "deceased_daily_avg.svg",
-      caption: t("recovered-chart-caption"),
+      caption: t("deceased-chart-caption"),
     };
 
     let active = {
@@ -55,7 +55,8 @@ const KpiContainer = ({ data }) => {
           ? `+${formatNumber(totalsDiff.active)}`
           : formatNumber(totalsDiff.active),
       chartName: "active_cumulative_avg.svg",
-      caption: t("deceased-chart-caption"),
+      caption: t("active-chart-caption"),
+      isActive: true,
     };
     let tested = {
       id: "tested",
