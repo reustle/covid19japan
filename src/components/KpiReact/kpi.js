@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { string } from "prop-types";
+import { string, bool } from "prop-types";
 import gradient from "./linearGradient";
 import Loader from "../Loader";
-
-const Kpi = ({ id, label, value, diff, caption, chartName, percent }) => {
+import updateTooltipLang from "../Header/UpdateTooltipLang";
+const Kpi = ({
+  id,
+  label,
+  value,
+  diff,
+  caption,
+  chartName,
+  percent,
+  isActive,
+}) => {
   const [graph, setGraph] = useState(null);
   const [isLoading, setisLoading] = useState(true);
 
@@ -18,12 +27,23 @@ const Kpi = ({ id, label, value, diff, caption, chartName, percent }) => {
           });
         }
       });
+      if (isActive) updateTooltipLang();
     }
-  }, [chartName]);
-  if (!value) return null;
+  }, [chartName, isActive]);
   return (
-    <div className="kpi-box" id={`kpi-${id}`}>
-      <div className="label">{label}</div>
+    <div
+      className="kpi-box"
+      id={`kpi-${id}`}
+      data-tippy-i18n={isActive ? "kpi-active-tooltip" : null}
+      data-tippy-placement={isActive ? "bottom" : null}
+      data-tippy-content={
+        isActive ? "Confirmed cases minus recovered minus deceased" : null
+      }
+    >
+      <div className="label">
+        {label}
+        {isActive && <span>&#9432;</span>}
+      </div>
       <div className="value">{value} </div>
       <div className="diff">( {diff} )</div>
       <div
@@ -60,6 +80,7 @@ Kpi.propTypes = {
   caption: string,
   chartName: string,
   percent: string,
+  isActive: bool,
 };
 
 Kpi.defaultProps = {
@@ -70,6 +91,7 @@ Kpi.defaultProps = {
   caption: "",
   chartName: "",
   percent: "",
+  isActive: false,
 };
 
 export default Kpi;

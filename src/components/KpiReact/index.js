@@ -132,6 +132,7 @@ const KpiContainer = ({ data }) => {
             chartName={chart.chartName}
             percent={chart.percentage}
             caption={chart.caption}
+            isActive={chart.isActive}
           />
         ))}
     </>
