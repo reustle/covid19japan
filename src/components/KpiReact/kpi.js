@@ -25,7 +25,7 @@ const Kpi = ({ id, label, value, diff, caption, chartName, percent }) => {
     <div className="kpi-box" id={`kpi-${id}`}>
       <div className="label">{label}</div>
       <div className="value">{value} </div>
-      <div className="diff">( {diff >= 0 ? `+${diff}` : ` -${diff}`})</div>
+      <div className="diff">( {diff} )</div>
       <div
         className="description"
         dangerouslySetInnerHTML={{ __html: percent }}

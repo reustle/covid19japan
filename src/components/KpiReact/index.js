@@ -16,7 +16,10 @@ const KpiContainer = ({ data }) => {
       id: "confirmed",
       label: t("kpi-confirmed"),
       value: formatNumber(totals.confirmed),
-      diff: formatNumber(totalsDiff.confirmed),
+      diff:
+        totalsDiff.confirmed >= 0
+          ? `+${formatNumber(totalsDiff.confirmed)}`
+          : formatNumber(totalsDiff.confirmed),
       chartName: "confirmed_daily_avg.svg",
       caption: t("confirmed-chart-caption"),
     };
@@ -24,7 +27,10 @@ const KpiContainer = ({ data }) => {
       id: "recovered",
       label: t("kpi-recovered"),
       value: formatNumber(totals.recovered),
-      diff: formatNumber(totalsDiff.recovered),
+      diff:
+        totalsDiff.recovered >= 0
+          ? `+${formatNumber(totalsDiff.recovered)}`
+          : formatNumber(totalsDiff.recovered),
       chartName: "recovered_daily_avg.svg",
       caption: t("active-chart-caption"),
     };
@@ -32,7 +38,10 @@ const KpiContainer = ({ data }) => {
       id: "deceased",
       label: t("kpi-deceased"),
       value: formatNumber(totals.deceased),
-      diff: formatNumber(totalsDiff.deceased),
+      diff:
+        totalsDiff.deceased >= 0
+          ? `+${formatNumber(totalsDiff.deceased)}`
+          : formatNumber(totalsDiff.deceased),
       chartName: "deceased_daily_avg.svg",
       caption: t("recovered-chart-caption"),
     };
@@ -41,7 +50,10 @@ const KpiContainer = ({ data }) => {
       id: "active",
       label: t("kpi-active"),
       value: formatNumber(totals.active),
-      diff: formatNumber(totalsDiff.active),
+      diff:
+        totalsDiff.active >= 0
+          ? `+${formatNumber(totalsDiff.active)}`
+          : formatNumber(totalsDiff.active),
       chartName: "active_cumulative_avg.svg",
       caption: t("deceased-chart-caption"),
     };
@@ -49,7 +61,10 @@ const KpiContainer = ({ data }) => {
       id: "tested",
       label: t("kpi-tested"),
       value: formatNumber(totals.tested),
-      diff: formatNumber(totalsDiff.tested),
+      diff:
+        totalsDiff.tested >= 0
+          ? `+${formatNumber(totalsDiff.tested)}`
+          : formatNumber(totalsDiff.tested),
       chartName: "tested_daily_avg.svg",
       caption: t("tested-chart-caption"),
     };
