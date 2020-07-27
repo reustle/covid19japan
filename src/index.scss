@@ -254,8 +254,8 @@ footer {
   .avatar {
     text-decoration: none;
     img {
-      height: 30px;
-      width: 30px;
+      height: 50px;
+      width: 50px;
       margin: 5px;
       border-radius: 50%;
     }
@@ -283,6 +283,12 @@ body {
      {
       box-shadow: none;
       border: $color-box-border;
+    }
+
+    // Smaller avatars for embedded mode.
+    .avatar img {
+      width: 30px;
+      height: 30px;
     }
   }
 }
