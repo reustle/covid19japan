@@ -1,5 +1,6 @@
 {
   "covid-19-tracker": "Japan COVID-19 Coronavirus Tracker",
+  "languages": "Sprachen:",
   "last-updated": "Zuletzt aktualisiert:",
   "kpi-active": "Aktiv",
   "kpi-active-tooltip": "Bestätigte Fälle minus Genesene minus Verstorbene",
