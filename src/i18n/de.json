@@ -16,6 +16,7 @@
   "outbreak-spread-trend": "Infektionstrend",
   "new-cases-by-day": "Neue Fälle (pro Tag)",
   "top-prefectures": "Top 10 Präfekturen",
+  "active-regions": "Aktivste Regionen",
   "prefecture-data": "Präfekturdaten",
   "prefecture": "Präfektur",
   "confirmed": "Bestätigt",
@@ -24,7 +25,8 @@
   "active": "Aktiv",
   "helpful-links": "Hilfreiche Links",
   "primary-data-sources": "Primäre Datenquellen",
-  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
+  "confirmed-case-trajectories-by-region": "Verlauf bestätigter Fälle pro Region",
+  "trajectory-description": "Tage seit dem {{minimumConfirmed}}. Fall",
   "traveling-into-japan": "Einreise nach Japan",
   "about-travel-restriction": "Nachfolgend sind bestehende Einreisebeschränkungen nach Japan aufgelistet. Mehr Informationen sind nach einem Klick auf die jeweilige Beschränkung verfügbar.",
   "banned-from-entering-japan": "Dürfen nicht nach Japan einreisen:",
@@ -49,8 +51,8 @@
   "recovered-percentage": "{{percent}}% aller Fälle",
   "deceased-percentage": "{{percent}}% aller Fälle",
   "tested-percentage": "{{percent}}% aller Tests sind positiv.",
-  "active-cases": "Active cases",
-  "no-active-cases": "No active cases 🎉",
+  "active-cases": "Aktive Fälle",
+  "no-active-cases": "Keine aktiven Fälle 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Einreisehafen",
     "unspecified": "Unbestimmt",
@@ -59,6 +61,9 @@
   },
   "prefectures": {
     "Tokyo": "Tokio"
+  },
+  "regions": {
+    "Other": "Andere"
   },
   "countries": {
     "westerdam": "Westerdam (Kreuzfahrtschiff)"
