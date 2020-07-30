@@ -53,9 +53,9 @@ export const LANGUAGE_NAMES = [
   "বাংলা",
   "हिंदी",
   "Українська",
-  "Русский",
   "中文 (繁體)",
   "العربية",
+  "Русский",
 ];
 
 // Add locales for date-fns here. Make sure the keys match the languages in LANGUAGES.
