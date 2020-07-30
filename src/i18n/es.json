@@ -47,10 +47,10 @@
   "recovered-chart-caption": "Nuevas recuperaciones diarias",
   "deceased-chart-caption": "Nuevas muertes diarias",
   "tested-chart-caption": "Pruebas diarias",
-  "active-critical-percentage": "{{percent}}% están en condición <b>crítica</b>.",
+  "active-critical-percentage": "{{percent}}% en condición <b>crítica</b>",
   "recovered-percentage": "{{percent}}% del total de casos",
   "deceased-percentage": "{{percent}}% del total de casos",
-  "tested-percentage": "{{percent}}% de resultados positivos.",
+  "tested-percentage": "{{percent}}% de resultados positivos",
   "active-cases": "Casos activos",
   "no-active-cases": "No hay casos activos 🎉",
   "pseudo-prefectures": {
