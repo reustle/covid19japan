@@ -15,7 +15,7 @@
   "cases-range": "{{from}}-{{to}} случаев",
   "cases-last": "{{from}}+ случаев",
   "outbreak-spread-trend": "Всего случаев",
-  "new-cases-by-day": "Подтвержденные сегодня случаи",
+  "new-cases-by-day": "Число ежедневно подтвержденных случаев",
   "top-prefectures": "Топ 10 префектур",
   "active-regions": "Наиболее активные регионы",
   "prefecture-data": "Случаев по префектурам",
