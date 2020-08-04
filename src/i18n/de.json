@@ -1,5 +1,6 @@
 {
   "covid-19-tracker": "Japan COVID-19 Coronavirus Tracker",
+  "languages": "Sprachen:",
   "last-updated": "Zuletzt aktualisiert:",
   "kpi-active": "Aktiv",
   "kpi-active-tooltip": "Bestätigte Fälle minus Genesene minus Verstorbene",
@@ -16,6 +17,7 @@
   "outbreak-spread-trend": "Infektionstrend",
   "new-cases-by-day": "Neue Fälle (pro Tag)",
   "top-prefectures": "Top 10 Präfekturen",
+  "active-regions": "Aktivste Regionen",
   "prefecture-data": "Präfekturdaten",
   "prefecture": "Präfektur",
   "confirmed": "Bestätigt",
@@ -24,7 +26,8 @@
   "active": "Aktiv",
   "helpful-links": "Hilfreiche Links",
   "primary-data-sources": "Primäre Datenquellen",
-  "confirmed-case-trajectories-by-region": "Confirmed Case Trajectories by Region",
+  "confirmed-case-trajectories-by-region": "Verlauf bestätigter Fälle pro Region",
+  "trajectory-description": "Tage seit dem {{minimumConfirmed}}. Fall",
   "traveling-into-japan": "Einreise nach Japan",
   "about-travel-restriction": "Nachfolgend sind bestehende Einreisebeschränkungen nach Japan aufgelistet. Mehr Informationen sind nach einem Klick auf die jeweilige Beschränkung verfügbar.",
   "banned-from-entering-japan": "Dürfen nicht nach Japan einreisen:",
@@ -32,11 +35,11 @@
   "14-day-self-quarantine-required": "14-tägige Selbstquarantäne erforderlich:",
   "other-limitations": "Andere Einschränkungen:",
   "provisional": "Provisorisch",
-  "total": "Total",
+  "total": "Gesamt",
   "increment-today": "(Heute)",
   "increment-yesterday": "(Gestern)",
   "daily": "Täglich",
-  "7-day-average": "Siebentägiger Durchschnitt",
+  "7-day-average": "Sieben-Tages-Durchschnitt",
   "daily-trend": "Täglicher Trend",
   "see-all-prefectures": "Alle Präfekturen anzeigen",
   "cruise-passengers-explanation": "Besatzung und Passagiere von Kreuzfahrtschiffen werden nicht in die Gesamtstatistik einbezogen.",
@@ -45,12 +48,12 @@
   "recovered-chart-caption": "Tägliche neue Genesungen",
   "deceased-chart-caption": "Tägliche neue Todesfälle",
   "tested-chart-caption": "Tägliche Tests",
-  "active-critical-percentage": "{{percent}}% sind in <b>kritischer</b> Kondition.",
+  "active-critical-percentage": "{{percent}}% sind in <b>kritischem</b> Zustand.",
   "recovered-percentage": "{{percent}}% aller Fälle",
   "deceased-percentage": "{{percent}}% aller Fälle",
   "tested-percentage": "{{percent}}% aller Tests sind positiv.",
-  "active-cases": "Active cases",
-  "no-active-cases": "No active cases 🎉",
+  "active-cases": "Aktive Fälle",
+  "no-active-cases": "Keine aktiven Fälle 🎉",
   "pseudo-prefectures": {
     "port-of-entry": "Einreisehafen",
     "unspecified": "Unbestimmt",
@@ -59,6 +62,9 @@
   },
   "prefectures": {
     "Tokyo": "Tokio"
+  },
+  "regions": {
+    "Other": "Andere"
   },
   "countries": {
     "westerdam": "Westerdam (Kreuzfahrtschiff)"
