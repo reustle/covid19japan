@@ -7,7 +7,7 @@ import {
   LEGEND_CLASSES,
 } from "../../data/constants";
 
-const PREFECTURE_JSON_PATH = "static/prefectures2.geojson";
+const PREFECTURE_JSON_PATH = "static/prefectures-smooth.geojson";
 let pageDrawCount = 0;
 
 /**
@@ -105,22 +105,6 @@ const drawMapPrefectures = (ddb, map, lang) => {
       firstSymbolId
     );
 
-    // Add another layer with type "line"
-    // to provide a styled prefecture border
-    // let prefBorderLayer = map.addLayer(
-    //   {
-    //     id: "prefecture-outline-layer",
-    //     type: "line",
-    //     source: "prefectures",
-    //     layout: {},
-    //     paint: {
-    //       "line-width": 0.5,
-    //       "line-color": "#c0c0c0",
-    //       "line-opacity": 0.5,
-    //     },
-    //   },
-    //   firstSymbolId
-    // );
   } else {
     // Update prefecture paint properties
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
