@@ -46,7 +46,7 @@
   "confirmed-chart-caption": "Новых случаев за сутки",
   "active-chart-caption": "Всего активных случаев",
   "recovered-chart-caption": "Новые выздоровления за сутки",
-  "deceased-chart-caption": "Новые смерти за сутки"",
+  "deceased-chart-caption": "Новые смерти за сутки",
   "tested-chart-caption": "Протестировано за сутки",
   "active-critical-percentage": "{{percent}}% в <b>крит.</b> состоянии.",
   "recovered-percentage": "{{percent}}% от всех случаев",
