@@ -6,7 +6,7 @@
   "kpi-active-tooltip": "Кол-во подтверждённых случаев минус кол-во выздоровевшие и скончавшиеся",
   "kpi-critical": "Критичных",
   "kpi-deceased": "Скончалось",
-  "kpi-tested": "Протестовано",
+  "kpi-tested": "Протестировано",
   "kpi-confirmed": "Подтверждено",
   "kpi-recovered": "Выздоровело",
   "covid-19": "COVID-19",
