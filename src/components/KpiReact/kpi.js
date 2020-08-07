@@ -31,25 +31,19 @@ const Kpi = ({
     }
   }, [chartName, isActive]);
   return (
-    <div
-      className="kpi-box"
-      id={`kpi-${id}`}
-      data-tippy-i18n={isActive ? "kpi-active-tooltip" : null}
-      data-tippy-placement={isActive ? "bottom" : null}
-      data-tippy-content={
-        isActive ? "Confirmed cases minus recovered minus deceased" : null
-      }
-    >
-      <div className="label">
-        {label}
-        {isActive && <span>&#9432;</span>}
+    <>
+      <div className="vitals">
+        <div className="label">
+          {label}
+          {isActive && <span>&#9432;</span>}
+        </div>
+        <div className="value">{value} </div>
+        <div className="diff">( {diff} )</div>
+        <div
+          className="description"
+          dangerouslySetInnerHTML={{ __html: percent }}
+        ></div>
       </div>
-      <div className="value">{value} </div>
-      <div className="diff">( {diff} )</div>
-      <div
-        className="description"
-        dangerouslySetInnerHTML={{ __html: percent }}
-      ></div>
       <Loader isLoaded={isLoading} />
       {graph && (
         <div
@@ -68,7 +62,7 @@ const Kpi = ({
           }}
         ></p>
       )}
-    </div>
+    </>
   );
 };
 

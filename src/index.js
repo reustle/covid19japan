@@ -259,8 +259,19 @@ const loadDataOnPage = () => {
       PAGE_STATE.dataLoaded = ddb.isLoaded();
 
       //rendering the react component as soon as the data loads
-      const wrapper = document.getElementById("kpi");
-      ReactDOM.render(<KpiContainer data={ddb} />, wrapper);
+      // const wrapper = document.getElementById("kpi");
+      // ReactDOM.render(<KpiContainer data={ddb} />, wrapper);
+      [
+        "confirmed",
+        "recovered",
+        "critical",
+        "deceased",
+        "active",
+        "tested",
+      ].forEach((type) => {
+        const wrapper = document.getElementById(`kpi-${type}`);
+        ReactDOM.render(<KpiContainer data={ddb} type={type} />, wrapper);
+      });
 
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);

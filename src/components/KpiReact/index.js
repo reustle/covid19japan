@@ -4,14 +4,19 @@ import Kpi from "./kpi";
 import { maybeIntlNumberFormat } from "../../i18n";
 import { useTranslation } from "react-i18next";
 
-const KpiContainer = ({ data }) => {
-  const [drawData, setDrawData] = useState([]);
+const KpiContainer = ({ data, type }) => {
+  const [drawConfirmed, setDrawConfirmed] = useState(undefined);
+  const [drawRecovered, setDrawRecovered] = useState(undefined);
+  const [drawDeaths, setDrawDeaths] = useState(undefined);
+  const [drawActive, setDrawActive] = useState(undefined);
+  const [drawTested, setDrawTested] = useState(undefined);
   const { t, i18n } = useTranslation();
   const { language } = i18n;
 
   useEffect(() => {
     const { totals, totalsDiff } = data;
     const formatNumber = maybeIntlNumberFormat(language);
+
     const confirmed = {
       id: "confirmed",
       label: t("kpi-confirmed"),
@@ -23,6 +28,12 @@ const KpiContainer = ({ data }) => {
       chartName: "confirmed_daily_avg.svg",
       caption: t("confirmed-chart-caption"),
     };
+    setDrawConfirmed(confirmed);
+  }, [data, language, t]);
+  useEffect(() => {
+    const { totals, totalsDiff } = data;
+    const formatNumber = maybeIntlNumberFormat(language);
+
     let recovered = {
       id: "recovered",
       label: t("kpi-recovered"),
@@ -34,6 +45,20 @@ const KpiContainer = ({ data }) => {
       chartName: "recovered_daily_avg.svg",
       caption: t("recovered-chart-caption"),
     };
+    if (totals.confirmed > 0) {
+      let recoveredPercent = parseInt(
+        (totals.recovered / totals.confirmed) * 100
+      );
+      recovered.percentage = t("recovered-percentage", {
+        percent: formatNumber(recoveredPercent),
+      });
+    }
+    setDrawRecovered(recovered);
+  }, [data, language, t]);
+  useEffect(() => {
+    const { totals, totalsDiff } = data;
+    const formatNumber = maybeIntlNumberFormat(language);
+
     let deaths = {
       id: "deceased",
       label: t("kpi-deceased"),
@@ -45,6 +70,23 @@ const KpiContainer = ({ data }) => {
       chartName: "deceased_daily_avg.svg",
       caption: t("deceased-chart-caption"),
     };
+    if (totals.confirmed > 0) {
+      let deceasedPercent = parseInt(
+        (totals.deceased / totals.confirmed) * 100
+      );
+      if (deceasedPercent < 1) {
+        deceasedPercent =
+          parseInt((totals.deceased / totals.confirmed) * 1000) / 10;
+      }
+      deaths.percentage = t("deceased-percentage", {
+        percent: formatNumber(deceasedPercent),
+      });
+    }
+    setDrawDeaths(deaths);
+  }, [data, language, t]);
+  useEffect(() => {
+    const { totals, totalsDiff } = data;
+    const formatNumber = maybeIntlNumberFormat(language);
 
     let active = {
       id: "active",
@@ -58,18 +100,6 @@ const KpiContainer = ({ data }) => {
       caption: t("active-chart-caption"),
       isActive: true,
     };
-    let tested = {
-      id: "tested",
-      label: t("kpi-tested"),
-      value: formatNumber(totals.tested),
-      diff:
-        totalsDiff.tested >= 0
-          ? `+${formatNumber(totalsDiff.tested)}`
-          : formatNumber(totalsDiff.tested),
-      chartName: "tested_daily_avg.svg",
-      caption: t("tested-chart-caption"),
-    };
-
     if (totals.active > 0) {
       let criticalPercentage = parseInt(
         (totals.critical / totals.active) * 100
@@ -83,27 +113,23 @@ const KpiContainer = ({ data }) => {
       });
     }
 
-    if (totals.confirmed > 0) {
-      let recoveredPercent = parseInt(
-        (totals.recovered / totals.confirmed) * 100
-      );
-      recovered.percentage = t("recovered-percentage", {
-        percent: formatNumber(recoveredPercent),
-      });
-    }
+    setDrawActive(active);
+  }, [data, language, t]);
+  useEffect(() => {
+    const { totals, totalsDiff } = data;
+    const formatNumber = maybeIntlNumberFormat(language);
 
-    if (totals.confirmed > 0) {
-      let deceasedPercent = parseInt(
-        (totals.deceased / totals.confirmed) * 100
-      );
-      if (deceasedPercent < 1) {
-        deceasedPercent =
-          parseInt((totals.deceased / totals.confirmed) * 1000) / 10;
-      }
-      deaths.percentage = t("deceased-percentage", {
-        percent: formatNumber(deceasedPercent),
-      });
-    }
+    let tested = {
+      id: "tested",
+      label: t("kpi-tested"),
+      value: formatNumber(totals.tested),
+      diff:
+        totalsDiff.tested >= 0
+          ? `+${formatNumber(totalsDiff.tested)}`
+          : formatNumber(totalsDiff.tested),
+      chartName: "tested_daily_avg.svg",
+      caption: t("tested-chart-caption"),
+    };
 
     if (totals.tested > 0) {
       let testedPercentage = parseInt((totals.confirmed / totals.tested) * 100);
@@ -115,28 +141,38 @@ const KpiContainer = ({ data }) => {
         percent: formatNumber(testedPercentage),
       });
     }
-
-    setDrawData([confirmed, recovered, deaths, active, tested]);
+    setDrawTested(tested);
   }, [data, language, t]);
 
-  return (
-    <>
-      {setDrawData.length > 0 &&
-        drawData.map((chart) => (
-          <Kpi
-            key={chart.id}
-            id={chart.id}
-            label={chart.label}
-            value={chart.value}
-            diff={chart.diff}
-            chartName={chart.chartName}
-            percent={chart.percentage}
-            caption={chart.caption}
-            isActive={chart.isActive}
-          />
-        ))}
-    </>
+  const draw = (chart) => (
+    <Kpi
+      key={chart.id}
+      id={chart.id}
+      label={chart.label}
+      value={chart.value}
+      diff={chart.diff}
+      chartName={chart.chartName}
+      percent={chart.percentage}
+      caption={chart.caption}
+      isActive={chart.isActive}
+    />
   );
+
+  switch (type) {
+    case "confirmed":
+      return drawConfirmed ? draw(drawConfirmed) : "";
+    case "recovered":
+      return drawRecovered ? draw(drawRecovered) : "";
+    case "deceased":
+      return drawDeaths ? draw(drawDeaths) : "";
+    case "active":
+      return drawActive ? draw(drawActive) : "";
+    case "tested":
+      return drawTested ? draw(drawTested) : "";
+
+    default:
+      return "";
+  }
 };
 
 KpiContainer.propTypes = {
