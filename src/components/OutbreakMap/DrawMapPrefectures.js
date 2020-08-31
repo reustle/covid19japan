@@ -105,6 +105,32 @@ const drawMapPrefectures = (ddb, map, lang) => {
       firstSymbolId
     );
 
+    // HIGHLIGHT PREFECTURE BOUNDARY
+    map.addLayer({
+      id: "prefecture-outline-layer",
+      type: "line",
+      source: "prefectures",
+      layout: {},
+      paint: {
+        "line-width": [
+          "interpolate",
+          ["exponential", 2],
+          ["zoom"],
+          3,
+          0.5,
+          7.5,
+          1.5,
+        ],
+        "line-dasharray": [2, 1],
+        "line-color": "rgb(25,25,25)",
+        "line-opacity": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          1,
+          0.2,
+        ],
+      },
+    });
   } else {
     // Update prefecture paint properties
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
@@ -165,33 +191,6 @@ const drawMapPrefectures = (ddb, map, lang) => {
     } else {
       popup.remove();
     }
-  });
-
-  // HIGHLIGHT PREFECTURE BOUNDARY
-  map.addLayer({
-    id: "prefecture-outline-layer",
-    type: "line",
-    source: "prefectures",
-    layout: {},
-    paint: {
-      "line-width": [
-        "interpolate",
-        ["exponential", 2],
-        ["zoom"],
-        3,
-        0.5,
-        7.5,
-        1.5,
-      ],
-      "line-dasharray": [2, 1],
-      "line-color": "rgb(25,25,25)",
-      "line-opacity": [
-        "case",
-        ["boolean", ["feature-state", "hover"], false],
-        1,
-        0.2,
-      ],
-    },
   });
 
   var hoveredStateId = null;
