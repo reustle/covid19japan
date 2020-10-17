@@ -153,7 +153,7 @@ const drawTrendChart = (
       },
     },
     padding: {
-      left: 40,
+      left: 45,
       right: 10,
       top: 0,
       bottom: 0,
