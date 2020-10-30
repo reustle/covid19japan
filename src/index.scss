@@ -86,11 +86,16 @@ header {
     }
     
     .lang-picker {
-      padding: 0.5rem 1em 0.5em 0;
+      padding-inline-start: 0;
+      padding-inline-end: 1em;
+      padding-block-start: 0.5em;
+      padding-block-end: 0.5em;
+
       a {
         white-space: nowrap;
         text-decoration: none;
         margin-bottom: 0.3rem;
+
         &.active {
           border-bottom: solid 2px black;
           font-weight: $font-weight-bold;
