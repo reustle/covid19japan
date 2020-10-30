@@ -20,6 +20,10 @@ body {
   background: $color-background;
 }
 
+body[data-direction=rtl] #page {
+  direction: rtl;
+}
+
 #page, footer  {
   max-width: $breakpoint-1200-page-width;
   margin: 0 auto;
@@ -48,22 +52,25 @@ h1 {
 h4 {
   font-size: 1.4rem;
   line-height: 1.2em;
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
   font-weight: $font-weight-bold;
 }
 
 h5 {
   font-size: 1.1rem;
   font-weight: $font-weight-bold;
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
 }
 
 .footnote {
   display: block;
   font-size: 0.9em;
   font-style: italic;
-  text-align: right;
-  margin: 5px 10px 0px 10px;
+  text-align: end;
+  margin-block-start: 5px;
+  margin-inline-end: 10px;
+  margin-block-end: 0;
+  margin-inline-start: 10px;
 }
 
 
@@ -78,7 +85,7 @@ header {
 
     .lang-picker-title {
       font-style: italic;
-      margin-right: 0.5rem;
+      margin-block-end: 0.5rem;
     }
 
     .lang-picker-button {
@@ -86,15 +93,15 @@ header {
     }
     
     .lang-picker {
-      padding-inline-start: 0;
-      padding-inline-end: 1em;
       padding-block-start: 0.5em;
+      padding-inline-end: 1em;
       padding-block-end: 0.5em;
+      padding-inline-start: 0;
 
       a {
         white-space: nowrap;
         text-decoration: none;
-        margin-bottom: 0.3rem;
+        margin-block-end: 0.3rem;
 
         &.active {
           border-bottom: solid 2px black;
@@ -104,10 +111,13 @@ header {
     }
 
     #last-updated {
-      padding: 0.5rem 0 0.5em 1em;
+      padding-block-start: 0.5em;
+      padding-inline-end: 0;
+      padding-block-end: 0.5em;
+      padding-inline-start: 1em;
       flex-grow: 1;
       font-style: italic;
-      text-align: right;
+      text-align: end;
     }
 
   }
@@ -151,7 +161,10 @@ a, a:hover, a:visited {
 }
 
 #daily-increase-chart-box, #trend-chart-box {
-  padding: 20px 10px 5px 10px;
+  padding-block-start: 20px;
+  padding-inline-end: 10px;
+  padding-block-end: 5px;
+  padding-inline-start: 10px;
   border-radius: $box-border-radius;
   background: $color-box-background;
   box-shadow: $color-box-shadow;
@@ -197,7 +210,10 @@ a, a:hover, a:visited {
 }
 
 #regional-trajectory-chart-box {
-  padding: 10px 10px 5px 10px;
+  padding-block-start: 10px;
+  padding-inline-end: 10px;
+  padding-block-end: 5px;
+  padding-inline-start: 10px;
   border-radius: $box-border-radius;
   background: $color-box-background;
   box-shadow: $color-box-shadow;
@@ -221,17 +237,17 @@ a, a:hover, a:visited {
 @import 'src/components/PrefectureTable/prefectureTable';
 
 #helpful-links,
-#travel-restrictions, {
+#travel-restrictions {
   max-width: 800px;
   margin: 0 auto;
   li {
-    margin-bottom: 20px;
+    margin-block-end: 20px;
     word-wrap: break-word;
   }
 }
 
 #travel-restrictions {
-  margin-bottom: 5em;
+  margin-block-end: 5em;
   .country-link {
     white-space: nowrap;
   }
@@ -301,7 +317,10 @@ body {
 img.emoji {
   height: 1em;
   width: 1em;
-  margin: 0 .1em 0 .1em;
+  margin-block-start: 0;
+  margin-inline-end: .1em;
+  margin-block-end: 0;
+  margin-inline-start: .1em;
   vertical-align: -0.1em;
 }
 
