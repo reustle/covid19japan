@@ -1,10 +1,9 @@
 import i18next from "i18next";
 import _ from "lodash";
 
-import { el, span, div } from "../quickelement";
+import { span, div } from "quickelement";
 import { maybeIntlNumberFormat } from "../../i18n";
 
-const MAX_PREFECTURES_IN_REGION = 6;
 const MAX_REGIONS_IN_TOP_REGIONS = 4;
 const MAX_PREFECTURES_IN_TOP_REGIONS = 4;
 
@@ -322,8 +321,6 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
         }
         return b.confirmed - a.confirmed;
       });
-
-      //prefectures = prefectures.slice(0, MAX_PREFECTURES_IN_REGION);
 
       for (let prefecture of prefectures) {
         if (!prefecture) {
