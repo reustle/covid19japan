@@ -52,7 +52,7 @@ h1 {
 h4 {
   font-size: 1.4rem;
   line-height: 1.2em;
-  margin-block-start: 0.5rem;
+  margin-block-start: 1rem;
   margin-block-end: 1rem;
   font-weight: $font-weight-bold;
 }
@@ -149,7 +149,6 @@ a, a:hover, a:visited {
     font-weight: bold;    
   }
 
-
   a {
     text-decoration: underline;
   }
@@ -177,6 +176,9 @@ a, a:hover, a:visited {
     margin: 10px;
     flex: 1;
     width: 50%;
+  }
+  .chart-control {
+    margin: 10px 10px;
   }
 }
 
