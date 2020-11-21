@@ -51,6 +51,8 @@ import {
   SUPPORTED_LANGS,
   DDB_COMMON,
   DEFAULT_CHART_TIME_PERIOD,
+  COLOR_TESTED,
+  COLOR_CONFIRMED,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
@@ -175,6 +177,11 @@ const setLang = (lng) => {
           ddb.trend,
           dailyIncreaseChart,
           LANG,
+          "confirmed",
+          "confirmedAvg7d",
+          COLOR_TESTED,
+          COLOR_CONFIRMED,
+          "#daily-increase-chart",
           CHART_TIME_PERIOD
         );
         regionTrajectoryChart = drawRegionTrajectoryChart(
@@ -359,6 +366,11 @@ document.addEventListener("covid19japan-redraw", () => {
         ddb.trend,
         dailyIncreaseChart,
         LANG,
+        "confirmed",
+        "confirmedAvg7d",
+        COLOR_TESTED,
+        COLOR_CONFIRMED,
+        "#daily-increase-chart",
         CHART_TIME_PERIOD
       );
     });

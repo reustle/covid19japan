@@ -5,26 +5,24 @@ import format from "date-fns/format";
 import { LOCALES, maybeIntlNumberFormat } from "../../i18n";
 import { niceScale } from "../../data/scaling";
 
-import {
-  COLOR_TESTED,
-  COLOR_TESTED_DAILY,
-  DEFAULT_CHART_TIME_PERIOD,
-  COLOR_CONFIRMED,
-} from "../../data/constants";
-
 const drawDailyIncreaseChart = (
   trends,
-  dailyIncreaseChart,
+  chart,
   lang,
-  timePeriod = DEFAULT_CHART_TIME_PERIOD
+  dailyValueKey,
+  dailyAverageKey,
+  dailyValueColor,
+  dailyAverageColor,
+  elementSelector,
+  timePeriod
 ) => {
   const dateLocale = LOCALES[lang];
   const formatNumber = maybeIntlNumberFormat(lang);
 
   const cols = {
     Date: ["Date"],
-    Confirmed: ["Confirmed"],
-    ConfirmedAvg: ["ConfirmedAvg"],
+    Daily: ["Daily"],
+    DailyAvg: ["DailyAvg"],
   };
 
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
@@ -32,53 +30,49 @@ const drawDailyIncreaseChart = (
     const row = trends[i];
 
     cols.Date.push(row.date);
-    cols.Confirmed.push(row.confirmed);
+    cols.Daily.push(row[dailyValueKey]);
     if (i < trends.length - 1) {
       // Omit the last data point since it's provisional
       // and will always point downwards for the average.
-      cols.ConfirmedAvg.push(row.confirmedAvg7d);
+      cols.DailyAvg.push(row[dailyAverageKey]);
     }
   }
 
   const scale = niceScale(
-    cols.Confirmed.slice(1).concat(cols.ConfirmedAvg.slice(1)),
+    cols.Daily.slice(1).concat(cols.DailyAvg.slice(1)),
     5
   );
 
-  if (dailyIncreaseChart) {
-    dailyIncreaseChart.destroy();
+  if (chart) {
+    chart.destroy();
   }
+  console.log(dailyValueKey);
+  console.log(cols);
 
-  dailyIncreaseChart = c3.generate({
-    bindto: "#daily-increase-chart",
+  chart = c3.generate({
+    bindto: elementSelector,
     data: {
       x: "Date",
       colors: {
-        Confirmed: (color, d) => {
-          if (d && d.index === cols.Date.length - 2) {
-            return COLOR_TESTED_DAILY;
-          } else {
-            return COLOR_TESTED;
-          }
+        Daily: (color, d) => {
+          return dailyValueColor;
         },
-        ConfirmedAvg: (color, d) => {
-          return COLOR_CONFIRMED;
+        DailyAvg: (color, d) => {
+          return dailyAverageColor;
         },
       },
-      columns: [cols.Date, cols.Confirmed, cols.ConfirmedAvg],
+      columns: [cols.Date, cols.Daily, cols.DailyAvg],
       names: {
-        Confirmed: i18next.t("daily"),
-        ConfirmedAvg: i18next.t("7-day-average"),
+        Daily: i18next.t("daily"),
+        DailyAvg: i18next.t("7-day-average"),
       },
       type: "bar",
       types: {
-        Confirmed: "bar",
-        ConfirmedAvg: "spline",
+        Daily: "bar",
+        DailyAvg: "spline",
       },
       regions: {
-        Confirmed: [
-          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
-        ],
+        Daily: [{ start: cols.Date[cols.Date.length - 2], style: "dashed" }],
       },
     },
     point: {
@@ -139,7 +133,7 @@ const drawDailyIncreaseChart = (
       bottom: 0,
     },
   });
-  return dailyIncreaseChart;
+  return chart;
 };
 
 export default drawDailyIncreaseChart;
