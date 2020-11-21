@@ -41,6 +41,7 @@ const {
   updateTooltipLang,
   drawPageTitleCount,
   drawLastUpdated,
+  updatePageDirectionClass,
 } = header;
 
 const { drawMap, drawMapPrefectures } = mapDrawer;
@@ -139,6 +140,8 @@ const setLang = (lng) => {
   }
 
   toggleLangPicker(LANG);
+
+  updatePageDirectionClass(i18next.dir(LANG));
 
   // set i18n framework lang
   i18next.changeLanguage(LANG).then(() => {

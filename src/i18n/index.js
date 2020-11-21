@@ -17,6 +17,7 @@ import {
   ar,
   ru,
   th,
+  faIR,
 } from "date-fns/locale";
 
 // Add new languages and their emoji flag here. Make sure the array indices line up.
@@ -39,6 +40,7 @@ export const LANGUAGES = [
   "ar",
   "ru",
   "th",
+  "fa",
 ];
 export const LANGUAGE_NAMES = [
   "English",
@@ -58,7 +60,8 @@ export const LANGUAGE_NAMES = [
   "中文 (繁體)",
   "العربية",
   "Русский",
-  "ภาษาไทย"
+  "ภาษาไทย",
+  "فارسی",
 ];
 
 // Add locales for date-fns here. Make sure the keys match the languages in LANGUAGES.
@@ -81,6 +84,7 @@ export const LOCALES = {
   ar: ar,
   ru: ru,
   th: th,
+  fa: faIR,
 };
 
 const generateExport = () => {
