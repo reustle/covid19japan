@@ -27,8 +27,6 @@ import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
-import PrefectureTable from "./components/PrefectureTable";
-import drawTrendChart from "./components/SpreadTrendChart";
 import { drawRegionTrajectoryChart } from "./components/TrajectoryChart/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
 import {
@@ -53,7 +51,14 @@ import {
   DDB_COMMON,
   DEFAULT_CHART_TIME_PERIOD,
   COLOR_TESTED,
+  COLOR_TESTED_LIGHT,
   COLOR_CONFIRMED,
+  COLOR_CHART_BAR,
+  COLOR_ACTIVE,
+  COLOR_ACTIVE_LIGHT,
+  COLOR_DECEASED,
+  COLOR_DARK_RED,
+  COLOR_DECEASED_LIGHT,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
@@ -119,11 +124,11 @@ const loadData = (callback) => {
   tryFetch(retryFetchWithDelay);
 };
 
-// Keep a reference around to destroy it if we redraw this.
-let trendChart = null;
-
 // Keep reference to current chart in order to clean up when redrawing.
-let dailyIncreaseChart = null;
+let dailyConfirmedCasesChart = null;
+let dailyActiveCasesChart = null;
+let dailyDeathsCasesChart = null;
+let dailyTestsCasesChart = null;
 
 // Keep reference to chart in order to destroy it when redrawing.
 let regionTrajectoryChart = null;
@@ -170,23 +175,33 @@ const setLang = (lng) => {
       if (ddb.isLoaded()) {
         drawKpis(ddb.totals, ddb.totalsDiff, LANG);
         drawPageTitleCount(ddb.totals.confirmed, LANG);
-        trendChart = drawTrendChart(
-          ddb.trend,
-          trendChart,
-          LANG,
-          CHART_TIME_PERIOD
-        );
-        dailyIncreaseChart = drawDailyIncreaseChart(
-          ddb.trend,
-          dailyIncreaseChart,
-          LANG,
-          "confirmed",
-          "confirmedAvg7d",
-          COLOR_TESTED,
-          COLOR_CONFIRMED,
-          "#daily-increase-chart",
-          CHART_TIME_PERIOD
-        );
+
+        // TODO: This doesn't seem to be needed and can be removed.
+        //
+        // dailyConfirmedCasesChart = drawDailyIncreaseChart(
+        //   ddb.trend,
+        //   dailyConfirmedCasesChart,
+        //   LANG,
+        //   "confirmed",
+        //   "confirmedAvg7d",
+        //   COLOR_TESTED,
+        //   COLOR_CONFIRMED,
+        //   "#daily-increase-chart",
+        //   CHART_TIME_PERIOD
+        // );
+
+        // dailyActiveCasesChart = drawDailyIncreaseChart(
+        //   ddb.trend,
+        //   dailyActiveCasesChart,
+        //   LANG,
+        //   "active",
+        //   "",
+        //   COLOR_TESTED,
+        //   COLOR_CONFIRMED,
+        //   "#daily-active-chart",
+        //   CHART_TIME_PERIOD
+        // );
+
         regionTrajectoryChart = drawRegionTrajectoryChart(
           ddb.regions,
           regionTrajectoryChart,
@@ -264,6 +279,7 @@ const loadDataOnPage = () => {
       ddb.totals = newTotals[0];
       ddb.totalsDiff = newTotals[1];
       ddb.trend = summaryData.daily;
+      console.log(ddb.trend);
 
       PAGE_STATE.dataLoaded = ddb.isLoaded();
 
@@ -356,27 +372,63 @@ document.addEventListener("covid19japan-redraw", () => {
   if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
+
     callIfUpdated(() => {
-      trendChart = drawTrendChart(
+      dailyConfirmedCasesChart = drawDailyIncreaseChart(
         ddb.trend,
-        trendChart,
-        LANG,
-        CHART_TIME_PERIOD
-      );
-    });
-    callIfUpdated(() => {
-      dailyIncreaseChart = drawDailyIncreaseChart(
-        ddb.trend,
-        dailyIncreaseChart,
+        dailyConfirmedCasesChart,
         LANG,
         "confirmed",
         "confirmedAvg7d",
-        COLOR_TESTED,
+        COLOR_CHART_BAR,
         COLOR_CONFIRMED,
-        "#daily-increase-chart",
+        "#daily-confirmed-chart",
         CHART_TIME_PERIOD
       );
     });
+
+    callIfUpdated(() => {
+      dailyActiveCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyActiveCasesChart,
+        LANG,
+        "activeCumulative",
+        "",
+        COLOR_ACTIVE_LIGHT,
+        COLOR_ACTIVE,
+        "#daily-active-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
+    callIfUpdated(() => {
+      dailyDeathsCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyDeathsCasesChart,
+        LANG,
+        "deceased",
+        "deceasedAvg7d",
+        COLOR_DECEASED_LIGHT,
+        COLOR_DECEASED,
+        "#daily-deaths-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
+    callIfUpdated(() => {
+      dailyTestsCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyTestsCasesChart,
+        LANG,
+        "tested",
+        "",
+        COLOR_TESTED,
+        COLOR_TESTED,
+        "#daily-tests-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
     callIfUpdated(() => {
       regionTrajectoryChart = drawRegionTrajectoryChart(
         ddb.regions,

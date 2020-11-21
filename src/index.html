@@ -178,24 +178,44 @@
       </div>
     </section>
 
-    <section id="national-charts" class="embed-hide">
-      <section id="trend-chart-container" class="embed-hide">
-        <h4 data-i18n="outbreak-spread-trend">Total Cases</h4>
-        <div id="trend-chart-box">
-          <div id="trend-chart">
-              <div class="loader"><div class="lds-dual-ring"></div></div>
-          </div>
-        </div>
-      </section>
-    
-      <section id="daily-increase-container" class="embed-hide">
+    <section class="national-charts" class="embed-hide">
+      <section class="daily-increase-container embed-hide">
         <h4 data-i18n="new-cases-by-day">Daily Confirmed Cases</h4>
-        <div id="daily-increase-chart-box">
-          <div id="daily-increase-chart">
+        <div class="daily-increase-chart-box">
+          <div id="daily-confirmed-chart" class="daily-increase-chart">
             <div class="loader"><div class="lds-dual-ring"></div></div>
           </div>
         </div>
       </section>
+
+      <section class="daily-increase-container embed-hide">
+        <h4 data-i18n="active-cases-by-day">Daily Active Cases</h4>
+        <div class="daily-increase-chart-box">
+          <div id="daily-active-chart"  class="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <section class="national-charts" class="embed-hide">
+      <section class="daily-increase-container embed-hide">
+        <h4 data-i18n="deaths-by-day">Daily Deaths</h4>
+        <div class="daily-increase-chart-box">
+          <div id="daily-deaths-chart"  class="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>     
+      
+      <section  class="daily-increase-container embed-hide">
+        <h4 data-i18n="tests-by-day">Daily Tested</h4>
+        <div class="daily-increase-chart-box" >
+          <div id="daily-tests-chart"  class="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>      
     </section>
 
     <section id="prefecture-sections">

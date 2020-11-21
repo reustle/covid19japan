@@ -21,33 +21,49 @@ const drawDailyIncreaseChart = (
 
   const cols = {
     Date: ["Date"],
-    Daily: ["Daily"],
-    DailyAvg: ["DailyAvg"],
   };
+  if (dailyValueKey) {
+    cols.Daily = ["Daily"];
+  }
+  if (dailyAverageKey) {
+    cols.DailyAvg = ["DailyAvg"];
+  }
 
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
   for (let i = startIndex; i < trends.length; i++) {
     const row = trends[i];
 
     cols.Date.push(row.date);
-    cols.Daily.push(row[dailyValueKey]);
+    if (dailyValueKey && dailyValueKey.length > 0) {
+      let val = Math.max(0, row[dailyValueKey]);
+      cols.Daily.push(val);
+    }
     if (i < trends.length - 1) {
       // Omit the last data point since it's provisional
       // and will always point downwards for the average.
-      cols.DailyAvg.push(row[dailyAverageKey]);
+      if (dailyAverageKey && dailyAverageKey.length > 0) {
+        let val = Math.max(0, row[dailyAverageKey]);
+        cols.DailyAvg.push(val);
+      }
     }
   }
 
-  const scale = niceScale(
-    cols.Daily.slice(1).concat(cols.DailyAvg.slice(1)),
-    5
-  );
+  let allCols = [cols.Date];
+  let allValues = [];
+  if (dailyValueKey) {
+    allCols.push(cols.Daily);
+    allValues = allValues.concat(cols.Daily.slice(1));
+  }
+  if (dailyAverageKey) {
+    allCols.push(cols.DailyAvg);
+    allValues = allValues.concat(cols.DailyAvg.slice(1));
+  }
+
+  const scale = niceScale(allValues, 5);
 
   if (chart) {
     chart.destroy();
   }
-  console.log(dailyValueKey);
-  console.log(cols);
 
   chart = c3.generate({
     bindto: elementSelector,
@@ -61,7 +77,7 @@ const drawDailyIncreaseChart = (
           return dailyAverageColor;
         },
       },
-      columns: [cols.Date, cols.Daily, cols.DailyAvg],
+      columns: allCols,
       names: {
         Daily: i18next.t("daily"),
         DailyAvg: i18next.t("7-day-average"),
@@ -127,7 +143,7 @@ const drawDailyIncreaseChart = (
       },
     },
     padding: {
-      left: 40,
+      left: 50,
       right: 10,
       top: 0,
       bottom: 0,
