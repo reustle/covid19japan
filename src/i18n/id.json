@@ -55,6 +55,9 @@
   "tested-percentage": "{{percent}}% dari hasil tes adalah positif",
   "active-cases": "Kasus aktif",
   "no-active-cases": "Tidak ada kasus aktif 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "Titik Masuk Pelabuhan",
     "unspecified": "Tidak dispesifikasi",

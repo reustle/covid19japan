@@ -54,6 +54,9 @@
   "tested-percentage": "検査結果の{{percent}}%が陽性",
   "active-cases": "現在感染者数",
   "no-active-cases": "現在感染者なし 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "入国港",
     "unspecified": "不明",

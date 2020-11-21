@@ -54,6 +54,9 @@
   "tested-percentage": "{{percent}}% of results are positive.",
   "active-cases": "Active cases",
   "no-active-cases": "No active cases 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "Port of Entry",
     "unspecified": "Unspecified",

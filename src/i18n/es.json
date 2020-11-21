@@ -54,6 +54,9 @@
   "tested-percentage": "{{percent}}% de resultados positivos",
   "active-cases": "Casos activos",
   "no-active-cases": "No hay casos activos 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "Puerto de entrada",
     "unspecified": "No especificado",
@@ -109,7 +112,7 @@
     "Yamaguchi": "Yamaguchi",
     "Yamanashi": "Yamanashi"
   },
-   "regions": {
+  "regions": {
     "Kanto": "Kanto",
     "Kansai": "Kansai",
     "Kyushu": "Kyushu",

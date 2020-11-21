@@ -54,6 +54,9 @@
   "tested-percentage": "{{percent}}% от всех тестов положительные.",
   "active-cases": "Активных случаев",
   "no-active-cases": "Нет актив. случаев 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "Пограничный контроль",
     "unspecified": "Не указано",
