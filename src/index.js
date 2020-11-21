@@ -187,6 +187,7 @@ const setLang = (lng) => {
       }
     }
 
+    sendResizeMessage();
     updateTooltipLang();
   });
 };
@@ -326,6 +327,20 @@ const callIfUpdated = (callback, delay = 0) => {
   }
 };
 
+/**
+ * Sends message to window parent. Allows pages that embed this to resize the iFrame.
+ */
+const sendResizeMessage = () => {
+  const height = document.getElementsByTagName("html")[0].scrollHeight;
+  window.parent.postMessage(
+    {
+      name: "setHeight",
+      payload: height,
+    },
+    "*"
+  );
+};
+
 document.addEventListener("covid19japan-redraw", () => {
   callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff, LANG));
   if (!document.body.classList.contains("embed")) {
@@ -373,4 +388,8 @@ document.addEventListener("DOMContentLoaded", () => {
   initDataTranslate();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
+});
+
+window.addEventListener("load", () => {
+  sendResizeMessage();
 });
