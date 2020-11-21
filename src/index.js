@@ -49,15 +49,14 @@ import {
   JSON_PATH,
   SUPPORTED_LANGS,
   DDB_COMMON,
-  DEFAULT_CHART_TIME_PERIOD,
+  TIME_PERIOD_ALL_TIME,
+  TIME_PERIOD_THREE_MONTHS,
   COLOR_TESTED,
-  COLOR_TESTED_LIGHT,
   COLOR_CONFIRMED,
   COLOR_CHART_BAR,
   COLOR_ACTIVE,
   COLOR_ACTIVE_LIGHT,
   COLOR_DECEASED,
-  COLOR_DARK_RED,
   COLOR_DECEASED_LIGHT,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
@@ -68,7 +67,7 @@ import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 //
 
 let LANG = "en";
-let CHART_TIME_PERIOD = DEFAULT_CHART_TIME_PERIOD;
+let CHART_TIME_PERIOD = TIME_PERIOD_ALL_TIME;
 
 const PAGE_STATE = {
   map: null,
@@ -257,6 +256,36 @@ const initDataTranslate = () => {
       });
     });
   }
+};
+
+const initChartTimePeriodSelector = () => {
+  document
+    .querySelector("#time-period-all-time")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelector("#time-period-all-time").classList.add("selected");
+      document
+        .querySelector("#time-period-three-months")
+        .classList.remove("selected");
+      CHART_TIME_PERIOD = TIME_PERIOD_ALL_TIME;
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
+    });
+
+  document
+    .querySelector("#time-period-three-months")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      document
+        .querySelector("#time-period-all-time")
+        .classList.remove("selected");
+      document
+        .querySelector("#time-period-three-months")
+        .classList.add("selected");
+      CHART_TIME_PERIOD = TIME_PERIOD_THREE_MONTHS;
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
+    });
 };
 
 const whenMapAndDataReady = () => {
@@ -453,6 +482,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
   loadDataOnPage();
   initDataTranslate();
+  initChartTimePeriodSelector();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
 });

@@ -1,7 +1,11 @@
 import languageResources, { LANGUAGES } from "../i18n";
 
 export const TIME_FORMAT = "MMMM d yyyy, HH:mm";
-export const DEFAULT_CHART_TIME_PERIOD = 240;
+
+// TODO: Properly calculate the all time period. Currently hardcoded to 6 months.
+export const TIME_PERIOD_ALL_TIME = 240;
+export const TIME_PERIOD_THREE_MONTHS = 120;
+
 export const COLOR_ACTIVE = "rgb(223,14,31)";
 export const COLOR_ACTIVE_LIGHT = " rgb(223, 144, 144)";
 export const COLOR_CONFIRMED = "rgb(244,67,54)";

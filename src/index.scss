@@ -52,6 +52,7 @@ h1 {
 h4 {
   font-size: 1.4rem;
   line-height: 1.2em;
+  margin-block-start: 0.5rem;
   margin-block-end: 1rem;
   font-weight: $font-weight-bold;
 }
@@ -136,6 +137,29 @@ a, a:hover, a:visited {
 
 // National charts
 .national-charts { width: 100%; }
+
+.chart-control {
+  font-size: 0.8rem;
+
+  margin: 10px;
+  padding-block-start: 0.5em;
+  padding-block-end: 0.5em;
+
+  .time-period-caption {
+    font-weight: bold;    
+  }
+
+
+  a {
+    text-decoration: underline;
+  }
+  a.selected {
+    font-weight: bold;
+    text-decoration: none;
+  }
+
+}
+
 
 @media (min-width: $breakpoint-960) {
   .national-charts {
