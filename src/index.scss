@@ -52,7 +52,7 @@ h1 {
 h4 {
   font-size: 1.4rem;
   line-height: 1.2em;
-  margin-block-start: 1rem;
+  margin-block-start: 2rem;
   margin-block-end: 1rem;
   font-weight: $font-weight-bold;
 }
@@ -128,6 +128,11 @@ a, a:hover, a:visited {
   color: #000a12;
 }
 
+a.inline, a.inline:visited, a.inline:hover {
+  color: inherit;
+  text-decoration: none;
+}
+
 .text-center {
   text-align: center;
 }
@@ -141,9 +146,10 @@ a, a:hover, a:visited {
 .chart-control {
   font-size: 0.8rem;
 
-  margin: 10px 0;
-  padding-block-start: 0.5em;
-  padding-block-end: 0.5em;
+  margin-block-start: 2rem;
+  margin-block-end: 0;
+  padding-block-start: 0.5rem;
+  padding-block-end: 0;
 
   .time-period-caption {
     font-weight: bold;    
@@ -152,6 +158,7 @@ a, a:hover, a:visited {
   a {
     text-decoration: underline;
   }
+
   a.selected {
     font-weight: bold;
     text-decoration: none;
@@ -178,7 +185,8 @@ a, a:hover, a:visited {
     width: 50%;
   }
   .chart-control {
-    margin: 10px 10px;
+    margin-inline-start: 10px;
+    margin-inline-end: 10px;
   }
 }
 
