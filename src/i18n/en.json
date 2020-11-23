@@ -57,6 +57,7 @@
   "time-period": "Time period",
   "all-time": "All time",
   "three-months": "3 months",
+  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
   "pseudo-prefectures": {
     "port-of-entry": "Port of Entry",
     "unspecified": "Unspecified",

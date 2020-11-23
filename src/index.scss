@@ -200,6 +200,10 @@ a, a:hover, a:visited {
   box-shadow: $color-box-shadow;
 }
 
+.chart-description {
+  font-size: 0.8rem;
+}
+
 // Regional section
 @import 'src/components/RegionalCharts/regional';
 
