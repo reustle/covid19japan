@@ -308,7 +308,6 @@ const loadDataOnPage = () => {
       ddb.totals = newTotals[0];
       ddb.totalsDiff = newTotals[1];
       ddb.trend = summaryData.daily;
-      console.log(ddb.trend);
 
       PAGE_STATE.dataLoaded = ddb.isLoaded();
 
