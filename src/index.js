@@ -27,8 +27,6 @@ import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
-import PrefectureTable from "./components/PrefectureTable";
-import drawTrendChart from "./components/SpreadTrendChart";
 import { drawRegionTrajectoryChart } from "./components/TrajectoryChart/TrajectoryChart";
 import drawTravelRestrictions from "./components/TravelRestrictions";
 import {
@@ -51,7 +49,15 @@ import {
   JSON_PATH,
   SUPPORTED_LANGS,
   DDB_COMMON,
-  DEFAULT_CHART_TIME_PERIOD,
+  TIME_PERIOD_ALL_TIME,
+  TIME_PERIOD_THREE_MONTHS,
+  COLOR_TESTED,
+  COLOR_CONFIRMED,
+  COLOR_CHART_BAR,
+  COLOR_ACTIVE,
+  COLOR_ACTIVE_LIGHT,
+  COLOR_DECEASED,
+  COLOR_DECEASED_LIGHT,
 } from "./data/constants";
 import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
@@ -61,7 +67,7 @@ import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 //
 
 let LANG = "en";
-let CHART_TIME_PERIOD = DEFAULT_CHART_TIME_PERIOD;
+let CHART_TIME_PERIOD = TIME_PERIOD_ALL_TIME;
 
 const PAGE_STATE = {
   map: null,
@@ -117,11 +123,11 @@ const loadData = (callback) => {
   tryFetch(retryFetchWithDelay);
 };
 
-// Keep a reference around to destroy it if we redraw this.
-let trendChart = null;
-
 // Keep reference to current chart in order to clean up when redrawing.
-let dailyIncreaseChart = null;
+let dailyConfirmedCasesChart = null;
+let dailyActiveCasesChart = null;
+let dailyDeathsCasesChart = null;
+let dailyTestsCasesChart = null;
 
 // Keep reference to chart in order to destroy it when redrawing.
 let regionTrajectoryChart = null;
@@ -168,18 +174,33 @@ const setLang = (lng) => {
       if (ddb.isLoaded()) {
         drawKpis(ddb.totals, ddb.totalsDiff, LANG);
         drawPageTitleCount(ddb.totals.confirmed, LANG);
-        trendChart = drawTrendChart(
-          ddb.trend,
-          trendChart,
-          LANG,
-          CHART_TIME_PERIOD
-        );
-        dailyIncreaseChart = drawDailyIncreaseChart(
-          ddb.trend,
-          dailyIncreaseChart,
-          LANG,
-          CHART_TIME_PERIOD
-        );
+
+        // TODO: This doesn't seem to be needed and can be removed.
+        //
+        // dailyConfirmedCasesChart = drawDailyIncreaseChart(
+        //   ddb.trend,
+        //   dailyConfirmedCasesChart,
+        //   LANG,
+        //   "confirmed",
+        //   "confirmedAvg7d",
+        //   COLOR_TESTED,
+        //   COLOR_CONFIRMED,
+        //   "#daily-increase-chart",
+        //   CHART_TIME_PERIOD
+        // );
+
+        // dailyActiveCasesChart = drawDailyIncreaseChart(
+        //   ddb.trend,
+        //   dailyActiveCasesChart,
+        //   LANG,
+        //   "active",
+        //   "",
+        //   COLOR_TESTED,
+        //   COLOR_CONFIRMED,
+        //   "#daily-active-chart",
+        //   CHART_TIME_PERIOD
+        // );
+
         regionTrajectoryChart = drawRegionTrajectoryChart(
           ddb.regions,
           regionTrajectoryChart,
@@ -235,6 +256,36 @@ const initDataTranslate = () => {
       });
     });
   }
+};
+
+const initChartTimePeriodSelector = () => {
+  document
+    .querySelector("#time-period-all-time")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelector("#time-period-all-time").classList.add("selected");
+      document
+        .querySelector("#time-period-three-months")
+        .classList.remove("selected");
+      CHART_TIME_PERIOD = TIME_PERIOD_ALL_TIME;
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
+    });
+
+  document
+    .querySelector("#time-period-three-months")
+    .addEventListener("click", (e) => {
+      e.preventDefault();
+      document
+        .querySelector("#time-period-all-time")
+        .classList.remove("selected");
+      document
+        .querySelector("#time-period-three-months")
+        .classList.add("selected");
+      CHART_TIME_PERIOD = TIME_PERIOD_THREE_MONTHS;
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
+    });
 };
 
 const whenMapAndDataReady = () => {
@@ -349,22 +400,63 @@ document.addEventListener("covid19japan-redraw", () => {
   if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
+
     callIfUpdated(() => {
-      trendChart = drawTrendChart(
+      dailyConfirmedCasesChart = drawDailyIncreaseChart(
         ddb.trend,
-        trendChart,
+        dailyConfirmedCasesChart,
         LANG,
+        "confirmed",
+        "confirmedAvg7d",
+        COLOR_CHART_BAR,
+        COLOR_CONFIRMED,
+        "#daily-confirmed-chart",
         CHART_TIME_PERIOD
       );
     });
+
     callIfUpdated(() => {
-      dailyIncreaseChart = drawDailyIncreaseChart(
+      dailyActiveCasesChart = drawDailyIncreaseChart(
         ddb.trend,
-        dailyIncreaseChart,
+        dailyActiveCasesChart,
         LANG,
+        "activeCumulative",
+        "",
+        COLOR_ACTIVE_LIGHT,
+        COLOR_ACTIVE,
+        "#daily-active-chart",
         CHART_TIME_PERIOD
       );
     });
+
+    callIfUpdated(() => {
+      dailyDeathsCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyDeathsCasesChart,
+        LANG,
+        "deceased",
+        "deceasedAvg7d",
+        COLOR_DECEASED_LIGHT,
+        COLOR_DECEASED,
+        "#daily-deaths-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
+    callIfUpdated(() => {
+      dailyTestsCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyTestsCasesChart,
+        LANG,
+        "tested",
+        "",
+        COLOR_TESTED,
+        COLOR_TESTED,
+        "#daily-tests-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
     callIfUpdated(() => {
       regionTrajectoryChart = drawRegionTrajectoryChart(
         ddb.regions,
@@ -389,6 +481,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
   loadDataOnPage();
   initDataTranslate();
+  initChartTimePeriodSelector();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
 });

@@ -54,6 +54,9 @@
   "tested-percentage": "{{percent}}% результатів позитивні.",
   "active-cases": "Активні випадки",
   "no-active-cases": "Немає акт. випадків 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "Прикордонний контроль",
     "unspecified": "Невизначено",

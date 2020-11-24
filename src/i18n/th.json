@@ -54,6 +54,9 @@
   "tested-percentage": "ตรวจพบเชื้อ {{percent}}%",
   "active-cases": "ผู้ป่วย ณ ปัจจุบัน",
   "no-active-cases": "ไม่พบผู้ติดเชื้อ 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "ตรวจคนเข้าเมือง",
     "unspecified": "ไม่ระบุ",

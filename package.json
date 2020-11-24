@@ -8,7 +8,7 @@
   "scripts": {
     "build": "npx webpack --config webpack.dev.js",
     "build-prod": "npx webpack --config webpack.prod.js",
-    "watch": "npx webpack --config webpack.dev.js && npx webpack --watch --config webpack.dev.js",
+    "watch": "npx webpack --watch --config webpack.dev.js --progress --display minimal",
     "start": "node server.js",
     "start-webpack": "node server.webpack.js",
     "deploy-firebase": "npx webpack --config webpack.prod.js && firebase deploy"

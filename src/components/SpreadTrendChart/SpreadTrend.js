@@ -11,15 +11,9 @@ import {
   COLOR_CONFIRMED,
   COLOR_RECOVERED,
   COLOR_DECEASED,
-  DEFAULT_CHART_TIME_PERIOD,
 } from "../../data/constants";
 
-const drawTrendChart = (
-  sheetTrend,
-  trendChart,
-  lang,
-  timePeriod = DEFAULT_CHART_TIME_PERIOD
-) => {
+const drawTrendChart = (sheetTrend, trendChart, lang, timePeriod) => {
   const dateLocale = LOCALES[lang];
   const formatNumber = maybeIntlNumberFormat(lang);
 

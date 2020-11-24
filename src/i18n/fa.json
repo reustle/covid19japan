@@ -54,6 +54,9 @@
   "tested-percentage": "{{percent}}% از نتایج مثبت هستند.",
   "active-cases": "موارد فعال",
   "no-active-cases": "بدون مورد فعال 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "محل ورود",
     "unspecified": "نامشخص",

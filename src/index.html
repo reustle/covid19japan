@@ -70,7 +70,9 @@
   
     <section id="kpi" class="loading">
       <div class="kpi-box" id="kpi-confirmed">
-        <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
+        <a href="#confirmed" class="inline">
+          <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
+        </a>
         <div class="value"><div class="lds-dual-ring"></div></div>
         <div class="diff">&nbsp;</div>
         <div class="description"></div>
@@ -119,7 +121,9 @@
       </div>
 
       <div class="kpi-box" id="kpi-deceased">
-        <div class="label" data-i18n="kpi-deceased">Deaths</div>
+        <a href="#deaths" class="inline">
+          <div class="label" data-i18n="kpi-deceased">Deaths</div>
+        </a>
         <div class="value"><div class="lds-dual-ring"></div></div>
         <div class="diff">&nbsp;</div>
         <div class="description"></div>
@@ -135,7 +139,9 @@
       </div>
 
       <div class="kpi-box" id="kpi-active" data-tippy-i18n="kpi-active-tooltip" data-tippy-placement="bottom" >
-        <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>     
+        <a href="#active" class="inline">
+          <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>     
+        </a>
         <div class="value"><div class="lds-dual-ring"></div></div>
         <div class="diff">&nbsp;</div>
         <div class="description"></div>
@@ -152,7 +158,9 @@
     
       <div class="kpi-box" id="kpi-tested">
         <div class="vitals">
-          <div class="label" data-i18n="kpi-tested">Tested</div>
+          <a href="#tested" class="inline">
+            <div class="label" data-i18n="kpi-tested">Tested</div>
+          </a>
           <div class="value"><div class="lds-dual-ring"></div></div>
           <div class="diff">&nbsp;</div>
           <div class="description"></div>  
@@ -178,24 +186,62 @@
       </div>
     </section>
 
-    <section id="national-charts" class="embed-hide">
-      <section id="trend-chart-container" class="embed-hide">
-        <h4 data-i18n="outbreak-spread-trend">Total Cases</h4>
-        <div id="trend-chart-box">
-          <div id="trend-chart">
-              <div class="loader"><div class="lds-dual-ring"></div></div>
-          </div>
-        </div>
-      </section>
-    
-      <section id="daily-increase-container" class="embed-hide">
-        <h4 data-i18n="new-cases-by-day">Daily Confirmed Cases</h4>
-        <div id="daily-increase-chart-box">
-          <div id="daily-increase-chart">
+    <section class="chart-control" class="embed-hide">
+      <span data-i18n="time-period" class="time-period-caption">Time period</span>: 
+      <a data-i18n="all-time" id="time-period-all-time" class="time-period selected">All time</a> |
+      <a data-i18n="three-months" id="time-period-three-months" class="time-period">3 months</a>
+    </section>
+
+    <section class="national-charts" class="embed-hide">
+      <section class="daily-increase-container embed-hide">
+        <a name="confirmed">
+          <h4 data-i18n="confirmed-chart-caption">Daily Confirmed Cases</h4>
+        </a>
+        <div class="daily-increase-chart-box">
+          <div id="daily-confirmed-chart" class="daily-increase-chart">
             <div class="loader"><div class="lds-dual-ring"></div></div>
           </div>
         </div>
       </section>
+
+      <section class="daily-increase-container embed-hide">
+        <a name="active">
+          <h4 data-i18n="active-chart-caption">Daily Active Cases</h4>
+        </a>
+        <div class="daily-increase-chart-box">
+          <div id="daily-active-chart"  class="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+        <p class="chart-description" data-i18n="active-cases-description">
+          Total patients that are still currently testing positive for COVID-19. 
+          (Total confirmed cases minus total recovered cases).
+        </p>
+      </section>
+    </section>
+
+    <section class="national-charts" class="embed-hide">
+      <section class="daily-increase-container embed-hide">
+        <a name="deaths">
+          <h4 data-i18n="deceased-chart-caption">Daily Deaths</h4>
+        </a>          
+        <div class="daily-increase-chart-box">
+          <div id="daily-deaths-chart"  class="daily-increase-chart daily-increase-chart-short">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>     
+      
+      <section  class="daily-increase-container embed-hide">
+        <a name="tested">
+          <h4 data-i18n="tested-chart-caption">Daily Tests</h4>
+        </a>
+        <div class="daily-increase-chart-box" >
+          <div id="daily-tests-chart"  class="daily-increase-chart daily-increase-chart-short">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>      
     </section>
 
     <section id="prefecture-sections">

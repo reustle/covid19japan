@@ -49,6 +49,9 @@
   "recovered-percentage": "佔案件總數的{{percent}}％",
   "deceased-percentage": "佔案件總數的{{percent}}％",
   "tested-percentage": "{{percent}}％的結果為肯定。",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "進口港",
     "unspecified": "未指定",

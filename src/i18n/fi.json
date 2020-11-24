@@ -54,6 +54,9 @@
   "tested-percentage": "{{percent}}% positiivisia.",
   "active-cases": "Aktiivisia tapauksia",
   "no-active-cases": "Ei aktiivisia tapauksia 🎉",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
   "pseudo-prefectures": {
     "port-of-entry": "Tulosatama",
     "unspecified": "Määrittelemätön",
