@@ -259,9 +259,10 @@ const initDataTranslate = () => {
 };
 
 const initChartTimePeriodSelector = () => {
-  document
-    .querySelector("#time-period-all-time")
-    .addEventListener("click", (e) => {
+  const allTimeLink = document.querySelector("#time-period-all-time");
+
+  if (allTimeLink) {
+    allTimeLink.addEventListener("click", (e) => {
       e.preventDefault();
       document.querySelector("#time-period-all-time").classList.add("selected");
       document
@@ -271,10 +272,11 @@ const initChartTimePeriodSelector = () => {
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
     });
+  }
 
-  document
-    .querySelector("#time-period-three-months")
-    .addEventListener("click", (e) => {
+  const threeMonthsLink = document.querySelector("#time-period-three-months");
+  if (threeMonthsLink) {
+    threeMonthsLink.addEventListener("click", (e) => {
       e.preventDefault();
       document
         .querySelector("#time-period-all-time")
@@ -286,6 +288,7 @@ const initChartTimePeriodSelector = () => {
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
     });
+  }
 };
 
 const whenMapAndDataReady = () => {
