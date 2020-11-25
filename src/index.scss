@@ -241,25 +241,6 @@ a.inline, a.inline:visited, a.inline:hover {
 }
 
 // National charts
-#trajectories { width: 100%; }
-
-#regional-trajectory-container {
-  margin: 5px;
-}
-
-#regional-trajectory-chart {
-  min-height: 500px;
-}
-
-#regional-trajectory-chart-box {
-  padding-block-start: 10px;
-  padding-inline-end: 10px;
-  padding-block-end: 5px;
-  padding-inline-start: 10px;
-  border-radius: $box-border-radius;
-  background: $color-box-background;
-  box-shadow: $color-box-shadow;
-}
 
 #prefecture-map-contents {
   width: 100%;
@@ -368,8 +349,7 @@ img.emoji {
 
 // c3 chart styling
 #trend-chart-container,
-.daily-increase-container,
-#regional-trajectory-container {
+.daily-increase-container {
   path.c3-line {
     stroke-width: 2px;
   }
