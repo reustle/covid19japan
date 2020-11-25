@@ -168,9 +168,6 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
-        drawKpis(ddb.totals, ddb.totalsDiff, LANG);
-        drawPageTitleCount(ddb.totals.confirmed, LANG);
-
         const event = new CustomEvent("covid19japan-redraw");
         document.dispatchEvent(event);
       }
