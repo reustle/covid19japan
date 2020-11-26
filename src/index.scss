@@ -163,9 +163,7 @@ a.inline, a.inline:visited, a.inline:hover {
     font-weight: bold;
     text-decoration: none;
   }
-
 }
-
 
 @media (min-width: $breakpoint-960) {
   .national-charts {
@@ -173,11 +171,6 @@ a.inline, a.inline:visited, a.inline:hover {
     flex-direction: row;
     flex-wrap: nowrap;
     //align-items: stretch;
-  }
-  #trend-chart-container { 
-    margin: 10px;
-    flex: 1;
-    width: 50%;
   }
   .daily-increase-container { 
     margin: 10px;
@@ -190,7 +183,7 @@ a.inline, a.inline:visited, a.inline:hover {
   }
 }
 
-.daily-increase-chart, #trend-chart {
+.daily-increase-chart {
   min-height: 320px;
 }
 
@@ -198,7 +191,7 @@ a.inline, a.inline:visited, a.inline:hover {
   min-height: 180px;
 }
 
-.daily-increase-chart-box, #trend-chart-box {
+.daily-increase-chart-box {
   padding-block-start: 20px;
   padding-inline-end: 10px;
   padding-block-end: 5px;
@@ -348,7 +341,6 @@ img.emoji {
 }
 
 // c3 chart styling
-#trend-chart-container,
 .daily-increase-container {
   path.c3-line {
     stroke-width: 2px;

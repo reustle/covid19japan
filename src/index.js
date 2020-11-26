@@ -168,37 +168,8 @@ const setLang = (lng) => {
         drawTravelRestrictions(ddb);
       }
       if (ddb.isLoaded()) {
-        drawKpis(ddb.totals, ddb.totalsDiff, LANG);
-        drawPageTitleCount(ddb.totals.confirmed, LANG);
-
-        // TODO: This doesn't seem to be needed and can be removed.
-        //
-        // dailyConfirmedCasesChart = drawDailyIncreaseChart(
-        //   ddb.trend,
-        //   dailyConfirmedCasesChart,
-        //   LANG,
-        //   "confirmed",
-        //   "confirmedAvg7d",
-        //   COLOR_TESTED,
-        //   COLOR_CONFIRMED,
-        //   "#daily-increase-chart",
-        //   CHART_TIME_PERIOD
-        // );
-
-        // dailyActiveCasesChart = drawDailyIncreaseChart(
-        //   ddb.trend,
-        //   dailyActiveCasesChart,
-        //   LANG,
-        //   "active",
-        //   "",
-        //   COLOR_TESTED,
-        //   COLOR_CONFIRMED,
-        //   "#daily-active-chart",
-        //   CHART_TIME_PERIOD
-        // );
-
-        drawTopRegions(ddb.prefectures, ddb.regions, LANG);
-        drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
+        const event = new CustomEvent("covid19japan-redraw");
+        document.dispatchEvent(event);
       }
     }
 
