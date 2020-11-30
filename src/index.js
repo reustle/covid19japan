@@ -27,7 +27,6 @@ import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
-import drawTravelRestrictions from "./components/TravelRestrictions";
 import {
   drawRegionalCharts,
   drawTopRegions,
@@ -58,7 +57,6 @@ import {
   COLOR_DECEASED,
   COLOR_DECEASED_LIGHT,
 } from "./data/constants";
-import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 
 //
@@ -78,7 +76,6 @@ const PAGE_STATE = {
 
 const ddb = {
   ...DDB_COMMON,
-  travelRestrictions,
 };
 
 ddb.isLoaded = function () {
@@ -164,9 +161,6 @@ const setLang = (lng) => {
 
     // Redraw all components that need rerendering to be localized the prefectures table
     if (!document.body.classList.contains("embed-mode")) {
-      if (document.getElementById("travel-restrictions")) {
-        drawTravelRestrictions(ddb);
-      }
       if (ddb.isLoaded()) {
         const event = new CustomEvent("covid19japan-redraw");
         document.dispatchEvent(event);
@@ -426,7 +420,6 @@ document.addEventListener("covid19japan-redraw", () => {
       drawTopRegions(ddb.prefectures, ddb.regions, LANG);
       drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
     }, 32);
-    callIfUpdated(() => drawTravelRestrictions(ddb));
   }
 
   callIfUpdated(() => whenMapAndDataReady());

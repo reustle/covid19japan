@@ -56,6 +56,9 @@
   "time-period": "Time period",
   "all-time": "All time",
   "three-months": "3 months",
+  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
+  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
+  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
   "pseudo-prefectures": {
     "port-of-entry": "বন্দরের প্রবেশ পথ",
     "unspecified": "অনির্ধারিত",

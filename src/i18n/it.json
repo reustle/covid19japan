@@ -57,6 +57,8 @@
   "all-time": "Complessivo",
   "three-months": "3 mesi",
   "active-cases-description": "Totale dei pazienti attualmente positivi al COVID-19. (Totale dei casi confermati meno il totale di quelli guariti).",
+  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
+  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
   "pseudo-prefectures": {
     "port-of-entry": "Porto di entrata",
     "unspecified": "Non specificato",
