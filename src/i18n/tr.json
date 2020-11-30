@@ -54,9 +54,9 @@
   "tested-percentage": "sonuçların %{{percent}}i pozitif.",
   "active-cases": "Aktif vakalar",
   "no-active-cases": "Aktif vaka yok 🎉",
-  "time-period": "Time period",
-  "all-time": "All time",
-  "three-months": "3 months",
+  "time-period": "Zaman aralığı",
+  "all-time": "Tüm zamanlar",
+  "three-months": "Üç aylık",
   "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
   "pseudo-prefectures": {
     "port-of-entry": "Giriş limanı",
