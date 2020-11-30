@@ -55,9 +55,9 @@
   "tested-percentage": "{{percent}}% dari hasil tes adalah positif",
   "active-cases": "Kasus aktif",
   "no-active-cases": "Tidak ada kasus aktif 🎉",
-  "time-period": "Time period",
-  "all-time": "All time",
-  "three-months": "3 months",
+  "time-period": "Periode waktu",
+  "all-time": "Sepanjang waktu",
+  "three-months": "3 bulan",
   "active-cases-description": "Total pasien saat ini dengan hasil tes COVID-19 positif.  (Jumlah kasus terkonfirmasi dikurangi total kasus sembuh).",
   "pseudo-prefectures": {
     "port-of-entry": "Titik Masuk Pelabuhan",
