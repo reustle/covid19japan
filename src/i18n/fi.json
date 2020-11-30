@@ -54,9 +54,10 @@
   "tested-percentage": "{{percent}}% positiivisia.",
   "active-cases": "Aktiivisia tapauksia",
   "no-active-cases": "Ei aktiivisia tapauksia 🎉",
-  "time-period": "Time period",
-  "all-time": "All time",
-  "three-months": "3 months",
+  "time-period": "Aikaväli",
+  "all-time": "Alusta alkaen",
+  "three-months": "Viimeiset 3 kk",
+  "active-cases-description": "COVID-19 -positiiviseksi testattuja tapauksia. (Varmistetut tapaukset pois lukien toipuneet ja kuolleet).",
   "pseudo-prefectures": {
     "port-of-entry": "Tulosatama",
     "unspecified": "Määrittelemätön",
