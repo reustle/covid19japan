@@ -59,6 +59,9 @@
   "all-time": "Sepanjang waktu",
   "three-months": "3 bulan",
   "active-cases-description": "Total pasien saat ini dengan hasil tes COVID-19 positif.  (Jumlah kasus terkonfirmasi dikurangi total kasus sembuh).",
+  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
+  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
+  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
   "pseudo-prefectures": {
     "port-of-entry": "Titik Masuk Pelabuhan",
     "unspecified": "Tidak dispesifikasi",

@@ -58,6 +58,9 @@
   "all-time": "completo",
   "three-months": "3 meses",
   "active-cases-description": "Total de pacientes que aún dan positivo por COVID-19 (total de casos confirmados menos recuperados y fallecidos).",
+  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
+  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
+  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
   "pseudo-prefectures": {
     "port-of-entry": "Puerto de entrada",
     "unspecified": "No especificado",
