@@ -5,7 +5,7 @@
     "kpi-active": "सक्रिय",
     "kpi-active-tooltip": "निको भएको र मृत बाहेक सक्रिय संक्रमित",
     "kpi-critical": "गम्भीर",
-    "kpi-deceased": "मृत",
+    "kpi-deceased": "मृत्यु",
     "kpi-tested": "परीक्षण गरिएको",
     "kpi-confirmed": "पुष्टि भएको",
     "kpi-recovered": "निको भएको",
@@ -64,7 +64,7 @@
       "port-of-entry": "प्रवेश स्थाल",
       "unspecified": "अनिर्दिष्ट",
       "diamond-princess": "डाईमंड प्रिंसेस",
-      "nagasaki-cruise": "नागासाकी यात्रुबाहक पानीजहाज"
+      "nagasaki-cruise": "नागासाकी पानीजहाज"
     },
     "prefectures": {
       "Aichi": "आइची",
