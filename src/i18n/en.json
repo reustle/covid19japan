@@ -54,6 +54,7 @@
   "tested-percentage": "{{percent}}% of results are positive.",
   "active-cases": "Active cases",
   "no-active-cases": "No active cases 🎉",
+  "critical-chart-caption": "Total critical patients",
   "time-period": "Time period",
   "all-time": "All time",
   "three-months": "3 months",

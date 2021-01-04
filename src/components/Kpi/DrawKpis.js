@@ -118,7 +118,7 @@ const drawKpis = (totals, totalsDiff, lang) => {
   setKpi("critical", totals.critical);
   setKpiDiff("critical", totalsDiff.critical);
   drawKpiTrend(
-    "critical_daily_avg.svg",
+    "critical_cumulative_avg.svg",
     document.querySelector("#kpi-critical-chart")
   );
 

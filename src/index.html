@@ -104,21 +104,6 @@
         <div class="chart-caption" data-i18n="recovered-chart-caption">Recoveries per day</div>
       </div>
 
-      <div class="kpi-box" id="kpi-critical">
-        <div class="label" data-i18n="kpi-critical">Critical</div>
-        <div class="value"><div class="lds-dual-ring"></div></div>
-        <div class="diff">&nbsp;</div>
-        <div class="description"></div>
-        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
-          <linearGradient id="kpi-critical-chart-gradient" x2="0" y2="1">
-            <stop offset="0%" stop-color="rgba(114,4,5, 0.6)" />
-            <stop offset="90%" stop-color="rgba(114,4,5, 0)" />
-            <stop offset="100%" stop-color="rgba(114,4,5, 0)" />
-          </linearGradient>
-        </svg>
-        <div class="chart" id="kpi-critical-chart"></div>
-        <div class="chart-caption" data-i18n="critical-chart-caption">Critical patients per day</div>
-      </div>
 
       <div class="kpi-box" id="kpi-deceased">
         <a href="#deaths" class="inline">
@@ -154,6 +139,23 @@
         </svg>
         <div class="chart" id="kpi-active-chart"></div>
         <div class="chart-caption" data-i18n="active-chart-caption">Active cases per day</div>
+      </div>
+
+
+      <div class="kpi-box" id="kpi-critical">
+        <div class="label" data-i18n="kpi-critical">Critical</div>
+        <div class="value"><div class="lds-dual-ring"></div></div>
+        <div class="diff">&nbsp;</div>
+        <div class="description"></div>
+        <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
+          <linearGradient id="kpi-critical-chart-gradient" x2="0" y2="1">
+            <stop offset="0%" stop-color="rgba(114,4,5, 0.6)" />
+            <stop offset="90%" stop-color="rgba(114,4,5, 0)" />
+            <stop offset="100%" stop-color="rgba(114,4,5, 0)" />
+          </linearGradient>
+        </svg>
+        <div class="chart" id="kpi-critical-chart"></div>
+        <div class="chart-caption" data-i18n="critical-chart-caption">Total critical patients</div>
       </div>
     
       <div class="kpi-box" id="kpi-tested">
@@ -223,7 +225,7 @@
     <section class="national-charts embed-hide">
       <section class="daily-increase-container embed-hide">
         <a name="deaths">
-          <h4 data-i18n="deceased-chart-caption">Daily Deaths</h4>
+          <h4 data-i18n="deceased-chart-caption">Daily new deaths</h4>
         </a>          
         <div class="daily-increase-chart-box">
           <div id="daily-deaths-chart"  class="daily-increase-chart daily-increase-chart-short">
@@ -231,6 +233,17 @@
           </div>
         </div>
       </section>     
+
+      <section class="daily-increase-container embed-hide">
+        <a name="critical">
+          <h4 data-i18n="critical-chart-caption">Total critical cases</h4>
+        </a>          
+        <div class="daily-increase-chart-box">
+          <div id="daily-critical-chart"  class="daily-increase-chart daily-increase-chart-short">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>           
       
       <section class="daily-increase-container embed-hide">
         <a name="tested">

@@ -56,6 +56,8 @@ import {
   COLOR_ACTIVE_LIGHT,
   COLOR_DECEASED,
   COLOR_DECEASED_LIGHT,
+  COLOR_CRITICAL,
+  COLOR_CRITICAL_LIGHT,
 } from "./data/constants";
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 
@@ -122,6 +124,7 @@ const loadData = (callback) => {
 // Keep reference to current chart in order to clean up when redrawing.
 let dailyConfirmedCasesChart = null;
 let dailyActiveCasesChart = null;
+let dailyCriticalCasesChart = null;
 let dailyDeathsCasesChart = null;
 let dailyTestsCasesChart = null;
 
@@ -384,6 +387,20 @@ document.addEventListener("covid19japan-redraw", () => {
         COLOR_ACTIVE_LIGHT,
         COLOR_ACTIVE,
         "#daily-active-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
+    callIfUpdated(() => {
+      dailyCriticalCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyCriticalCasesChart,
+        LANG,
+        "criticalCumulative",
+        "",
+        COLOR_CRITICAL_LIGHT,
+        COLOR_CRITICAL,
+        "#daily-critical-chart",
         CHART_TIME_PERIOD
       );
     });
