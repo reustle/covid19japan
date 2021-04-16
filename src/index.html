@@ -70,7 +70,9 @@
   
     <section id="kpi">
       <div class="kpi-box" id="kpi-confirmed">
-        <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
+        <a href="#confirmed" class="inline">
+          <div class="label" data-i18n="kpi-confirmed">Confirmed</div>
+        </a>
         <div class="value"><div class="lds-dual-ring"></div></div>
         <div class="diff">&nbsp;</div>
         <div class="description"></div>
@@ -136,7 +138,9 @@
       </div>
 
       <div class="kpi-box" id="kpi-deceased">
-        <div class="label" data-i18n="kpi-deceased">Deaths</div>
+        <a href="#deaths" class="inline">
+          <div class="label" data-i18n="kpi-deceased">Deaths</div>
+        </a>
         <div class="value"><div class="lds-dual-ring"></div></div>
         <div class="diff">&nbsp;</div>
         <div class="description"></div>
@@ -157,15 +161,10 @@
         </div>
       </div>
 
-      <div
-        class="kpi-box"
-        id="kpi-active"
-        data-tippy-i18n="kpi-active-tooltip"
-        data-tippy-placement="bottom"
-      >
-        <div class="label">
-          <span data-i18n="kpi-active">Active</span> &#9432;
-        </div>
+      <div class="kpi-box" id="kpi-active" data-tippy-i18n="kpi-active-tooltip" data-tippy-placement="bottom" >
+        <a href="#active" class="inline">
+          <div class="label"><span data-i18n="kpi-active">Active</span> &#9432;</div>     
+        </a>
         <div class="value"><div class="lds-dual-ring"></div></div>
         <div class="diff">&nbsp;</div>
         <div class="description"></div>
@@ -188,7 +187,9 @@
 
       <div class="kpi-box" id="kpi-tested">
         <div class="vitals">
-          <div class="label" data-i18n="kpi-tested">Tested</div>
+          <a href="#tested" class="inline">
+            <div class="label" data-i18n="kpi-tested">Tested</div>
+          </a>
           <div class="value"><div class="lds-dual-ring"></div></div>
           <div class="diff">&nbsp;</div>
           <div class="description"></div>
@@ -220,24 +221,62 @@
       </div>
     </section>
 
-    <section id="national-charts" class="embed-hide">
-      <section id="trend-chart-container" class="embed-hide">
-        <h4 data-i18n="outbreak-spread-trend">Total Cases</h4>
-        <div id="trend-chart-box">
-          <div id="trend-chart">
-              <div class="loader"><div class="lds-dual-ring"></div></div>
-          </div>
-        </div>
-      </section>
-    
-      <section id="daily-increase-container" class="embed-hide">
-        <h4 data-i18n="new-cases-by-day">Daily Confirmed Cases</h4>
-        <div id="daily-increase-chart-box">
-          <div id="daily-increase-chart">
+    <section class="chart-control embed-hide">
+      <span data-i18n="time-period" class="time-period-caption">Time period</span>: 
+      <a data-i18n="all-time" id="time-period-all-time" class="time-period selected">All time</a> |
+      <a data-i18n="three-months" id="time-period-three-months" class="time-period">3 months</a>
+    </section>
+
+    <section class="national-charts" class="embed-hide">
+      <section class="daily-increase-container embed-hide">
+        <a name="confirmed">
+          <h4 data-i18n="confirmed-chart-caption">Daily Confirmed Cases</h4>
+        </a>
+        <div class="daily-increase-chart-box">
+          <div id="daily-confirmed-chart" class="daily-increase-chart">
             <div class="loader"><div class="lds-dual-ring"></div></div>
           </div>
         </div>
       </section>
+
+      <section class="daily-increase-container embed-hide">
+        <a name="active">
+          <h4 data-i18n="active-chart-caption">Daily Active Cases</h4>
+        </a>
+        <div class="daily-increase-chart-box">
+          <div id="daily-active-chart"  class="daily-increase-chart">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+        <p class="chart-description" data-i18n="active-cases-description">
+          Total patients that are still currently testing positive for COVID-19. 
+          (Total confirmed cases minus total recovered cases).
+        </p>
+      </section>
+    </section>
+
+    <section class="national-charts embed-hide">
+      <section class="daily-increase-container embed-hide">
+        <a name="deaths">
+          <h4 data-i18n="deceased-chart-caption">Daily Deaths</h4>
+        </a>          
+        <div class="daily-increase-chart-box">
+          <div id="daily-deaths-chart"  class="daily-increase-chart daily-increase-chart-short">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>     
+      
+      <section class="daily-increase-container embed-hide">
+        <a name="tested">
+          <h4 data-i18n="tested-chart-caption">Daily Tests</h4>
+        </a>
+        <div class="daily-increase-chart-box" >
+          <div id="daily-tests-chart"  class="daily-increase-chart daily-increase-chart-short">
+            <div class="loader"><div class="lds-dual-ring"></div></div>
+          </div>
+        </div>
+      </section>      
     </section>
 
     <section id="prefecture-sections">
@@ -257,7 +296,7 @@
     
   
     <section id="regional-charts-container" class="embed-hide">
-
+      <a name="regional"></a>
       <svg style="width:0;height:0;position:absolute;" aria-hidden="true" focusable="false">
         <linearGradient id="regional-chart-gradient" x2="0" y2="1">
           <stop offset="0%" stop-color="rgba(0, 10, 18, 0.6)" />
@@ -268,31 +307,21 @@
 
     </section>
 
-    <section id="regional-trajectory-container" class="embed-hide">
-      <h4 data-i18n="confirmed-case-trajectories-by-region">Confirmed Case Trajectories by Region</h4>
-      <div id="regional-trajectory-chart-box">
-        <div id="regional-trajectory">
-          <div class="loader"><div class="lds-dual-ring"></div></div>
-        </div>
-      </div>
-    </section>
-  
     <section id="travel-restrictions" class="embed-hide">
-      <h4 data-i18n="traveling-into-japan">Traveling into Japan</h4>
-      <p data-i18n="about-travel-restriction">Below are the travel restrictions that have been put in place regarding traveling into Japan.
-        Click on the link for more details on the restrictions.</p>
-      <h5 data-i18n="banned-from-entering-japan" id="banned-entry-title">Banned from entering Japan:</h5><span id="banned-entry"></span>
-      <h5 data-i18n="existing-visa-required" id="visa-required-title">Existing visa required:</h5><span id="visa-required"></span>
-      <h5 data-i18n="14-day-self-quarantine-required" id="self-quarantine-title">14-day Self-Quarantine required:</h5><span id="self-quarantine"></span>
-      <h5 data-i18n="other-limitations" id="other-restrictions-title">Other limitations:</h5><span id="other-restrictions"></span>
-  
-      <!--<h4>Traveling out of Japan</h4>
-      <p>Below are the travel restrictions that have been put in place regarding traveling from Japan into
-        foreign countries. Click on the link for more details on the restrictions.</p>
-      <h5>Banned From Entering Japan:</h5><span id="foreign-banned-entry"></span>
-      <h5>Existing Visa Required:</h5><span id="foreign-visa-required"></span>
-      <h5>14-day Self-Quarantine Required:</h5><span id="foreign-self-quarantine"></span>
-      <h5>Other Limitations:</h5><span id="foreign-other-restrictions"></span>-->
+      <a name="travel-restrictions">
+        <h4 data-i18n="traveling-into-japan">Traveling into Japan</h4>
+      </a>
+      <p data-i18n="restrictions-link">
+        Find out about the most current travel restrictions for Foreign Nationals from the following:</span>
+      </p>
+      <ul>
+        <li><a href="http://www.moj.go.jp/nyuukokukanri/kouhou/nyuukokukanri07_00245.html">Resident Re-entry Information - Ministry of Justice</a></li>
+        <li><a href="http://www.moj.go.jp/EN/nyuukokukanri/kouhou/m_nyuukokukanri01_00003.html">Information related to COVID-19 from Immigration Services Agency (Updated) - Ministry of Justice</a></li>
+        <li><a href="https://www.mofa.go.jp/ca/fna/page4e_001053.html">Border enforcement measures</a> - Ministry of Foreign Affairs</li>
+        <li><a href="https://www.mofa.go.jp/ca/cp/page22e_000925.html">Phased Measures for Resuming Cross Border Travel</a> - Ministry of Foreign Affairs</li>
+        <li><a href="https://www.japantimes.co.jp/news/2020/11/17/national/social-issues/japan-travel-restrictions-entry/">What you need to know about the latest travel restrictions for Japan.</a> - Japan Times (21 Nov 2020)</li>
+      </ul> 
+      <p data-i18n="non-resident-restrictions">All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.</p>
     </section>
   
     <section id="helpful-links" class="embed-hide">
@@ -364,6 +393,11 @@
         <a href="https://twitter.com/vlumi" title="Ville Misaki" target="_blank" class="avatar">
           <img src="/static/avatars/vlumi.jpg" alt="Ville Misaki">
         </a>
+
+        <a href="https://github.com/ggouaillardet" title="Gilles Gouaillardet" target="_blank" class="avatar">
+          <img src="/static/avatars/gilles.png" alt="Gilles Gouaillardet">
+        </a>
+
         <a href="https://github.com/reustle/covid19japan/graphs/contributors" title="Other Contributors" target="_blank" class="avatar">
           <img src="https://ui-avatars.com/api/?background=1876D3&size=80&bold=true&color=fff&name=%2B" alt="Other Contributors">
         </a>

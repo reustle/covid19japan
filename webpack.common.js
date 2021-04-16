@@ -8,6 +8,7 @@ module.exports = {
   mode: "development",
   entry: {
     index: ["./src/index.js", "./src/index.scss"],
+    embed: ["./src/embed.js"],
   },
   output: {
     path: path.resolve(__dirname, "docs"),
@@ -32,7 +33,9 @@ module.exports = {
       template: "src/index.html",
       chunks: ["index"],
     }),
-    new CopyPlugin([{ from: "static/**", to: ".", flatten: false }]),
+    new CopyPlugin({
+      patterns: [{ from: "static/**", to: ".", flatten: false }],
+    }),
     new MiniCssExtractPlugin({
       filename: "[name].css",
     }),

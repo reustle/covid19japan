@@ -7,7 +7,7 @@ import {
   LEGEND_CLASSES,
 } from "../../data/constants";
 
-const PREFECTURE_JSON_PATH = "static/prefectures.geojson";
+const PREFECTURE_JSON_PATH = "static/prefectures-smooth.geojson";
 let pageDrawCount = 0;
 
 /**
@@ -87,6 +87,7 @@ const drawMapPrefectures = (ddb, map, lang) => {
     map.addSource("prefectures", {
       type: "geojson",
       data: PREFECTURE_JSON_PATH,
+      generateId: true,
     });
 
     // Add the prefecture color layer to the map
@@ -104,22 +105,32 @@ const drawMapPrefectures = (ddb, map, lang) => {
       firstSymbolId
     );
 
-    // Add another layer with type "line"
-    // to provide a styled prefecture border
-    let prefBorderLayer = map.addLayer(
-      {
-        id: "prefecture-outline-layer",
-        type: "line",
-        source: "prefectures",
-        layout: {},
-        paint: {
-          "line-width": 0.5,
-          "line-color": "#c0c0c0",
-          "line-opacity": 0.5,
-        },
+    // HIGHLIGHT PREFECTURE BOUNDARY
+    map.addLayer({
+      id: "prefecture-outline-layer",
+      type: "line",
+      source: "prefectures",
+      layout: {},
+      paint: {
+        "line-width": [
+          "interpolate",
+          ["exponential", 2],
+          ["zoom"],
+          3,
+          0.5,
+          7.5,
+          1.5,
+        ],
+        "line-dasharray": [2, 1],
+        "line-color": "rgb(25,25,25)",
+        "line-opacity": [
+          "case",
+          ["boolean", ["feature-state", "hover"], false],
+          1,
+          0.2,
+        ],
       },
-      firstSymbolId
-    );
+    });
   } else {
     // Update prefecture paint properties
     map.setPaintProperty("prefecture-layer", "fill-color", prefecturePaint);
@@ -139,7 +150,7 @@ const drawMapPrefectures = (ddb, map, lang) => {
     })[0];
     if (feature) {
       const matchingPrefectures = ddb.prefectures.filter((p) => {
-        return p.name === feature.properties.NAME_1;
+        return p.name === feature.properties.name;
       });
 
       if (!matchingPrefectures || matchingPrefectures.length < 1) {
@@ -180,6 +191,38 @@ const drawMapPrefectures = (ddb, map, lang) => {
     } else {
       popup.remove();
     }
+  });
+
+  var hoveredStateId = null;
+
+  map.on("mousemove", "prefecture-layer", (e) => {
+    map.setFeatureState(
+      { source: "prefectures", id: hoveredStateId },
+      { hover: false }
+    );
+    if (e.features.length > 0) {
+      if (hoveredStateId) {
+        map.setFeatureState(
+          { source: "prefectures", id: hoveredStateId },
+          { hover: false }
+        );
+      }
+      hoveredStateId = e.features[0].id;
+      map.setFeatureState(
+        { source: "prefectures", id: hoveredStateId },
+        { hover: true }
+      );
+    }
+  });
+
+  map.on("mouseleave", "prefecture-layer", (e) => {
+    if (e) {
+      map.setFeatureState(
+        { source: "prefectures", id: hoveredStateId },
+        { hover: false }
+      );
+    }
+    hoveredStateId = null;
   });
 
   return { map, ddb };

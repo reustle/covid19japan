@@ -49,6 +49,12 @@
   "recovered-percentage": "佔案件總數的{{percent}}％",
   "deceased-percentage": "佔案件總數的{{percent}}％",
   "tested-percentage": "{{percent}}％的結果為肯定。",
+  "time-period": "Time period",
+  "all-time": "All time",
+  "three-months": "3 months",
+  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
+  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
+  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
   "pseudo-prefectures": {
     "port-of-entry": "進口港",
     "unspecified": "未指定",

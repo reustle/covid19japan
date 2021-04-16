@@ -5,80 +5,90 @@ import format from "date-fns/format";
 import { LOCALES, maybeIntlNumberFormat } from "../../i18n";
 import { niceScale } from "../../data/scaling";
 
-import {
-  COLOR_TESTED,
-  COLOR_TESTED_DAILY,
-  DEFAULT_CHART_TIME_PERIOD,
-  COLOR_CONFIRMED,
-} from "../../data/constants";
-
 const drawDailyIncreaseChart = (
   trends,
-  dailyIncreaseChart,
+  chart,
   lang,
-  timePeriod = DEFAULT_CHART_TIME_PERIOD
+  dailyValueKey,
+  dailyAverageKey,
+  dailyValueColor,
+  dailyAverageColor,
+  elementSelector,
+  timePeriod
 ) => {
   const dateLocale = LOCALES[lang];
   const formatNumber = maybeIntlNumberFormat(lang);
 
   const cols = {
     Date: ["Date"],
-    Confirmed: ["Confirmed"],
-    ConfirmedAvg: ["ConfirmedAvg"],
   };
+  if (dailyValueKey) {
+    cols.Daily = ["Daily"];
+  }
+  if (dailyAverageKey) {
+    cols.DailyAvg = ["DailyAvg"];
+  }
 
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
   for (let i = startIndex; i < trends.length; i++) {
     const row = trends[i];
 
     cols.Date.push(row.date);
-    cols.Confirmed.push(row.confirmed);
+    if (dailyValueKey && dailyValueKey.length > 0) {
+      let val = Math.max(0, row[dailyValueKey]);
+      cols.Daily.push(val);
+    }
     if (i < trends.length - 1) {
       // Omit the last data point since it's provisional
       // and will always point downwards for the average.
-      cols.ConfirmedAvg.push(row.confirmedAvg7d);
+      if (dailyAverageKey && dailyAverageKey.length > 0) {
+        let val = Math.max(0, row[dailyAverageKey]);
+        cols.DailyAvg.push(val);
+      }
     }
   }
 
-  const scale = niceScale(
-    cols.Confirmed.slice(1).concat(cols.ConfirmedAvg.slice(1)),
-    5
-  );
-
-  if (dailyIncreaseChart) {
-    dailyIncreaseChart.destroy();
+  let allCols = [cols.Date];
+  let allValues = [];
+  if (dailyValueKey) {
+    allCols.push(cols.Daily);
+    allValues = allValues.concat(cols.Daily.slice(1));
+  }
+  if (dailyAverageKey) {
+    allCols.push(cols.DailyAvg);
+    allValues = allValues.concat(cols.DailyAvg.slice(1));
   }
 
-  dailyIncreaseChart = c3.generate({
-    bindto: "#daily-increase-chart",
+  const scale = niceScale(allValues, 5);
+
+  if (chart) {
+    chart.destroy();
+  }
+
+  chart = c3.generate({
+    bindto: elementSelector,
     data: {
       x: "Date",
       colors: {
-        Confirmed: (color, d) => {
-          if (d && d.index === cols.Date.length - 2) {
-            return COLOR_TESTED_DAILY;
-          } else {
-            return COLOR_TESTED;
-          }
+        Daily: (color, d) => {
+          return dailyValueColor;
         },
-        ConfirmedAvg: (color, d) => {
-          return COLOR_CONFIRMED;
+        DailyAvg: (color, d) => {
+          return dailyAverageColor;
         },
       },
-      columns: [cols.Date, cols.Confirmed, cols.ConfirmedAvg],
+      columns: allCols,
       names: {
-        Confirmed: i18next.t("daily"),
-        ConfirmedAvg: i18next.t("7-day-average"),
+        Daily: i18next.t("daily"),
+        DailyAvg: i18next.t("7-day-average"),
       },
       type: "bar",
       types: {
-        Confirmed: "bar",
-        ConfirmedAvg: "spline",
+        Daily: "bar",
+        DailyAvg: "spline",
       },
       regions: {
-        Confirmed: [
-          { start: cols.Date[cols.Date.length - 2], style: "dashed" },
-        ],
+        Daily: [{ start: cols.Date[cols.Date.length - 2], style: "dashed" }],
       },
     },
     point: {
@@ -133,13 +143,13 @@ const drawDailyIncreaseChart = (
       },
     },
     padding: {
-      left: 40,
+      left: 50,
       right: 10,
       top: 0,
       bottom: 0,
     },
   });
-  return dailyIncreaseChart;
+  return chart;
 };
 
 export default drawDailyIncreaseChart;

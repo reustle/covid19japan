@@ -27,10 +27,6 @@ import { calculateTotals } from "./data/helper";
 import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import mapDrawer from "./components/OutbreakMap";
-import PrefectureTable from "./components/PrefectureTable";
-import drawTrendChart from "./components/SpreadTrendChart";
-import { drawRegionTrajectoryChart } from "./components/TrajectoryChart/TrajectoryChart";
-import drawTravelRestrictions from "./components/TravelRestrictions";
 import {
   drawRegionalCharts,
   drawTopRegions,
@@ -41,6 +37,7 @@ const {
   updateTooltipLang,
   drawPageTitleCount,
   drawLastUpdated,
+  updatePageDirectionClass,
 } = header;
 
 const { drawMap, drawMapPrefectures } = mapDrawer;
@@ -50,9 +47,16 @@ import {
   JSON_PATH,
   SUPPORTED_LANGS,
   DDB_COMMON,
-  DEFAULT_CHART_TIME_PERIOD,
+  TIME_PERIOD_ALL_TIME,
+  TIME_PERIOD_THREE_MONTHS,
+  COLOR_TESTED,
+  COLOR_CONFIRMED,
+  COLOR_CHART_BAR,
+  COLOR_ACTIVE,
+  COLOR_ACTIVE_LIGHT,
+  COLOR_DECEASED,
+  COLOR_DECEASED_LIGHT,
 } from "./data/constants";
-import travelRestrictions from "./data/travelRestrictions"; // refer to the keys under "countries" in the i18n files for names
 import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 
 import React from "react";
@@ -63,7 +67,7 @@ import KpiContainer from "./components/KpiReact";
 //
 
 let LANG = "en";
-let CHART_TIME_PERIOD = DEFAULT_CHART_TIME_PERIOD;
+let CHART_TIME_PERIOD = TIME_PERIOD_ALL_TIME;
 
 const PAGE_STATE = {
   map: null,
@@ -75,7 +79,6 @@ const PAGE_STATE = {
 
 const ddb = {
   ...DDB_COMMON,
-  travelRestrictions,
 };
 
 ddb.isLoaded = function () {
@@ -119,14 +122,11 @@ const loadData = (callback) => {
   tryFetch(retryFetchWithDelay);
 };
 
-// Keep a reference around to destroy it if we redraw this.
-let trendChart = null;
-
 // Keep reference to current chart in order to clean up when redrawing.
-let dailyIncreaseChart = null;
-
-// Keep reference to chart in order to destroy it when redrawing.
-let regionTrajectoryChart = null;
+let dailyConfirmedCasesChart = null;
+let dailyActiveCasesChart = null;
+let dailyDeathsCasesChart = null;
+let dailyTestsCasesChart = null;
 
 // localize must be accessible globally
 const localize = locI18next.init(i18next.use(initReactI18next));
@@ -142,6 +142,8 @@ const setLang = (lng) => {
   }
 
   toggleLangPicker(LANG);
+
+  updatePageDirectionClass(i18next.dir(LANG));
 
   // set i18n framework lang
   i18next.changeLanguage(LANG).then(() => {
@@ -162,33 +164,13 @@ const setLang = (lng) => {
 
     // Redraw all components that need rerendering to be localized the prefectures table
     if (!document.body.classList.contains("embed-mode")) {
-      if (document.getElementById("travel-restrictions")) {
-        drawTravelRestrictions(ddb);
-      }
       if (ddb.isLoaded()) {
-        drawPageTitleCount(ddb.totals.confirmed, LANG);
-        trendChart = drawTrendChart(
-          ddb.trend,
-          trendChart,
-          LANG,
-          CHART_TIME_PERIOD
-        );
-        dailyIncreaseChart = drawDailyIncreaseChart(
-          ddb.trend,
-          dailyIncreaseChart,
-          LANG,
-          CHART_TIME_PERIOD
-        );
-        regionTrajectoryChart = drawRegionTrajectoryChart(
-          ddb.regions,
-          regionTrajectoryChart,
-          LANG
-        );
-        drawTopRegions(ddb.prefectures, ddb.regions, LANG);
-        drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
+        const event = new CustomEvent("covid19japan-redraw");
+        document.dispatchEvent(event);
       }
     }
 
+    sendResizeMessage();
     updateTooltipLang();
   });
 };
@@ -231,6 +213,39 @@ const initDataTranslate = () => {
           setLang(elem.dataset.langPicker);
         }
       });
+    });
+  }
+};
+
+const initChartTimePeriodSelector = () => {
+  const allTimeLink = document.querySelector("#time-period-all-time");
+
+  if (allTimeLink) {
+    allTimeLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.querySelector("#time-period-all-time").classList.add("selected");
+      document
+        .querySelector("#time-period-three-months")
+        .classList.remove("selected");
+      CHART_TIME_PERIOD = TIME_PERIOD_ALL_TIME;
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
+    });
+  }
+
+  const threeMonthsLink = document.querySelector("#time-period-three-months");
+  if (threeMonthsLink) {
+    threeMonthsLink.addEventListener("click", (e) => {
+      e.preventDefault();
+      document
+        .querySelector("#time-period-all-time")
+        .classList.remove("selected");
+      document
+        .querySelector("#time-period-three-months")
+        .classList.add("selected");
+      CHART_TIME_PERIOD = TIME_PERIOD_THREE_MONTHS;
+      const event = new CustomEvent("covid19japan-redraw");
+      document.dispatchEvent(event);
     });
   }
 };
@@ -343,38 +358,85 @@ const callIfUpdated = (callback, delay = 0) => {
   }
 };
 
+/**
+ * Sends message to window parent. Allows pages that embed this to resize the iFrame.
+ */
+const sendResizeMessage = () => {
+  const height = document.getElementsByTagName("html")[0].scrollHeight;
+  window.parent.postMessage(
+    {
+      name: "setHeight",
+      payload: height,
+    },
+    "*"
+  );
+};
+
 document.addEventListener("covid19japan-redraw", () => {
   if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
+
     callIfUpdated(() => {
-      trendChart = drawTrendChart(
+      dailyConfirmedCasesChart = drawDailyIncreaseChart(
         ddb.trend,
-        trendChart,
+        dailyConfirmedCasesChart,
         LANG,
+        "confirmed",
+        "confirmedAvg7d",
+        COLOR_CHART_BAR,
+        COLOR_CONFIRMED,
+        "#daily-confirmed-chart",
         CHART_TIME_PERIOD
       );
     });
+
     callIfUpdated(() => {
-      dailyIncreaseChart = drawDailyIncreaseChart(
+      dailyActiveCasesChart = drawDailyIncreaseChart(
         ddb.trend,
-        dailyIncreaseChart,
+        dailyActiveCasesChart,
         LANG,
+        "activeCumulative",
+        "",
+        COLOR_ACTIVE_LIGHT,
+        COLOR_ACTIVE,
+        "#daily-active-chart",
         CHART_TIME_PERIOD
       );
     });
+
     callIfUpdated(() => {
-      regionTrajectoryChart = drawRegionTrajectoryChart(
-        ddb.regions,
-        regionTrajectoryChart,
-        LANG
+      dailyDeathsCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyDeathsCasesChart,
+        LANG,
+        "deceased",
+        "deceasedAvg7d",
+        COLOR_DECEASED_LIGHT,
+        COLOR_DECEASED,
+        "#daily-deaths-chart",
+        CHART_TIME_PERIOD
       );
-    }, 32);
+    });
+
+    callIfUpdated(() => {
+      dailyTestsCasesChart = drawDailyIncreaseChart(
+        ddb.trend,
+        dailyTestsCasesChart,
+        LANG,
+        "tested",
+        "",
+        COLOR_TESTED,
+        COLOR_TESTED,
+        "#daily-tests-chart",
+        CHART_TIME_PERIOD
+      );
+    });
+
     callIfUpdated(() => {
       drawTopRegions(ddb.prefectures, ddb.regions, LANG);
       drawRegionalCharts(ddb.prefectures, ddb.regions, LANG);
     }, 32);
-    callIfUpdated(() => drawTravelRestrictions(ddb));
   }
 
   callIfUpdated(() => whenMapAndDataReady());
@@ -387,6 +449,11 @@ document.addEventListener("DOMContentLoaded", () => {
   initMap();
   loadDataOnPage();
   initDataTranslate();
+  initChartTimePeriodSelector();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
+});
+
+window.addEventListener("load", () => {
+  sendResizeMessage();
 });

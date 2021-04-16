@@ -1,10 +1,9 @@
 import i18next from "i18next";
 import _ from "lodash";
 
-import { el, span, div } from "../quickelement";
+import { span, div } from "quickelement";
 import { maybeIntlNumberFormat } from "../../i18n";
 
-const MAX_PREFECTURES_IN_REGION = 6;
 const MAX_REGIONS_IN_TOP_REGIONS = 4;
 const MAX_PREFECTURES_IN_TOP_REGIONS = 4;
 
@@ -135,6 +134,8 @@ export const createRegionBox = (regionName, region, numberFormatter) => {
   let active = region.active;
   if (typeof active == "number") {
     active = numberFormatter(active);
+  } else if (active === null) {
+    active = "0";
   }
 
   let deceased = region.deceased;
@@ -210,6 +211,8 @@ export const createPrefectureBox = (
   let active = prefecture.active;
   if (typeof active == "number") {
     active = numberFormatter(active);
+  } else if (!active) {
+    active = "0";
   }
 
   let deceased = prefecture.deceased;
@@ -299,8 +302,14 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
         return _.find(prefectureData, ["name", name]);
       });
       prefectures = prefectures.sort((a, b) => {
-        let deltaA = Math.max(a.newlyConfirmed, a.yesterdayConfirmed);
-        let deltaB = Math.max(b.newlyConfirmed, b.yesterdayConfirmed);
+        let deltaA = a.newlyConfirmed;
+        let deltaB = b.newlyConfirmed;
+        if (deltaA < 1 && a.yesterdayConfirmed > 0) {
+          deltaA = a.yesterdayConfirmed;
+        }
+        if (deltaB < 1 && b.yesterdayConfirmed > 0) {
+          deltaB = b.yesterdayConfirmed;
+        }
         if (deltaA < deltaB) {
           return 1;
         } else if (deltaB < deltaA) {
@@ -312,8 +321,6 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
         }
         return b.confirmed - a.confirmed;
       });
-
-      //prefectures = prefectures.slice(0, MAX_PREFECTURES_IN_REGION);
 
       for (let prefecture of prefectures) {
         if (!prefecture) {
@@ -350,8 +357,15 @@ export const drawRegionalCharts = (prefectureData, regionalData, lang) => {
   );
 
   let sortedPrefectures = prefectureData.sort((a, b) => {
-    let deltaA = Math.max(a.newlyConfirmed, a.yesterdayConfirmed);
-    let deltaB = Math.max(b.newlyConfirmed, b.yesterdayConfirmed);
+    let deltaA = a.newlyConfirmed;
+    let deltaB = b.newlyConfirmed;
+    if (deltaA < 1 && a.yesterdayConfirmed > 0) {
+      deltaA = a.yesterdayConfirmed;
+    }
+    if (deltaB < 1 && b.yesterdayConfirmed > 0) {
+      deltaB = b.yesterdayConfirmed;
+    }
+
     if (deltaA < deltaB) {
       return 1;
     } else if (deltaB < deltaA) {

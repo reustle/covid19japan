@@ -3,6 +3,7 @@ import { string, bool } from "prop-types";
 import gradient from "./linearGradient";
 import Loader from "../Loader";
 import updateTooltipLang from "../Header/UpdateTooltipLang";
+
 const Kpi = ({
   id,
   label,
@@ -14,7 +15,7 @@ const Kpi = ({
   isActive,
 }) => {
   const [graph, setGraph] = useState(null);
-  const [isLoading, setisLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     if (chartName) {
@@ -22,7 +23,7 @@ const Kpi = ({
       fetch(svgURL).then((response) => {
         if (response.status === 200) {
           response.text().then((data) => {
-            setisLoading(false);
+            setIsLoading(false);
             setGraph(data);
           });
         }
@@ -30,12 +31,13 @@ const Kpi = ({
       if (isActive) updateTooltipLang();
     }
   }, [chartName, isActive]);
+
   return (
     <>
       <div className="vitals">
         <div className="label">
           {label}
-          {isActive && <span>&#9432;</span>}
+          {isActive && <span> &#9432;</span>}
         </div>
         <div className="value">{value} </div>
         <div className="diff">( {diff} )</div>
@@ -45,23 +47,25 @@ const Kpi = ({
         ></div>
       </div>
       <Loader isLoaded={isLoading} />
-      {graph && (
-        <div
-          className="chart"
-          id={`kpi-${id}-chart`}
-          dangerouslySetInnerHTML={{
-            __html: `${gradient[id]}${graph}`,
-          }}
-        ></div>
-      )}
-      {!isLoading && (
-        <p
-          className="chart-caption"
-          dangerouslySetInnerHTML={{
-            __html: caption,
-          }}
-        ></p>
-      )}
+      <div>
+        {graph && (
+          <div
+            className="chart"
+            id={`kpi-${id}-chart`}
+            dangerouslySetInnerHTML={{
+              __html: `${gradient[id]}${graph}`,
+            }}
+          ></div>
+        )}
+        {!isLoading && (
+          <p
+            className="chart-caption"
+            dangerouslySetInnerHTML={{
+              __html: caption,
+            }}
+          ></p>
+        )}
+      </div>
     </>
   );
 };

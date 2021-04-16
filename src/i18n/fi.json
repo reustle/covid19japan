@@ -54,6 +54,13 @@
   "tested-percentage": "{{percent}}% positiivisia.",
   "active-cases": "Aktiivisia tapauksia",
   "no-active-cases": "Ei aktiivisia tapauksia 🎉",
+  "time-period": "Aikaväli",
+  "all-time": "Alusta alkaen",
+  "three-months": "Viimeiset 3 kk",
+  "active-cases-description": "COVID-19 -positiiviseksi testattuja tapauksia. (Varmistetut tapaukset pois lukien toipuneet ja kuolleet).",
+  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
+  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
+  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
   "pseudo-prefectures": {
     "port-of-entry": "Tulosatama",
     "unspecified": "Määrittelemätön",
