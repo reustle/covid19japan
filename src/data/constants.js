@@ -68,3 +68,12 @@ export const DDB_COMMON = {
     critical: 0,
   },
 };
+
+export const kpiTypes = [
+  "confirmed",
+  "recovered",
+  "critical",
+  "deceased",
+  "active",
+  "tested",
+];

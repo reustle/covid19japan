@@ -1,8 +1,10 @@
 import React, { useMemo, useCallback, memo } from "react";
-import Proptypes from "prop-types";
-import Kpi from "./kpi";
-import { maybeIntlNumberFormat } from "../../i18n";
+import { object, string } from "prop-types";
 import { useTranslation } from "react-i18next";
+
+import Kpi from "./Kpi";
+
+import { maybeIntlNumberFormat } from "../../i18n";
 
 const KpiContainer = ({ data, type }) => {
   const { t, i18n } = useTranslation();
@@ -76,7 +78,7 @@ const KpiContainer = ({ data, type }) => {
     [formatNumber, t, totals]
   );
 
-  const aggregateChartData = useMemo(() => {
+  const chart = useMemo(() => {
     const chartData = {
       id: type,
       label: t(`kpi-${type}`),
@@ -96,8 +98,6 @@ const KpiContainer = ({ data, type }) => {
     return chartData;
   }, [formatNumber, getPercentage, t, totals, totalsDiff, type]);
 
-  const chart = aggregateChartData;
-
   return (
     <Kpi
       key={chart.id}
@@ -114,8 +114,8 @@ const KpiContainer = ({ data, type }) => {
 };
 
 KpiContainer.propTypes = {
-  data: Proptypes.object,
-  type: Proptypes.string,
+  data: object,
+  type: string,
 };
 
 KpiContainer.defaultProps = {

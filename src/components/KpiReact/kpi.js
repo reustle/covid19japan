@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, memo } from "react";
 import { string, bool } from "prop-types";
+
 import gradient from "./linearGradient";
 import Loader from "../Loader";
+
 import updateTooltipLang from "../Header/UpdateTooltipLang";
 
 const Kpi = ({
@@ -28,43 +30,39 @@ const Kpi = ({
           });
         }
       });
-      if (isActive) updateTooltipLang();
+
+      isActive && updateTooltipLang();
     }
   }, [chartName, isActive]);
 
   return (
     <>
       <div className="vitals">
-        <div className="label">
-          {label}
-          {isActive && <span> &#9432;</span>}
-        </div>
+        <a href={`#${label.toLowerCase()}`} className="inline">
+          <div className="label">
+            {label}
+            {isActive && <span> &#9432;</span>}
+          </div>
+        </a>
         <div className="value">{value} </div>
         <div className="diff">( {diff} )</div>
         <div
           className="description"
           dangerouslySetInnerHTML={{ __html: percent }}
-        ></div>
+        />
       </div>
       <Loader isLoaded={isLoading} />
       <div>
         {graph && (
           <div
-            className="chart"
+            className="chart-container"
             id={`kpi-${id}-chart`}
             dangerouslySetInnerHTML={{
               __html: `${gradient[id]}${graph}`,
             }}
-          ></div>
+          />
         )}
-        {!isLoading && (
-          <p
-            className="chart-caption"
-            dangerouslySetInnerHTML={{
-              __html: caption,
-            }}
-          ></p>
-        )}
+        {!isLoading && <p className="chart-caption">{caption}</p>}
       </div>
     </>
   );
@@ -92,4 +90,4 @@ Kpi.defaultProps = {
   isActive: false,
 };
 
-export default Kpi;
+export default memo(Kpi);
