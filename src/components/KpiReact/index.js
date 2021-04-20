@@ -2,9 +2,9 @@ import React, { useMemo, useCallback, memo } from "react";
 import { object, string } from "prop-types";
 import { useTranslation } from "react-i18next";
 
-import Kpi from "./Kpi";
-
 import { maybeIntlNumberFormat } from "../../i18n";
+
+import Kpi from "./Kpi";
 
 const KpiContainer = ({ data, type }) => {
   const { t, i18n } = useTranslation();
