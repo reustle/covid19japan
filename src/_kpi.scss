@@ -49,6 +49,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
     font-weight: $font-weight-bold;
     display: inline;
     word-wrap: none;
+    white-space: nowrap;
   }
   .value {
     font-size: 1.4rem;
@@ -79,6 +80,7 @@ $breakpoint-600-box-width: ($breakpoint-600-page-width - $box-margin * 2 * 3) / 
   .chart-caption {
     font-size: 0.6rem;
     line-height: 1em;
+    margin: 0;
   }
 
 }

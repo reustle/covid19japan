@@ -18,14 +18,20 @@ import "classlist-polyfill";
 import "custom-event-polyfill";
 
 // Add all non-polyfill deps below.
+import React from "react";
+import ReactDOM from "react-dom";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import locI18next from "loc-i18next";
+import { initReactI18next } from "react-i18next";
 
+import * as constants from "./data/constants";
 import { calculateTotals } from "./data/helper";
+import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
+
+import Kpi from "./components/KpiReact";
 import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
-import drawKpis from "./components/Kpi";
 import mapDrawer from "./components/OutbreakMap";
 import {
   drawRegionalCharts,
@@ -42,7 +48,7 @@ const {
 
 const { drawMap, drawMapPrefectures } = mapDrawer;
 
-import {
+const {
   LANG_CONFIG,
   JSON_PATH,
   SUPPORTED_LANGS,
@@ -56,8 +62,8 @@ import {
   COLOR_ACTIVE_LIGHT,
   COLOR_DECEASED,
   COLOR_DECEASED_LIGHT,
-} from "./data/constants";
-import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
+  kpiTypes,
+} = constants;
 
 //
 // Globals
@@ -126,7 +132,7 @@ let dailyDeathsCasesChart = null;
 let dailyTestsCasesChart = null;
 
 // localize must be accessible globally
-const localize = locI18next.init(i18next);
+const localize = locI18next.init(i18next.use(initReactI18next));
 
 const setLang = (lng) => {
   if (lng && lng.length > 1) {
@@ -270,6 +276,12 @@ const loadDataOnPage = () => {
 
       PAGE_STATE.dataLoaded = ddb.isLoaded();
 
+      //rendering the react component as soon as the data loads
+      kpiTypes.forEach((type) => {
+        const wrapper = document.getElementById(`kpi-${type}`);
+        ReactDOM.render(<Kpi data={ddb} type={type} />, wrapper);
+      });
+
       const event = new CustomEvent("covid19japan-redraw");
       document.dispatchEvent(event);
     }
@@ -355,7 +367,6 @@ const sendResizeMessage = () => {
 };
 
 document.addEventListener("covid19japan-redraw", () => {
-  callIfUpdated(() => drawKpis(ddb.totals, ddb.totalsDiff, LANG));
   if (!document.body.classList.contains("embed")) {
     callIfUpdated(() => drawLastUpdated(ddb.lastUpdated, LANG));
     callIfUpdated(() => drawPageTitleCount(ddb.totals.confirmed, LANG));
