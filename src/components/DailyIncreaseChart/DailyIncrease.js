@@ -112,7 +112,7 @@ const drawDailyIncreaseChart = (
               return "";
             }
             const xDate = Date.parse(x);
-            return format(xDate, "MMM d", {
+            return format(xDate, "MMM d yyyy", {
               locale: dateLocale,
               addSuffix: true,
             });
