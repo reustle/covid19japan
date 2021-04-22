@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, memo } from "react";
 import Select from "react-select";
 import { string } from "prop-types";
 
@@ -21,7 +21,6 @@ const LanguagePicker = ({ lang }) => {
 
   return (
     <Select
-      label="Single select"
       styles={customStyles}
       options={languageOptions}
       value={currentLang}
@@ -38,4 +37,4 @@ LanguagePicker.defaultProps = {
   lang: "en",
 };
 
-export default LanguagePicker;
+export default memo(LanguagePicker);
