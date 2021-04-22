@@ -4,6 +4,7 @@ _site/
 docs/
 
 .idea
+.vscode
 node_modules
 .jekyll-cache/
 

@@ -27,10 +27,11 @@
     "i18next-browser-languagedetector": "^4.0.2",
     "loc-i18next": "^0.1.4",
     "prop-types": "^15.7.2",
+    "quickelement": "^1.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-i18next": "^11.7.0",
-    "quickelement": "^1.1.1",
+    "react-select": "^4.3.0",
     "tippy.js": "^6.1.0",
     "twemoji": "^12.1.5",
     "whatwg-fetch": "^3.0.0"

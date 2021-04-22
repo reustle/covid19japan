@@ -77,3 +77,28 @@ export const kpiTypes = [
   "active",
   "tested",
 ];
+
+export const languageOptions = [
+  { value: "en", label: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 \xa0 English" },
+  { value: "ja", label: "🇯🇵 \xa0 日本語" },
+  { value: "id", label: "🇮🇩 \xa0 Bahasa Indonesia" },
+  { value: "cs", label: "🇨🇿 \xa0 Čeština" },
+  { value: "de", label: "🇩🇪 \xa0 Deutsch" },
+  { value: "es", label: "🇪🇸 \xa0 Español" },
+  { value: "fr", label: "🇫🇷 \xa0 Français" },
+  { value: "it", label: "🇮🇹 \xa0 Italiano" },
+  { value: "ph", label: "🇵🇭 \xa0 Filipino" },
+  { value: "pl", label: "🇵🇱 \xa0 Polski" },
+  { value: "pt", label: "🇵🇹 \xa0 Português" },
+  { value: "fi", label: "🇫🇮 \xa0 Suomi" },
+  { value: "tr", label: "🇹🇷 \xa0 Türkçe" },
+  { value: "bn", label: "🇧🇩 \xa0 বাংলা" },
+  { value: "hi", label: "🇮🇳 \xa0 हिंदी" },
+  { value: "uk", label: "🇺🇦 \xa0 Українська" },
+  { value: "zh", label: "🇨🇳 \xa0 中文 (繁體)" },
+  { value: "ar", label: "🇸🇦 \xa0 العربية" },
+  { value: "ru", label: "🇷🇺 \xa0 Русский" },
+  { value: "th", label: "🇹🇭 \xa0 ภาษาไทย" },
+  { value: "fa", label: "🇮🇷 \xa0 فارسی" },
+  { value: "np", label: "🇳🇵 \xa0 नेपाली" },
+];

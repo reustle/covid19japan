@@ -82,15 +82,12 @@ header {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
     font-size: 0.8rem;
 
     .lang-picker-title {
       font-style: italic;
       margin-inline-end: 0.5rem;
-    }
-
-    .lang-picker-button {
-      word-wrap: none;
     }
     
     .lang-picker {
@@ -98,17 +95,8 @@ header {
       padding-inline-end: 1em;
       padding-block-end: 0.5em;
       padding-inline-start: 0;
-
-      a {
-        white-space: nowrap;
-        text-decoration: none;
-        margin-block-end: 0.3rem;
-
-        &.active {
-          border-bottom: solid 2px black;
-          font-weight: $font-weight-bold;
-        }
-      }
+      display: flex;
+      align-items: center;
     }
 
     #last-updated {
