@@ -27,9 +27,9 @@ import { initReactI18next } from "react-i18next";
 
 import * as constants from "./data/constants";
 import { calculateTotals } from "./data/helper";
-import { LANGUAGES, LANGUAGE_NAMES } from "./i18n";
 
 import Kpi from "./components/KpiReact";
+import LanguagePicker from "./components/LanguagePicker";
 import header from "./components/Header";
 import drawDailyIncreaseChart from "./components/DailyIncreaseChart";
 import mapDrawer from "./components/OutbreakMap";
@@ -39,7 +39,6 @@ import {
 } from "./components/RegionalCharts/RegionalCharts";
 
 const {
-  toggleLangPicker,
   updateTooltipLang,
   drawPageTitleCount,
   drawLastUpdated,
@@ -134,7 +133,7 @@ let dailyTestsCasesChart = null;
 // localize must be accessible globally
 const localize = locI18next.init(i18next.use(initReactI18next));
 
-const setLang = (lng) => {
+export const setLang = (lng) => {
   if (lng && lng.length > 1) {
     // Clip to first two letters of the language.
     let proposedLng = lng.slice(0, 2);
@@ -143,8 +142,6 @@ const setLang = (lng) => {
       LANG = proposedLng;
     }
   }
-
-  toggleLangPicker(LANG);
 
   updatePageDirectionClass(i18next.dir(LANG));
 
@@ -180,14 +177,7 @@ const setLang = (lng) => {
 
 const populateLanguageSelector = () => {
   const parent = document.getElementsByClassName("lang-picker-languages")[0];
-  parent.innerHTML = "";
-  for (let i in LANGUAGES) {
-    parent.innerHTML =
-      parent.innerHTML +
-      `<a href="#" class="lang-picker-button" data-lang-picker='${LANGUAGES[i]}'>${LANGUAGE_NAMES[i]}</a> `;
-    if (i <= LANGUAGES.length - 2)
-      parent.innerHTML = parent.innerHTML + `&nbsp;| `;
-  }
+  ReactDOM.render(<LanguagePicker lang={LANG} />, parent);
 };
 
 const initDataTranslate = () => {
@@ -200,24 +190,6 @@ const initDataTranslate = () => {
     });
 
   populateLanguageSelector();
-
-  // Language selector event handler
-  const langPickers = document.querySelectorAll("[data-lang-picker]");
-  if (langPickers) {
-    langPickers.forEach((pick) => {
-      pick.addEventListener("click", (e) => {
-        e.preventDefault();
-        // Go up the DOM tree until we find the langPicker
-        let elem = e.target;
-        while (elem && (!elem.dataset || !elem.dataset.langPicker)) {
-          elem = elem.parentElement;
-        }
-        if (elem) {
-          setLang(elem.dataset.langPicker);
-        }
-      });
-    });
-  }
 };
 
 const initChartTimePeriodSelector = () => {
