@@ -79,7 +79,7 @@ export const kpiTypes = [
 ];
 
 export const languageOptions = [
-  { value: "en", label: "🏴󠁧󠁢󠁥󠁮󠁧󠁿 \xa0 English" },
+  { value: "en", label: "🇺🇸 \xa0 English" },
   { value: "ja", label: "🇯🇵 \xa0 日本語" },
   { value: "id", label: "🇮🇩 \xa0 Bahasa Indonesia" },
   { value: "cs", label: "🇨🇿 \xa0 Čeština" },
