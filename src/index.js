@@ -26,7 +26,7 @@ import locI18next from "loc-i18next";
 import { initReactI18next } from "react-i18next";
 
 import * as constants from "./data/constants";
-import { calculateTotals } from "./data/helper";
+import { calculateTotals, getPrefecturePaint } from "./data/helper";
 
 import Kpi from "./components/KpiReact";
 import LanguagePicker from "./components/LanguagePicker";
@@ -45,7 +45,7 @@ const {
   updatePageDirectionClass,
 } = header;
 
-const { drawMap, drawMapPrefectures } = mapDrawer;
+const { drawMap, drawMapPrefectures, drawLegend } = mapDrawer;
 
 const {
   LANG_CONFIG,
@@ -95,12 +95,12 @@ ddb.isUpdated = function () {
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
-const loadData = (callback) => {
+const loadData = async (callback) => {
   let delay = 2 * 1000; // 2 seconds
 
-  const tryFetch = (retryFn) => {
+  const tryFetch = async (retryFn) => {
     // Load the json data file
-    fetch(JSON_PATH)
+    await fetch(JSON_PATH)
       .then((res) => res.json())
       .catch((networkError) => {
         retryFn(delay, networkError);
@@ -116,12 +116,12 @@ const loadData = (callback) => {
 
   const retryFetchWithDelay = (delay, err) => {
     console.log(`${err}: retrying after ${delay}ms.`);
-    setTimeout(() => {
-      tryFetch(retryFetchWithDelay);
+    setTimeout(async () => {
+      await tryFetch(retryFetchWithDelay);
     }, delay);
   };
 
-  tryFetch(retryFetchWithDelay);
+  await tryFetch(retryFetchWithDelay);
 };
 
 // Keep reference to current chart in order to clean up when redrawing.
@@ -180,9 +180,9 @@ const populateLanguageSelector = () => {
   ReactDOM.render(<LanguagePicker lang={LANG} />, parent);
 };
 
-const initDataTranslate = () => {
+const initDataTranslate = async () => {
   // load translation framework
-  i18next
+  await i18next
     .use(LanguageDetector)
     .init(LANG_CONFIG)
     .then(() => {
@@ -231,11 +231,14 @@ const whenMapAndDataReady = () => {
   if (!PAGE_STATE.styleLoaded || !PAGE_STATE.dataLoaded || !PAGE_STATE.map) {
     return;
   }
+  //remove <img> tag with static map before load dynamic one
+  const staticMap = document.getElementById("static-map");
+  staticMap && staticMap.remove();
   drawMapPrefectures(ddb, PAGE_STATE.map, LANG);
 };
 
-const loadDataOnPage = () => {
-  loadData((summaryData) => {
+const loadDataOnPage = async () => {
+  await loadData((summaryData) => {
     if (!ddb.isLoaded() || summaryData.updated > ddb.lastUpdated) {
       ddb.previouslyUpdated = ddb.lastUpdated;
       ddb.lastUpdated = summaryData.updated;
@@ -277,36 +280,51 @@ const initMap = () => {
 };
 
 const doInitMap = () => {
-  let map = PAGE_STATE.map;
+  const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb));
 
-  if (window.mapboxgl.supported() && PAGE_STATE.mapShouldLoad) {
-    map = drawMap();
-    PAGE_STATE.map = map;
-  } else {
-    // Hide the outbreak map.
-    let mapContainer = document.querySelector("#prefecture-map-container");
-    if (mapContainer) {
-      mapContainer.style.display = "none";
-    }
-  }
+  document.getElementById(
+    "map-container"
+  ).innerHTML = `<img id="static-map" src='https://api.mapbox.com/styles/v1/andriiandrey/cknzvsj3552q817mw9th5oc46/static/138.1179,37.2767,4,0/570x500@2x?before_layer=admin-1-boundary&addlayer={"id":"prefecture-layer","type":"fill","source":"composite","source-layer":"prefectures-smooth-7q90kf","paint":{"fill-color":${prefecturePaint},"fill-opacity":1}}&access_token=pk.eyJ1IjoiYW5kcmlpYW5kcmV5IiwiYSI6ImNrbnJmcWJybzBkb2syb3BleTRqdjNzZHIifQ.VgRPjKpX0ScusrvoL0TDfQ' alt="Prefecture map">`;
 
-  if (map) {
-    map.once("style.load", () => {
-      PAGE_STATE.styleLoaded = true;
-      let layers = map.getStyle().layers;
-      if (layers) {
-        layers.forEach((thisLayer) => {
-          if (thisLayer.type == "symbol") {
-            map.setLayoutProperty(thisLayer.id, "text-field", [
-              "get",
-              `name_${LANG}`,
-            ]);
-          }
-        });
+  document.getElementById("static-map").addEventListener("click", (e) => {
+    e.preventDefault();
+
+    let map = PAGE_STATE.map;
+
+    if (window.mapboxgl.supported() && PAGE_STATE.mapShouldLoad) {
+      map = drawMap();
+      PAGE_STATE.map = map;
+    } else {
+      // Hide the outbreak map.
+      let mapContainer = document.querySelector("#prefecture-map-container");
+      if (mapContainer) {
+        mapContainer.style.display = "none";
       }
-      whenMapAndDataReady();
-    });
-  }
+    }
+
+    if (map) {
+      map.once("style.load", () => {
+        PAGE_STATE.styleLoaded = true;
+        let layers = map.getStyle().layers;
+        if (layers) {
+          layers.forEach((thisLayer) => {
+            if (thisLayer.type == "symbol") {
+              map.setLayoutProperty(thisLayer.id, "text-field", [
+                "get",
+                `name_${LANG}`,
+              ]);
+            }
+          });
+        }
+        whenMapAndDataReady();
+      });
+    }
+  });
+
+  //used 1 second delay to make sure data already loaded
+  setTimeout(() => {
+    document.getElementById("map-legend").innerHTML = drawLegend(LANG);
+  }, 1000);
 };
 
 // Reload data every five minutes
@@ -408,13 +426,13 @@ document.addEventListener("covid19japan-redraw", () => {
   callIfUpdated(() => whenMapAndDataReady());
 });
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   if (window.location.href.indexOf("nomap") != -1) {
     PAGE_STATE.mapShouldLoad = false;
   }
+  await initDataTranslate();
+  await loadDataOnPage();
   initMap();
-  loadDataOnPage();
-  initDataTranslate();
   initChartTimePeriodSelector();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();

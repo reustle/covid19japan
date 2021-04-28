@@ -1,11 +1,6 @@
 import i18next from "i18next";
 import { maybeIntlNumberFormat } from "../../i18n";
-import {
-  PREFECTURE_PAINT,
-  COLOR_NONE,
-  MAP_COLOR_BOUNDARIES,
-  LEGEND_CLASSES,
-} from "../../data/constants";
+import { getPrefecturePaint } from "../../data/helper";
 
 const PREFECTURE_JSON_PATH = "static/prefectures-smooth.geojson";
 let pageDrawCount = 0;
@@ -34,52 +29,9 @@ const drawMapPrefectures = (ddb, map, lang) => {
     }
   }
 
-  const getLegendLabel = (boundary, previousBoundary) => {
-    if (previousBoundary === 0) {
-      return i18next.t("cases-none");
-    }
-    if (!isFinite(boundary)) {
-      return i18next.t("cases-last", { from: formatNumber(previousBoundary) });
-    }
-    return i18next.t("cases-range", {
-      from: formatNumber(previousBoundary),
-      to: formatNumber(boundary - 1),
-    });
-  };
-  const drawLegend = () => {
-    var classIndex = 0;
-    var previousBoundary = 0;
-    var html = "";
-    for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort(
-      (a, b) => a - b
-    )) {
-      let label = getLegendLabel(boundary, previousBoundary);
-      html += `<div><span class="${LEGEND_CLASSES[classIndex]}">▉</span> ${label}</div>`;
-
-      classIndex = (classIndex + 1) % LEGEND_CLASSES.length;
-      previousBoundary = boundary;
-    }
-    return html;
-  };
-  document.getElementById("map-legend").innerHTML = drawLegend();
-
   // Start the Mapbox search expression
-  const prefecturePaint = [...PREFECTURE_PAINT];
-  // Go through all prefectures looking for cases
-  ddb.prefectures.map((prefecture) => {
-    let cases = parseInt(prefecture.active);
-    if (cases > 0) {
-      prefecturePaint.push(prefecture.name);
-      let matchingBoundary = Object.keys(MAP_COLOR_BOUNDARIES).find(
-        (boundary) => cases < boundary
-      );
-      let color = MAP_COLOR_BOUNDARIES[matchingBoundary];
-      prefecturePaint.push(color);
-    }
-  });
 
-  // Add a final value to the list for the default color
-  prefecturePaint.push(COLOR_NONE);
+  const prefecturePaint = getPrefecturePaint(ddb);
 
   if (pageDrawCount === 0) {
     pageDrawCount++;
