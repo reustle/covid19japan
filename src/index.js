@@ -27,6 +27,7 @@ import { initReactI18next } from "react-i18next";
 
 import * as constants from "./data/constants";
 import { calculateTotals, getPrefecturePaint } from "./data/helper";
+import { MAPBOX_API_KEY } from "./components/OutbreakMap/ApiKey";
 
 import Kpi from "./components/KpiReact";
 import LanguagePicker from "./components/LanguagePicker";
@@ -231,9 +232,6 @@ const whenMapAndDataReady = () => {
   if (!PAGE_STATE.styleLoaded || !PAGE_STATE.dataLoaded || !PAGE_STATE.map) {
     return;
   }
-  //remove <img> tag with static map before load dynamic one
-  const staticMap = document.getElementById("static-map");
-  staticMap && staticMap.remove();
   drawMapPrefectures(ddb, PAGE_STATE.map, LANG);
 };
 
@@ -280,13 +278,16 @@ const initMap = () => {
 };
 
 const doInitMap = () => {
+  // insert static map from mapbox static API;
   const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb));
 
   document.getElementById(
     "map-container"
-  ).innerHTML = `<img id="static-map" src='https://api.mapbox.com/styles/v1/andriiandrey/cknzvsj3552q817mw9th5oc46/static/138.1179,37.2767,4,0/570x500@2x?before_layer=admin-1-boundary&addlayer={"id":"prefecture-layer","type":"fill","source":"composite","source-layer":"prefectures-smooth-7q90kf","paint":{"fill-color":${prefecturePaint},"fill-opacity":1}}&access_token=pk.eyJ1IjoiYW5kcmlpYW5kcmV5IiwiYSI6ImNrbnJmcWJybzBkb2syb3BleTRqdjNzZHIifQ.VgRPjKpX0ScusrvoL0TDfQ' alt="Prefecture map">`;
+  ).innerHTML = `<img id="static-map" src='https://api.mapbox.com/styles/v1/reustle/cko2t3n7x0pjr17p80e1tlavj/static/138.1179,37.5767,4.03,0/570x500@2x?before_layer=admin-1-boundary&addlayer={"id":"prefecture-layer","type":"fill","source":"composite","source-layer":"prefectures-smooth-1d4tx6","paint":{"fill-color":${prefecturePaint},"fill-opacity":1}}&access_token=${MAPBOX_API_KEY}' alt="Prefecture map">`;
 
-  document.getElementById("static-map").addEventListener("click", (e) => {
+  // add event listener to replace static map on click with real one
+  const staticMap = document.getElementById("static-map");
+  staticMap.addEventListener("click", (e) => {
     e.preventDefault();
 
     let map = PAGE_STATE.map;
@@ -317,6 +318,8 @@ const doInitMap = () => {
           });
         }
         whenMapAndDataReady();
+        //remove <img> tag with static map before load dynamic one
+        staticMap.remove();
       });
     }
   });
