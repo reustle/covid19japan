@@ -31,6 +31,9 @@ const drawDailyIncreaseChart = (
 
   const startIndex = timePeriod > 0 ? trends.length - timePeriod : 0;
   for (let i = startIndex; i < trends.length; i++) {
+    // added next line for throttling, because chart lagging for all period of time
+    if (startIndex === 0 && i % 2 === 0) continue;
+
     const row = trends[i];
 
     cols.Date.push(row.date);
@@ -109,7 +112,7 @@ const drawDailyIncreaseChart = (
               return "";
             }
             const xDate = Date.parse(x);
-            return format(xDate, "MMM d", {
+            return format(xDate, "MMM d yyyy", {
               locale: dateLocale,
               addSuffix: true,
             });
