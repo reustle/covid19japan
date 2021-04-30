@@ -17,9 +17,9 @@ const getLegendLabel = (boundary, previousBoundary, formatNumber) => {
 
 export const drawLegend = (lang) => {
   const formatNumber = maybeIntlNumberFormat(lang);
-  var classIndex = 0;
-  var previousBoundary = 0;
-  var html = "";
+  let classIndex = 0;
+  let previousBoundary = 0;
+  let html = "";
   for (let boundary of Object.keys(MAP_COLOR_BOUNDARIES).sort(
     (a, b) => a - b
   )) {
