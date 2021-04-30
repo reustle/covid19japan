@@ -280,7 +280,7 @@ const initMap = () => {
 
 const doInitMap = () => {
   // insert static map from mapbox static API;
-  const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb));
+  const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb.prefectures));
 
   document.getElementById(
     "map-container"

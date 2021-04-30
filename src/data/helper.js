@@ -41,9 +41,9 @@ export const calculateTotals = (daily) => {
   return [totals, totalsDiff];
 };
 
-export const getPrefecturePaint = (ddb) => {
+export const getPrefecturePaint = (prefectures = []) => {
   const prefecturePaint = [...PREFECTURE_PAINT];
-  ddb.prefectures.map((prefecture) => {
+  prefectures.map((prefecture) => {
     let cases = parseInt(prefecture.active);
     if (cases > 0) {
       prefecturePaint.push(prefecture.name);

@@ -31,7 +31,7 @@ const drawMapPrefectures = (ddb, map, lang) => {
 
   // Start the Mapbox search expression
 
-  const prefecturePaint = getPrefecturePaint(ddb);
+  const prefecturePaint = getPrefecturePaint(ddb.prefectures);
 
   if (pageDrawCount === 0) {
     pageDrawCount++;
