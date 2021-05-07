@@ -26,8 +26,7 @@ import locI18next from "loc-i18next";
 import { initReactI18next } from "react-i18next";
 
 import * as constants from "./data/constants";
-import { calculateTotals, getPrefecturePaint } from "./data/helper";
-import { MAPBOX_API_KEY } from "./components/OutbreakMap/ApiKey";
+import { calculateTotals } from "./data/helper";
 
 import Kpi from "./components/KpiReact";
 import LanguagePicker from "./components/LanguagePicker";
@@ -46,7 +45,7 @@ const {
   updatePageDirectionClass,
 } = header;
 
-const { drawMap, drawMapPrefectures, drawLegend } = mapDrawer;
+const { drawMap, drawMapPrefectures } = mapDrawer;
 
 const {
   LANG_CONFIG,
@@ -96,12 +95,12 @@ ddb.isUpdated = function () {
 
 // Fetches data from the JSON_PATH but applies an exponential
 // backoff if there is an error.
-const loadData = async (callback) => {
+const loadData = (callback) => {
   let delay = 2 * 1000; // 2 seconds
 
-  const tryFetch = async (retryFn) => {
+  const tryFetch = (retryFn) => {
     // Load the json data file
-    await fetch(JSON_PATH)
+    fetch(JSON_PATH)
       .then((res) => res.json())
       .catch((networkError) => {
         retryFn(delay, networkError);
@@ -117,12 +116,12 @@ const loadData = async (callback) => {
 
   const retryFetchWithDelay = (delay, err) => {
     console.log(`${err}: retrying after ${delay}ms.`);
-    setTimeout(async () => {
-      await tryFetch(retryFetchWithDelay);
+    setTimeout(() => {
+      tryFetch(retryFetchWithDelay);
     }, delay);
   };
 
-  await tryFetch(retryFetchWithDelay);
+  tryFetch(retryFetchWithDelay);
 };
 
 // Keep reference to current chart in order to clean up when redrawing.
@@ -150,7 +149,6 @@ export const setLang = (lng) => {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    document.getElementById("map-legend").innerHTML = drawLegend(LANG);
     if (PAGE_STATE.styleLoaded && PAGE_STATE.map) {
       let map = PAGE_STATE.map;
       map.getStyle().layers.forEach((thisLayer) => {
@@ -182,9 +180,9 @@ const populateLanguageSelector = () => {
   ReactDOM.render(<LanguagePicker lang={LANG} />, parent);
 };
 
-const initDataTranslate = async () => {
+const initDataTranslate = () => {
   // load translation framework
-  await i18next
+  i18next
     .use(LanguageDetector)
     .init(LANG_CONFIG)
     .then(() => {
@@ -236,8 +234,8 @@ const whenMapAndDataReady = () => {
   drawMapPrefectures(ddb, PAGE_STATE.map, LANG);
 };
 
-const loadDataOnPage = async () => {
-  await loadData((summaryData) => {
+const loadDataOnPage = () => {
+  loadData((summaryData) => {
     if (!ddb.isLoaded() || summaryData.updated > ddb.lastUpdated) {
       ddb.previouslyUpdated = ddb.lastUpdated;
       ddb.lastUpdated = summaryData.updated;
@@ -279,56 +277,36 @@ const initMap = () => {
 };
 
 const doInitMap = () => {
-  // insert static map from mapbox static API;
-  const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb.prefectures));
+  let map = PAGE_STATE.map;
 
-  document.getElementById(
-    "map-container"
-  ).innerHTML = `<img id="static-map" src='https://api.mapbox.com/styles/v1/reustle/cko2t3n7x0pjr17p80e1tlavj/static/138.1179,37.5767,4.03,0/570x500@2x?before_layer=admin-1-boundary&addlayer={"id":"prefecture-layer","type":"fill","source":"composite","source-layer":"prefectures-smooth-1d4tx6","paint":{"fill-color":${prefecturePaint},"fill-opacity":1}}&access_token=${MAPBOX_API_KEY}' alt="Prefecture map">`;
+  if (window.mapboxgl.supported() && PAGE_STATE.mapShouldLoad) {
+    map = drawMap();
+    PAGE_STATE.map = map;
+  } else {
+    // Hide the outbreak map.
+    let mapContainer = document.querySelector("#prefecture-map-container");
+    if (mapContainer) {
+      mapContainer.style.display = "none";
+    }
+  }
 
-  // add event listener to replace static map on click with real one
-  const staticMap = document.getElementById("static-map");
-  staticMap.addEventListener("click", (e) => {
-    e.preventDefault();
-
-    let map = PAGE_STATE.map;
-
-    if (window.mapboxgl.supported() && PAGE_STATE.mapShouldLoad) {
-      map = drawMap();
-      PAGE_STATE.map = map;
-    } else {
-      // Hide the outbreak map.
-      let mapContainer = document.querySelector("#prefecture-map-container");
-      if (mapContainer) {
-        mapContainer.style.display = "none";
+  if (map) {
+    map.once("style.load", () => {
+      PAGE_STATE.styleLoaded = true;
+      let layers = map.getStyle().layers;
+      if (layers) {
+        layers.forEach((thisLayer) => {
+          if (thisLayer.type == "symbol") {
+            map.setLayoutProperty(thisLayer.id, "text-field", [
+              "get",
+              `name_${LANG}`,
+            ]);
+          }
+        });
       }
-    }
-
-    if (map) {
-      map.once("style.load", () => {
-        PAGE_STATE.styleLoaded = true;
-        let layers = map.getStyle().layers;
-        if (layers) {
-          layers.forEach((thisLayer) => {
-            if (thisLayer.type == "symbol") {
-              map.setLayoutProperty(thisLayer.id, "text-field", [
-                "get",
-                `name_${LANG}`,
-              ]);
-            }
-          });
-        }
-        whenMapAndDataReady();
-        //remove <img> tag with static map before load dynamic one
-        staticMap.remove();
-      });
-    }
-  });
-
-  //used 1 second delay to make sure data already loaded
-  setTimeout(() => {
-    document.getElementById("map-legend").innerHTML = drawLegend(LANG);
-  }, 1000);
+      whenMapAndDataReady();
+    });
+  }
 };
 
 // Reload data every five minutes
@@ -430,13 +408,13 @@ document.addEventListener("covid19japan-redraw", () => {
   callIfUpdated(() => whenMapAndDataReady());
 });
 
-document.addEventListener("DOMContentLoaded", async () => {
+document.addEventListener("DOMContentLoaded", () => {
   if (window.location.href.indexOf("nomap") != -1) {
     PAGE_STATE.mapShouldLoad = false;
   }
-  await initDataTranslate();
-  await loadDataOnPage();
   initMap();
+  loadDataOnPage();
+  initDataTranslate();
   initChartTimePeriodSelector();
   setTimeout(recursiveDataLoad, FIVE_MINUTES_IN_MS);
   startReloadTimer();
