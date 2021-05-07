@@ -1,7 +1,7 @@
 module.exports = function (api) {
   api.cache(false);
   return {
-    plugins: ["date-fns", "@babel/plugin-transform-runtime"],
+    plugins: ["date-fns"],
     presets: [
       [
         "@babel/preset-env",

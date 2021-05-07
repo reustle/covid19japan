@@ -38,7 +38,7 @@ const Kpi = ({
   return (
     <>
       <div className="vitals">
-        <a href={`#${id}`} className="inline">
+        <a href={`#${label.toLowerCase()}`} className="inline">
           <div className="label">
             {label}
             {isActive && <span> &#9432;</span>}
