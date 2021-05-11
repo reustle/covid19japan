@@ -1,3 +1,9 @@
+import {
+  COLOR_NONE,
+  MAP_COLOR_BOUNDARIES,
+  PREFECTURE_PAINT,
+} from "./constants";
+
 export const calculateTotals = (daily) => {
   // Calculate the totals
   const totals = {
@@ -33,4 +39,23 @@ export const calculateTotals = (daily) => {
   totalsDiff.active = latest.active;
 
   return [totals, totalsDiff];
+};
+
+export const getPrefecturePaint = (prefectures = []) => {
+  const prefecturePaint = [...PREFECTURE_PAINT];
+  prefectures.map((prefecture) => {
+    let cases = parseInt(prefecture.active);
+    if (cases > 0) {
+      prefecturePaint.push(prefecture.name);
+      let matchingBoundary = Object.keys(MAP_COLOR_BOUNDARIES).find(
+        (boundary) => cases < boundary
+      );
+      let color = MAP_COLOR_BOUNDARIES[matchingBoundary];
+      prefecturePaint.push(color);
+    }
+  });
+
+  // Add a final value to the list for the default color
+  prefecturePaint.push(COLOR_NONE);
+  return prefecturePaint;
 };
