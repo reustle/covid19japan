@@ -2,9 +2,6 @@
   "name": "covid2019-japan",
   "version": "1.0.0",
   "main": "server.js",
-  "engines": {
-    "node": "10.x"
-  },
   "scripts": {
     "build": "npx webpack --config webpack.dev.js",
     "build-prod": "npx webpack --config webpack.prod.js",
@@ -57,9 +54,9 @@
     "husky": "^4.2.3",
     "lint-staged": "^10.0.9",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.14.0",
     "postcss-loader": "^3.0.0",
     "prettier": "^2.0.2",
+    "sass": "^1.34.0",
     "sass-loader": "^8.0.0",
     "simplify-geojson": "^1.0.3",
     "source-map-explorer": "^2.4.2",
