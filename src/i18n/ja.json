@@ -57,9 +57,9 @@
   "time-period": "Time period",
   "all-time": "All time",
   "three-months": "3 months",
-  "active-cases-description": "Total patients that are still currently testing positive for COVID-19.  (Total confirmed cases minus total recovered cases).",
-  "restrictions-link": "Find out about the most current travel restrictions for Foreign Nationals from the following:",
-  "non-resident-restrictions": "All foreign tourists are barred from entering the country. Some business travel is allowed from select countries.",
+  "active-cases-description": "現在COVID-19の検査で陽性になっている患者数の合計。(累計感染者数から回復者数を引いたもの)。",
+  "restrictions-link": "最新の外国への旅行制限については、以下のページを確認してください。",
+  "non-resident-restrictions": "外国からのすべての旅行者は入国を禁止されています。特定の国からの一部のビジネス旅行は許可されています。",
   "pseudo-prefectures": {
     "port-of-entry": "入国港",
     "unspecified": "不明",
