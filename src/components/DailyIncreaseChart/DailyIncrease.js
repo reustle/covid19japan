@@ -146,7 +146,7 @@ const drawDailyIncreaseChart = (
       },
     },
     padding: {
-      left: 50,
+      left: 55,
       right: 10,
       top: 0,
       bottom: 0,
