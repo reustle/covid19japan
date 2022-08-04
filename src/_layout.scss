@@ -17,4 +17,12 @@ $breakpoint-600-page-width: $breakpoint-600 - $min-page-margins;
 $breakpoint-500: 500px;
 $breakpoint-500-page-width: $breakpoint-500 - $min-page-margins;
 
+$breakpoint-375: 375px;
+$breakpoint-375-less-than: 374px;
+$breakpoint-375-page-width: $breakpoint-375 - $min-page-margins;
+
+$breakpoint-425: 425px;
+$breakpoint-425-less-than: 424px;
+$breakpoint-425-page-width: $breakpoint-425 - $min-page-margins;
+
 $box-border-radius: 10px;
