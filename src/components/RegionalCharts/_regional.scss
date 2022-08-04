@@ -107,6 +107,18 @@ $breakpoint-600-full-box-width: $breakpoint-600-page-width - $box-margin * 2;
   }
 }
 
+// Layout if screensize at 375px or higher
+
+@media (min-width: $breakpoint-375) {
+  .region-box .value {
+    font-size: 1.125rem !important;
+  }
+
+  .region-box .diff {
+    display: inline-block !important;
+  }
+}
+
 // Layout 2: Between 1200px and 960px
 
 @media (min-width: $breakpoint-960) and (max-width: $breakpoint-1200-less-than) {
