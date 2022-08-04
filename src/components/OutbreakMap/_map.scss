@@ -17,13 +17,6 @@ $map-color-background: #cad2d3;
   }
 }
 
-#map-container {
-  width: 100%;
-  height: 500px;
-  background: $map-color-background;
-  border-radius: $box-border-radius;
-}
-
 #map-legend {
   padding: 20px 10px;
   font-size: 0.9em;
