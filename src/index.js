@@ -290,8 +290,13 @@ const doInitMap = () => {
 
   // add event listener to replace static map on click with real one
   const staticMap = document.getElementById("static-map");
+  const mapContainer = document.getElementById("map-container");
   staticMap.addEventListener("click", (e) => {
     e.preventDefault();
+
+    staticMap.style.display = "none";
+
+    mapContainer.style.display = "block";
 
     let map = PAGE_STATE.map;
 
