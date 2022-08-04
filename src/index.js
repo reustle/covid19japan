@@ -282,6 +282,9 @@ const doInitMap = () => {
   // insert static map from mapbox static API;
   const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb.prefectures));
 
+  document.getElementById("prefecture-map-contents").innerHTML = `
+ `;
+
   // add event listener to replace static map on click with real one
   const staticMap = document.getElementById("static-map");
   const mapContainer = document.getElementById("map-container");
