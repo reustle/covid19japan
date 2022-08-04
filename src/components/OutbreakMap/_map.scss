@@ -4,18 +4,17 @@
 $map-color-background: #cad2d3;
 
 #map-container {
-  display: none;
   width: 100%;
   height: 500px;
   background: $map-color-background;
   border-radius: $box-border-radius;
 
   img {
-      width: 100%;
-      height: 100%;
-      border-radius: 10px;
-      cursor: zoom-in;
-    }
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    cursor: zoom-in;
+  }
 }
 
 #map-container {
