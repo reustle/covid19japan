@@ -150,7 +150,9 @@ export const setLang = (lng) => {
   i18next.changeLanguage(LANG).then(() => {
     localize("html");
     // Update the map
-    document.getElementById("map-legend").innerHTML = drawLegend(LANG);
+    if (document.getElementById("map-legend")) {
+      document.getElementById("map-legend").innerHTML = drawLegend(LANG);
+    }
     if (PAGE_STATE.styleLoaded && PAGE_STATE.map) {
       let map = PAGE_STATE.map;
       map.getStyle().layers.forEach((thisLayer) => {
