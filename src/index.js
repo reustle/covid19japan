@@ -285,7 +285,7 @@ const doInitMap = () => {
   const prefecturePaint = JSON.stringify(getPrefecturePaint(ddb.prefectures));
 
   document.getElementById("prefecture-map-contents").innerHTML = `
-  <img id="static-map" src='https://api.mapbox.com/styles/v1/reustle/cko2t3n7x0pjr17p80e1tlavj/static/138.1179,37.5767,4.03,0/570x500@2x?before_layer=admin-1-boundary&addlayer={"id":"prefecture-layer","type":"fill","source":"composite","source-layer":"prefectures-smooth-1d4tx6","paint":{"fill-color":${prefecturePaint},"fill-opacity":1}}&access_token=${MAPBOX_API_KEY}' alt="Prefecture map">
+  <img id="static-map" src='/static/japan-static.png' alt="Prefecture map">
   <div id="map-container"></div>
   <p class="embed-show footnote">powered by <a href="https://covid19japan.com" target="_blank">COVID19Japan.com</a></p>
   <div id="map-legend"></div>`;

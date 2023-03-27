@@ -404,33 +404,6 @@
     </footer>
   </div>
   <!-- JS -->
-  <script src="https://browser.sentry-cdn.com/5.12.1/bundle.min.js"
-    integrity="sha384-y+an4eARFKvjzOivf/Z7JtMJhaN6b+lLQ5oFbBbUwZNNVir39cYtkjW1r6Xjbxg3" crossorigin="anonymous">
-  </script>
-  <script src="https://browser.sentry-cdn.com/5.12.1/captureconsole.min.js"></script>
-  <script>
-    if (window.location.hostname == 'covid19japan.com') {
-      Sentry.init({
-        dsn: 'https://1c7127f5f5b2432d99a5bf44a3b74d08@sentry.io/2967034',
-        debug: false,
-        blacklistUrls: [
-          // Chrome extensions
-          /extensions\//i,
-          /^chrome:\/\//i,
-        ],
-        ignoreErrors: [
-          // Ignore Google Translate Chrome extension errors.
-          // See: https://medium.com/@amir.harel/a-b-target-classname-indexof-is-not-a-function-at-least-not-mine-8e52f7be64ca
-          "a[b].target.className.indexOf is not a function",
-        ],
-        integrations: [
-          new Sentry.Integrations.CaptureConsole({
-            levels: ['error']
-          })
-        ]
-      })
-    }
-  </script>
   <script async src="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.js"></script>
   <link href="https://api.mapbox.com/mapbox-gl-js/v1.10.0/mapbox-gl.css" rel="stylesheet" />
   <script async defer data-domain="covid19japan.com" src="https://plausible.io/js/plausible.js"></script>
